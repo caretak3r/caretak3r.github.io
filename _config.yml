@@ -1,0 +1,23 @@
+title: "silent.engineer"
+tagline: "A silent engineer's life."
+description: "This is a preview of my website."
+github_username: caretak3r
+baseurl: "/caretak3r.github.io"
+domain: 
+url: "http://silent.engineer"
+
+plugins:
+  - jemoji
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+sass:
+  style: compressed
+
+highlighter: rouge
+
+header_pages:
+  - index.md
+
+# set the size of the text to 'large' or 'small', default is small
+font-size: small
