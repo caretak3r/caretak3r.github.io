@@ -24,6 +24,8 @@ A URL shortener service that provides analytics and custom short links for your 
 
 A tool that converts plain text descriptions into Mermaid diagrams for visualization of workflows, sequences, and more.
 
+## [Vision](vision.html)
+
 <!-- 
 To add more apps in the future, simply add them to the list following this format:
 
