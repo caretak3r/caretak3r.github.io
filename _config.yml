@@ -16,7 +16,7 @@ paginate_path: "/blog/page:num/"
 # tag_page_dir: tag
 
 # theme configuration
-theme: jekyll-dash
+remote_theme: bitbrain/jekyll-dash
 
 # dash theme configuration
 dash:
@@ -64,3 +64,5 @@ nav-menu:
 plugins:
   - jekyll-seo-tag
   - jekyll-paginate
+  - github-pages
+  - jekyll-remote-theme
