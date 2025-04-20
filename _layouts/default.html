@@ -1,88 +1,77 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: " en-US" }}">
+<html class="{% if site.dash.rtl %}direction--rtl{% else %}direction--ltr{% endif %}" lang="{{ page.lang | default: site.lang | default: "en" }}">
 
-<head>
+  {%- include head.html -%}
 
-  <!-- google analytics -->
-  {% if site.google-analytics %}
-    {% include google-analytics.html %}
-  {% endif %}
+  <body>
+    <!-- Background Video -->
+    <div class="background-video-container">
+      <video autoplay loop muted playsinline class="background-video">
+        <source src="{{ '/assets/video/video_undefined.mp4' | relative_url }}" type="video/mp4">
+      </video>
+      <div class="background-overlay"></div>
+    </div>
 
-  <!-- Jekyll SEO plugin -->
-  {% seo %}
+    <div class="split-layout">
+      <!-- Left Column: Navigation and Info -->
+      <div class="left-column">
+        <!-- Site Title and Theme Toggle -->
+        <div class="site-title-container">
+          <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}<b class="command_prompt"></b><b class="blinking_cursor">_</b></a>
+          {%- include theme-toggle.html -%}
+        </div>
+        
+        <!-- Avatar and Bio -->
+        {% unless site.dash.show_author == false %}
+          {% include author.html %}
+        {% endunless %}
+        
+        <!-- Navigation -->
+        <div class="main-navigation">
+          <h3>Navigation</h3>
+          <nav class="nav-links">
+            <a href="{{ "/" | relative_url }}" class="nav-link {% if page.url == '/' %}active{% endif %}">Home</a>
+            {% for link in site.nav-menu %}
+              {% if link.url %}
+                <a href="{{ link.url }}" class="nav-link">{{ link.text }}</a>
+              {% else %}
+                <a href="{{ site.baseurl }}/{{ link.permalink }}" class="nav-link {% if page.permalink == link.permalink %}active{% endif %}">{{ link.text }}</a>
+              {% endif %}
+            {% endfor %}
+          </nav>
+        </div>
+        
+        <!-- Social Links -->
+        <div class="social-links-container">
+          <h3>Connect</h3>
+          <div class="social-links">
+            {% for link in site.dash.social_links %}
+              {% if link.fa == true %}
+                <a class="color-{{ link.color }}-hover" href="{{ link.url }}"{% if link.rel %} rel="{{ link.rel }}"{% endif %}><i class="fa fa-{{ link.icon }}"></i></a>
+              {% else %}
+                <a class="color-{{ link.color }}-hover" href="{{ link.url }}"{% if link.rel %} rel="{{ link.rel }}"{% endif %}><i class="fab fa-{{ link.icon }}"></i></a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right Column: Content -->
+      <div class="right-column">
+        <main class="page-content" aria-label="Content">
+          <div class="wrapper">
+            {{ content }}
+          </div>
+        </main>
+        
+        {%- include footer.html -%}
+      </div>
+    </div>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset="utf-8">
-  <title>{{ site.title }}</title>
-
-  <!-- TailwindCSS and Inter Font-->
-  <link rel="stylesheet" href="{{site.baseurl}}/assets/css/main.css">
-  <link rel="stylesheet" href="{{site.baseurl}}/assets/css/tailwind.css">
-  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-
-  <!-- fontawesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-    integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
-  
-    <!-- highlight.js -->
-   <link rel="stylesheet"
-    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/github-dark-dimmed.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  
-  <!-- MathJax -->
-  <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-    };
-  </script>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
- </head>
-
-<body class="font-sans mx-auto max-w-prose">
-  <div class="pt-12 pb-4">
-    {{ content }}
-  </div>
-</body>
-
-<script>
-  /* Funtion for getting the current year in the footer */
-  (function () {
-    if (document.getElementById("get-current-year")) {
-      document.getElementById(
-        "get-current-year"
-      ).innerHTML = new Date().getFullYear();
-    }
-  })();
-
-  /* Function for opning navbar on mobile */
-  function toggleNavbar(collapseID) {
-      document.getElementById(collapseID).classList.toggle("hidden");
-      document.getElementById(collapseID).classList.toggle("block");
-    }
-    /* Function for dropdowns */
-    function openDropdown(event, dropdownID) {
-      let element = event.target;
-      while (element.nodeName !== "A") {
-        element = element.parentNode;
+    <script>
+      window.FontAwesomeConfig = {
+        searchPseudoElements: true
       }
-      document.getElementById(dropdownID).classList.toggle("hidden");
-      document.getElementById(dropdownID).classList.toggle("block");
-    }
-
-  /* Function for show/hide table of content */
-  function toggleTOC() {
-    var toc = document.getElementById('toc');
-        if (toc.style.display == "block"){ // if toc hidden, display it 
-            toc.style.display = "none";
-        }
-        else{ // if toc displayed, hidden it
-            toc.style.display = "block";
-        }
-    }
-</script>
-
+    </script>
+  </body>
 </html>

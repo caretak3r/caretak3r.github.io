@@ -1,21 +1,75 @@
 ---
 layout: default
 ---
-{% if site.show-nav-menu %}
-  {% include nav.html%}
-{% endif %}
+{{ content }}
 
-<div class="mx-auto text-center prose prose-{{site.theme-color}}">
-  <div>
-    <img class="object-cover mx-auto h-36 w-36 rounded-full" src="{{site.baseurl}}/assets/img/{{site.author-image}}"
-      alt="author profile image">
-    <h1>{{site.author}}</h1>
+<!-- Quick Link Cards Section -->
+<section class="quick-links-section">
+  <h2>Quick Links</h2>
+  <div class="quick-links-container">
+    <!-- Apps Card -->
+    <a href="{{ site.baseurl }}/apps/" class="quick-link-card">
+      <div class="card-icon">
+        <i class="fas fa-mobile-alt"></i>
+      </div>
+      <h3>Apps</h3>
+      <p>Explore the applications I've built</p>
+    </a>
+    
+    <!-- Projects Card -->
+    <a href="{{ site.baseurl }}/projects/" class="quick-link-card">
+      <div class="card-icon">
+        <i class="fas fa-code-branch"></i>
+      </div>
+      <h3>Projects</h3>
+      <p>View my recent projects and repositories</p>
+    </a>
+    
+    <!-- GitHub Card -->
+    <a href="https://github.com/caretak3r" class="quick-link-card">
+      <div class="card-icon">
+        <i class="fab fa-github"></i>
+      </div>
+      <h3>GitHub</h3>
+      <p>Check out my open source contributions</p>
+    </a>
   </div>
-  {% if site.author-bio %}
-  <p class="text-gray-500 pb-4">{{site.author-bio}}</p>
-  {% endif %}
-</div>
-</div>
+</section>
 
-{% include social-media.html %}
-{% include footer.html %}
+{% assign posts_count = paginator.posts | size %}
+{% if posts_count > 0 %}
+<h1>recent articles</h1>
+    <div class="post-links">
+      {% for post in paginator.posts %}
+        <div class="post-link-wrapper">
+          <a href="{{ post.url | relative_url }}" class="post-link">{{ post.title }}</a>
+          <div class="post-meta">
+
+            {% if site.plugins contains "jekyll/tagging" %}
+            <div class="post-tags">
+                {% for tag in post.tags %}
+                <a class="tag" href="{{ tag | tag_url }}">{{ tag }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if site.dash.date_format %}
+              {{ post.date | date: site.dash.date_format }}
+            {% else %}
+              {{ post.date | date: "%b %-d, %Y" }}
+            {% endif %}
+            {% if site.show_excerpts == true %}
+              <div class="post-excerpt">
+                {{ post.content | strip_html | truncatewords: 50 }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% include pagination.html %}
+
+    {% include tagcloud.html %}
+{% else %}
+<h2>no posts yet.</h2>
+{% endif %}

@@ -1,47 +1,66 @@
 # change the followings to match your Github username and repo name
-baseurl: "/caretak3r.github.io" # the name of your github repo
-url: "https://caretak3r.github.io" # the url of your github pages
+baseurl: "" # when running locally, this should be empty
+url: "http://localhost:4000" # local development URL
 
 # site information used in page title, meta data etc.
 title: "Rohit Gudi"
-description: Github Page
+description: "Rohit Gudi - Lead DevSecOps and Platform Engineer"
 
-# color theme for links
-theme-color: stone # indigo|yellow|pink|green|stone|
+# jekyll-paginate
+paginate: 5
+paginate_path: "/blog/page:num/"
 
-# homepage information
-author: Rohit Gudi
-author-bio: DevOps Engineer  # change to false to hide
-author-image: 279.png  # file must be in the /assets/img/ folder
+# jekyll-tagging configuration is disabled
+# tag_permalink_style: pretty
+# tag_page_layout: tag_page
+# tag_page_dir: tag
 
-# navigation menu
-show-nav-menu: true
+# theme configuration
+theme: jekyll-dash
 
+# dash theme configuration
+dash:
+  # the way how dates should be displayed
+  date_format: "%b %-d, %Y"
+  
+  # the animation speed of the post scroll-in effect
+  animation_speed: 50
+  
+  # wether to enable Right-to-Left support or not
+  rtl: false
+  
+  # use local avatar image instead of gravatar
+  avatar_source: local
+  avatar_path: /assets/img/279.png
+  
+  # show author details at the end of a post
+  show_author: true
+  
+  # generate social links in footer
+  # supported colors: green, red, orange, blue, cyan, pink, teal, yellow, indigo, purple
+  social_links:
+    - url: https://x.com/caretak8r
+      icon: twitter-square
+      color: cyan
+    - url: https://github.com/caretak3r
+      icon: github-square
+      color: purple
+    - url: https://www.linkedin.com/in/rohit-gudi-142093359/
+      icon: linkedin
+      color: blue
+
+# navigation structure
 nav-menu:
 - text: About
   permalink: about
 - text: Projects
   permalink: projects
+- text: Apps
+  permalink: apps
 - text: Blog
-  permalink: blog
+  url: "https://caretak3r.bearblog.dev/"
 
-# use false to turn off any social media links
-twitter: https://twitter.com/
-facebook: https://facebook.com/
-instagram: https://instagram.com/
-github: https://github.com/
-linkedin: https://linkedin.com/
-medium: false
-google-scholar: false
-email: false
-
-# footer information
-footer-msg: "Powered by Tailpages"
-footer-msg-link: https://github.com/harrywang/tailpages
-
-# google analytics
-google-analytics: G-WCRC1TC2V5
-
-# jekyll plugins - no need to change
+# jekyll plugins
 plugins:
-    - jekyll-seo-tag
+  - jekyll-seo-tag
+  - jekyll-paginate

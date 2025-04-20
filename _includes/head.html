@@ -1,0 +1,29 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- seo -%}
+  <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+  <link rel="stylesheet" href="{{ "/assets/css/custom.css" | relative_url }}">
+  <link rel="icon" type="image/png" href="{{ "/assets/favicon.png" | relative_url }}" />
+  <link rel="stylesheet" href="{{ "/assets/css/magnific-popup.css" | relative_url }}">
+  
+  <!-- Google Fonts - Add JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  {%- feed_meta -%}
+  {%- if jekyll.environment == 'production' and site.google_analytics -%}
+    {%- include google-analytics.html -%}
+  {%- endif -%}
+  <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script> 
+  <script src="{{ "/assets/js/jquery.magnific-popup.js" | relative_url }}"></script>
+  <script src="{{ "/assets/js/custom.js" | relative_url }}"></script>
+  
+  <!-- Theme Color for Address Bar -->
+  <meta name="theme-color" content="#20232a">
+</head>

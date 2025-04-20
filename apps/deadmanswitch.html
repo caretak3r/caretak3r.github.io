@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadman's Switch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/openpgp@5.10.0/dist/openpgp.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.5;
+        }
+        
+        .terminal-box {
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 0;
+        }
+        
+        .terminal-btn {
+            background-color: #222;
+            color: #4CAF50;
+            border: 1px solid #333;
+            border-radius: 0;
+            padding: 8px 16px;
+            font-family: 'IBM Plex Mono', monospace;
+            transition: all 0.1s;
+        }
+        
+        .terminal-btn:hover {
+            background-color: #333;
+            color: #66BB6A;
+        }
+        
+        .terminal-btn.danger {
+            color: #f44336;
+        }
+        
+        .terminal-input {
+            background-color: #111;
+            color: #e0e0e0;
+            border: 1px solid #333;
+            border-radius: 0;
+            padding: 8px 12px;
+            font-family: 'IBM Plex Mono', monospace;
+        }
+        
+        .terminal-input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        .tab-active {
+            background-color: #222;
+            color: #4CAF50;
+            border-bottom: 2px solid #4CAF50;
+        }
+        
+        .tab-inactive {
+            background-color: #111;
+            color: #666;
+            border-bottom: 2px solid #333;
+        }
+        
+        .status-active {
+            color: #4CAF50;
+        }
+        
+        .status-warning {
+            color: #FF9800;
+        }
+        
+        .status-danger {
+            color: #f44336;
+        }
+        
+        .scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        .scrollbar::-webkit-scrollbar-track {
+            background: #111;
+        }
+        
+        .scrollbar::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 0;
+        }
+        
+        .prompt {
+            color: #4CAF50;
+        }
+        
+        .comment {
+            color: #666;
+            font-style: italic;
+        }
+        
+        .output {
+            background-color: #111;
+            border: 1px solid #333;
+            border-radius: 0;
+            padding: 12px;
+            margin: 8px 0;
+            white-space: pre-wrap;
+            font-size: 0.9em;
+        }
+        
+        .fingerprint {
+            color: #66BB6A;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+        
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4">
+    <div class="max-w-2xl mx-auto terminal-box p-6">
+        <!-- Header -->
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-bold mb-1">DEADMAN'S SWITCH</h1>
+            <div class="text-sm comment">// Secure message delivery if you disappear</div>
+        </div>
+        
+        <!-- Tab Navigation -->
+        <div class="flex mb-6">
+            <button id="create-tab" class="tab-active px-4 py-2 text-sm terminal-btn">
+                CREATE NEW
+            </button>
+            <button id="access-tab" class="tab-inactive px-4 py-2 text-sm terminal-btn">
+                ACCESS EXISTING
+            </button>
+        </div>
+        
+        <!-- Create Vault Tab -->
+        <div id="create-content">
+            <div class="space-y-4">
+                <!-- Basic Info -->
+                <div>
+                    <div class="mb-1 prompt">> YOUR NAME:</div>
+                    <input type="text" id="user-name" class="w-full terminal-input">
+                </div>
+                
+                <div>
+                    <div class="mb-1 prompt">> YOUR EMAIL:</div>
+                    <input type="email" id="user-email" class="w-full terminal-input">
+                </div>
+                
+                <!-- Notification Settings -->
+                <div>
+                    <div class="mb-1 prompt">> NOTIFICATION METHOD:</div>
+                    <div class="flex space-x-4 mb-2">
+                        <label class="flex items-center">
+                            <input type="radio" name="notification-type" value="email" checked class="mr-2">
+                            EMAIL
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="notification-type" value="phone" class="mr-2">
+                            PHONE
+                        </label>
+                    </div>
+                    
+                    <div id="email-fields">
+                        <div class="mb-1 prompt">> NOTIFICATION EMAIL:</div>
+                        <input type="email" id="notification-email" class="w-full terminal-input">
+                    </div>
+                    
+                    <div id="phone-fields" class="hidden">
+                        <div class="mb-1 prompt">> PHONE NUMBER:</div>
+                        <input type="tel" id="notification-phone" class="w-full terminal-input" placeholder="+1234567890">
+                    </div>
+                </div>
+                
+                <!-- Vault Content -->
+                <div>
+                    <div class="mb-1 prompt">> SECRET MESSAGE:</div>
+                    <textarea id="vault-content" rows="5" class="w-full terminal-input" placeholder="Enter what you want to share if you don't respond..."></textarea>
+                </div>
+                
+                <!-- Beneficiaries -->
+                <div>
+                    <div class="mb-1 prompt">> RECIPIENTS (COMMA SEPARATED):</div>
+                    <input type="text" id="beneficiary-emails" class="w-full terminal-input" placeholder="friend1@example.com, friend2@example.com">
+                </div>
+                
+                <!-- Create Button -->
+                <button id="generate-keys" class="w-full terminal-btn py-3 mt-4">
+                    > GENERATE VAULT
+                </button>
+            </div>
+            
+            <!-- Results Section (hidden initially) -->
+            <div id="key-generation-result" class="hidden mt-6">
+                <div class="output">
+                    <div class="font-bold mb-2">// VAULT CREATED SUCCESSFULLY</div>
+                    
+                    <div class="mb-4">
+                        <div class="mb-1 prompt">FINGERPRINT:</div>
+                        <div class="fingerbreak fingerprint" id="fingerprint-display"></div>
+                        <div class="text-xs comment mt-1">// Unique identifier for your vault</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="mb-1 prompt">PRIVATE KEY:</div>
+                        <div class="output text-xs overflow-x-auto scrollbar" id="private-key-display"></div>
+                        <div class="text-xs status-danger mt-1">// This key has been automatically downloaded</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="mb-1 prompt">NOTIFICATION SETTINGS:</div>
+                        <div class="output text-sm" id="notification-display"></div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="mb-1 prompt">RECIPIENTS:</div>
+                        <div class="output text-sm" id="beneficiaries-display"></div>
+                    </div>
+                    
+                    <div class="text-xs comment mt-4">
+                        // Your private key has been downloaded as 'deadman_switch_private_key.asc'
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Access Vault Tab -->
+        <div id="access-content" class="hidden">
+            <div class="space-y-4">
+                <div>
+                    <div class="mb-1 prompt">> VAULT ID:</div>
+                    <input type="text" id="vault-id" class="w-full terminal-input" placeholder="From your configuration file">
+                </div>
+                
+                <div>
+                    <div class="mb-1 prompt">> PRIVATE KEY:</div>
+                    <textarea id="private-key-input" rows="5" class="w-full terminal-input" placeholder="Paste your private key here"></textarea>
+                </div>
+                
+                <button id="decrypt-vault" class="w-full terminal-btn py-3">
+                    > DECRYPT VAULT
+                </button>
+            </div>
+            
+            <!-- Results Section (hidden initially) -->
+            <div id="vault-results" class="hidden mt-6">
+                <div class="output">
+                    <div class="font-bold mb-2" id="vault-status">// VAULT STATUS: LOCKED</div>
+                    
+                    <div id="countdown-display" class="hidden mb-4">
+                        <div class="mb-1 prompt">NEXT CHECK-IN:</div>
+                        <div class="text-lg" id="countdown-timer">7 DAYS</div>
+                        <div class="text-sm comment">// If you don't respond, your message will be sent</div>
+                    </div>
+                    
+                    <div id="notification-info" class="hidden mb-4">
+                        <div class="mb-1 prompt">NOTIFICATION SETTINGS:</div>
+                        <div class="text-sm" id="notification-details"></div>
+                    </div>
+                    
+                    <div id="beneficiary-info" class="hidden mb-4">
+                        <div class="mb-1 prompt">RECIPIENTS:</div>
+                        <div class="text-sm" id="beneficiary-emails-list"></div>
+                    </div>
+                    
+                    <div id="vault-contents" class="hidden">
+                        <div class="mb-1 prompt">SECRET MESSAGE:</div>
+                        <div class="output whitespace-pre-wrap" id="decrypted-content"></div>
+                    </div>
+                    
+                    <button id="reset-timer" class="w-full terminal-btn hidden mt-4">
+                        > RESET TIMER
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching
+            const createTab = document.getElementById('create-tab');
+            const accessTab = document.getElementById('access-tab');
+            const createContent = document.getElementById('create-content');
+            const accessContent = document.getElementById('access-content');
+            
+            createTab.addEventListener('click', function() {
+                createTab.classList.remove('tab-inactive');
+                createTab.classList.add('tab-active');
+                accessTab.classList.remove('tab-active');
+                accessTab.classList.add('tab-inactive');
+                createContent.classList.remove('hidden');
+                accessContent.classList.add('hidden');
+            });
+            
+            accessTab.addEventListener('click', function() {
+                accessTab.classList.remove('tab-inactive');
+                accessTab.classList.add('tab-active');
+                createTab.classList.remove('tab-active');
+                createTab.classList.add('tab-inactive');
+                accessContent.classList.remove('hidden');
+                createContent.classList.add('hidden');
+            });
+            
+            // Notification type toggles
+            const notificationRadios = document.querySelectorAll('input[name="notification-type"]');
+            const emailFields = document.getElementById('email-fields');
+            const phoneFields = document.getElementById('phone-fields');
+            
+            notificationRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'email') {
+                        emailFields.classList.remove('hidden');
+                        phoneFields.classList.add('hidden');
+                    } else if (this.value === 'phone') {
+                        emailFields.classList.add('hidden');
+                        phoneFields.classList.remove('hidden');
+                    }
+                });
+            });
+            
+            // Vault creation
+            const generateKeysBtn = document.getElementById('generate-keys');
+            const keyGenerationResult = document.getElementById('key-generation-result');
+            const privateKeyDisplay = document.getElementById('private-key-display');
+            const fingerprintDisplay = document.getElementById('fingerprint-display');
+            const notificationDisplay = document.getElementById('notification-display');
+            const beneficiariesDisplay = document.getElementById('beneficiaries-display');
+            
+            let generatedVault = null;
+            
+            generateKeysBtn.addEventListener('click', async function() {
+                const userName = document.getElementById('user-name').value;
+                const userEmail = document.getElementById('user-email').value;
+                const notificationType = document.querySelector('input[name="notification-type"]:checked').value;
+                const vaultContent = document.getElementById('vault-content').value;
+                const beneficiaryEmails = document.getElementById('beneficiary-emails').value;
+                
+                // Validate inputs
+                if (!userName || !userEmail || !vaultContent || !beneficiaryEmails) {
+                    alert('PLEASE FILL IN ALL REQUIRED FIELDS');
+                    return;
+                }
+                
+                // Validate notification details
+                if (notificationType === 'email') {
+                    const notificationEmail = document.getElementById('notification-email').value;
+                    if (!notificationEmail || !validateEmail(notificationEmail)) {
+                        alert('PLEASE ENTER A VALID NOTIFICATION EMAIL');
+                        return;
+                    }
+                } else if (notificationType === 'phone') {
+                    const notificationPhone = document.getElementById('notification-phone').value;
+                    if (!notificationPhone) {
+                        alert('PLEASE ENTER A VALID PHONE NUMBER');
+                        return;
+                    }
+                }
+                
+                // Parse beneficiaries
+                const beneficiaries = beneficiaryEmails.split(',').map(email => email.trim()).filter(email => email);
+                if (beneficiaries.length === 0) {
+                    alert('PLEASE ENTER AT LEAST ONE VALID RECIPIENT EMAIL');
+                    return;
+                }
+                
+                // Validate beneficiary emails
+                for (const email of beneficiaries) {
+                    if (!validateEmail(email)) {
+                        alert(`INVALID RECIPIENT EMAIL: ${email}`);
+                        return;
+                    }
+                }
+                
+                generateKeysBtn.disabled = true;
+                generateKeysBtn.textContent = '> GENERATING VAULT...';
+                
+                try {
+                    // Generate PGP key pair
+                    const { privateKey, publicKey, key } = await openpgp.generateKey({
+                        type: 'ecc',
+                        curve: 'curve25519',
+                        userIDs: [{ name: userName, email: userEmail }],
+                        passphrase: '',
+                        format: 'armored'
+                    });
+                    
+                    // Get fingerprint
+                    const fingerprint = key.getKeys()[0].getFingerprint().toUpperCase();
+                    const formattedFingerprint = fingerprint.match(/.{1,4}/g).join(' ');
+                    
+                    // Encrypt the vault content
+                    const encrypted = await openpgp.encrypt({
+                        message: await openpgp.createMessage({ text: vaultContent }),
+                        encryptionKeys: publicKey
+                    });
+                    
+                    // Prepare notification settings
+                    const notificationSettings = {
+                        type: notificationType,
+                        email: notificationType === 'email' ? document.getElementById('notification-email').value : null,
+                        phone: notificationType === 'phone' ? document.getElementById('notification-phone').value : null
+                    };
+                    
+                    // Set activation period (fixed to 30 days)
+                    const activationPeriod = 30;
+                    const activationDate = new Date();
+                    activationDate.setDate(activationDate.getDate() + activationPeriod);
+                    
+                    generatedVault = {
+                        privateKey,
+                        publicKey,
+                        encryptedContent: encrypted,
+                        activationDate,
+                        beneficiaries,
+                        notificationSettings,
+                        activationPeriod,
+                        fingerprint: formattedFingerprint
+                    };
+                    
+                    // Display the results
+                    fingerprintDisplay.textContent = formattedFingerprint;
+                    privateKeyDisplay.textContent = privateKey;
+                    
+                    // Display notification settings
+                    let notificationText = '';
+                    if (notificationSettings.email) notificationText += `EMAIL: ${notificationSettings.email}\n`;
+                    if (notificationSettings.phone) notificationText += `PHONE: ${notificationSettings.phone}`;
+                    notificationDisplay.textContent = notificationText;
+                    
+                    // Display beneficiaries
+                    beneficiariesDisplay.textContent = beneficiaries.join('\n');
+                    
+                    // Show the results section
+                    keyGenerationResult.classList.remove('hidden');
+                    
+                    generateKeysBtn.textContent = '> VAULT CREATED';
+                    
+                    // Automatically download the private key
+                    downloadPrivateKey(privateKey, fingerprint);
+                    
+                } catch (error) {
+                    console.error('ERROR CREATING VAULT:', error);
+                    alert('ERROR CREATING VAULT. PLEASE TRY AGAIN.');
+                    generateKeysBtn.disabled = false;
+                    generateKeysBtn.textContent = '> GENERATE VAULT';
+                }
+            });
+            
+            function downloadPrivateKey(privateKey, fingerprint) {
+                const blob = new Blob([privateKey], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `deadman_switch_private_key_${fingerprint.replace(/ /g, '')}.asc`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+            
+            // Vault access
+            const decryptVaultBtn = document.getElementById('decrypt-vault');
+            const privateKeyInput = document.getElementById('private-key-input');
+            const vaultResults = document.getElementById('vault-results');
+            const decryptedContent = document.getElementById('decrypted-content');
+            const countdownDisplay = document.getElementById('countdown-display');
+            const countdownTimer = document.getElementById('countdown-timer');
+            const notificationInfo = document.getElementById('notification-info');
+            const notificationDetails = document.getElementById('notification-details');
+            const beneficiaryInfo = document.getElementById('beneficiary-info');
+            const beneficiaryEmailsList = document.getElementById('beneficiary-emails-list');
+            const resetTimerBtn = document.getElementById('reset-timer');
+            const vaultStatus = document.getElementById('vault-status');
+            
+            decryptVaultBtn.addEventListener('click', async function() {
+                const privateKey = privateKeyInput.value.trim();
+                const vaultId = document.getElementById('vault-id').value.trim();
+                
+                if (!privateKey || !vaultId) {
+                    alert('PLEASE ENTER BOTH VAULT ID AND PRIVATE KEY');
+                    return;
+                }
+                
+                decryptVaultBtn.disabled = true;
+                decryptVaultBtn.textContent = '> DECRYPTING VAULT...';
+                
+                try {
+                    // In a real app, you'd fetch the encrypted content from the server using vaultId
+                    // For this demo, we'll use the generatedVault from earlier
+                    if (!generatedVault) {
+                        throw new Error('VAULT NOT FOUND');
+                    }
+                    
+                    const message = await openpgp.readMessage({
+                        armoredMessage: generatedVault.encryptedContent
+                    });
+                    
+                    const privateKeyObj = await openpgp.readPrivateKey({ armoredKey: privateKey });
+                    
+                    const { data: decrypted } = await openpgp.decrypt({
+                        message,
+                        decryptionKeys: privateKeyObj
+                    });
+                    
+                    // Show the decrypted content
+                    decryptedContent.textContent = decrypted;
+                    vaultContents.classList.remove('hidden');
+                    
+                    // Show notification settings
+                    notificationInfo.classList.remove('hidden');
+                    let notificationText = '';
+                    if (generatedVault.notificationSettings.email) notificationText += `EMAIL: ${generatedVault.notificationSettings.email}\n`;
+                    if (generatedVault.notificationSettings.phone) notificationText += `PHONE: ${generatedVault.notificationSettings.phone}`;
+                    notificationDetails.textContent = notificationText;
+                    
+                    // Show beneficiary information
+                    beneficiaryInfo.classList.remove('hidden');
+                    beneficiaryEmailsList.innerHTML = generatedVault.beneficiaries.map(email => 
+                        `<div class="py-1">${email}</div>`
+                    ).join('');
+                    
+                    // Update vault status
+                    vaultStatus.textContent = '// VAULT STATUS: UNLOCKED';
+                    vaultStatus.className = 'font-bold mb-2 status-active';
+                    
+                    // Show countdown to activation
+                    const now = new Date();
+                    const activationDate = generatedVault.activationDate;
+                    const timeLeft = activationDate - now;
+                    
+                    if (timeLeft > 0) {
+                        updateCountdown(timeLeft);
+                        countdownDisplay.classList.remove('hidden');
+                        
+                        // Update countdown every second
+                        const countdownInterval = setInterval(() => {
+                            const updatedTimeLeft = generatedVault.activationDate - new Date();
+                            if (updatedTimeLeft <= 0) {
+                                clearInterval(countdownInterval);
+                                countdownTimer.textContent = "TIME'S UP!";
+                                countdownDisplay.className = 'mb-4 status-danger';
+                            } else {
+                                updateCountdown(updatedTimeLeft);
+                            }
+                        }, 1000);
+                    } else {
+                        countdownDisplay.className = 'mb-4 status-danger';
+                        countdownTimer.textContent = "TIME'S UP!";
+                        countdownDisplay.classList.remove('hidden');
+                    }
+                    
+                    // Show reset timer button
+                    resetTimerBtn.classList.remove('hidden');
+                    
+                    // Show the results section
+                    vaultResults.classList.remove('hidden');
+                    
+                    decryptVaultBtn.textContent = '> VAULT DECRYPTED';
+                    
+                } catch (error) {
+                    console.error('ERROR OPENING VAULT:', error);
+                    alert('FAILED TO OPEN VAULT. PLEASE CHECK YOUR VAULT ID AND PRIVATE KEY.');
+                    decryptVaultBtn.disabled = false;
+                    decryptVaultBtn.textContent = '> DECRYPT VAULT';
+                }
+            });
+            
+            // Reset timer function
+            resetTimerBtn.addEventListener('click', function() {
+                if (!generatedVault) return;
+                
+                // Reset the activation date
+                const newActivationDate = new Date();
+                newActivationDate.setDate(newActivationDate.getDate() + generatedVault.activationPeriod);
+                generatedVault.activationDate = newActivationDate;
+                
+                // Update the UI
+                const timeLeft = newActivationDate - new Date();
+                updateCountdown(timeLeft);
+                
+                // Show success message
+                alert(`TIMER RESET! NEXT CHECK-IN IN ${generatedVault.activationPeriod} DAYS.`);
+            });
+            
+            function updateCountdown(milliseconds) {
+                if (milliseconds <= 0) {
+                    countdownTimer.textContent = "TIME'S UP!";
+                    return;
+                }
+                
+                const days = Math.floor(milliseconds / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((milliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((milliseconds % (1000 * 60 * 60)) / (1000 * 60));
+                
+                if (days > 0) {
+                    countdownTimer.textContent = `${days} DAYS ${hours} HOURS`;
+                } else if (hours > 0) {
+                    countdownTimer.textContent = `${hours} HOURS ${minutes} MINUTES`;
+                } else {
+                    countdownTimer.textContent = `${minutes} MINUTES`;
+                }
+            }
+            
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+        });
+    </script>
+</body>
+</html>
