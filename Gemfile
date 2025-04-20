@@ -12,6 +12,10 @@ gem "github-pages", group: :jekyll_plugins
 # If you have any plugins, put them here!
 group :jekyll_plugins do
   gem 'jekyll-paginate'
+  gem 'jekyll-compose'
+  gem 'jekyll-admin'
+  gem 'jekyll-archives'
+  gem 'jekyll-sitemap' # Already included by github-pages, but good to be explicit
 end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem

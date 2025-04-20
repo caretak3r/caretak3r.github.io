@@ -66,3 +66,7 @@ plugins:
   - jekyll-paginate
   - github-pages
   - jekyll-remote-theme
+  - jekyll-compose
+  - jekyll-admin
+  - jekyll-archives
+  - jekyll-sitemap
