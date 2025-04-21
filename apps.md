@@ -20,11 +20,12 @@ A security application that performs predefined actions if you don't check in fo
 
 A URL shortener service that provides analytics and custom short links for your long URLs.
 
-## [Text2Mermaid](text2mermaid.html)
+## [Text2Mermaid](https://github.com/caretak3r/text2mermaid)
 
 A tool that converts plain text descriptions into Mermaid diagrams for visualization of workflows, sequences, and more.
 
-## [Vision](vision.html)
+## [Vision](https://silent.engineer/vision/)
+A vision index of images with metadata, labels and tags of images I find interesting. 
 
 <!-- 
 To add more apps in the future, simply add them to the list following this format:
