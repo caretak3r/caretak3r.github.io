@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=8080&amp;path=livereload" data-no-instant defer></script>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.5991d603939a6d188be342b278a4555db90f163903158c623d2c39fde3d82cb3.js"></script>
+
+
+
+
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">rohit gudi - Helm Misconfiguration Detection</title>
+<meta property="og:title" content=rohit&#32;gudi&#32;-&#32;Helm&#32;Misconfiguration&#32;Detection />
+<meta name="twitter:title" content=rohit&#32;gudi&#32;-&#32;Helm&#32;Misconfiguration&#32;Detection />
+<meta itemprop="name" content=rohit&#32;gudi&#32;-&#32;Helm&#32;Misconfiguration&#32;Detection />
+<meta name="application-name" content=rohit&#32;gudi&#32;-&#32;Helm&#32;Misconfiguration&#32;Detection />
+<meta property="og:site_name" content="silent.engineer" />
+
+
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+
+<base href="http://localhost:8080/posts/helm-misconfiguration-detection/" />
+<link rel="canonical" href="http://localhost:8080/posts/helm-misconfiguration-detection/" itemprop="url" />
+<meta name="url" content="http://localhost:8080/posts/helm-misconfiguration-detection/" />
+<meta name="twitter:url" content="http://localhost:8080/posts/helm-misconfiguration-detection/" />
+<meta property="og:url" content="http://localhost:8080/posts/helm-misconfiguration-detection/" />
+
+
+<meta property="og:updated_time" content="2025-03-26T16:45:00-04:00" />
+
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href='http://localhost:8080/sitemap.xml' />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
+
+
+
+  
+    <meta name="twitter:site" content="@caretak8r" />
+    <meta name="twitter:creator" content="@caretak8r" />
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="silent.engineer" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.147.2">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.29bdb96a9d2f706466665cea40be3187d521afa948b01a7a8b424016abe4881f.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #202020;
+        --sidebar-img-border-color: #515151;
+        --sidebar-p-color: #909090;
+        --sidebar-h1-color: #FFF;
+        --sidebar-a-color: #FFF;
+        --sidebar-socials-color: #FFF;
+        --text-color: #222;
+        --bkg-color: #FAF9F6;
+        --post-title-color: #303030;
+        --list-color: #5A5A5A;
+        --link-color: #268BD2;
+        --date-color: #515151;
+        --table-border-color: #E5E5E5;
+        --table-stripe-color: #F9F9F9;
+        --code-color: #000;
+        --code-background-color: #E5E5E5;
+        --code-block-color: #FFF;
+        --code-block-background-color: #272822;
+        --moon-sun-color: #FFF;
+        --moon-sun-background-color: #515151;
+    }
+    body.dark-theme {
+        --text-color: #EEE;
+        --bkg-color: #121212;
+        --post-title-color: #DBE2E9;
+        --list-color: #9D9D9D;
+        --link-color: #268BD2;
+        --date-color: #9A9A9A;
+        --table-border-color: #515151;
+        --table-stripe-color: #202020;
+        --code-color: #FFF;
+        --code-background-color: #515151;
+        --code-block-color: #FFF;
+        --code-block-background-color: #272822;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
+
+</head>
+
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+    </button>
+</div>
+
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+        
+            <a href="http://localhost:8080/">
+                <h1>rohit gudi</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    Hi, my name is Rohit (aka caretak3r). I publish posts about technologies, funny things and my passions.
+    </p>
+</div>
+
+        <nav>
+    <ul class="sidebar-nav">
+        
+        
+        
+            
+            
+            
+                <li class="heading">
+                    <a href="/about/">About</a>
+                </li>
+                
+                
+                
+            
+        
+        
+            
+            
+            
+                <li class="heading">
+                    <a href="/posts/">Posts</a>
+                </li>
+                
+                
+                
+                    
+                    
+                
+            
+        
+        
+            
+            
+            
+                <li class="heading">
+                    <a href="/projects/">Projects</a>
+                </li>
+                
+                
+                
+            
+        
+    </ul>
+</nav>
+
+        
+    <a target="_blank" class="social" title="GitHub" href="https://github.com/caretak3r">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+            <path fill="currentColor" d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z"/>
+        </svg>
+    </a>
+
+
+
+    <a target="_blank" class="social" title="LinkedIn" href="https://www.linkedin.com/in/rohit-gudi-142093359/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 448 512">
+            <path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5c0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7c-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5c67.2 0 79.7 44.3 79.7 101.9V416z"/>
+        </svg>
+    </a>
+
+
+    <a target="_blank" class="social" title="Twitter" href="https://twitter.com/caretak8r">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M5.032 14.286c6.037 0 9.34-4.837 9.34-9.032c0-.137 0-.274-.01-.41A6.56 6.56 0 0 0 16 3.2c-.6.256-1.235.425-1.885.5a3.207 3.207 0 0 0 1.443-1.757c-.645.37-1.35.63-2.085.77a3.322 3.322 0 0 0-1.862-.958a3.384 3.384 0 0 0-2.082.334a3.223 3.223 0 0 0-1.442 1.49a3.08 3.08 0 0 0-.208 2.03a9.57 9.57 0 0 1-3.747-.963a9.269 9.269 0 0 1-3.018-2.354a3.086 3.086 0 0 0-.36 2.314c.189.787.68 1.475 1.376 1.924a3.344 3.344 0 0 1-1.49-.398v.04c0 .734.263 1.444.743 2.01a3.3 3.3 0 0 0 1.89 1.102c-.483.128-.99.146-1.482.055a3.19 3.19 0 0 0 1.168 1.577a3.36 3.36 0 0 0 1.9.627A6.732 6.732 0 0 1 0 12.86a9.527 9.527 0 0 0 5.032 1.423"/>
+        </svg>
+    </a>
+
+
+    <a target="_blank" class="social" title="X" href="https://x.com/caretak8r">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 512 472.799">
+            <path fill="currentColor" d="M403.229 0h78.506L310.219 196.04 512 462.799H354.002L230.261 301.007 88.669 462.799h-78.56l183.455-209.683L0 0h161.999l111.856 147.88L403.229 0zm-27.556 415.805h43.505L138.363 44.527h-46.68l283.99 371.278z"/>
+        </svg>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a target="_blank" class="social" title="Email" href="mailto://gudi.k.rohit@gmail.com">
+       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 485.211 485.211">
+            <path fill="currentColor" d="M301.393,241.631L464.866,424.56H20.332l163.474-182.928l58.801,51.443L301.393,241.631z M462.174,60.651H23.027 l219.579,192.142L462.174,60.651z M324.225,221.67l160.986,180.151V80.792L324.225,221.67z M0,80.792v321.029L160.972,221.64 L0,80.792z"/>
+       </svg>
+    </a>
+
+
+
+
+        <p class="footnote">
+powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a target="_blank" href="https://github.com/lukeorth/poison">poison</a>
+    <br>
+    &copy; 2025 silent.engineer. All rights reserved.
+</p>
+
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="post">
+  <div class="info">
+  <h1 class="post-title">
+    <a href="http://localhost:8080/posts/helm-misconfiguration-detection/">Helm Misconfiguration Detection</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-03-26T16:45:00-0400" class="post-date">
+        March 26, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>6 mins read</span>
+      </span>
+    </div>
+
+    
+    <ul class="tags">
+      
+      <li class="tag-helm">
+        <a href="http://localhost:8080/tags/helm">helm</a>
+      </li>
+      
+      <li class="tag-kubernetes">
+        <a href="http://localhost:8080/tags/kubernetes">kubernetes</a>
+      </li>
+      
+      <li class="tag-pitfalls">
+        <a href="http://localhost:8080/tags/pitfalls">pitfalls</a>
+      </li>
+      
+      <li class="tag-misconfigurations">
+        <a href="http://localhost:8080/tags/misconfigurations">misconfigurations</a>
+      </li>
+      
+      <li class="tag-llm">
+        <a href="http://localhost:8080/tags/llm">llm</a>
+      </li>
+      
+    </ul>
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+  <h2 id="securing-your-kubernetes-deployments-understanding-helm-misconfigurations-and-the-power-of-scanning">Securing Your Kubernetes Deployments: Understanding Helm Misconfigurations and the Power of Scanning</h2>
+<p>Helm has become the de-facto package manager for Kubernetes, simplifying the way we define, install, and upgrade even the most complex applications. With its templating engine and chart repositories like Artifact Hub, deploying applications is easier than ever. However, this convenience can sometimes lead to security oversights in the form of misconfigurations.</p>
+<p>Recent research, such as the paper &ldquo;Analyzing and Mitigating (with LLMs) the Security Misconfigurations of Helm Charts from Artifact Hub,&rdquo; highlights the prevalence of these issues and explores innovative ways to address them. Let&rsquo;s dive into what these misconfigurations are, how scanning tools can help, and the emerging role of Large Language Models (LLMs) in securing our Helm charts.</p>
+<h2 id="what-are-helm-chart-misconfigurations">What Are Helm Chart Misconfigurations?</h2>
+<p>Helm charts are collections of files that describe a related set of Kubernetes resources. Misconfigurations in these charts are settings or parameters that deviate from security best practices, potentially exposing your applications and clusters to risks. These can range from overly permissive access rights to a lack of resource constraints, leading to vulnerabilities, instability, or inefficient resource usage.</p>
+<p>The aforementioned study found that even popular charts on Artifact Hub can contain various misconfigurations. Common examples include:</p>
+<ul>
+<li><strong>Overly Permissive Security Contexts:</strong> Allowing containers to run with root privileges or enabling privilege escalation (<code>allowPrivilegeEscalation: true</code>).</li>
+<li><strong>Missing Resource Limits and Requests:</strong> Failing to define CPU or memory limits for containers can lead to resource starvation and denial-of-service scenarios.</li>
+<li><strong>Default or Wide Network Policies:</strong> Not restricting network traffic to and from pods, allowing unnecessary communication.</li>
+<li><strong>Use of Default Namespaces:</strong> Deploying applications into the <code>default</code> namespace can make it harder to manage RBAC and network policies effectively.</li>
+<li><strong>Hardcoded Secrets (though less common in templates, more in values files):</strong> Embedding sensitive information directly in charts.</li>
+</ul>
+<p>Here&rsquo;s an example of a common misconfiguration – a container allowed to escalate privileges:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># Part of a Deployment template (e.g., deployment.yaml)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">my-app-container</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">myapp:latest</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">securityContext</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">allowPrivilegeEscalation</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="c"># &lt;-- Misconfiguration!</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">readOnlyRootFilesystem</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ...</span><span class="w">
+</span></span></span></code></pre></div><p>This seemingly small setting can have significant security implications if a process within the container is compromised.</p>
+<p>The Crucial Role of Scanning Tools
+Manually auditing every line of your Helm charts and the resulting Kubernetes manifests is impractical and slow. So I looked for tools that are publicly available.</p>
+<p>Tools like Checkov, KICS, Datree, Kubescape and Terrascan are designed to statically analyze your Infrastructure as Code (IaC) files, including Helm charts and Kubernetes YAML. They use predefined (and often customizable) policies based on security benchmarks (like CIS Benchmarks) and best practices to detect misconfigurations.</p>
+<p>How Scanning Works (Simplified):</p>
+<p>Input: You provide the Helm chart (or rendered Kubernetes YAML) to the scanning tool.</p>
+<p>Parsing: The tool parses the files to understand the resources and their configurations.</p>
+<p>Policy Check: It evaluates these configurations against its policy set.</p>
+<p>Output: The tool reports any violations, often detailing the misconfigured resource, the violated policy, and sometimes suggesting remediation.</p>
+<p>Example: Scanning a Misconfigured Chart
+Let&rsquo;s take a snippet from a Helm template that omits CPU and memory limits for a container:</p>
+<p>Code Sample (Misconfigured deployment.yaml snippet):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># templates/deployment.yaml</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l">apps/v1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l">Deployment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">.Release.Name }}-app</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">.Values.replicaCount | default 1 }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">.Release.Name }}-app</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">labels</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">.Release.Name }}-app</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">.Chart.Name }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">.Values.image.pullPolicy }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">TCP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="c"># Missing resources requests and limits!</span><span class="w">
+</span></span></span></code></pre></div><p>Simulated Output (from a tool like Checkov or KICS):</p>
+<p>Scan Results:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">FAILED <span class="k">for</span> resource: Deployment/<span class="o">{{</span> .Release.Name <span class="o">}}</span>-app
+</span></span><span class="line"><span class="cl">Rule: Ensure CPU limits are <span class="nb">set</span> <span class="k">for</span> containers <span class="o">(</span>CKV_K8S_11<span class="o">)</span>
+</span></span><span class="line"><span class="cl">File: /templates/deployment.yaml:21
+</span></span><span class="line"><span class="cl">Description: CPU limits should be <span class="nb">set</span> to prevent resource exhaustion.
+</span></span><span class="line"><span class="cl">   <span class="m">20</span> <span class="p">|</span>          ports:
+</span></span><span class="line"><span class="cl">   <span class="m">21</span> <span class="p">|</span>            - name: http
+</span></span><span class="line"><span class="cl">   <span class="m">22</span> <span class="p">|</span>              containerPort: <span class="m">80</span>
+</span></span><span class="line"><span class="cl">   <span class="m">23</span> <span class="p">|</span>              protocol: TCP
+</span></span><span class="line"><span class="cl">   <span class="m">24</span> <span class="p">|</span>          <span class="c1"># Missing resources requests and limits!</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">FAILED <span class="k">for</span> resource: Deployment/<span class="o">{{</span> .Release.Name <span class="o">}}</span>-app
+</span></span><span class="line"><span class="cl">Rule: Ensure memory limits are <span class="nb">set</span> <span class="k">for</span> containers <span class="o">(</span>CKV_K8S_12<span class="o">)</span>
+</span></span><span class="line"><span class="cl">File: /templates/deployment.yaml:21
+</span></span><span class="line"><span class="cl">Description: Memory limits should be <span class="nb">set</span> to prevent resource exhaustion and OOM kills.
+</span></span><span class="line"><span class="cl">   <span class="m">20</span> <span class="p">|</span>          ports:
+</span></span><span class="line"><span class="cl">   <span class="m">21</span> <span class="p">|</span>            - name: http
+</span></span><span class="line"><span class="cl">   <span class="m">22</span> <span class="p">|</span>              containerPort: <span class="m">80</span>
+</span></span><span class="line"><span class="cl">   <span class="m">23</span> <span class="p">|</span>              protocol: TCP
+</span></span><span class="line"><span class="cl">   <span class="m">24</span> <span class="p">|</span>          <span class="c1"># Missing resources requests and limits!</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Summary:
+</span></span><span class="line"><span class="cl">Passed checks: <span class="m">5</span>
+</span></span><span class="line"><span class="cl">Failed checks: <span class="m">2</span>
+</span></span><span class="line"><span class="cl">Skipped checks: <span class="m">0</span>
+</span></span></code></pre></div><p>This output clearly indicates the missing resource limits, helping developers pinpoint and fix the issue.</p>
+<p>Leveraging LLMs for Mitigation: A New Frontier
+The research paper &ldquo;Analyzing and Mitigating (with LLMs) the Security Misconfigurations of Helm Charts from Artifact Hub&rdquo; explores an interesting approach: using Large Language Models (LLMs) like ChatGPT or Google Gemini to not just identify but also help fix these misconfigurations.</p>
+<p>The proposed pipeline is:</p>
+<p>Scan: Analyze the Helm chart using existing tools (e.g., Checkov) to identify misconfigurations.</p>
+<p>LLM Query: For each misconfiguration, query an LLM with the context (the K8s resource YAML and the violated policy).</p>
+<p>Refactor: The LLM suggests a refactored YAML snippet to address the misconfiguration.</p>
+<p>Validate: The refactored chart is then re-scanned by the tools to see if the issue is resolved. A manual review is also crucial due to the potential for LLM &ldquo;hallucinations&rdquo; or incorrect fixes.</p>
+<p>Example: LLM-Assisted Refactoring
+Let&rsquo;s use our previous example of missing resource limits.</p>
+<p>Code Sample (Misconfigured deployment.yaml snippet - as before):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># templates/deployment.yaml</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ... (spec.template.spec.containers)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">.Chart.Name }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">.Values.image.pullPolicy }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">TCP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="c"># Missing resources requests and limits!</span><span class="w">
+</span></span></span></code></pre></div><p>LLM Query (Conceptual):
+&ldquo;Refactor the following Kubernetes Deployment container definition to include CPU and memory requests and limits, ensuring it addresses the policy &lsquo;Ensure CPU limits are set for containers&rsquo; and &lsquo;Ensure memory limits are set for containers&rsquo;. Output only the refactored YAML for the container section.
+[YAML snippet above]&rdquo;</p>
+<p>Code Sample (LLM-Refactored deployment.yaml snippet):</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># templates/deployment.yaml (LLM suggested change)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># ... (spec.template.spec.containers)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">.Chart.Name }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span>{{<span class="w"> </span><span class="l">.Values.image.pullPolicy }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">http</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="m">80</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l">TCP</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">resources</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">limits</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;500m&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;512Mi&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="nt">requests</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;250m&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">              </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;256Mi&#34;</span><span class="w">
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">Simulated Output (after applying LLM fix and re-scanning):
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Scan Results:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Summary:
+</span></span><span class="line"><span class="cl">Passed checks: 7
+</span></span><span class="line"><span class="cl">Failed checks: 0
+</span></span><span class="line"><span class="cl">Skipped checks: 0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">All checks passed!
+</span></span></code></pre></div><p>While promising, the study also notes the importance of validating LLM outputs, as they can sometimes produce incorrect or incomplete fixes. However, as LLMs evolve, their utility in automating security remediation could be significant.</p>
+<h2 id="best-practices-for-secure-helm-chart-management">Best Practices for Secure Helm Chart Management</h2>
+<p>Beyond scanning and potential LLM assistance, here are some fundamental best practices:</p>
+<ul>
+<li>
+<p>Regular Scanning: Integrate automated scanning into your CI/CD pipelines.</p>
+</li>
+<li>
+<p>Least Privilege: Configure RBAC and security contexts with the minimum necessary permissions.</p>
+</li>
+<li>
+<p>Resource Management: Always define resource requests and limits.</p>
+</li>
+<li>
+<p>Network Policies: Implement restrictive network policies to control traffic flow.</p>
+</li>
+<li>
+<p>Keep Dependencies Updated: Regularly update Helm chart dependencies and base images.</p>
+</li>
+<li>
+<p>Use Trusted Sources: Prefer charts from well-maintained and trusted repositories.</p>
+</li>
+<li>
+<p>Values File Hygiene: Be cautious with parameters exposed in values.yaml and ensure secure defaults.</p>
+</li>
+<li>
+<p>Manual Review for Critical Charts: For highly sensitive applications, supplement automated scanning with manual reviews.</p>
+</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Too many tools, not enough unification under the hood. But Kubescape is slowly demonstrating the ability to bring scans and policies under one roof.</p>
+<p>In my next post, I will try to write some python with some LLM assistance in improving misconfigured helm charts that deploys basic applications.</p>
+<p>Other tools not talked about:</p>
+<ul>
+<li><a href="https://validkube.com/" target="_blank">https://validkube.com/</a></li>
+</ul>
+
+  
+  <hr>
+<div class="footer">
+    
+	    
+            <a class="previous-post" href="http://localhost:8080/posts/helm-object-ordering/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>Helm Object Ordering</a>
+        
+	    
+    
+</div>
+
+  
+</div>
+            </main>
+            
+  
+    <div class="article-toc ">
+    <div class="toc-wrapper">
+      <h4 id="contents"></h4>
+      <nav id="TableOfContents">
+  <ul>
+    <li><a href="#securing-your-kubernetes-deployments-understanding-helm-misconfigurations-and-the-power-of-scanning">Securing Your Kubernetes Deployments: Understanding Helm Misconfigurations and the Power of Scanning</a></li>
+    <li><a href="#what-are-helm-chart-misconfigurations">What Are Helm Chart Misconfigurations?</a></li>
+    <li><a href="#best-practices-for-secure-helm-chart-management">Best Practices for Secure Helm Chart Management</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+  
+
+        </div>
+    </body>
+</html>

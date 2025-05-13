@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kubernetes on silent.engineer</title>
+    <link>http://localhost:1313/categories/kubernetes/</link>
+    <description>Recent content in Kubernetes on silent.engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 26 Mar 2025 16:45:00 -0400</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Helm Misconfiguration Detection</title>
+      <link>http://localhost:1313/posts/helm-misconfiguration-detection/</link>
+      <pubDate>Wed, 26 Mar 2025 16:45:00 -0400</pubDate>
+      <guid>http://localhost:1313/posts/helm-misconfiguration-detection/</guid>
+      <description>&lt;h1 id=&#34;securing-your-kubernetes-deployments-understanding-helm-misconfigurations-and-the-power-of-scanning&#34;&gt;Securing Your Kubernetes Deployments: Understanding Helm Misconfigurations and the Power of Scanning&lt;/h1&gt;&#xA;&lt;p&gt;Helm has become the de-facto package manager for Kubernetes, simplifying the way we define, install, and upgrade even the most complex applications. With its templating engine and chart repositories like Artifact Hub, deploying applications is easier than ever. However, this convenience can sometimes lead to security oversights in the form of misconfigurations.&lt;/p&gt;&#xA;&lt;p&gt;Recent research, such as the paper &amp;ldquo;Analyzing and Mitigating (with LLMs) the Security Misconfigurations of Helm Charts from Artifact Hub,&amp;rdquo; highlights the prevalence of these issues and explores innovative ways to address them. Let&amp;rsquo;s dive into what these misconfigurations are, how scanning tools can help, and the emerging role of Large Language Models (LLMs) in securing our Helm charts.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Helm Object Ordering</title>
+      <link>http://localhost:1313/posts/helm-object-ordering/</link>
+      <pubDate>Fri, 21 Mar 2025 07:22:00 -0400</pubDate>
+      <guid>http://localhost:1313/posts/helm-object-ordering/</guid>
+      <description>&lt;p&gt;Sometimes I forget that Helm just manages templates on top of Kubernetes. There are also &amp;ldquo;pitfalls&amp;rdquo; I used to run into.&lt;/p&gt;&#xA;&lt;p&gt;When Helm installs or upgrades charts, the Kubernetes objects from the charts and/or dependencies are:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;aggregated into a single set; then&lt;/li&gt;&#xA;&lt;li&gt;sorted by type followed by name; and then&lt;/li&gt;&#xA;&lt;li&gt;created/updated in that order&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;The ordering of installed Kubernetes objects when using &lt;code&gt;helm install&lt;/code&gt; or &lt;code&gt;helm upgrade&lt;/code&gt; looks like this:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

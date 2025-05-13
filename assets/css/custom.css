@@ -1,0 +1,115 @@
+/* 
+ * Global monospace font setting
+ * This overrides all text on the site to use monospace fonts
+ */
+
+/* Apply monospace font to all elements */
+body {
+  font-family: "SFMono-Regular", Consolas, Monaco, "Liberation Mono", Menlo, Courier, monospace !important;
+  font-size: 0.95rem !important; /* Slightly reduce default body font size */
+}
+
+/* Make sure headings are also monospace */
+h1, h2, h3, h4, h5, h6, 
+.page-title,
+.post-title,
+.content h1, .content h2, .content h3, .content h4, .content h5 {
+  font-family: "SFMono-Regular", Consolas, Monaco, "Liberation Mono", Menlo, Courier, monospace !important;
+}
+
+/* Make sidebar title (rohit gudi) smaller */
+.sidebar-about h1 {
+  font-family: "SFMono-Regular", Consolas, Monaco, "Liberation Mono", Menlo, Courier, monospace !important;
+  font-size: 1.2rem !important; /* Smaller title */
+  margin-bottom: 0.5rem !important;
+}
+
+/* Make sidebar description (Hi, my name is Rohit...) smaller */
+.sidebar p {
+  font-size: 0.75rem !important;
+  line-height: 1.2 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Make sidebar menu items smaller */
+.sidebar-nav {
+  font-size: 0.8rem !important;
+}
+
+.sidebar-nav .heading {
+  font-size: 0.85rem !important;
+  margin-top: 0.5rem !important;
+}
+
+.sidebar-nav .bullet, 
+.sidebar-nav .sub-heading {
+  font-size: 0.75rem !important;
+}
+
+/* Ensure all other text elements use monospace */
+p, span, a, li, blockquote, code, pre, td, th, table, 
+input, button, textarea, select, label, .sidebar a {
+  font-family: "SFMono-Regular", Consolas, Monaco, "Liberation Mono", Menlo, Courier, monospace !important;
+}
+
+/* Make tag and category labels smaller */
+.post-tags a, .post-categories a {
+  font-size: 0.7rem !important;
+  padding: 0.1rem 0.4rem !important;
+}
+
+/* Make social icons display horizontally instead of vertically */
+.sidebar a.social {
+  display: inline-block !important;
+  margin-right: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+/* Adjust social icons container for horizontal layout */
+.sidebar-footer {
+  text-align: center !important;
+}
+
+/* Adjust project iframe styling */
+iframe {
+  display: block;
+  width: 100%;
+  border: none;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 4px;
+}
+
+/* Use !important to ensure these rules override any theme-specific font declarations */
+
+/* Improve code block presentation */
+.highlight pre, /* Target Chroma's container */
+pre {             /* General fallback */
+  overflow-x: auto !important; /* Enable horizontal scroll */
+  word-wrap: normal !important; /* Prevent unwanted wrapping */
+  white-space: pre !important;  /* Preserve whitespace and prevent wrapping */
+  max-width: 100% !important;   /* Ensure code blocks don't exceed their container */
+  border-radius: 4px !important; /* Rounded corners for better aesthetics */
+}
+
+/* Add a slight shadow to code blocks for better visual separation */
+.highlight {
+  margin-bottom: 1.5em !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+/* Ensure language label (if added by theme) is readable */
+.highlight .language-tag {
+  font-size: 0.8rem !important;
+  color: #909090 !important;
+  float: right !important;
+  margin-top: -0.5em !important;
+  margin-right: 0.5em !important;
+}
+
+/* Ensure inline code is properly styled */
+code:not([class*="language-"]) {
+  padding: 0.2em 0.4em !important;
+  border-radius: 3px !important;
+  font-size: 0.9em !important;
+}

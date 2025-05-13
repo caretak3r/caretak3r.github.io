@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AWS on silent.engineer</title>
+    <link>http://localhost:1313/tags/aws/</link>
+    <description>Recent content in AWS on silent.engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 11 May 2025 22:15:00 -0400</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/aws/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Getting Started with AWS Cloud Security</title>
+      <link>http://localhost:1313/posts/first-post/</link>
+      <pubDate>Sun, 11 May 2025 22:15:00 -0400</pubDate>
+      <guid>http://localhost:1313/posts/first-post/</guid>
+      <description>&lt;h1 id=&#34;getting-started-with-aws-cloud-security&#34;&gt;Getting Started with AWS Cloud Security&lt;/h1&gt;&#xA;&lt;p&gt;When building applications on AWS, security should be your top priority. This post covers essential security best practices for AWS environments.&lt;/p&gt;&#xA;&lt;h2 id=&#34;understanding-the-shared-responsibility-model&#34;&gt;Understanding the Shared Responsibility Model&lt;/h2&gt;&#xA;&lt;p&gt;AWS operates on a shared responsibility model:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;AWS&lt;/strong&gt;: Responsible for security OF the cloud (infrastructure, hardware, software, facilities)&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;You&lt;/strong&gt;: Responsible for security IN the cloud (data, configurations, access management)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;key-security-areas&#34;&gt;Key Security Areas&lt;/h2&gt;&#xA;&lt;h3 id=&#34;1-identity-and-access-management-iam&#34;&gt;1. Identity and Access Management (IAM)&lt;/h3&gt;&#xA;&lt;p&gt;IAM is the foundation of AWS security:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

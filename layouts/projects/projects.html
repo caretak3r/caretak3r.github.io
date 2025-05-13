@@ -1,0 +1,11 @@
+{{ define "main" -}}
+{{ if .Site.Params.light_dark }}
+    {{ partial "light_dark.html" . }}
+{{ end }}
+<h1 class="title">{{ .Title }}</h1>
+
+<!-- Only render the content from _index.md -->
+{{ .Content }}
+
+<!-- Do not render child page content directly on this page -->
+{{ end }}

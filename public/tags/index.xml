@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on silent.engineer</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on silent.engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 11 May 2025 22:15:00 -0400</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AWS</title>
+      <link>http://localhost:1313/tags/aws/</link>
+      <pubDate>Sun, 11 May 2025 22:15:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/aws/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Best Practices</title>
+      <link>http://localhost:1313/tags/best-practices/</link>
+      <pubDate>Sun, 11 May 2025 22:15:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/best-practices/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>DevSecOps</title>
+      <link>http://localhost:1313/tags/devsecops/</link>
+      <pubDate>Sun, 11 May 2025 22:15:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/devsecops/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>IAM</title>
+      <link>http://localhost:1313/tags/iam/</link>
+      <pubDate>Sun, 11 May 2025 22:15:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/iam/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Security</title>
+      <link>http://localhost:1313/tags/security/</link>
+      <pubDate>Sun, 11 May 2025 22:15:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/security/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Helm</title>
+      <link>http://localhost:1313/tags/helm/</link>
+      <pubDate>Wed, 26 Mar 2025 16:45:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/helm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kubernetes</title>
+      <link>http://localhost:1313/tags/kubernetes/</link>
+      <pubDate>Wed, 26 Mar 2025 16:45:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Llm</title>
+      <link>http://localhost:1313/tags/llm/</link>
+      <pubDate>Wed, 26 Mar 2025 16:45:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/llm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Misconfigurations</title>
+      <link>http://localhost:1313/tags/misconfigurations/</link>
+      <pubDate>Wed, 26 Mar 2025 16:45:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/misconfigurations/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pitfalls</title>
+      <link>http://localhost:1313/tags/pitfalls/</link>
+      <pubDate>Wed, 26 Mar 2025 16:45:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/pitfalls/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>2025</title>
+      <link>http://localhost:1313/tags/2025/</link>
+      <pubDate>Thu, 20 Mar 2025 22:15:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/2025/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Investments</title>
+      <link>http://localhost:1313/tags/investments/</link>
+      <pubDate>Thu, 20 Mar 2025 22:15:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/investments/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Robotics</title>
+      <link>http://localhost:1313/tags/robotics/</link>
+      <pubDate>Thu, 20 Mar 2025 22:15:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/robotics/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

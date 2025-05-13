@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelPerfect - Image Resizer & Converter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dropzone {
+            border: 2px dashed #9CA3AF;
+            transition: all 0.3s ease;
+        }
+        .dropzone.active {
+            border-color: #3B82F6;
+            background-color: #EFF6FF;
+        }
+        .preview-container {
+            transition: all 0.3s ease;
+        }
+        .slider-thumb::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3B82F6;
+            cursor: pointer;
+        }
+        .slider-thumb::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3B82F6;
+            cursor: pointer;
+        }
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-blue-600 mb-2">PixelPerfect</h1>
+            <p class="text-gray-600">Resize, convert, and optimize your images with ease</p>
+        </div>
+
+        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+            <div class="md:flex">
+                <div class="p-6 md:w-1/2">
+                    <div id="dropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer mb-6">
+                        <div class="flex flex-col items-center justify-center">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-blue-500 mb-4"></i>
+                            <h3 class="text-lg font-medium text-gray-700 mb-2">Drag & Drop your image here</h3>
+                            <p class="text-gray-500 text-sm mb-4">or click to browse files</p>
+                            <input type="file" id="fileInput" class="hidden" accept="image/*">
+                            <button id="browseBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition">
+                                Select Image
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="previewSection" class="preview-container hidden">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-medium text-gray-700">Image Preview</h3>
+                            <button id="resetBtn" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash-alt mr-1"></i> Remove
+                            </button>
+                        </div>
+                        <div class="border rounded-lg p-4 mb-4">
+                            <img id="imagePreview" class="image-preview mx-auto" src="" alt="Preview">
+                        </div>
+                        <div class="text-center text-sm text-gray-500 mb-4">
+                            <span id="originalDimensions"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 md:w-1/2 bg-gray-50">
+                    <div id="controlsSection" class="hidden">
+                        <h3 class="text-lg font-medium text-gray-700 mb-4">Adjustments</h3>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Resize Mode</label>
+                            <div class="flex space-x-4">
+                                <button id="percentageBtn" class="resize-mode-btn bg-blue-500 text-white px-3 py-1 rounded-md text-sm">Percentage</button>
+                                <button id="dimensionsBtn" class="resize-mode-btn bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md text-sm">Dimensions</button>
+                                <button id="resolutionBtn" class="resize-mode-btn bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-md text-sm">Resolution</button>
+                            </div>
+                        </div>
+
+                        <div id="percentageControls" class="mb-6">
+                            <label for="percentageSlider" class="block text-sm font-medium text-gray-700 mb-2">
+                                Scale: <span id="percentageValue">100</span>%
+                            </label>
+                            <input type="range" id="percentageSlider" min="1" max="200" value="100" class="w-full slider-thumb">
+                        </div>
+
+                        <div id="dimensionsControls" class="hidden mb-6">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="widthInput" class="block text-sm font-medium text-gray-700 mb-1">Width (px)</label>
+                                    <input type="number" id="widthInput" class="w-full border rounded-md px-3 py-2">
+                                </div>
+                                <div>
+                                    <label for="heightInput" class="block text-sm font-medium text-gray-700 mb-1">Height (px)</label>
+                                    <input type="number" id="heightInput" class="w-full border rounded-md px-3 py-2">
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="maintainAspect" class="mr-2" checked>
+                                <label for="maintainAspect" class="text-sm text-gray-700">Maintain aspect ratio</label>
+                            </div>
+                        </div>
+
+                        <div id="resolutionControls" class="hidden mb-6">
+                            <div class="mb-4">
+                                <label for="resolutionSelect" class="block text-sm font-medium text-gray-700 mb-1">Preset Resolutions</label>
+                                <select id="resolutionSelect" class="w-full border rounded-md px-3 py-2">
+                                    <option value="custom">Custom</option>
+                                    <option value="1920x1080">HD (1920×1080)</option>
+                                    <option value="1280x720">720p (1280×720)</option>
+                                    <option value="3840x2160">4K (3840×2160)</option>
+                                    <option value="1080x1080">Instagram Square (1080×1080)</option>
+                                    <option value="1200x630">Facebook Link (1200×630)</option>
+                                    <option value="1500x500">Twitter Header (1500×500)</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label for="resWidthInput" class="block text-sm font-medium text-gray-700 mb-1">Width (px)</label>
+                                    <input type="number" id="resWidthInput" class="w-full border rounded-md px-3 py-2">
+                                </div>
+                                <div>
+                                    <label for="resHeightInput" class="block text-sm font-medium text-gray-700 mb-1">Height (px)</label>
+                                    <input type="number" id="resHeightInput" class="w-full border rounded-md px-3 py-2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="formatSelect" class="block text-sm font-medium text-gray-700 mb-2">Output Format</label>
+                            <select id="formatSelect" class="w-full border rounded-md px-3 py-2">
+                                <option value="original">Original Format</option>
+                                <option value="jpeg">JPEG</option>
+                                <option value="png">PNG</option>
+                                <option value="webp">WebP</option>
+                            </select>
+                        </div>
+
+                        <div class="flex space-x-4">
+                            <button id="downloadBtn" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition flex items-center justify-center">
+                                <i class="fas fa-download mr-2"></i> Download
+                            </button>
+                            <button id="copyBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-md transition flex items-center justify-center">
+                                <i class="far fa-copy mr-2"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="emptyState" class="h-full flex flex-col items-center justify-center text-center py-12">
+                        <i class="fas fa-image text-4xl text-gray-300 mb-4"></i>
+                        <h3 class="text-lg font-medium text-gray-500 mb-2">No image selected</h3>
+                        <p class="text-gray-400 text-sm">Upload an image to start resizing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-sm text-gray-500">
+            <p>PixelPerfect - Free online image resizer and converter</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const dropzone = document.getElementById('dropzone');
+            const fileInput = document.getElementById('fileInput');
+            const browseBtn = document.getElementById('browseBtn');
+            const previewSection = document.getElementById('previewSection');
+            const controlsSection = document.getElementById('controlsSection');
+            const emptyState = document.getElementById('emptyState');
+            const imagePreview = document.getElementById('imagePreview');
+            const originalDimensions = document.getElementById('originalDimensions');
+            const resetBtn = document.getElementById('resetBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            // Resize mode controls
+            const percentageBtn = document.getElementById('percentageBtn');
+            const dimensionsBtn = document.getElementById('dimensionsBtn');
+            const resolutionBtn = document.getElementById('resolutionBtn');
+            const percentageControls = document.getElementById('percentageControls');
+            const dimensionsControls = document.getElementById('dimensionsControls');
+            const resolutionControls = document.getElementById('resolutionControls');
+            
+            // Sliders and inputs
+            const percentageSlider = document.getElementById('percentageSlider');
+            const percentageValue = document.getElementById('percentageValue');
+            const widthInput = document.getElementById('widthInput');
+            const heightInput = document.getElementById('heightInput');
+            const maintainAspect = document.getElementById('maintainAspect');
+            const resolutionSelect = document.getElementById('resolutionSelect');
+            const resWidthInput = document.getElementById('resWidthInput');
+            const resHeightInput = document.getElementById('resHeightInput');
+            const formatSelect = document.getElementById('formatSelect');
+            
+            // Variables
+            let originalImage = null;
+            let originalWidth = 0;
+            let originalHeight = 0;
+            let currentMode = 'percentage';
+            
+            // Event Listeners
+            browseBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', handleFileSelect);
+            dropzone.addEventListener('dragover', handleDragOver);
+            dropzone.addEventListener('dragleave', handleDragLeave);
+            dropzone.addEventListener('drop', handleDrop);
+            resetBtn.addEventListener('click', resetApp);
+            downloadBtn.addEventListener('click', downloadImage);
+            copyBtn.addEventListener('click', copyImageToClipboard);
+            
+            // Resize mode buttons
+            percentageBtn.addEventListener('click', () => setResizeMode('percentage'));
+            dimensionsBtn.addEventListener('click', () => setResizeMode('dimensions'));
+            resolutionBtn.addEventListener('click', () => setResizeMode('resolution'));
+            
+            // Percentage slider
+            percentageSlider.addEventListener('input', () => {
+                percentageValue.textContent = percentageSlider.value;
+                if (originalImage) {
+                    applyPercentageResize(parseInt(percentageSlider.value));
+                }
+            });
+            
+            // Dimensions inputs
+            widthInput.addEventListener('input', () => handleDimensionsChange('width'));
+            heightInput.addEventListener('input', () => handleDimensionsChange('height'));
+            
+            // Resolution select
+            resolutionSelect.addEventListener('change', () => {
+                if (resolutionSelect.value !== 'custom') {
+                    const [width, height] = resolutionSelect.value.split('x');
+                    resWidthInput.value = width;
+                    resHeightInput.value = height;
+                    if (originalImage) {
+                        applyResolutionResize(parseInt(width), parseInt(height));
+                    }
+                }
+            });
+            
+            // Resolution inputs
+            resWidthInput.addEventListener('input', () => handleResolutionChange('width'));
+            resHeightInput.addEventListener('input', () => handleResolutionChange('height'));
+            
+            // Functions
+            function handleFileSelect(e) {
+                const file = e.target.files[0];
+                if (file && file.type.match('image.*')) {
+                    processImageFile(file);
+                }
+            }
+            
+            function handleDragOver(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.add('active');
+            }
+            
+            function handleDragLeave(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.remove('active');
+            }
+            
+            function handleDrop(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.remove('active');
+                
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.match('image.*')) {
+                    processImageFile(file);
+                }
+            }
+            
+            function processImageFile(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    originalImage = new Image();
+                    originalImage.onload = function() {
+                        originalWidth = originalImage.width;
+                        originalHeight = originalImage.height;
+                        
+                        // Display original image
+                        imagePreview.src = e.target.result;
+                        originalDimensions.textContent = `${originalWidth} × ${originalHeight} pixels`;
+                        
+                        // Initialize inputs
+                        widthInput.value = originalWidth;
+                        heightInput.value = originalHeight;
+                        resWidthInput.value = originalWidth;
+                        resHeightInput.value = originalHeight;
+                        
+                        // Show preview and controls
+                        previewSection.classList.remove('hidden');
+                        controlsSection.classList.remove('hidden');
+                        emptyState.classList.add('hidden');
+                        
+                        // Set initial resize mode
+                        setResizeMode(currentMode);
+                    };
+                    originalImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            function setResizeMode(mode) {
+                currentMode = mode;
+                
+                // Reset all buttons
+                percentageBtn.classList.remove('bg-blue-500', 'text-white');
+                percentageBtn.classList.add('bg-gray-200', 'hover:bg-gray-300');
+                dimensionsBtn.classList.remove('bg-blue-500', 'text-white');
+                dimensionsBtn.classList.add('bg-gray-200', 'hover:bg-gray-300');
+                resolutionBtn.classList.remove('bg-blue-500', 'text-white');
+                resolutionBtn.classList.add('bg-gray-200', 'hover:bg-gray-300');
+                
+                // Hide all controls
+                percentageControls.classList.add('hidden');
+                dimensionsControls.classList.add('hidden');
+                resolutionControls.classList.add('hidden');
+                
+                // Activate selected mode
+                switch(mode) {
+                    case 'percentage':
+                        percentageBtn.classList.remove('bg-gray-200', 'hover:bg-gray-300');
+                        percentageBtn.classList.add('bg-blue-500', 'text-white');
+                        percentageControls.classList.remove('hidden');
+                        break;
+                    case 'dimensions':
+                        dimensionsBtn.classList.remove('bg-gray-200', 'hover:bg-gray-300');
+                        dimensionsBtn.classList.add('bg-blue-500', 'text-white');
+                        dimensionsControls.classList.remove('hidden');
+                        break;
+                    case 'resolution':
+                        resolutionBtn.classList.remove('bg-gray-200', 'hover:bg-gray-300');
+                        resolutionBtn.classList.add('bg-blue-500', 'text-white');
+                        resolutionControls.classList.remove('hidden');
+                        break;
+                }
+            }
+            
+            function applyPercentageResize(percentage) {
+                const newWidth = Math.round(originalWidth * percentage / 100);
+                const newHeight = Math.round(originalHeight * percentage / 100);
+                
+                // Update dimensions inputs
+                widthInput.value = newWidth;
+                heightInput.value = newHeight;
+                
+                // Update resolution inputs
+                resWidthInput.value = newWidth;
+                resHeightInput.value = newHeight;
+                
+                resizeImage(newWidth, newHeight);
+            }
+            
+            function handleDimensionsChange(changedDimension) {
+                if (!originalImage) return;
+                
+                let newWidth = parseInt(widthInput.value) || 0;
+                let newHeight = parseInt(heightInput.value) || 0;
+                
+                if (maintainAspect.checked) {
+                    if (changedDimension === 'width' && widthInput.value) {
+                        const ratio = originalHeight / originalWidth;
+                        newHeight = Math.round(newWidth * ratio);
+                        heightInput.value = newHeight;
+                    } else if (changedDimension === 'height' && heightInput.value) {
+                        const ratio = originalWidth / originalHeight;
+                        newWidth = Math.round(newHeight * ratio);
+                        widthInput.value = newWidth;
+                    }
+                }
+                
+                // Update percentage
+                const newPercentage = Math.round((newWidth / originalWidth) * 100);
+                percentageSlider.value = newPercentage;
+                percentageValue.textContent = newPercentage;
+                
+                // Update resolution inputs
+                resWidthInput.value = newWidth;
+                resHeightInput.value = newHeight;
+                
+                if (newWidth > 0 && newHeight > 0) {
+                    resizeImage(newWidth, newHeight);
+                }
+            }
+            
+            function handleResolutionChange(changedDimension) {
+                if (!originalImage) return;
+                
+                let newWidth = parseInt(resWidthInput.value) || 0;
+                let newHeight = parseInt(resHeightInput.value) || 0;
+                
+                // Update percentage
+                const newPercentage = Math.round((newWidth / originalWidth) * 100);
+                percentageSlider.value = newPercentage;
+                percentageValue.textContent = newPercentage;
+                
+                // Update dimensions inputs
+                widthInput.value = newWidth;
+                heightInput.value = newHeight;
+                
+                if (newWidth > 0 && newHeight > 0) {
+                    resizeImage(newWidth, newHeight);
+                }
+            }
+            
+            function applyResolutionResize(width, height) {
+                // Update percentage
+                const newPercentage = Math.round((width / originalWidth) * 100);
+                percentageSlider.value = newPercentage;
+                percentageValue.textContent = newPercentage;
+                
+                // Update dimensions inputs
+                widthInput.value = width;
+                heightInput.value = height;
+                
+                resizeImage(width, height);
+            }
+            
+            function resizeImage(width, height) {
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(originalImage, 0, 0, width, height);
+                
+                // Update preview
+                imagePreview.src = canvas.toDataURL();
+            }
+            
+            function getProcessedImage() {
+                const canvas = document.createElement('canvas');
+                let width, height;
+                
+                switch(currentMode) {
+                    case 'percentage':
+                        const percentage = parseInt(percentageSlider.value);
+                        width = Math.round(originalWidth * percentage / 100);
+                        height = Math.round(originalHeight * percentage / 100);
+                        break;
+                    case 'dimensions':
+                        width = parseInt(widthInput.value) || originalWidth;
+                        height = parseInt(heightInput.value) || originalHeight;
+                        break;
+                    case 'resolution':
+                        width = parseInt(resWidthInput.value) || originalWidth;
+                        height = parseInt(resHeightInput.value) || originalHeight;
+                        break;
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(originalImage, 0, 0, width, height);
+                
+                return canvas;
+            }
+            
+            function downloadImage() {
+                if (!originalImage) return;
+                
+                const canvas = getProcessedImage();
+                const format = formatSelect.value === 'original' ? 
+                    (originalImage.src.match(/\.(\w+)$/)?.[1] || 'png') : 
+                    formatSelect.value;
+                
+                const link = document.createElement('a');
+                link.download = `resized-image.${format}`;
+                link.href = canvas.toDataURL(`image/${format}`);
+                link.click();
+            }
+            
+            function copyImageToClipboard() {
+                if (!originalImage) return;
+                
+                const canvas = getProcessedImage();
+                canvas.toBlob(blob => {
+                    navigator.clipboard.write([
+                        new ClipboardItem({
+                            [blob.type]: blob
+                        })
+                    ]).then(() => {
+                        // Show success feedback
+                        const originalText = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Copied!';
+                        copyBtn.classList.remove('bg-gray-200', 'text-gray-700');
+                        copyBtn.classList.add('bg-green-500', 'text-white');
+                        
+                        setTimeout(() => {
+                            copyBtn.innerHTML = originalText;
+                            copyBtn.classList.remove('bg-green-500', 'text-white');
+                            copyBtn.classList.add('bg-gray-200', 'text-gray-700');
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Could not copy image: ', err);
+                        alert('Failed to copy image to clipboard. Please try again.');
+                    });
+                });
+            }
+            
+            function resetApp() {
+                // Reset UI
+                previewSection.classList.add('hidden');
+                controlsSection.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                
+                // Reset inputs
+                fileInput.value = '';
+                percentageSlider.value = 100;
+                percentageValue.textContent = '100';
+                widthInput.value = '';
+                heightInput.value = '';
+                resWidthInput.value = '';
+                resHeightInput.value = '';
+                resolutionSelect.value = 'custom';
+                formatSelect.value = 'original';
+                
+                // Reset image
+                originalImage = null;
+                originalWidth = 0;
+                originalHeight = 0;
+                imagePreview.src = '';
+                originalDimensions.textContent = '';
+            }
+        });
+    </script>
+</body>
+</html>
