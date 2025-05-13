@@ -1,0 +1,42 @@
+name: Deploy Hugo site to Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./caretak3r.github.io # Set default working directory for run steps
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          # extended: true # Uncomment if your theme needs Hugo Extended
+
+      - name: Build
+        # No need for --source or --destination if working-directory is set
+        run: hugo --minify 
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        # Only deploy when pushing to main branch, not on PRs
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./caretak3r.github.io/public # Path relative to repository root
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Deploy to GitHub Pages'
+          # The CNAME file in static/ will be automatically included
