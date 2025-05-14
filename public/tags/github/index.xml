@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Github on silent.engineer</title>
+    <link>http://localhost:1313/tags/github/</link>
+    <description>Recent content in Github on silent.engineer</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 13 May 2025 09:20:00 -0400</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using Mermaid Diagrams from GitHub Gists</title>
+      <link>http://localhost:1313/posts/mermaid-from-gist/</link>
+      <pubDate>Tue, 13 May 2025 09:20:00 -0400</pubDate>
+      <guid>http://localhost:1313/posts/mermaid-from-gist/</guid>
+      <description>&lt;p&gt;While Hugo supports Mermaid diagrams natively through code blocks, sometimes you may want to reference a diagram that&amp;rsquo;s maintained in a GitHub Gist. This approach has several advantages:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;You can update the diagram without rebuilding your site&lt;/li&gt;&#xA;&lt;li&gt;You can share the same diagram across multiple posts or sites&lt;/li&gt;&#xA;&lt;li&gt;You can collaborate on diagrams with others through GitHub&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;how-to-use-mermaid-gists&#34;&gt;How to Use Mermaid Gists&lt;/h2&gt;&#xA;&lt;p&gt;To embed a Mermaid diagram from a GitHub Gist, use the &lt;code&gt;mermaid-gist&lt;/code&gt; shortcode:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

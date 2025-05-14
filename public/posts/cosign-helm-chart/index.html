@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=62955&amp;path=livereload" data-no-instant defer></script>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.5991d603939a6d188be342b278a4555db90f163903158c623d2c39fde3d82cb3.js"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof mermaid !== 'undefined') {
+            mermaid.initialize({ startOnLoad: true });
+        }
+    });
+</script>
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">rohit gudi - Signing Helm Charts with Cosign</title>
+<meta property="og:title" content=rohit&#32;gudi&#32;-&#32;Signing&#32;Helm&#32;Charts&#32;with&#32;Cosign />
+<meta name="twitter:title" content=rohit&#32;gudi&#32;-&#32;Signing&#32;Helm&#32;Charts&#32;with&#32;Cosign />
+<meta itemprop="name" content=rohit&#32;gudi&#32;-&#32;Signing&#32;Helm&#32;Charts&#32;with&#32;Cosign />
+<meta name="application-name" content=rohit&#32;gudi&#32;-&#32;Signing&#32;Helm&#32;Charts&#32;with&#32;Cosign />
+<meta property="og:site_name" content="silent.engineer" />
+
+
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+
+<base href="http://localhost:62955/posts/cosign-helm-chart/" />
+<link rel="canonical" href="http://localhost:62955/posts/cosign-helm-chart/" itemprop="url" />
+<meta name="url" content="http://localhost:62955/posts/cosign-helm-chart/" />
+<meta name="twitter:url" content="http://localhost:62955/posts/cosign-helm-chart/" />
+<meta property="og:url" content="http://localhost:62955/posts/cosign-helm-chart/" />
+
+
+<meta property="og:updated_time" content="2025-05-13T07:06:00-04:00" />
+
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href='http://localhost:62955/sitemap.xml' />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
+
+
+
+  
+    <meta name="twitter:site" content="@caretak8r" />
+    <meta name="twitter:creator" content="@caretak8r" />
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="silent.engineer" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.147.2">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.fe07810b1589e468a1cbe091f7fa7e6ac024c204eb48f15f23b613bd550da626.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #202020;
+        --sidebar-img-border-color: #515151;
+        --sidebar-p-color: #909090;
+        --sidebar-h1-color: #FFF;
+        --sidebar-a-color: #FFF;
+        --sidebar-socials-color: #FFF;
+        --text-color: #222;
+        --bkg-color: #FAF9F6;
+        --post-title-color: #303030;
+        --list-color: #5A5A5A;
+        --link-color: #268BD2;
+        --date-color: #515151;
+        --table-border-color: #E5E5E5;
+        --table-stripe-color: #F9F9F9;
+        --code-color: #000;
+        --code-background-color: #E5E5E5;
+        --code-block-color: #FFF;
+        --code-block-background-color: #272822;
+        --moon-sun-color: #FFF;
+        --moon-sun-background-color: #515151;
+    }
+    body.dark-theme {
+        --text-color: #EEE;
+        --bkg-color: #121212;
+        --post-title-color: #DBE2E9;
+        --list-color: #9D9D9D;
+        --link-color: #268BD2;
+        --date-color: #9A9A9A;
+        --table-border-color: #515151;
+        --table-stripe-color: #202020;
+        --code-color: #FFF;
+        --code-background-color: #515151;
+        --code-block-color: #FFF;
+        --code-block-background-color: #272822;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
+
+</head>
+
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+    </button>
+</div>
+
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+        
+            <a href="http://localhost:62955/">
+                <h1>rohit gudi</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    Hi, my name is Rohit (aka caretak3r). I publish posts about technologies, funny things and my passions.
+    </p>
+</div>
+
+        <nav>
+    <ul class="sidebar-nav">
+        
+        
+        
+            
+            
+            
+                <li class="heading">
+                    <a href="/about/">About</a>
+                </li>
+                
+                
+                
+            
+        
+        
+            
+            
+            
+                <li class="heading">
+                    <a href="/posts/">Posts</a>
+                </li>
+                
+                
+                
+                    
+                    
+                
+            
+        
+        
+            
+            
+            
+                <li class="heading">
+                    <a href="/projects/">Projects</a>
+                </li>
+                
+                
+                
+            
+        
+    </ul>
+</nav>
+
+        
+    <a target="_blank" class="social" title="GitHub" href="https://github.com/caretak3r">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+            <path fill="currentColor" d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z"/>
+        </svg>
+    </a>
+
+
+
+    <a target="_blank" class="social" title="LinkedIn" href="https://www.linkedin.com/in/rohit-gudi-142093359/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 448 512">
+            <path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5c0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7c-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5c67.2 0 79.7 44.3 79.7 101.9V416z"/>
+        </svg>
+    </a>
+
+
+    <a target="_blank" class="social" title="Twitter" href="https://twitter.com/caretak8r">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M5.032 14.286c6.037 0 9.34-4.837 9.34-9.032c0-.137 0-.274-.01-.41A6.56 6.56 0 0 0 16 3.2c-.6.256-1.235.425-1.885.5a3.207 3.207 0 0 0 1.443-1.757c-.645.37-1.35.63-2.085.77a3.322 3.322 0 0 0-1.862-.958a3.384 3.384 0 0 0-2.082.334a3.223 3.223 0 0 0-1.442 1.49a3.08 3.08 0 0 0-.208 2.03a9.57 9.57 0 0 1-3.747-.963a9.269 9.269 0 0 1-3.018-2.354a3.086 3.086 0 0 0-.36 2.314c.189.787.68 1.475 1.376 1.924a3.344 3.344 0 0 1-1.49-.398v.04c0 .734.263 1.444.743 2.01a3.3 3.3 0 0 0 1.89 1.102c-.483.128-.99.146-1.482.055a3.19 3.19 0 0 0 1.168 1.577a3.36 3.36 0 0 0 1.9.627A6.732 6.732 0 0 1 0 12.86a9.527 9.527 0 0 0 5.032 1.423"/>
+        </svg>
+    </a>
+
+
+    <a target="_blank" class="social" title="X" href="https://x.com/caretak8r">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 512 472.799">
+            <path fill="currentColor" d="M403.229 0h78.506L310.219 196.04 512 462.799H354.002L230.261 301.007 88.669 462.799h-78.56l183.455-209.683L0 0h161.999l111.856 147.88L403.229 0zm-27.556 415.805h43.505L138.363 44.527h-46.68l283.99 371.278z"/>
+        </svg>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <a target="_blank" class="social" title="Email" href="mailto://gudi.k.rohit@gmail.com">
+       <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1.2em" viewBox="0 0 485.211 485.211">
+            <path fill="currentColor" d="M301.393,241.631L464.866,424.56H20.332l163.474-182.928l58.801,51.443L301.393,241.631z M462.174,60.651H23.027 l219.579,192.142L462.174,60.651z M324.225,221.67l160.986,180.151V80.792L324.225,221.67z M0,80.792v321.029L160.972,221.64 L0,80.792z"/>
+       </svg>
+    </a>
+
+
+
+
+        <p class="footnote">
+powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a target="_blank" href="https://github.com/lukeorth/poison">poison</a>
+    <br>
+    &copy; 2025 silent.engineer. All rights reserved.
+</p>
+
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="post full-width-post">
+  <div class="info">
+  <h1 class="post-title">
+    <a href="http://localhost:62955/posts/cosign-helm-chart/">Signing Helm Charts with Cosign</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-05-13T07:06:00-0400" class="post-date">
+        May 13, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>5 mins read</span>
+      </span>
+    </div>
+
+    
+    <ul class="tags">
+      
+      <li class="tag-helm">
+        <a href="http://localhost:62955/tags/helm">helm</a>
+      </li>
+      
+      <li class="tag-kubernetes">
+        <a href="http://localhost:62955/tags/kubernetes">kubernetes</a>
+      </li>
+      
+      <li class="tag-cosign">
+        <a href="http://localhost:62955/tags/cosign">cosign</a>
+      </li>
+      
+      <li class="tag-signature">
+        <a href="http://localhost:62955/tags/signature">signature</a>
+      </li>
+      
+      <li class="tag-supply chain">
+        <a href="http://localhost:62955/tags/supply-chain">supply chain</a>
+      </li>
+      
+    </ul>
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+<div class="post-content">
+  <h2 id="what-is-cosign">What is Cosign?</h2>
+<p>Cosign is a tool developed by the Sigstore project that provides a simple way to sign and verify software artifacts. It&rsquo;s particularly useful for container images, Helm charts, and other software artifacts in the supply chain. Cosign uses keyless signing by default, which means it doesn&rsquo;t require you to manage private keys. Instead, it leverages OpenID Connect (OIDC) for authentication and uses ephemeral keys for signing.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before we begin, ensure you have the following tools installed:</p>
+<ol>
+<li><a href="https://docs.sigstore.dev/cosign/installation/" target="_blank">Cosign</a></li>
+<li><a href="https://helm.sh/docs/intro/install/" target="_blank">Helm</a></li>
+<li><a href="https://docs.docker.com/get-docker/" target="_blank">Docker</a></li>
+<li>A container registry (like Docker Hub, GitHub Container Registry, or Google Container Registry)</li>
+</ol>
+<p>For the purposes of this post, I am going to generate and use static keypairs, instead of keyless or any cloud provider-specific KMS implementation, but those all work as well.</p>
+<h2 id="step-1-signing-a-docker-image">Step 1: Signing a Docker Image</h2>
+<p>First, let&rsquo;s sign the Docker image that our Helm chart will use:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Build your Docker image</span>
+</span></span><span class="line"><span class="cl">docker build -t caretak3r/nginx:latest .
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Push the image to your registry</span>
+</span></span><span class="line"><span class="cl">docker push caretak3r/nginx:latest
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sign the image using Cosign</span>
+</span></span><span class="line"><span class="cl">cosign sign --key cosign.key caretak3r/nginx:latest
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sign the image digest instead of the tag</span>
+</span></span><span class="line"><span class="cl">cosign sign --key cosign.key caretak3r/nginx@sha256:56874d0ec4c0c6a4a3d960bdbeda30c4ac03ef4673e7b560968293c2a04094ef
+</span></span></code></pre></div><p>The output would look like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">Enter password for private key: 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	The sigstore service, hosted by sigstore a Series of LF Projects, LLC, is provided pursuant to the Hosted Project Tools Terms of Use, available at https://lfprojects.org/policies/hosted-project-tools-terms-of-use/.
+</span></span><span class="line"><span class="cl">	Note that if your submission includes personal data associated with this signed artifact, it will be part of an immutable record.
+</span></span><span class="line"><span class="cl">	This may include the email address associated with the account with which you authenticate your contractual Agreement.
+</span></span><span class="line"><span class="cl">	This information will be used for signing this artifact and will be stored in public transparency logs and cannot be removed later, and is subject to the Immutable Record notice at https://lfprojects.org/policies/hosted-project-tools-immutable-records/.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">By typing &#39;y&#39;, you attest that (1) you are not submitting the personal data of any other person; and (2) you understand and agree to the statement and the Agreement terms at the URLs listed above.
+</span></span><span class="line"><span class="cl">Are you sure you would like to continue? [y/N] y
+</span></span><span class="line"><span class="cl">tlog entry created with index: 212124369
+</span></span><span class="line"><span class="cl">Pushing signature to: index.docker.io/caretak3r/nginx
+</span></span></code></pre></div><p>Taking a look at DockerHub (ECR, or any other OCI registries will work, too) you can see a <code>.sig</code> file was created:</p>
+<p><img src="../../images/2025-05-13-07-21-33.png" alt=""></p>
+<p>When you run the <code>cosign sign</code> command for the first time, it will:</p>
+<ol>
+<li>Open your browser for OIDC authentication</li>
+<li>Generate an ephemeral key pair</li>
+<li>Sign the image</li>
+<li>Upload the signature to the registry</li>
+</ol>
+<h2 id="step-2-signing-a-helm-chart">Step 2: Signing a Helm Chart</h2>
+<p>Now, let&rsquo;s sign the Helm chart:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Package your Helm chart</span>
+</span></span><span class="line"><span class="cl">helm package cosign-helm-signing/
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sign the chart using Cosign</span>
+</span></span><span class="line"><span class="cl">cosign sign-blob --key cosign.key cosign-helm-signing-0.1.0.tgz --bundle cosign-helm-signing-0.1.0.tgz.sig
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Push the Helm chart to dockerHub</span>
+</span></span><span class="line"><span class="cl">helm registry login registry-1.docker.io
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Push the chart</span>
+</span></span><span class="line"><span class="cl">helm push cosign-helm-signing-0.1.0.tgz oci://registry-1.docker.io/caretak3r
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">&gt; Pushed: registry-1.docker.io/caretak3r/cosign-helm-signing:0.1.0
+</span></span><span class="line"><span class="cl">&gt; Digest: sha256:3ad510ae4d611ceb4871a061ee8a8775de78c56861a8130fef8481d5bd498e66
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Sign the chart</span>
+</span></span><span class="line"><span class="cl">cosign sign-blob --key cosign.key registry-1.docker.io/caretak3r/cosign-helm-signing@sha256:3ad510ae4d611ceb4871a061ee8a8775de78c56861a8130fef8481d5bd498e66
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cosign sign --key cosign.key index.docker.io/caretak3r/cosign-helm-signing@sha256:3ad510ae4d611ceb4871a061ee8a8775de78c56861a8130fef8481d5bd498e66
+</span></span></code></pre></div><p>Output for signing the blob looks like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">Using payload from: cosign-helm-signing-0.1.0.tgz
+</span></span><span class="line"><span class="cl">Enter password for private key: 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	The sigstore service, hosted by sigstore a Series of LF Projects, LLC, is provided pursuant to the Hosted Project Tools Terms of Use, available at https://lfprojects.org/policies/hosted-project-tools-terms-of-use/.
+</span></span><span class="line"><span class="cl">	Note that if your submission includes personal data associated with this signed artifact, it will be part of an immutable record.
+</span></span><span class="line"><span class="cl">	This may include the email address associated with the account with which you authenticate your contractual Agreement.
+</span></span><span class="line"><span class="cl">	This information will be used for signing this artifact and will be stored in public transparency logs and cannot be removed later, and is subject to the Immutable Record notice at https://lfprojects.org/policies/hosted-project-tools-immutable-records/.
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">By typing &#39;y&#39;, you attest that (1) you are not submitting the personal data of any other person; and (2) you understand and agree to the statement and the Agreement terms at the URLs listed above.
+</span></span><span class="line"><span class="cl">Are you sure you would like to continue? [y/N] y
+</span></span><span class="line"><span class="cl">tlog entry created with index: 212146706
+</span></span><span class="line"><span class="cl">Wrote bundle to file cosign-helm-signing-0.1.0.tgz.sig
+</span></span><span class="line"><span class="cl">MEUCIAxIQLIamELH60mAbXjayD+AQB4CLD3nbqu5EYIrD7C7AiEA3WMjgdC3/AcPyTA76jLXuy7ADD6L+mIP/wCebD46HDM=
+</span></span></code></pre></div><p><img src="../../images/2025-05-13-10-30-50.png" alt=""></p>
+<p>The <code>--bundle</code> flag creates a signature bundle that includes the signature and the certificate.</p>
+<h2 id="step-3-verifying-signatures">Step 3: Verifying Signatures</h2>
+<h3 id="verifying-docker-image">Verifying Docker Image</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Verify the Docker image signature</span>
+</span></span><span class="line"><span class="cl">cosign verify --key cosign.pub caretak3r/nginx@sha256:56874d0ec4c0c6a4a3d960bdbeda30c4ac03ef4673e7b560968293c2a04094ef
+</span></span></code></pre></div><p>Output for verification would look like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-plaintext" data-lang="plaintext"><span class="line"><span class="cl">Verification for index.docker.io/caretak3r/nginx@sha256:56874d0ec4c0c6a4a3d960bdbeda30c4ac03ef4673e7b560968293c2a04094ef --
+</span></span><span class="line"><span class="cl">The following checks were performed on each of these signatures:
+</span></span><span class="line"><span class="cl">  - The cosign claims were validated
+</span></span><span class="line"><span class="cl">  - Existence of the claims in the transparency log was verified offline
+</span></span><span class="line"><span class="cl">  - The signatures were verified against the specified public key
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span><span class="nt">&#34;critical&#34;</span><span class="p">:{</span><span class="nt">&#34;identity&#34;</span><span class="p">:{</span><span class="nt">&#34;docker-reference&#34;</span><span class="p">:</span><span class="s2">&#34;index.docker.io/caretak3r/nginx&#34;</span><span class="p">},</span><span class="nt">&#34;image&#34;</span><span class="p">:{</span><span class="nt">&#34;docker-manifest-digest&#34;</span><span class="p">:</span><span class="s2">&#34;sha256:56874d0ec4c0c6a4a3d960bdbeda30c4ac03ef4673e7b560968293c2a04094ef&#34;</span><span class="p">},</span><span class="nt">&#34;type&#34;</span><span class="p">:</span><span class="s2">&#34;cosign container image signature&#34;</span><span class="p">},</span><span class="nt">&#34;optional&#34;</span><span class="p">:{</span><span class="nt">&#34;Bundle&#34;</span><span class="p">:{</span><span class="nt">&#34;SignedEntryTimestamp&#34;</span><span class="p">:</span><span class="s2">&#34;MEUCICehS5j2kqeP0a6bnPjDm4iyCZky21JCXN3tOekhxF1SAiEAmwP3HLRtv9KO1V2ZBcyLFYoi6UvKqmFkPnYnKFlxr/0=&#34;</span><span class="p">,</span><span class="nt">&#34;Payload&#34;</span><span class="p">:{</span><span class="nt">&#34;body&#34;</span><span class="p">:</span><span class="s2">&#34;eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiJmMWQyOWY4NzRkMjM3ZjVmODIyMThkZDJhZWQxMTQwMmMwMTA3OTQyYTdiNDBjMTRkNjY3MGYyNTI0MjhmYmZkIn19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FVUNJUUNQVE51Mlc2UmNXVWtYWXRrVlJTWlFRZElmQTBiRStVY09xU3c2V2JZNlp3SWdBcmRXbm9wN2pueTVIcElhRVV6cmR6VnNLQ00yNTU0SmFMS0RzL0lwaWhBPSIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCUVZVSk1TVU1nUzBWWkxTMHRMUzBLVFVacmQwVjNXVWhMYjFwSmVtb3dRMEZSV1VsTGIxcEplbW93UkVGUlkwUlJaMEZGSzJaR05qVXJhbEJoWW1GdFZGbE1iVFkxYUM4M2FUbHZabmRXZEFveE9FZFBPWGQzZFU1RFVtY3ZSa2xoT0hWdGJtUkxNbU4zVFdsWE0zZDZjWFJSWVhCU1IzWXhOVEVyTm5reEwwY3hZV2hKU1dseVpqZEJQVDBLTFMwdExTMUZUa1FnVUZWQ1RFbERJRXRGV1MwdExTMHRDZz09In19fX0=&#34;</span><span class="p">,</span><span class="nt">&#34;integratedTime&#34;</span><span class="p">:</span><span class="mi">1747134374</span><span class="p">,</span><span class="nt">&#34;logIndex&#34;</span><span class="p">:</span><span class="mi">212124369</span><span class="p">,</span><span class="nt">&#34;logID&#34;</span><span class="p">:</span><span class="s2">&#34;c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d&#34;</span><span class="p">}}}}</span>
+</span></span></code></pre></div><h3 id="verifying-helm-chart">Verifying Helm Chart</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Verify the Helm chart signature</span>
+</span></span><span class="line"><span class="cl">cosign verify-blob --signature cosign-helm-signing-0.1.0.tgz.sig cosign-helm-signing-0.1.0.tgz
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">❯ cosign verify --key cosign.pub index.docker.io/caretak3r/cosign-helm-signing@sha256:3ad510ae4d611ceb4871a061ee8a8775de78c56861a8130fef8481d5bd498e66
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Verification <span class="k">for</span> index.docker.io/caretak3r/cosign-helm-signing@sha256:3ad510ae4d611ceb4871a061ee8a8775de78c56861a8130fef8481d5bd498e66 --
+</span></span><span class="line"><span class="cl">The following checks were performed on each of these signatures:
+</span></span><span class="line"><span class="cl">  - The cosign claims were validated
+</span></span><span class="line"><span class="cl">  - Existence of the claims in the transparency log was verified offline
+</span></span><span class="line"><span class="cl">  - The signatures were verified against the specified public key
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[{</span><span class="s2">&#34;critical&#34;</span>:<span class="o">{</span><span class="s2">&#34;identity&#34;</span>:<span class="o">{</span><span class="s2">&#34;docker-reference&#34;</span>:<span class="s2">&#34;index.docker.io/caretak3r/cosign-helm-signing&#34;</span><span class="o">}</span>,<span class="s2">&#34;image&#34;</span>:<span class="o">{</span><span class="s2">&#34;docker-manifest-digest&#34;</span>:<span class="s2">&#34;sha256:3ad510ae4d611ceb4871a061ee8a8775de78c56861a8130fef8481d5bd498e66&#34;</span><span class="o">}</span>,<span class="s2">&#34;type&#34;</span>:<span class="s2">&#34;cosign container image signature&#34;</span><span class="o">}</span>,<span class="s2">&#34;optional&#34;</span>:<span class="o">{</span><span class="s2">&#34;Bundle&#34;</span>:<span class="o">{</span><span class="s2">&#34;SignedEntryTimestamp&#34;</span>:<span class="s2">&#34;MEQCIG/DGJ+N61Q95jU94Qy9oTYAFJRZBWBybRxXraNP5RIrAiBjgyGKYSBxVQf04f6pxblc/j4yv+2/pV5bkB74BVDQqw==&#34;</span>,<span class="s2">&#34;Payload&#34;</span>:<span class="o">{</span><span class="s2">&#34;body&#34;</span>:<span class="s2">&#34;eyJhcGlWZXJzaW9uIjoiMC4wLjEiLCJraW5kIjoiaGFzaGVkcmVrb3JkIiwic3BlYyI6eyJkYXRhIjp7Imhhc2giOnsiYWxnb3JpdGhtIjoic2hhMjU2IiwidmFsdWUiOiIyZDEwYTljNWRiM2JjYjhkMzQ2YjRkYzdiMjE4MmY1Zjk3YjU0ODhmZDY4YmQyZTYwODZhOThlYjUyZGNlYjFkIn19LCJzaWduYXR1cmUiOnsiY29udGVudCI6Ik1FUUNJSHd5Q0UrU0dYdFd4d2dqOXQ3THdyWHhWV3hrVHNPMjZVWUIvMUVud3RnVkFpQnYyNnN5OWdJWW5MdWZiVWtaamM3NkFqYzFsVlFKbG9WclMrWDNlenBpY0E9PSIsInB1YmxpY0tleSI6eyJjb250ZW50IjoiTFMwdExTMUNSVWRKVGlCUVZVSk1TVU1nUzBWWkxTMHRMUzBLVFVacmQwVjNXVWhMYjFwSmVtb3dRMEZSV1VsTGIxcEplbW93UkVGUlkwUlJaMEZGSzJaR05qVXJhbEJoWW1GdFZGbE1iVFkxYUM4M2FUbHZabmRXZEFveE9FZFBPWGQzZFU1RFVtY3ZSa2xoT0hWdGJtUkxNbU4zVFdsWE0zZDZjWFJSWVhCU1IzWXhOVEVyTm5reEwwY3hZV2hKU1dseVpqZEJQVDBLTFMwdExTMUZUa1FnVUZWQ1RFbERJRXRGV1MwdExTMHRDZz09In19fX0=&#34;</span>,<span class="s2">&#34;integratedTime&#34;</span>:1747146574,<span class="s2">&#34;logIndex&#34;</span>:212210349,<span class="s2">&#34;logID&#34;</span>:<span class="s2">&#34;c0d23d6ad406973f9559f3ba2d1ca01f84147d8ffc5b8445c224f98b9591801d&#34;</span><span class="o">}}}}]</span>
+</span></span></code></pre></div><h2 id="step-4-using-signed-helm-charts">Step 4: Using Signed Helm Charts</h2>
+<p>To use a signed Helm chart, you can add the signature verification to your Helm installation:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Install the chart with signature verification</span>
+</span></span><span class="line"><span class="cl">helm install my-release cosign-helm-signing-0.1.0.tgz --verify --signature cosign-helm-signing-0.1.0.tgz.sig
+</span></span></code></pre></div><h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>Automate the Process</strong>: Integrate signing into your CI/CD pipeline</li>
+<li><strong>Use Keyless Signing</strong>: Leverage OIDC for authentication instead of managing private keys</li>
+<li><strong>Verify Signatures</strong>: Always verify signatures before deploying</li>
+<li><strong>Document Your Process</strong>: Keep track of your signing process and requirements</li>
+<li><strong>Regular Updates</strong>: Keep Cosign and other tools updated to the latest versions</li>
+</ol>
+<h2 id="additional-tips">Additional Tips</h2>
+<ul>
+<li>You can use Cosign&rsquo;s key management features if you prefer traditional key-based signing</li>
+<li>Consider using <a href="https://docs.sigstore.dev/rekor/overview/" target="_blank">Rekor</a> for transparency logs</li>
+<li>For production environments, consider implementing a more robust key management strategy</li>
+<li>Use <a href="https://docs.sigstore.dev/fulcio/overview/" target="_blank">Fulcio</a> for certificate management</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>This is a good step for a single user or process to sign and verify artifacts, but I don&rsquo;t talk about how this process would work in a <strong>larger</strong> ecosystem (next post). For pipelining work, in the next post, I will talk about emphemeral keypairs, environment-specific keys, and multi-step key-signing with application teams and platform/distribution teams.</p>
+<p>Signing your Helm charts and Docker images with Cosign provides an additional layer of security to your supply chain. It helps ensure the integrity and authenticity of your artifacts, making it harder for malicious actors to inject compromised code into your deployments.</p>
+<p>Remember that signing is just one part of a comprehensive supply chain security strategy. Combine it with other security measures like vulnerability scanning, access control, and regular updates for the best results.</p>
+
+</div>
+
+<hr>
+<div class="footer">
+    
+	    
+            <a class="previous-post" href="http://localhost:62955/posts/helm-misconfiguration-detection/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>Helm Misconfiguration Detection</a>
+        
+	    
+            <div class="next-post">
+                <a href="http://localhost:62955/posts/how-does-helm-work/?ref=footer"><span style="font-weight:bold;">Next »</span><br>How Does Helm Work? (Diagram)</a>
+            </div>
+        
+    
+</div>
+
+
+
+</div>
+            </main>
+            
+        </div>
+    </body>
+</html>

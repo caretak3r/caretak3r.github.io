@@ -82,6 +82,33 @@ iframe {
 
 /* Use !important to ensure these rules override any theme-specific font declarations */
 
+/* Full width layout for blog posts */
+.full-width-post {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* Make the content container take full available width on blog posts */
+@media (min-width: 48em) {
+  .full-width-post {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+  }
+  
+  /* Target the main content container for blog posts */
+  .content.container {
+    max-width: none !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* Override any container width limitations */
+.post-content, .content {
+  max-width: none !important;
+}
+
 /* Improve code block presentation */
 .highlight pre, /* Target Chroma's container */
 pre {             /* General fallback */
@@ -90,6 +117,61 @@ pre {             /* General fallback */
   white-space: pre !important;  /* Preserve whitespace and prevent wrapping */
   max-width: 100% !important;   /* Ensure code blocks don't exceed their container */
   border-radius: 4px !important; /* Rounded corners for better aesthetics */
+}
+
+/* Ensure mermaid diagrams can expand with the content */
+.mermaid {
+  width: 100% !important;
+  overflow-x: auto !important;
+  text-align: center !important;
+  max-width: none !important;
+}
+
+/* Fix for mermaid diagrams specifically */
+.post .mermaid svg {
+  max-width: none !important;
+  width: auto !important;
+  min-width: 100% !important;
+  display: block !important;
+}
+
+/* Special handling for mermaid container and wrapper */
+.mermaid-container {
+  width: 100% !important;
+  max-width: none !important;
+  overflow: hidden !important;
+  position: relative !important;
+  margin: 1.5rem 0 !important;
+}
+
+/* Ensure the mermaid container can use maximum width */
+.post .mermaid-container {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.mermaid-wrapper {
+  width: 100% !important;
+  max-width: none !important;
+  overflow-x: auto !important;
+  margin: 2rem 0 !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Post content is the direct container of content in posts */
+.post-content {
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Ensure images scale properly and maintain aspect ratio */
+.post img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 0 auto !important;
 }
 
 /* Add a slight shadow to code blocks for better visual separation */

@@ -1,0 +1,65 @@
+{{ $gistId := .Get 0 }}
+{{ $username := .Get 1 | default "caretak3r" }}
+
+<div class="mermaid-gist-container" data-gist-id="{{ $gistId }}">
+  <script src="https://gist.github.com/{{ $username }}/{{ $gistId }}.js"></script>
+  <div id="mermaid-diagram-{{ $gistId }}" class="mermaid-diagram"></div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Wait for the gist to load
+    var checkExist = setInterval(function() {
+      const gistContainer = document.querySelector('[data-gist-id="{{ $gistId }}"]');
+      if (gistContainer && gistContainer.querySelector('.gist-file')) {
+        clearInterval(checkExist);
+        
+        try {
+          // Get Mermaid content from the gist
+          const lineContainer = gistContainer.querySelector('.gist-file .js-file-line-container');
+          if (!lineContainer) {
+            console.error('Could not find line container in Gist');
+            return;
+          }
+          
+          const gistContent = lineContainer.innerText;
+          
+          // Create a mermaid div and render the diagram
+          const diagramContainer = document.getElementById('mermaid-diagram-{{ $gistId }}');
+          diagramContainer.className = 'mermaid';
+          diagramContainer.textContent = gistContent;
+          
+          // Initialize mermaid
+          if (typeof mermaid !== 'undefined') {
+            mermaid.init(undefined, diagramContainer);
+          } else {
+            console.error('Mermaid library not loaded');
+          }
+        } catch (error) {
+          console.error('Error processing mermaid gist:', error);
+        }
+      }
+    }, 300);
+    
+    // Add a timeout to prevent infinite waiting
+    setTimeout(function() {
+      clearInterval(checkExist);
+      console.log('Timeout reached while waiting for Gist to load');
+    }, 10000);
+  });
+</script>
+
+<style>
+  /* Hide the original gist display but keep it in DOM for content extraction */
+  .mermaid-gist-container .gist {
+    position: absolute;
+    left: -9999px;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+  
+  .mermaid-diagram {
+    margin: 20px 0;
+  }
+</style>

@@ -3,17 +3,26 @@ languageCode = 'en-us'
 title = 'silent.engineer'
 theme = "poison"
 
-# Allow raw HTML in markdown files (needed for iframes)
-[markup.goldmark.renderer]
-  unsafe = true
-
-# Configure syntax highlighting
-[markup.highlight]
-  codeFences = true      # Enables code fences like ```yaml
-  guessSyntax = true     # Tries to guess the language when not specified
-  noClasses = false      # Use classes for styling instead of inline styles
-  style = "monokai"      # Theme matching your current background color
-  # lineNos = true       # Uncomment if you want line numbers
+# Configure Mermaid diagram rendering and allow raw HTML
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+  
+  [markup.goldmark.parser.attribute]
+    block = true
+    title = true
+  
+  [markup.highlight]
+    codeFences = true      # Enables code fences like ```yaml
+    guessSyntax = true     # Tries to guess the language when not specified
+    noClasses = false      # Use classes for styling instead of inline styles
+    style = "monokai"      # Theme matching your current background color
+    # lineNos = true       # Uncomment if you want line numbers
+  
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2
 
 # Ignore HTML warnings 
 ignoreLogs = ['warning-goldmark-raw-html']

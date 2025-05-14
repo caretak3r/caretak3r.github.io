@@ -1,0 +1,110 @@
+%%{
+  init: {
+    'theme': 'forest',
+    'themeVariables': {
+      'primaryColor': '#BB2528',
+      'primaryTextColor': '#fff',
+      'primaryBorderColor': '#7C0000',
+      'lineColor': '#F8B229',
+      'secondaryColor': '#006100',
+      'tertiaryColor': '#fff',
+      'darkMode': true,
+      'background': '#f4f4f4'
+    }
+  }
+}%%
+graph LR
+    subgraph UserInput
+        direction LR
+        UserInputValues["User-provided Values (CLI --set, --values files)"]
+    end
+
+    subgraph HelmChartPackage["Helm Chart (Package)"]
+        direction LR
+        ChartYaml["Chart.yaml (Metadata: name, version, apiVersion, appVersion, dependencies)"]
+        ValuesYaml["values.yaml (Default Configuration Values)"]
+        TemplatesDir["templates/ Directory"]
+        ChartsDir["charts/ (Subcharts/Dependencies)"]
+        HelmIgnore[".helmignore (Files to ignore)"]
+
+        subgraph TemplatesDirContent["templates/ Content"]
+            direction LR
+            HelpersTpl["_helpers.tpl (Reusable template snippets)"]
+            ResourceTemplates["Resource Templates (e.g., deployment.yaml, service.yaml, ingress.yaml)"]
+            NotesTxt["NOTES.txt (Post-install instructions template)"]
+            TestDir["tests/ (Test definition files for 'helm test')"]
+        end
+        TemplatesDir --> HelpersTpl
+        TemplatesDir --> ResourceTemplates
+        TemplatesDir --> NotesTxt
+        TemplatesDir --> TestDir
+    end
+
+    subgraph HelmClientCLI["Helm Client (CLI)"]
+        direction TB
+        HelmInstallCmd["helm install <release> <chart>"]
+        HelmTemplateCmd["helm template <release> <chart>"]
+        HelmUpgradeCmd["helm upgrade <release> <chart>"]
+        HelmLintCmd["helm lint <chart>"]
+        HelmPackageCmd["helm package <path>"]
+    end
+
+    subgraph HelmInternals ["Helm Internals (Library/Engine)"]
+        direction TB
+        TemplatingEngine["Templating Engine (Go Templating)"]
+        ValueProcessor["Value Processor (Merges default, user, & built-in values)"]
+        ReleaseTracker["Release Tracker (Manages release history)"]
+        K8sAPIClient["Kubernetes API Client"]
+    end
+
+    subgraph RenderingProcess ["Rendering Process"]
+        direction TB
+        RenderedManifests["Rendered Kubernetes Manifests (YAML)"]
+    end
+
+    subgraph KubernetesCluster ["Kubernetes Cluster (API Server)"]
+        direction TB
+        APIServer["K8s API Server"]
+        DeployedResources["Deployed Resources (Pods, Services, Deployments, etc.)"]
+        ReleaseObject["Helm Release Object (Stored in K8s - e.g., as a Secret)"]
+    end
+
+    %% Data Flow & Process
+    UserInputValues -- "Overrides" --> ValueProcessor
+    ValuesYaml -- "Provides defaults" --> ValueProcessor
+    ChartYaml -- "Provides chart info (e.g., .Chart)" --> TemplatingEngine
+    TemplatesDir -- "Provides templates" --> TemplatingEngine
+    HelpersTpl -- "Used by" --> ResourceTemplates
+    ChartsDir -- "Processed for dependencies" --> TemplatingEngine
+    ValueProcessor -- "Aggregated Values (.Values, .Release, .Chart, etc.)" --> TemplatingEngine
+    TemplatingEngine -- "Generates" --> RenderedManifests
+
+    HelmInstallCmd -- "Initiates" --> ValueProcessor
+    HelmInstallCmd -- "Initiates" --> TemplatingEngine
+    HelmInstallCmd -- "Sends to" --> K8sAPIClient
+    K8sAPIClient -- "Applies" --> APIServer
+    APIServer -- "Creates/Updates" --> DeployedResources
+    APIServer -- "Stores/Updates" --> ReleaseObject
+    ReleaseTracker -- "Interacts with" --> ReleaseObject
+
+    HelmTemplateCmd -- "Initiates" --> ValueProcessor
+    HelmTemplateCmd -- "Initiates" --> TemplatingEngine
+    TemplatingEngine -- "Outputs for review" --> User/Terminal
+
+    HelmUpgradeCmd -- "Works similarly to install, but for existing release" --> ValueProcessor
+    HelmUpgradeCmd -- "Works similarly to install, but for existing release" --> TemplatingEngine
+    HelmUpgradeCmd -- "Sends to" --> K8sAPIClient
+
+    HelmLintCmd -- "Validates" --> HelmChartPackage
+    HelmPackageCmd -- "Archives" --> HelmChartPackage
+
+    %% Styling (Optional, for clarity if needed)
+    classDef chartComponent fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef processStep fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef k8sComponent fill:#dfd,stroke:#333,stroke-width:2px;
+    classDef helmInternal fill:#ffd,stroke:#333,stroke-width:2px;
+
+    class ChartYaml,ValuesYaml,TemplatesDir,ChartsDir,HelmIgnore,TemplatesDirContent chartComponent;
+    class TemplatingEngine,ValueProcessor,RenderedManifests,ReleaseTracker,K8sAPIClient processStep;
+    class APIServer,DeployedResources,ReleaseObject k8sComponent;
+    class HelmClientCLI,HelmInternals helmInternal;

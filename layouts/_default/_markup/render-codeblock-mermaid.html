@@ -1,0 +1,86 @@
+<div class="mermaid-container">
+  <div class="mermaid-wrapper">
+    <div class="mermaid">
+      {{- .Inner | safeHTML }}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof mermaid !== 'undefined') {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'dark',
+        flowchart: {
+          useMaxWidth: false,
+          htmlLabels: true
+        },
+        er: {
+          useMaxWidth: false
+        },
+        sequence: {
+          useMaxWidth: false
+        },
+        gantt: {
+          useMaxWidth: false
+        },
+        pie: {
+          useMaxWidth: false
+        },
+        class: {
+          useMaxWidth: false
+        }
+      });
+      
+      // Ensure SVGs are properly sized after rendering
+      mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      
+      setTimeout(function() {
+        document.querySelectorAll('.mermaid svg').forEach(function(svg) {
+          svg.style.maxWidth = 'none';
+          svg.style.width = '100%';
+          svg.style.minWidth = '800px';
+        });
+      }, 500);
+    } else {
+      console.error('Mermaid library not loaded!');
+      // Fallback to load mermaid if it's not already loaded
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js';
+      script.onload = function() {
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: 'dark'
+        });
+        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+</script>
+
+<style>
+  .mermaid-wrapper {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #282a36;
+    border-radius: 5px;
+    overflow-x: auto;
+    width: 100%;
+  }
+  
+  .mermaid {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 16px;
+    overflow: visible;
+    display: inline-block;
+    min-width: 100%;
+  }
+
+  .mermaid svg {
+    min-width: 100%;
+    max-width: none !important;
+    height: auto;
+  }
+</style>

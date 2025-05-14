@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=8080&amp;path=livereload" data-no-instant defer></script>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     
 
 
@@ -25,6 +25,15 @@
 
 
 
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof mermaid !== 'undefined') {
+            mermaid.initialize({ startOnLoad: true });
+        }
+    });
+</script>
 
 
     
@@ -70,17 +79,17 @@
 <meta name="twitter:description" content="" />
 
 
-<base href="http://localhost:8080/posts/helm-object-ordering/" />
-<link rel="canonical" href="http://localhost:8080/posts/helm-object-ordering/" itemprop="url" />
-<meta name="url" content="http://localhost:8080/posts/helm-object-ordering/" />
-<meta name="twitter:url" content="http://localhost:8080/posts/helm-object-ordering/" />
-<meta property="og:url" content="http://localhost:8080/posts/helm-object-ordering/" />
+<base href="http://localhost:1313/posts/helm-object-ordering/" />
+<link rel="canonical" href="http://localhost:1313/posts/helm-object-ordering/" itemprop="url" />
+<meta name="url" content="http://localhost:1313/posts/helm-object-ordering/" />
+<meta name="twitter:url" content="http://localhost:1313/posts/helm-object-ordering/" />
+<meta property="og:url" content="http://localhost:1313/posts/helm-object-ordering/" />
 
 
 <meta property="og:updated_time" content="2025-03-21T07:22:00-04:00" />
 
 
-<link rel="sitemap" type="application/xml" title="Sitemap" href='http://localhost:8080/sitemap.xml' />
+<link rel="sitemap" type="application/xml" title="Sitemap" href='http://localhost:1313/sitemap.xml' />
 
 <meta name="robots" content="index,follow" />
 <meta name="googlebot" content="index,follow" />
@@ -109,7 +118,7 @@
     
     
 
-<link type="text/css" rel="stylesheet" href="/css/bundle.min.29bdb96a9d2f706466665cea40be3187d521afa948b01a7a8b424016abe4881f.css">
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.fe07810b1589e468a1cbe091f7fa7e6ac024c204eb48f15f23b613bd550da626.css">
 
 
     
@@ -176,7 +185,7 @@
     <h1 class="brand">
         
         
-            <a href="http://localhost:8080/">
+            <a href="http://localhost:1313/">
                 <h1>rohit gudi</h1>
             </a>
         
@@ -293,10 +302,10 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
 </aside>
 
             <main class="content container">
-                <div class="post">
+                <div class="post full-width-post">
   <div class="info">
   <h1 class="post-title">
-    <a href="http://localhost:8080/posts/helm-object-ordering/">Helm Object Ordering</a>
+    <a href="http://localhost:1313/posts/helm-object-ordering/">Helm Object Ordering</a>
   </h1>
 
   <div class="headline">
@@ -321,15 +330,15 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <ul class="tags">
       
       <li class="tag-helm">
-        <a href="http://localhost:8080/tags/helm">helm</a>
+        <a href="http://localhost:1313/tags/helm">helm</a>
       </li>
       
       <li class="tag-kubernetes">
-        <a href="http://localhost:8080/tags/kubernetes">kubernetes</a>
+        <a href="http://localhost:1313/tags/kubernetes">kubernetes</a>
       </li>
       
       <li class="tag-pitfalls">
-        <a href="http://localhost:8080/tags/pitfalls">pitfalls</a>
+        <a href="http://localhost:1313/tags/pitfalls">pitfalls</a>
       </li>
       
     </ul>
@@ -342,6 +351,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
   
 </div>
 
+<div class="post-content">
   <p>Sometimes I forget that Helm just manages templates on top of Kubernetes. There are also &ldquo;pitfalls&rdquo; I used to run into.</p>
 <p>When Helm installs or upgrades charts, the Kubernetes objects from the charts and/or dependencies are:</p>
 <ul>
@@ -388,35 +398,27 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
 <p>So we cannot install objects in a &ldquo;deterministic order.&rdquo; This extends into Helm dependencies clause, which can be packaged &ldquo;alongside&rdquo; your main application chart.</p>
 <p>But this normally fails with more complex setups, where your application needs certain actions to be completed before certain Helm charts are installed.</p>
 
-  
-  <hr>
+</div>
+
+<hr>
 <div class="footer">
     
 	    
-            <a class="previous-post" href="http://localhost:8080/posts/robotics/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>Robotic Revolution?</a>
+            <a class="previous-post" href="http://localhost:1313/posts/robotics/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>Robotic Revolution?</a>
         
 	    
             <div class="next-post">
-                <a href="http://localhost:8080/posts/helm-misconfiguration-detection/?ref=footer"><span style="font-weight:bold;">Next »</span><br>Helm Misconfiguration Detection</a>
+                <a href="http://localhost:1313/posts/helm-misconfiguration-detection/?ref=footer"><span style="font-weight:bold;">Next »</span><br>Helm Misconfiguration Detection</a>
             </div>
         
     
 </div>
 
-  
+
+
 </div>
             </main>
             
-  
-    <div class="article-toc ">
-    <div class="toc-wrapper">
-      <h4 id="contents"></h4>
-      <nav id="TableOfContents"></nav>
-    </div>
-</div>
-
-  
-
         </div>
     </body>
 </html>

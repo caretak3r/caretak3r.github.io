@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=8080&amp;path=livereload" data-no-instant defer></script>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=62955&amp;path=livereload" data-no-instant defer></script>
     
 
 
@@ -25,6 +25,15 @@
 
 
 
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof mermaid !== 'undefined') {
+            mermaid.initialize({ startOnLoad: true });
+        }
+    });
+</script>
 
 
     
@@ -70,17 +79,17 @@
 <meta name="twitter:description" content="" />
 
 
-<base href="http://localhost:8080/posts/helm-misconfiguration-detection/" />
-<link rel="canonical" href="http://localhost:8080/posts/helm-misconfiguration-detection/" itemprop="url" />
-<meta name="url" content="http://localhost:8080/posts/helm-misconfiguration-detection/" />
-<meta name="twitter:url" content="http://localhost:8080/posts/helm-misconfiguration-detection/" />
-<meta property="og:url" content="http://localhost:8080/posts/helm-misconfiguration-detection/" />
+<base href="http://localhost:62955/posts/helm-misconfiguration-detection/" />
+<link rel="canonical" href="http://localhost:62955/posts/helm-misconfiguration-detection/" itemprop="url" />
+<meta name="url" content="http://localhost:62955/posts/helm-misconfiguration-detection/" />
+<meta name="twitter:url" content="http://localhost:62955/posts/helm-misconfiguration-detection/" />
+<meta property="og:url" content="http://localhost:62955/posts/helm-misconfiguration-detection/" />
 
 
 <meta property="og:updated_time" content="2025-03-26T16:45:00-04:00" />
 
 
-<link rel="sitemap" type="application/xml" title="Sitemap" href='http://localhost:8080/sitemap.xml' />
+<link rel="sitemap" type="application/xml" title="Sitemap" href='http://localhost:62955/sitemap.xml' />
 
 <meta name="robots" content="index,follow" />
 <meta name="googlebot" content="index,follow" />
@@ -109,7 +118,7 @@
     
     
 
-<link type="text/css" rel="stylesheet" href="/css/bundle.min.29bdb96a9d2f706466665cea40be3187d521afa948b01a7a8b424016abe4881f.css">
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.fe07810b1589e468a1cbe091f7fa7e6ac024c204eb48f15f23b613bd550da626.css">
 
 
     
@@ -176,7 +185,7 @@
     <h1 class="brand">
         
         
-            <a href="http://localhost:8080/">
+            <a href="http://localhost:62955/">
                 <h1>rohit gudi</h1>
             </a>
         
@@ -293,10 +302,10 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
 </aside>
 
             <main class="content container">
-                <div class="post">
+                <div class="post full-width-post">
   <div class="info">
   <h1 class="post-title">
-    <a href="http://localhost:8080/posts/helm-misconfiguration-detection/">Helm Misconfiguration Detection</a>
+    <a href="http://localhost:62955/posts/helm-misconfiguration-detection/">Helm Misconfiguration Detection</a>
   </h1>
 
   <div class="headline">
@@ -321,23 +330,23 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <ul class="tags">
       
       <li class="tag-helm">
-        <a href="http://localhost:8080/tags/helm">helm</a>
+        <a href="http://localhost:62955/tags/helm">helm</a>
       </li>
       
       <li class="tag-kubernetes">
-        <a href="http://localhost:8080/tags/kubernetes">kubernetes</a>
+        <a href="http://localhost:62955/tags/kubernetes">kubernetes</a>
       </li>
       
       <li class="tag-pitfalls">
-        <a href="http://localhost:8080/tags/pitfalls">pitfalls</a>
+        <a href="http://localhost:62955/tags/pitfalls">pitfalls</a>
       </li>
       
       <li class="tag-misconfigurations">
-        <a href="http://localhost:8080/tags/misconfigurations">misconfigurations</a>
+        <a href="http://localhost:62955/tags/misconfigurations">misconfigurations</a>
       </li>
       
       <li class="tag-llm">
-        <a href="http://localhost:8080/tags/llm">llm</a>
+        <a href="http://localhost:62955/tags/llm">llm</a>
       </li>
       
     </ul>
@@ -350,6 +359,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
   
 </div>
 
+<div class="post-content">
   <h2 id="securing-your-kubernetes-deployments-understanding-helm-misconfigurations-and-the-power-of-scanning">Securing Your Kubernetes Deployments: Understanding Helm Misconfigurations and the Power of Scanning</h2>
 <p>Helm has become the de-facto package manager for Kubernetes, simplifying the way we define, install, and upgrade even the most complex applications. With its templating engine and chart repositories like Artifact Hub, deploying applications is easier than ever. However, this convenience can sometimes lead to security oversights in the form of misconfigurations.</p>
 <p>Recent research, such as the paper &ldquo;Analyzing and Mitigating (with LLMs) the Security Misconfigurations of Helm Charts from Artifact Hub,&rdquo; highlights the prevalence of these issues and explores innovative ways to address them. Let&rsquo;s dive into what these misconfigurations are, how scanning tools can help, and the emerging role of Large Language Models (LLMs) in securing our Helm charts.</p>
@@ -527,38 +537,27 @@ Let&rsquo;s use our previous example of missing resource limits.</p>
 <li><a href="https://validkube.com/" target="_blank">https://validkube.com/</a></li>
 </ul>
 
-  
-  <hr>
+</div>
+
+<hr>
 <div class="footer">
     
 	    
-            <a class="previous-post" href="http://localhost:8080/posts/helm-object-ordering/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>Helm Object Ordering</a>
+            <a class="previous-post" href="http://localhost:62955/posts/helm-object-ordering/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>Helm Object Ordering</a>
         
 	    
+            <div class="next-post">
+                <a href="http://localhost:62955/posts/cosign-helm-chart/?ref=footer"><span style="font-weight:bold;">Next »</span><br>Signing Helm Charts with Cosign</a>
+            </div>
+        
     
 </div>
 
-  
+
+
 </div>
             </main>
             
-  
-    <div class="article-toc ">
-    <div class="toc-wrapper">
-      <h4 id="contents"></h4>
-      <nav id="TableOfContents">
-  <ul>
-    <li><a href="#securing-your-kubernetes-deployments-understanding-helm-misconfigurations-and-the-power-of-scanning">Securing Your Kubernetes Deployments: Understanding Helm Misconfigurations and the Power of Scanning</a></li>
-    <li><a href="#what-are-helm-chart-misconfigurations">What Are Helm Chart Misconfigurations?</a></li>
-    <li><a href="#best-practices-for-secure-helm-chart-management">Best Practices for Secure Helm Chart Management</a></li>
-    <li><a href="#conclusion">Conclusion</a></li>
-  </ul>
-</nav>
-    </div>
-</div>
-
-  
-
         </div>
     </body>
 </html>

@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Misconfigurations on silent.engineer</title>
-    <link>http://localhost:1313/tags/misconfigurations/</link>
+    <link>http://localhost:62955/tags/misconfigurations/</link>
     <description>Recent content in Misconfigurations on silent.engineer</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 26 Mar 2025 16:45:00 -0400</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/misconfigurations/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:62955/tags/misconfigurations/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Helm Misconfiguration Detection</title>
-      <link>http://localhost:1313/posts/helm-misconfiguration-detection/</link>
+      <link>http://localhost:62955/posts/helm-misconfiguration-detection/</link>
       <pubDate>Wed, 26 Mar 2025 16:45:00 -0400</pubDate>
-      <guid>http://localhost:1313/posts/helm-misconfiguration-detection/</guid>
-      <description>&lt;h1 id=&#34;securing-your-kubernetes-deployments-understanding-helm-misconfigurations-and-the-power-of-scanning&#34;&gt;Securing Your Kubernetes Deployments: Understanding Helm Misconfigurations and the Power of Scanning&lt;/h1&gt;&#xA;&lt;p&gt;Helm has become the de-facto package manager for Kubernetes, simplifying the way we define, install, and upgrade even the most complex applications. With its templating engine and chart repositories like Artifact Hub, deploying applications is easier than ever. However, this convenience can sometimes lead to security oversights in the form of misconfigurations.&lt;/p&gt;&#xA;&lt;p&gt;Recent research, such as the paper &amp;ldquo;Analyzing and Mitigating (with LLMs) the Security Misconfigurations of Helm Charts from Artifact Hub,&amp;rdquo; highlights the prevalence of these issues and explores innovative ways to address them. Let&amp;rsquo;s dive into what these misconfigurations are, how scanning tools can help, and the emerging role of Large Language Models (LLMs) in securing our Helm charts.&lt;/p&gt;</description>
+      <guid>http://localhost:62955/posts/helm-misconfiguration-detection/</guid>
+      <description>&lt;h2 id=&#34;securing-your-kubernetes-deployments-understanding-helm-misconfigurations-and-the-power-of-scanning&#34;&gt;Securing Your Kubernetes Deployments: Understanding Helm Misconfigurations and the Power of Scanning&lt;/h2&gt;&#xA;&lt;p&gt;Helm has become the de-facto package manager for Kubernetes, simplifying the way we define, install, and upgrade even the most complex applications. With its templating engine and chart repositories like Artifact Hub, deploying applications is easier than ever. However, this convenience can sometimes lead to security oversights in the form of misconfigurations.&lt;/p&gt;&#xA;&lt;p&gt;Recent research, such as the paper &amp;ldquo;Analyzing and Mitigating (with LLMs) the Security Misconfigurations of Helm Charts from Artifact Hub,&amp;rdquo; highlights the prevalence of these issues and explores innovative ways to address them. Let&amp;rsquo;s dive into what these misconfigurations are, how scanning tools can help, and the emerging role of Large Language Models (LLMs) in securing our Helm charts.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=8080&amp;path=livereload" data-no-instant defer></script>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     
 
 
@@ -25,6 +25,15 @@
 
 
 
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if (typeof mermaid !== 'undefined') {
+            mermaid.initialize({ startOnLoad: true });
+        }
+    });
+</script>
 
 
     
@@ -67,18 +76,18 @@
 <meta name="twitter:description" content="Hi, my name is Rohit (aka caretak3r). I publish posts about technologies, funny things and my passions." />
 
 
-<base href="http://localhost:8080/" />
-<link rel="canonical" href="http://localhost:8080/" itemprop="url" />
-<meta name="url" content="http://localhost:8080/" />
-<meta name="twitter:url" content="http://localhost:8080/" />
-<meta property="og:url" content="http://localhost:8080/" />
+<base href="http://localhost:1313/" />
+<link rel="canonical" href="http://localhost:1313/" itemprop="url" />
+<meta name="url" content="http://localhost:1313/" />
+<meta name="twitter:url" content="http://localhost:1313/" />
+<meta property="og:url" content="http://localhost:1313/" />
 
 
-<meta property="og:updated_time" content="2025-05-11T00:00:00Z" />
+<meta property="og:updated_time" content="2025-05-13T07:36:00-04:00" />
 
 
-<link rel="sitemap" type="application/xml" title="Sitemap" href='http://localhost:8080/sitemap.xml' />
-<link href="http://localhost:8080/index.xml" rel="alternate" type="application/rss+xml" title="silent.engineer" />
+<link rel="sitemap" type="application/xml" title="Sitemap" href='http://localhost:1313/sitemap.xml' />
+<link href="http://localhost:1313/index.xml" rel="alternate" type="application/rss+xml" title="silent.engineer" />
 
 <meta name="robots" content="index,follow" />
 <meta name="googlebot" content="index,follow" />
@@ -107,7 +116,7 @@
     
     
 
-<link type="text/css" rel="stylesheet" href="/css/bundle.min.29bdb96a9d2f706466665cea40be3187d521afa948b01a7a8b424016abe4881f.css">
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.fe07810b1589e468a1cbe091f7fa7e6ac024c204eb48f15f23b613bd550da626.css">
 
 
     
@@ -174,7 +183,7 @@
     <h1 class="brand">
         
         
-            <a href="http://localhost:8080/">
+            <a href="http://localhost:1313/">
                 <h1>rohit gudi</h1>
             </a>
         
@@ -297,7 +306,465 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <article class="post">
         <div class="info">
   <h1 class="post-title">
-    <a href="http://localhost:8080/projects/deadmanswitch/">Dead Man Switch</a>
+    <a href="http://localhost:1313/posts/supply-chain-signing/">Signing Artifacts in Larger CI/CD ecosystems</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-05-13T07:36:00-0400" class="post-date">
+        May 13, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>1 min read</span>
+      </span>
+    </div>
+
+    
+    <ul class="tags">
+      
+      <li class="tag-helm">
+        <a href="http://localhost:1313/tags/helm">helm</a>
+      </li>
+      
+      <li class="tag-kubernetes">
+        <a href="http://localhost:1313/tags/kubernetes">kubernetes</a>
+      </li>
+      
+      <li class="tag-cosign">
+        <a href="http://localhost:1313/tags/cosign">cosign</a>
+      </li>
+      
+      <li class="tag-signature">
+        <a href="http://localhost:1313/tags/signature">signature</a>
+      </li>
+      
+      <li class="tag-supply chain">
+        <a href="http://localhost:1313/tags/supply-chain">supply chain</a>
+      </li>
+      
+    </ul>
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <h2 id="supply-chain-security-with-digital-signatures">Supply Chain Security with Digital Signatures</h2>
+<p>Implementing digital signatures in CI/CD pipelines provides a crucial layer of verification and authenticity for artifacts as they move through your development ecosystem.</p>
+<h2 id="diagram-artifact-signing-process-flow">Diagram: Artifact Signing Process Flow</h2>
+<div class="mermaid-container">
+  <div class="mermaid-wrapper">
+    <div class="mermaid">sequenceDiagram
+    participant Developer
+    participant BuildSystem
+    participant Registry
+    participant PlatformTeam
+    participant Customer
+
+    Developer->>BuildSystem: 1. Commit Code (triggers build)
+    Note left of Developer: "The Kitchen" – developers codebase
+    BuildSystem->>BuildSystem: 2. Build Image + Generate Attestation
+    BuildSystem->>Registry: 3. Push Image (tag:dev)
+    BuildSystem->>Registry: 4. Sign Image (cosign + dev.key)
+    BuildSystem->>Registry: 5. Attach Provenance Attestation (signed)
+
+    PlatformTeam->>Registry: 6. Pull Image & Attestation
+    PlatformTeam->>PlatformTeam: 7. Verify Developer Signature
+    PlatformTeam->>PlatformTeam: 8. Verify Attestation (cosign verify-attestation)
+    Note right of PlatformTeam: Checks build provenance:<br/>- Source repo<br/>- Build command<br/>- Commit hash<br/>- Builder identity
+
+    alt Attestation Valid
+        PlatformTeam->>Registry: 9. Sign with Platform Key (prod-tag)
+    else Attestation Invalid
+        PlatformTeam-->>Developer: 🔒 Reject: Build provenance mismatch
+    end
+
+    Customer->>Registry: 10. Pull Image (prod-tag)
+    Customer->>Customer: 11. Verify Platform Signature (platform.pub)
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof mermaid !== 'undefined') {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'dark',
+        flowchart: {
+          useMaxWidth: false,
+          htmlLabels: true
+        },
+        er: {
+          useMaxWidth: false
+        },
+        sequence: {
+          useMaxWidth: false
+        },
+        gantt: {
+          useMaxWidth: false
+        },
+        pie: {
+          useMaxWidth: false
+        },
+        class: {
+          useMaxWidth: false
+        }
+      });
+      
+      
+      mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      
+      setTimeout(function() {
+        document.querySelectorAll('.mermaid svg').forEach(function(svg) {
+          svg.style.maxWidth = 'none';
+          svg.style.width = '100%';
+          svg.style.minWidth = '800px';
+        });
+      }, 500);
+    } else {
+      console.error('Mermaid library not loaded!');
+      
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js';
+      script.onload = function() {
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: 'dark'
+        });
+        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+</script>
+
+<style>
+  .mermaid-wrapper {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #282a36;
+    border-radius: 5px;
+    overflow-x: auto;
+    width: 100%;
+  }
+  
+  .mermaid {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 16px;
+    overflow: visible;
+    display: inline-block;
+    min-width: 100%;
+  }
+
+  .mermaid svg {
+    min-width: 100%;
+    max-width: none !important;
+    height: auto;
+  }
+</style>
+<p>The diagram above illustrates the flow of artifacts through a typical CI/CD pipeline, highlighting the signing and verification steps.</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/supply-chain-signing/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="http://localhost:1313/posts/how-does-helm-work/">How Does Helm Work? (Diagram)</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-05-13T07:06:00-0400" class="post-date">
+        May 13, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>1 min read</span>
+      </span>
+    </div>
+
+    
+    <ul class="tags">
+      
+      <li class="tag-helm">
+        <a href="http://localhost:1313/tags/helm">helm</a>
+      </li>
+      
+      <li class="tag-kubernetes">
+        <a href="http://localhost:1313/tags/kubernetes">kubernetes</a>
+      </li>
+      
+      <li class="tag-mermaid.js">
+        <a href="http://localhost:1313/tags/mermaid.js">mermaid.js</a>
+      </li>
+      
+    </ul>
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <div class="mermaid-container">
+  <div class="mermaid-wrapper">
+    <div class="mermaid">%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#BB2528', 'primaryTextColor': '#fff', 'primaryBorderColor': '#7C0000', 'lineColor': '#F8B229', 'secondaryColor': '#006100'}}}%%
+graph LR
+    UserInputValues["User-provided Values"] --> ValueProcessor
+
+    subgraph HelmChart["Helm Chart Package"]
+        ChartYaml["Chart.yaml"]
+        ValuesYaml["values.yaml"]
+        TemplatesDir["templates/"]
+        ChartsDir["charts/"]
+        HelpersTpl["_helpers.tpl"]
+        ResourceTemplates["Resource Templates"]
+        NotesTxt["NOTES.txt"]
+        TestDir["tests/"]
+    end
+
+    subgraph HelmClient["Helm Client"]
+        HelmInstall["helm install"]
+        HelmTemplate["helm template"]
+        HelmUpgrade["helm upgrade"]
+        HelmLint["helm lint"]
+        HelmPackage["helm package"]
+    end
+
+    subgraph HelmEngine["Helm Engine"]
+        ValueProcessor["Value Processor"]
+        TemplatingEngine["Templating Engine"]
+        ReleaseTracker["Release Tracker"]
+        K8sClient["K8s API Client"]
+    end
+
+    subgraph K8sCluster["Kubernetes Cluster"]
+        APIServer["API Server"]
+        DeployedResources["Deployed Resources"]
+        ReleaseObject["Helm Release Object"]
+    end
+
+    ValuesYaml --> ValueProcessor
+    ChartYaml --> TemplatingEngine
+    TemplatesDir --> TemplatingEngine
+    HelpersTpl --> ResourceTemplates
+    ChartsDir --> TemplatingEngine
+    ValueProcessor --> TemplatingEngine
+    TemplatingEngine --> RenderedManifests["Rendered Manifests"]
+
+    HelmInstall --> ValueProcessor
+    HelmInstall --> TemplatingEngine
+    HelmInstall --> K8sClient
+    K8sClient --> APIServer
+    APIServer --> DeployedResources
+    APIServer --> ReleaseObject
+    ReleaseTracker --> ReleaseObject
+
+    HelmTemplate --> ValueProcessor
+    HelmTemplate --> TemplatingEngine
+    TemplatingEngine --> UserOutput["User/Terminal"]
+
+    HelmUpgrade --> ValueProcessor
+    HelmUpgrade --> TemplatingEngine
+    HelmUpgrade --> K8sClient
+
+    HelmLint --> HelmChart
+    HelmPackage --> HelmChart
+
+    classDef chart fill:#f9f,stroke:#333,stroke-width:2px
+    classDef process fill:#bbf,stroke:#333,stroke-width:2px
+    classDef k8s fill:#dfd,stroke:#333,stroke-width:2px
+    classDef helm fill:#ffd,stroke:#333,stroke-width:2px
+
+    class ChartYaml,ValuesYaml,TemplatesDir,ChartsDir,HelpersTpl,ResourceTemplates,NotesTxt,TestDir chart
+    class ValueProcessor,TemplatingEngine,RenderedManifests,ReleaseTracker,K8sClient process
+    class APIServer,DeployedResources,ReleaseObject k8s
+    class HelmClient,HelmEngine helm
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof mermaid !== 'undefined') {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'dark',
+        flowchart: {
+          useMaxWidth: false,
+          htmlLabels: true
+        },
+        er: {
+          useMaxWidth: false
+        },
+        sequence: {
+          useMaxWidth: false
+        },
+        gantt: {
+          useMaxWidth: false
+        },
+        pie: {
+          useMaxWidth: false
+        },
+        class: {
+          useMaxWidth: false
+        }
+      });
+      
+      
+      mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      
+      setTimeout(function() {
+        document.querySelectorAll('.mermaid svg').forEach(function(svg) {
+          svg.style.maxWidth = 'none';
+          svg.style.width = '100%';
+          svg.style.minWidth = '800px';
+        });
+      }, 500);
+    } else {
+      console.error('Mermaid library not loaded!');
+      
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js';
+      script.onload = function() {
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: 'dark'
+        });
+        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+</script>
+
+<style>
+  .mermaid-wrapper {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #282a36;
+    border-radius: 5px;
+    overflow-x: auto;
+    width: 100%;
+  }
+  
+  .mermaid {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 16px;
+    overflow: visible;
+    display: inline-block;
+    min-width: 100%;
+  }
+
+  .mermaid svg {
+    min-width: 100%;
+    max-width: none !important;
+    height: auto;
+  }
+</style>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="http://localhost:1313/posts/cosign-helm-chart/">Signing Helm Charts with Cosign</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-05-13T07:06:00-0400" class="post-date">
+        May 13, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>5 mins read</span>
+      </span>
+    </div>
+
+    
+    <ul class="tags">
+      
+      <li class="tag-helm">
+        <a href="http://localhost:1313/tags/helm">helm</a>
+      </li>
+      
+      <li class="tag-kubernetes">
+        <a href="http://localhost:1313/tags/kubernetes">kubernetes</a>
+      </li>
+      
+      <li class="tag-cosign">
+        <a href="http://localhost:1313/tags/cosign">cosign</a>
+      </li>
+      
+      <li class="tag-signature">
+        <a href="http://localhost:1313/tags/signature">signature</a>
+      </li>
+      
+      <li class="tag-supply chain">
+        <a href="http://localhost:1313/tags/supply-chain">supply chain</a>
+      </li>
+      
+    </ul>
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <h2 id="what-is-cosign">What is Cosign?</h2>
+<p>Cosign is a tool developed by the Sigstore project that provides a simple way to sign and verify software artifacts. It&rsquo;s particularly useful for container images, Helm charts, and other software artifacts in the supply chain. Cosign uses keyless signing by default, which means it doesn&rsquo;t require you to manage private keys. Instead, it leverages OpenID Connect (OIDC) for authentication and uses ephemeral keys for signing.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before we begin, ensure you have the following tools installed:</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/cosign-helm-chart/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="http://localhost:1313/projects/deadmanswitch/">Dead Man Switch</a>
   </h1>
 
   <div class="headline">
@@ -337,7 +804,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <article class="post">
         <div class="info">
   <h1 class="post-title">
-    <a href="http://localhost:8080/projects/pixelperfect/">Pixel Perfect</a>
+    <a href="http://localhost:1313/projects/pixelperfect/">Pixel Perfect</a>
   </h1>
 
   <div class="headline">
@@ -377,7 +844,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <article class="post">
         <div class="info">
   <h1 class="post-title">
-    <a href="http://localhost:8080/projects/shortz.dev/">Shortz.dev</a>
+    <a href="http://localhost:1313/projects/shortz.dev/">Shortz.dev</a>
   </h1>
 
   <div class="headline">
@@ -417,7 +884,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <article class="post">
         <div class="info">
   <h1 class="post-title">
-    <a href="http://localhost:8080/projects/vision/">Vision</a>
+    <a href="http://localhost:1313/projects/vision/">Vision</a>
   </h1>
 
   <div class="headline">
@@ -457,7 +924,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <article class="post">
         <div class="info">
   <h1 class="post-title">
-    <a href="http://localhost:8080/posts/helm-misconfiguration-detection/">Helm Misconfiguration Detection</a>
+    <a href="http://localhost:1313/posts/helm-misconfiguration-detection/">Helm Misconfiguration Detection</a>
   </h1>
 
   <div class="headline">
@@ -482,23 +949,23 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <ul class="tags">
       
       <li class="tag-helm">
-        <a href="http://localhost:8080/tags/helm">helm</a>
+        <a href="http://localhost:1313/tags/helm">helm</a>
       </li>
       
       <li class="tag-kubernetes">
-        <a href="http://localhost:8080/tags/kubernetes">kubernetes</a>
+        <a href="http://localhost:1313/tags/kubernetes">kubernetes</a>
       </li>
       
       <li class="tag-pitfalls">
-        <a href="http://localhost:8080/tags/pitfalls">pitfalls</a>
+        <a href="http://localhost:1313/tags/pitfalls">pitfalls</a>
       </li>
       
       <li class="tag-misconfigurations">
-        <a href="http://localhost:8080/tags/misconfigurations">misconfigurations</a>
+        <a href="http://localhost:1313/tags/misconfigurations">misconfigurations</a>
       </li>
       
       <li class="tag-llm">
-        <a href="http://localhost:8080/tags/llm">llm</a>
+        <a href="http://localhost:1313/tags/llm">llm</a>
       </li>
       
     </ul>
@@ -525,7 +992,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <article class="post">
         <div class="info">
   <h1 class="post-title">
-    <a href="http://localhost:8080/posts/helm-object-ordering/">Helm Object Ordering</a>
+    <a href="http://localhost:1313/posts/helm-object-ordering/">Helm Object Ordering</a>
   </h1>
 
   <div class="headline">
@@ -550,15 +1017,15 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <ul class="tags">
       
       <li class="tag-helm">
-        <a href="http://localhost:8080/tags/helm">helm</a>
+        <a href="http://localhost:1313/tags/helm">helm</a>
       </li>
       
       <li class="tag-kubernetes">
-        <a href="http://localhost:8080/tags/kubernetes">kubernetes</a>
+        <a href="http://localhost:1313/tags/kubernetes">kubernetes</a>
       </li>
       
       <li class="tag-pitfalls">
-        <a href="http://localhost:8080/tags/pitfalls">pitfalls</a>
+        <a href="http://localhost:1313/tags/pitfalls">pitfalls</a>
       </li>
       
     </ul>
@@ -590,7 +1057,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <article class="post">
         <div class="info">
   <h1 class="post-title">
-    <a href="http://localhost:8080/posts/robotics/">Robotic Revolution?</a>
+    <a href="http://localhost:1313/posts/robotics/">Robotic Revolution?</a>
   </h1>
 
   <div class="headline">
@@ -615,15 +1082,15 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <ul class="tags">
       
       <li class="tag-robotics">
-        <a href="http://localhost:8080/tags/robotics">robotics</a>
+        <a href="http://localhost:1313/tags/robotics">robotics</a>
       </li>
       
       <li class="tag-investments">
-        <a href="http://localhost:8080/tags/investments">investments</a>
+        <a href="http://localhost:1313/tags/investments">investments</a>
       </li>
       
       <li class="tag-2025">
-        <a href="http://localhost:8080/tags/2025">2025</a>
+        <a href="http://localhost:1313/tags/2025">2025</a>
       </li>
       
     </ul>
@@ -848,6 +1315,8 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
 
 
             </main>
+            
+                
             
         </div>
     </body>
