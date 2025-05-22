@@ -6,8 +6,15 @@
     <description>Recent content on silent.engineer</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 13 May 2025 07:36:00 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 22 May 2025 09:00:00 -0400</lastBuildDate>
     <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Inside Claude 4: Anthropic&#39;s Red Teaming and the Quest for Safer AI</title>
+      <link>http://localhost:1313/posts/claude4-red-teaming-llms/</link>
+      <pubDate>Thu, 22 May 2025 09:00:00 -0400</pubDate>
+      <guid>http://localhost:1313/posts/claude4-red-teaming-llms/</guid>
+      <description>&lt;p&gt;Anthropic recently released details on their new Claude Opus 4 and Claude Sonnet 4 models in a comprehensive System Card. A significant portion of this document is dedicated to the extensive safety testing and red teaming efforts undertaken before deployment. This post delves into the multifaceted approach Anthropic takes to identify and mitigate potential risks, including scenarios where the models, if prompted maliciously, could be used for harmful or unethical activities.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Signing Artifacts in Larger CI/CD ecosystems</title>
       <link>http://localhost:1313/posts/supply-chain-signing/</link>

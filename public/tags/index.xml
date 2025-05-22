@@ -2,94 +2,94 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on silent.engineer</title>
-    <link>http://localhost:62955/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on silent.engineer</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 13 May 2025 07:36:00 -0400</lastBuildDate>
-    <atom:link href="http://localhost:62955/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Cosign</title>
-      <link>http://localhost:62955/tags/cosign/</link>
+      <link>http://localhost:1313/tags/cosign/</link>
       <pubDate>Tue, 13 May 2025 07:36:00 -0400</pubDate>
-      <guid>http://localhost:62955/tags/cosign/</guid>
+      <guid>http://localhost:1313/tags/cosign/</guid>
       <description></description>
     </item>
     <item>
       <title>Helm</title>
-      <link>http://localhost:62955/tags/helm/</link>
+      <link>http://localhost:1313/tags/helm/</link>
       <pubDate>Tue, 13 May 2025 07:36:00 -0400</pubDate>
-      <guid>http://localhost:62955/tags/helm/</guid>
+      <guid>http://localhost:1313/tags/helm/</guid>
       <description></description>
     </item>
     <item>
       <title>Kubernetes</title>
-      <link>http://localhost:62955/tags/kubernetes/</link>
+      <link>http://localhost:1313/tags/kubernetes/</link>
       <pubDate>Tue, 13 May 2025 07:36:00 -0400</pubDate>
-      <guid>http://localhost:62955/tags/kubernetes/</guid>
+      <guid>http://localhost:1313/tags/kubernetes/</guid>
       <description></description>
     </item>
     <item>
       <title>Signature</title>
-      <link>http://localhost:62955/tags/signature/</link>
+      <link>http://localhost:1313/tags/signature/</link>
       <pubDate>Tue, 13 May 2025 07:36:00 -0400</pubDate>
-      <guid>http://localhost:62955/tags/signature/</guid>
+      <guid>http://localhost:1313/tags/signature/</guid>
       <description></description>
     </item>
     <item>
       <title>Supply Chain</title>
-      <link>http://localhost:62955/tags/supply-chain/</link>
+      <link>http://localhost:1313/tags/supply-chain/</link>
       <pubDate>Tue, 13 May 2025 07:36:00 -0400</pubDate>
-      <guid>http://localhost:62955/tags/supply-chain/</guid>
+      <guid>http://localhost:1313/tags/supply-chain/</guid>
       <description></description>
     </item>
     <item>
       <title>Mermaid.js</title>
-      <link>http://localhost:62955/tags/mermaid.js/</link>
+      <link>http://localhost:1313/tags/mermaid.js/</link>
       <pubDate>Tue, 13 May 2025 07:06:00 -0400</pubDate>
-      <guid>http://localhost:62955/tags/mermaid.js/</guid>
+      <guid>http://localhost:1313/tags/mermaid.js/</guid>
       <description></description>
     </item>
     <item>
       <title>Llm</title>
-      <link>http://localhost:62955/tags/llm/</link>
+      <link>http://localhost:1313/tags/llm/</link>
       <pubDate>Wed, 26 Mar 2025 16:45:00 -0400</pubDate>
-      <guid>http://localhost:62955/tags/llm/</guid>
+      <guid>http://localhost:1313/tags/llm/</guid>
       <description></description>
     </item>
     <item>
       <title>Misconfigurations</title>
-      <link>http://localhost:62955/tags/misconfigurations/</link>
+      <link>http://localhost:1313/tags/misconfigurations/</link>
       <pubDate>Wed, 26 Mar 2025 16:45:00 -0400</pubDate>
-      <guid>http://localhost:62955/tags/misconfigurations/</guid>
+      <guid>http://localhost:1313/tags/misconfigurations/</guid>
       <description></description>
     </item>
     <item>
       <title>Pitfalls</title>
-      <link>http://localhost:62955/tags/pitfalls/</link>
+      <link>http://localhost:1313/tags/pitfalls/</link>
       <pubDate>Wed, 26 Mar 2025 16:45:00 -0400</pubDate>
-      <guid>http://localhost:62955/tags/pitfalls/</guid>
+      <guid>http://localhost:1313/tags/pitfalls/</guid>
       <description></description>
     </item>
     <item>
       <title>2025</title>
-      <link>http://localhost:62955/tags/2025/</link>
+      <link>http://localhost:1313/tags/2025/</link>
       <pubDate>Thu, 20 Mar 2025 22:15:00 -0400</pubDate>
-      <guid>http://localhost:62955/tags/2025/</guid>
+      <guid>http://localhost:1313/tags/2025/</guid>
       <description></description>
     </item>
     <item>
       <title>Investments</title>
-      <link>http://localhost:62955/tags/investments/</link>
+      <link>http://localhost:1313/tags/investments/</link>
       <pubDate>Thu, 20 Mar 2025 22:15:00 -0400</pubDate>
-      <guid>http://localhost:62955/tags/investments/</guid>
+      <guid>http://localhost:1313/tags/investments/</guid>
       <description></description>
     </item>
     <item>
       <title>Robotics</title>
-      <link>http://localhost:62955/tags/robotics/</link>
+      <link>http://localhost:1313/tags/robotics/</link>
       <pubDate>Thu, 20 Mar 2025 22:15:00 -0400</pubDate>
-      <guid>http://localhost:62955/tags/robotics/</guid>
+      <guid>http://localhost:1313/tags/robotics/</guid>
       <description></description>
     </item>
   </channel>

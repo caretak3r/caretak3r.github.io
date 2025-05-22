@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=62955&amp;path=livereload" data-no-instant defer></script>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     
 
 
@@ -25,15 +25,6 @@
 
 
 
-
-<script src="https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        if (typeof mermaid !== 'undefined') {
-            mermaid.initialize({ startOnLoad: true });
-        }
-    });
-</script>
 
 
     
@@ -79,17 +70,17 @@
 <meta name="twitter:description" content="" />
 
 
-<base href="http://localhost:62955/posts/supply-chain-signing/" />
-<link rel="canonical" href="http://localhost:62955/posts/supply-chain-signing/" itemprop="url" />
-<meta name="url" content="http://localhost:62955/posts/supply-chain-signing/" />
-<meta name="twitter:url" content="http://localhost:62955/posts/supply-chain-signing/" />
-<meta property="og:url" content="http://localhost:62955/posts/supply-chain-signing/" />
+<base href="http://localhost:1313/posts/supply-chain-signing/" />
+<link rel="canonical" href="http://localhost:1313/posts/supply-chain-signing/" itemprop="url" />
+<meta name="url" content="http://localhost:1313/posts/supply-chain-signing/" />
+<meta name="twitter:url" content="http://localhost:1313/posts/supply-chain-signing/" />
+<meta property="og:url" content="http://localhost:1313/posts/supply-chain-signing/" />
 
 
 <meta property="og:updated_time" content="2025-05-13T07:36:00-04:00" />
 
 
-<link rel="sitemap" type="application/xml" title="Sitemap" href='http://localhost:62955/sitemap.xml' />
+<link rel="sitemap" type="application/xml" title="Sitemap" href='http://localhost:1313/sitemap.xml' />
 
 <meta name="robots" content="index,follow" />
 <meta name="googlebot" content="index,follow" />
@@ -185,7 +176,7 @@
     <h1 class="brand">
         
         
-            <a href="http://localhost:62955/">
+            <a href="http://localhost:1313/">
                 <h1>rohit gudi</h1>
             </a>
         
@@ -305,7 +296,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
                 <div class="post full-width-post">
   <div class="info">
   <h1 class="post-title">
-    <a href="http://localhost:62955/posts/supply-chain-signing/">Signing Artifacts in Larger CI/CD ecosystems</a>
+    <a href="http://localhost:1313/posts/supply-chain-signing/">Signing Artifacts in Larger CI/CD ecosystems</a>
   </h1>
 
   <div class="headline">
@@ -322,7 +313,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
           
         
 
-        <span>1 min read</span>
+        <span>4 mins read</span>
       </span>
     </div>
 
@@ -330,23 +321,23 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
     <ul class="tags">
       
       <li class="tag-helm">
-        <a href="http://localhost:62955/tags/helm">helm</a>
+        <a href="http://localhost:1313/tags/helm">helm</a>
       </li>
       
       <li class="tag-kubernetes">
-        <a href="http://localhost:62955/tags/kubernetes">kubernetes</a>
+        <a href="http://localhost:1313/tags/kubernetes">kubernetes</a>
       </li>
       
       <li class="tag-cosign">
-        <a href="http://localhost:62955/tags/cosign">cosign</a>
+        <a href="http://localhost:1313/tags/cosign">cosign</a>
       </li>
       
       <li class="tag-signature">
-        <a href="http://localhost:62955/tags/signature">signature</a>
+        <a href="http://localhost:1313/tags/signature">signature</a>
       </li>
       
       <li class="tag-supply chain">
-        <a href="http://localhost:62955/tags/supply-chain">supply chain</a>
+        <a href="http://localhost:1313/tags/supply-chain">supply chain</a>
       </li>
       
     </ul>
@@ -475,6 +466,162 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
   }
 </style>
 <p>The diagram above illustrates the flow of artifacts through a typical CI/CD pipeline, highlighting the signing and verification steps.</p>
+<p>Now continuing the overall setup, if you had end users you were distributing artifacts (OCI compliant) to, then what would the entire sequence look like end-to-end?</p>
+<blockquote>
+<p>I use AWS KMS in this example, but any key_types (keyless, asym-keys, cloud-KMS, cloudHSM, etc) are supported by Cosign.</p></blockquote>
+<div class="mermaid-container">
+  <div class="mermaid-wrapper">
+    <div class="mermaid">%%{init: {'theme': 'forest', 'themeVariables': { 'primaryColor': '#BB2528', 'primaryTextColor': '#fff', 'primaryBorderColor': '#7C0000', 'lineColor': '#F8B229', 'secondaryColor': '#006100'}}}%%
+sequenceDiagram
+    autonumber
+
+    participant GT as Governance Team
+    participant C_KMS as Cosign Private Key Store (e.g. AWS KMS)
+    participant PGP_KS as PGP Private Key Store
+    participant CDN as Public Key CDN (cdn.customer.com)
+    participant AWS_DA as AWS Distribution Account
+    participant ECR as Amazon ECR
+    participant ENG as Engineer
+    participant H_Repo as Helm Chart Repository
+    participant User as End User
+
+    rect rgb(230, 230, 250)
+        note over GT C_KMS CDN: Section 1: Cosign Key Management & Publication
+        GT->>GT: 1. Perform Cosign Key Ceremony (Multi-Member)
+        GT->>C_KMS: 2. Generate & Store Asymmetric Key Pair (Private/Public)
+        note right of C_KMS: Cosign Private Key securely stored in KMS.
+        C_KMS-->>GT: 3. Confirmation / Public Key
+        GT->>CDN: 4. Publish Cosign Public Key (e.g. .../pubkey-YYYY-MM-DD.pem)
+        note right of CDN: Public key for image verification.
+        note over GT C_KMS: Cosign Keys are rotated every 90 days. Steps 1-4 repeat.
+    end
+
+    rect rgb(200, 250, 200)
+        note over AWS_DA ECR User: Section 2: Container Image Provenance & User Verification
+        AWS_DA->>AWS_DA: 5. Build Container Image
+        AWS_DA->>AWS_DA: 6. Generate SBOM for Image
+        AWS_DA->>C_KMS: 7. Request to Sign Image & SBOM
+        C_KMS-->>AWS_DA: 8. Signing Operation performed using Cosign Private Key
+        AWS_DA->>AWS_DA: 9. Image & SBOM are now Signed with Cosign
+        AWS_DA->>ECR: 10. Push Image, Signature, and SBOM to ECR
+        note right of ECR: Container image, its signature, and SBOM are stored.
+
+        User->>ECR: 11. Fetch Container Image
+        User->>ECR: 12. Fetch Image Signature & SBOM
+        User->>CDN: 13. Fetch Cosign Public Key (e.g. .../pubkey-YYYY-MM-DD.pem)
+        User->>User: 14. Verify Image & SBOM (using 'cosign verify')
+        note right of User: Verification confirms image integrity & provenance.
+    end
+
+    rect rgb(250, 230, 230)
+        note over GT PGP_KS CDN: Section 3: PGP Key Management & Publication (for Helm)
+        GT->>GT: 15. Perform PGP Key Ceremony (Multi-Member)
+        GT->>PGP_KS: 16. Generate & Store PGP Key Pair
+        note right of PGP_KS: PGP Private Key securely stored.
+        PGP_KS-->>GT: 17. Confirmation / Public Keyring
+        GT->>CDN: 18. Publish PGP Public Keyring (e.g. .../keyring-YYYY-MM-DD-FINGERPRINT.gpg)
+        note right of CDN: Public keyring for Helm chart verification.
+    end
+
+    rect rgb(250, 250, 200)
+        note over ENG H_Repo User: Section 4: Helm Chart Provenance & User Verification
+        ENG->>ENG: 19. Develop Helm Chart
+        ENG->>ENG: 20. Package Helm Chart (.tgz)
+        ENG->>PGP_KS: 21. Request to Sign Helm Chart
+        PGP_KS-->>ENG: 22. Signing Operation performed using PGP Private Key
+        ENG->>ENG: 23. Helm Chart Signed with PGP (creates .prov file)
+        ENG->>H_Repo: 24. Publish Chart (.tgz) & Provenance File (.prov)
+        note right of H_Repo: Helm chart & its .prov file are stored.
+
+        User->>H_Repo: 25. Fetch Helm Chart (.tgz)
+        User->>H_Repo: 26. Fetch Provenance File (.prov)
+        User->>CDN: 27. Fetch PGP Public Keyring (e.g. .../keyring-YYYY-MM-DD-FINGERPRINT.gpg)
+        User->>User: 28. Import PGP Keyring locally
+        User->>User: 29. Verify Helm Chart (using 'helm verify')
+        note right of User: Verification confirms chart integrity & provenance.
+    end
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof mermaid !== 'undefined') {
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'dark',
+        flowchart: {
+          useMaxWidth: false,
+          htmlLabels: true
+        },
+        er: {
+          useMaxWidth: false
+        },
+        sequence: {
+          useMaxWidth: false
+        },
+        gantt: {
+          useMaxWidth: false
+        },
+        pie: {
+          useMaxWidth: false
+        },
+        class: {
+          useMaxWidth: false
+        }
+      });
+      
+      
+      mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      
+      setTimeout(function() {
+        document.querySelectorAll('.mermaid svg').forEach(function(svg) {
+          svg.style.maxWidth = 'none';
+          svg.style.width = '100%';
+          svg.style.minWidth = '800px';
+        });
+      }, 500);
+    } else {
+      console.error('Mermaid library not loaded!');
+      
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mermaid@latest/dist/mermaid.min.js';
+      script.onload = function() {
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: 'dark'
+        });
+        mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+      };
+      document.head.appendChild(script);
+    }
+  });
+</script>
+
+<style>
+  .mermaid-wrapper {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #282a36;
+    border-radius: 5px;
+    overflow-x: auto;
+    width: 100%;
+  }
+  
+  .mermaid {
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 16px;
+    overflow: visible;
+    display: inline-block;
+    min-width: 100%;
+  }
+
+  .mermaid svg {
+    min-width: 100%;
+    max-width: none !important;
+    height: auto;
+  }
+</style>
 
 </div>
 
@@ -482,7 +629,7 @@ powered by <a target="_blank" href="https://gohugo.io">Hugo</a> | themed with <a
 <div class="footer">
     
 	    
-            <a class="previous-post" href="http://localhost:62955/posts/how-does-helm-work/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>How Does Helm Work? (Diagram)</a>
+            <a class="previous-post" href="http://localhost:1313/posts/how-does-helm-work/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>How Does Helm Work? (Diagram)</a>
         
 	    
     

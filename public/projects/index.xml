@@ -2,38 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Projects on silent.engineer</title>
-    <link>http://localhost:62955/projects/</link>
+    <link>http://localhost:1313/projects/</link>
     <description>Recent content in Projects on silent.engineer</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 11 May 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:62955/projects/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Dead Man Switch</title>
-      <link>http://localhost:62955/projects/deadmanswitch/</link>
+      <link>http://localhost:1313/projects/deadmanswitch/</link>
       <pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:62955/projects/deadmanswitch/</guid>
-      <description>&lt;h1 id=&#34;dead-man-switch&#34;&gt;Dead Man Switch&lt;/h1&gt;&#xA;&lt;p&gt;A security tool designed to trigger automated actions when a user fails to check in within a specified time period.&lt;/p&gt;&#xA;&lt;iframe src=&#34;http://localhost:62955/projects_html/deadmanswitch.html&#34; style=&#34;width:100%; height:600px; border:0; min-height: 80vh;&#34; title=&#34;Dead Man Switch Project&#34;&gt;&lt;/iframe&gt;</description>
+      <guid>http://localhost:1313/projects/deadmanswitch/</guid>
+      <description>&lt;h1 id=&#34;dead-man-switch&#34;&gt;Dead Man Switch&lt;/h1&gt;&#xA;&lt;p&gt;A security tool designed to trigger automated actions when a user fails to check in within a specified time period.&lt;/p&gt;&#xA;&lt;iframe src=&#34;http://localhost:1313/projects_html/deadmanswitch.html&#34; style=&#34;width:100%; height:600px; border:0; min-height: 80vh;&#34; title=&#34;Dead Man Switch Project&#34;&gt;&lt;/iframe&gt;</description>
     </item>
     <item>
       <title>Pixel Perfect</title>
-      <link>http://localhost:62955/projects/pixelperfect/</link>
+      <link>http://localhost:1313/projects/pixelperfect/</link>
       <pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:62955/projects/pixelperfect/</guid>
-      <description>&lt;h1 id=&#34;pixel-perfect&#34;&gt;Pixel Perfect&lt;/h1&gt;&#xA;&lt;p&gt;A utility that helps web developers ensure their implementations match design specifications exactly, pixel by pixel.&lt;/p&gt;&#xA;&lt;iframe src=&#34;http://localhost:62955/projects_html/pixelperfect.html&#34; style=&#34;width:100%; height:600px; border:0; min-height: 80vh;&#34; title=&#34;Pixel Perfect Project&#34;&gt;&lt;/iframe&gt;</description>
+      <guid>http://localhost:1313/projects/pixelperfect/</guid>
+      <description>&lt;h1 id=&#34;pixel-perfect&#34;&gt;Pixel Perfect&lt;/h1&gt;&#xA;&lt;p&gt;A utility that helps web developers ensure their implementations match design specifications exactly, pixel by pixel.&lt;/p&gt;&#xA;&lt;iframe src=&#34;http://localhost:1313/projects_html/pixelperfect.html&#34; style=&#34;width:100%; height:600px; border:0; min-height: 80vh;&#34; title=&#34;Pixel Perfect Project&#34;&gt;&lt;/iframe&gt;</description>
     </item>
     <item>
       <title>Shortz.dev</title>
-      <link>http://localhost:62955/projects/shortz.dev/</link>
+      <link>http://localhost:1313/projects/shortz.dev/</link>
       <pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:62955/projects/shortz.dev/</guid>
-      <description>&lt;h1 id=&#34;shortzdev&#34;&gt;Shortz.dev&lt;/h1&gt;&#xA;&lt;p&gt;A URL shortening service with advanced features like click tracking, geographic analytics, and custom short URLs.&lt;/p&gt;&#xA;&lt;iframe src=&#34;http://localhost:62955/projects_html/shortz.dev.html&#34; style=&#34;width:100%; height:600px; border:0; min-height: 80vh;&#34; title=&#34;Shortz.dev Project&#34;&gt;&lt;/iframe&gt;</description>
+      <guid>http://localhost:1313/projects/shortz.dev/</guid>
+      <description>&lt;h1 id=&#34;shortzdev&#34;&gt;Shortz.dev&lt;/h1&gt;&#xA;&lt;p&gt;A URL shortening service with advanced features like click tracking, geographic analytics, and custom short URLs.&lt;/p&gt;&#xA;&lt;iframe src=&#34;http://localhost:1313/projects_html/shortz.dev.html&#34; style=&#34;width:100%; height:600px; border:0; min-height: 80vh;&#34; title=&#34;Shortz.dev Project&#34;&gt;&lt;/iframe&gt;</description>
     </item>
     <item>
       <title>Vision</title>
-      <link>http://localhost:62955/projects/vision/</link>
+      <link>http://localhost:1313/projects/vision/</link>
       <pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:62955/projects/vision/</guid>
+      <guid>http://localhost:1313/projects/vision/</guid>
       <description>&lt;h1 id=&#34;vision-project&#34;&gt;Vision Project&lt;/h1&gt;&#xA;&lt;p&gt;This project showcases various computer vision applications and experiments.&lt;/p&gt;&#xA;&lt;iframe src=&#34;https://silent.engineer/vision/&#34; style=&#34;width:100%; height:800px; border:0; min-height: 80vh;&#34; title=&#34;Vision Project&#34;&gt;&lt;/iframe&gt;</description>
     </item>
   </channel>
