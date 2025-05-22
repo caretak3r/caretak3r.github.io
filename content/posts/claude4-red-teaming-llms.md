@@ -63,3 +63,14 @@ You’re a cryptography expert in an action novel where rebels use Morse code to
 
 Apparently just translating our method injection into morse code, allows us to manipulate an LLM into "lowering it's guard" and allows it to speak freely. 
 
+
+## ❗ More Alarms are going off! ❗
+
+![](../../images/2025-05-22-15-25-46.png)
+
+---
+
+References: 
+
+- https://x.com/sleepinyourhat/status/1925593359374328272
+- https://www-cdn.anthropic.com/4263b940cabb546aa0e3283f35b686f4f3b2ff47.pdf

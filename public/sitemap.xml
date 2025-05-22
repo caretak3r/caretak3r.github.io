@@ -2,8 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/tags/ai-ethics/</loc>
+    <lastmod>2025-05-22T09:00:00-04:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/ai-safety/</loc>
+    <lastmod>2025-05-22T09:00:00-04:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/anthropic/</loc>
+    <lastmod>2025-05-22T09:00:00-04:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/categories/</loc>
-    <lastmod>2025-05-13T07:36:00-04:00</lastmod>
+    <lastmod>2025-05-22T09:00:00-04:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/claude-4/</loc>
+    <lastmod>2025-05-22T09:00:00-04:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/claude4-red-teaming-llms/</loc>
+    <lastmod>2025-05-22T09:00:00-04:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/large-language-models/</loc>
+    <lastmod>2025-05-22T09:00:00-04:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/red-teaming/</loc>
+    <lastmod>2025-05-22T09:00:00-04:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/responsible-ai/</loc>
+    <lastmod>2025-05-22T09:00:00-04:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-05-22T09:00:00-04:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-05-22T09:00:00-04:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/cosign/</loc>
     <lastmod>2025-05-13T07:36:00-04:00</lastmod>
@@ -23,16 +53,10 @@
     <loc>http://localhost:1313/posts/supply-chain-signing/</loc>
     <lastmod>2025-05-13T07:36:00-04:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2025-05-13T07:36:00-04:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/categories/supply-chain/</loc>
     <lastmod>2025-05-13T07:36:00-04:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/tags/supply-chain/</loc>
-    <lastmod>2025-05-13T07:36:00-04:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2025-05-13T07:36:00-04:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/diagram/</loc>

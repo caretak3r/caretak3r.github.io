@@ -6,8 +6,43 @@
     <description>Recent content in Tags on silent.engineer</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 13 May 2025 07:36:00 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 22 May 2025 09:00:00 -0400</lastBuildDate>
     <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI Ethics</title>
+      <link>http://localhost:1313/tags/ai-ethics/</link>
+      <pubDate>Thu, 22 May 2025 09:00:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/ai-ethics/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Anthropic</title>
+      <link>http://localhost:1313/tags/anthropic/</link>
+      <pubDate>Thu, 22 May 2025 09:00:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/anthropic/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Claude 4</title>
+      <link>http://localhost:1313/tags/claude-4/</link>
+      <pubDate>Thu, 22 May 2025 09:00:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/claude-4/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Red Teaming</title>
+      <link>http://localhost:1313/tags/red-teaming/</link>
+      <pubDate>Thu, 22 May 2025 09:00:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/red-teaming/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Responsible AI</title>
+      <link>http://localhost:1313/tags/responsible-ai/</link>
+      <pubDate>Thu, 22 May 2025 09:00:00 -0400</pubDate>
+      <guid>http://localhost:1313/tags/responsible-ai/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Cosign</title>
       <link>http://localhost:1313/tags/cosign/</link>

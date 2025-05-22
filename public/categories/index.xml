@@ -6,8 +6,22 @@
     <description>Recent content in Categories on silent.engineer</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 13 May 2025 07:36:00 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 22 May 2025 09:00:00 -0400</lastBuildDate>
     <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AI Safety</title>
+      <link>http://localhost:1313/categories/ai-safety/</link>
+      <pubDate>Thu, 22 May 2025 09:00:00 -0400</pubDate>
+      <guid>http://localhost:1313/categories/ai-safety/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Large Language Models</title>
+      <link>http://localhost:1313/categories/large-language-models/</link>
+      <pubDate>Thu, 22 May 2025 09:00:00 -0400</pubDate>
+      <guid>http://localhost:1313/categories/large-language-models/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Helm</title>
       <link>http://localhost:1313/categories/helm/</link>
