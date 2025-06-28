@@ -1,9 +1,9 @@
 ---
 title: "AI Content Verification - 1"
-date: 2025-06-05T023:00:00-04:00
+date: 2025-06-05T07:06:00-04:00
 draft: false
 categories: ["AI", "Large Language Models", "AI Safety"]
-tags: ["deepfakes", "llms", "detection", "AI Ethics", "Responsible AI"]
+tags: ["deepfakes", "LLM", "detection", "AI Ethics", "Responsible AI"]
 ---
 
 With the culmination of progress in various sectors of this AI-wave, I often think about _the truth_. Technological progress seems to bring us further away from the truth or reality of things, and closer to personal "world views". Personally, this is a problem. I tend to live in the light, and be honest always. It's easier. And there's some honor in it somewhere. 
