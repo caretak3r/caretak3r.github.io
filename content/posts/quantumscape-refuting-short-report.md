@@ -1,0 +1,29 @@
+---
+title: "A Comparative Analysis of Allegations and Subsequent Verifications Pertaining to QuantumScape Corporation's Technological Viability"
+date: 2025-07-22T11:01:00-04:00
+draft: false
+categories: ["stocks", "batteries"]
+tags: ["quantumscape", "qs", "batteries", "short-report"]
+---
+
+A lot has happened since that big 2021 report from a short-seller called QuantumScape's technology impossible. So, let's take a look at the claims they made back then and see how they stack up against the facts and progress we've seen from 2022 to mid-2024. The conversation has really shifted from "Can they even do this?" to "Okay, how will they build it at scale?"
+
+# The Claims vs. The Reality Today
+
+| **Category**                | **The 2021 Claim**                                                                                                                                         | **What Actually Happened (The 2024 Update)**                                                                                                                                                                                                                 |
+|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Dendrite & Battery Life** | They said the company's claims about stopping dendrites were bogus and that their cycle life data was just a gimmick from tiny, single-layer cells.         | VW's own battery company (PowerCo) tested it! In January 2024, they confirmed a 24-layer prototype went for over 1,000 cycles and still had more than 95% of its juice left. That's a huge deal and proves it works in a real, multi-layer setup.              |
+| **Making Multi-Layer Cells**| The report called the effort to build multi-layer batteries a "fraudulent narrative" and said their production line just didn't work.                       | They showed their work, step-by-step. They went from a single layer to 4, then 10, then 16, and finally shipped 24-layer "A-sample" prototypes to carmakers in late 2022. Now, in 2024, the even better "B-samples" have started shipping.                     |
+| **Fast Charging**           | The claim of a sub-15-minute fast charge was called "fake data" that couldn't be repeated.                                                                 | They proved it's durable! Back in February 2022, they showed their cells could handle 400 straight 15-minute fast charges (from 10% to 80%) and still keep over 80% of their health. This is now a key feature of their latest prototypes.                      |
+| **Making the Separator**    | The special ceramic separator was called "dead on arrival" because it was supposedly way too expensive and slow to make.                                   | They invented a better way! QuantumScape developed a new, super-fast manufacturing process called "Cobra." It's about 25 times faster and takes up way less space, making large-scale production actually look possible.                                       |
+| **Stress & Swelling**       | The report said that the lithium metal swelling during charging was a huge, unsolved problem that would make stacking layers impossible.                    | They designed a solution: The FlexFrame. They created a special battery case with a strong frame and flexible sides that's built to handle the natural swelling and shrinking of the lithium metal. Problem solved!                                            |
+| **The VW Partnership**      | The partnership was called "not real," with claims that VW didn't trust the data at all.                                                                   | They signed a massive licensing deal! In July 2024, VW's PowerCo signed a new agreement to license QuantumScape's tech for up to 80 GWh of batteries a year. PowerCo's CEO even called the test results a "milestone."                                         |
+| **Working in the Cold**     | The claim that the battery worked in freezing temperatures was called "just not true."                                                                     | They improved the science. In 2022, they developed a new material (a "catholyte") specifically to make the battery work better in the cold. It can now discharge at a chilly -30°C and still hold a good amount of its charge.                                 |
+| **Interest from Others**    | The company was accused of having no real interest from anyone besides its main investor, VW.                                                              | They've got more partners now. By mid-2022, QuantumScape had signed deals with six different car companies, including some of the biggest names and luxury brands in the world. They're all testing the new prototype batteries now.                           |
+
+So, what's the bottom line?
+The evidence we have today tells a very different story from the 2021 report. The old "this is impossible" argument doesn't really hold up anymore.
+
+The big questions have changed. It's not about if the science works, but how they can build these batteries cheaply and in huge numbers for the car industry. There are still big challenges ahead with manufacturing, for sure, but the fact that they've solved problems once called "unsolvable" and got the thumbs-up from a major partner like VW changes the whole game.
+
+As someone once said: "Improvements in battery technology needs to be some Nobel prize winning sh*t!"
