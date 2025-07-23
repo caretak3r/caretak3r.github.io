@@ -21,9 +21,42 @@ A lot has happened since that big 2021 report from a short-seller called Quantum
 | **Working in the Cold**     | The claim that the battery worked in freezing temperatures was called "just not true."                                                                     | They improved the science. In 2022, they developed a new material (a "catholyte") specifically to make the battery work better in the cold. It can now discharge at a chilly -30°C and still hold a good amount of its charge.                                 |
 | **Interest from Others**    | The company was accused of having no real interest from anyone besides its main investor, VW.                                                              | They've got more partners now. By mid-2022, QuantumScape had signed deals with six different car companies, including some of the biggest names and luxury brands in the world. They're all testing the new prototype batteries now.                           |
 
-So, what's the bottom line?
+## So, what's the bottom line?
 The evidence we have today tells a very different story from the 2021 report. The old "this is impossible" argument doesn't really hold up anymore.
 
 The big questions have changed. It's not about if the science works, but how they can build these batteries cheaply and in huge numbers for the car industry. There are still big challenges ahead with manufacturing, for sure, but the fact that they've solved problems once called "unsolvable" and got the thumbs-up from a major partner like VW changes the whole game.
 
-As someone once said: "Improvements in battery technology needs to be some Nobel prize winning sh*t!"
+## What's New Since the Q1 2025 Update?
+So, what's new since their last big update in Q1 2025? A lot! They're really showing they're moving from just doing R&D to actually getting ready to build this stuff for real.
+
+### Getting Batteries Out the Door
+The biggest news is that they're making real progress on the manufacturing front.
+
+### New Samples Shipping
+
+They've started sending out their latest battery samples, called QSE-5 B-samples, to customers. These are the first ones made with their new-and-improved Cobra process, and they're on track to get them out this year. The whole point is to show carmakers what these batteries can do in real-world situations.
+
+### Cobra is the Future? 
+
+They've got two ways of making their special ceramic separator. "Raptor" is the current workhorse, but "Cobra" is the new hotness. They say Cobra is a total game-changer for making ceramics, and it's even ahead of schedule! That's a great sign because Cobra is the key to making tons of these things without breaking the bank.
+
+### Big Name Partners
+
+Their teamwork with PowerCo (from Volkswagen) is moving along, and they're working together to figure out how to make the ceramic separator at a huge scale. Plus, their partner Murata (a huge Japanese electronics company) is apparently really excited about the Cobra tech. They see how it could make high-volume production a reality, which is awesome news.
+
+Licensing the "Secret Sauce": They're leaning into being a "tech licensing company." Basically, instead of trying to build all the giant factories themselves, they'll license their secret sauce to partners. This is pretty smart because it helps them dodge issues with global politics and tariffs. It also means they're not as worried about things like China's restrictions on metals, especially since their battery doesn't need graphite, which China dominates. The CEO says this strategy has carmakers feeling a "real uptick of urgency" to partner up.
+
+### Answering the Big Questions
+
+What's the deal with "Zero Excess Lithium"? This sounds complicated, but it's a huge deal. Normal batteries have a part called an anode already built-in. QS batteries cleverly create the anode on the very first charge! 
+
+But bringing up the "printer cartridge" problem: If these batteries are super expensive to replace after they wear out, it's a non-starter. The whole point of QS's tech is that it **should last way, way longer than current batteries**, which would solve this problem. It's still something they have to prove in real cars, but that's the goal.
+
+Is Fast Charging Safe? Shoving that much power into a battery super fast sounds a little scary, right? QS says safety is their #1 priority. Their solid separator is designed to prevent the kind of internal short-circuits (dendrites) that can cause fires in traditional batteries. The whole industry needs to be more transparent with safety data for these new fast-charging systems.
+
+### Market Position
+
+Right now, it seems like everyone is just promising better versions of the same old battery tech. Solid-state is the real future, and QS is one of the few trying to solve the core problems. While they have amazing tech, they still need to prove they can be a reliable partner that makes it easy for car companies to use their IP. That's their next big challenge.
+
+
+> As someone once said: "Improvements in battery technology needs to be some Nobel prize winning sh*t!"
