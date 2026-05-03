@@ -1,4 +1,4 @@
-- [ ] get rid of references to ai augmented anything 
+- [ ] get rid of references to ai augmented anything and TradingAgents 
 
 - [ ] engineering blog post filters [ALL WRITING PROJECT DIAGRAM] does not work 
 
