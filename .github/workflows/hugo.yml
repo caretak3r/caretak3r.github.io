@@ -6,6 +6,10 @@ on:
   push:
     branches: ["main"]
 
+  # Validates the build on every PR targeting main (no deploy)
+  pull_request:
+    branches: ["main"]
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -73,8 +77,9 @@ jobs:
         with:
           path: ./public
 
-  # Deployment job
+  # Deployment job — only on push to main (skipped for PR validation runs)
   deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
