@@ -33,7 +33,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
-from bs4 import BeautifulSoup, Tag
+from bs4 import BeautifulSoup, Comment, Tag
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_INPUT = REPO_ROOT / "data" / "reports"
@@ -159,6 +159,13 @@ def extract_body_html(soup: BeautifulSoup, source: Path) -> str:
     for tag in body.find_all(["style", "link"]):
         tag.decompose()
 
+    # HTML comments (`<!-- /.col-prose -->` etc.) are decorative annotations
+    # in the SEF source; lxml's serializer drops the comment wrappers and
+    # leaks the inner text as visible page content. Strip them outright —
+    # they have no semantic value once the report is on the site.
+    for node in body.find_all(string=lambda t: isinstance(t, Comment)):
+        node.extract()
+
     return "".join(str(c) for c in body.children)
 
 
@@ -190,7 +197,9 @@ def render_front_matter(report: Report) -> str:
         f'thesis_oneliner: "{escape_yaml(report.thesis_oneliner)}"',
         'layout: "report-html"',
         f'source_file: "{report.source_path.name}"',
-        f'source_hash: "{report.source_hash}"',
+        # Bumped from source_hash → source_hash_v2 when comment-stripping
+        # landed; existing files use the old key, force re-ingest once.
+        f'source_hash_v2: "{report.source_hash}"',
         "---",
     ]
     return "\n".join(fm_lines) + "\n\n"
@@ -216,7 +225,7 @@ def existing_hash(target: Path) -> str | None:
     front_matter = text[3:end]
     for line in front_matter.splitlines():
         line = line.strip()
-        if line.startswith("source_hash:"):
+        if line.startswith("source_hash_v2:"):
             value = line.split(":", 1)[1].strip()
             return value.strip('"').strip("'")
     return None
