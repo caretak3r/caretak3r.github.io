@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Silent Engineering Fund Research — AMTM | 2026-05-03</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fg: #2a261f;
+    --fg-secondary: #5a4f3f;
+    --fg-tertiary: #8a7c66;
+    --bg: #faf6ef;
+    --bg-subtle: #f5ecd9;
+    --bg-muted: #efe3c4;
+    --paper: #faf6ef;
+    --paper-soft: #f5ecd9;
+    --border: #d4c9a8;
+    --border-light: #e6dcc1;
+    --rule: #b9a878;
+    --accent: #2c7a3f;
+    --accent-bg: #ecf2db;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    --font-mono: 'IBM Plex Mono', 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+    --font-serif: 'Source Serif 4', 'Charter', 'Iowan Old Style', 'Sitka Text', Cambria, 'Times New Roman', Georgia, serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-serif);
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1;
+    color: var(--fg);
+    background: var(--bg);
+    line-height: 1.7;
+    max-width: none;
+    margin: 0;
+    padding: 56px 0 88px;
+    counter-reset: section;
+  }
+
+  /* ---- Section width tiers (see references/report-standards.md §5) ----
+     Body is no longer a single 820px column. Each section opts into a
+     tier wrapper that sets its own max-width + horizontal padding. The
+     eye gets rhythm from width changes between sections; prose stays at
+     a readable 70-80 char measure. */
+  .col-prose, .col-wide, .col-bleed {
+    margin: 0 auto;
+    padding: 0 36px;
+  }
+  .col-prose { max-width: 820px; }
+  .col-wide  { max-width: 1080px; }
+  .col-bleed { max-width: 1280px; }
+
+  /* Solo-card variant of debate-grid (single full-width card, e.g. the
+     Neutral risk panel under the Aggressive/Conservative pair). Replaces
+     an inline style that used to live in the body scaffold. */
+  .debate-grid--solo {
+    grid-template-columns: 1fr;
+    margin-top: 0;
+  }
+
+  /* ---- Header ---- */
+  .header { border-bottom: 1.5px solid var(--rule); padding-bottom: 18px; margin-bottom: 36px; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; }
+  .fund-name {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.20em; text-transform: uppercase; color: var(--fg);
+  }
+  .date {
+    font-family: var(--font-sans); font-size: 11.5px; color: var(--fg-tertiary);
+    font-variant-numeric: tabular-nums; letter-spacing: 0.02em;
+  }
+  .ticker {
+    font-family: var(--font-sans); font-size: 42px; font-weight: 700;
+    letter-spacing: -0.025em; line-height: 1; color: var(--fg);
+  }
+  .company-full {
+    font-family: var(--font-serif); font-style: italic; font-size: 16px;
+    color: var(--fg-secondary); margin-top: 6px; letter-spacing: -0.005em;
+  }
+  .meta-row {
+    display: flex; gap: 28px; font-family: var(--font-sans); font-size: 11.5px;
+    color: var(--fg-tertiary); margin-top: 12px; letter-spacing: 0.02em;
+  }
+  .meta-row span { font-variant-numeric: tabular-nums; }
+
+  /* ---- Rating Badge ---- */
+  .rating-badge {
+    display: inline-block; font-family: var(--font-sans); font-size: 11.5px;
+    font-weight: 600; letter-spacing: 0.12em; padding: 6px 14px; border-radius: 2px;
+    border: 1.5px solid #2c7a3f; color: #2c7a3f; background: #ecf2db;
+    margin-top: 14px;
+  }
+
+  /* ---- Narrative Lede (FIRST visible content; storyteller output) ---- */
+  .lede {
+    font-family: var(--font-serif); font-size: 18.5px; line-height: 1.72;
+    color: var(--fg); margin: 0 0 44px 0;
+    padding: 36px 40px 32px 40px;
+    background: var(--paper-soft);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    position: relative;
+  }
+  .lede::before {
+    content: "OPENING NOTE";
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--fg-tertiary);
+    margin-bottom: 18px;
+  }
+  .lede p { margin: 14px 0 0 0; }
+  .lede p:first-of-type { margin-top: 0; }
+  .lede p:first-of-type::first-letter {
+    font-family: var(--font-serif);
+    font-size: 4.4em; font-weight: 600; float: left; line-height: 0.86;
+    margin: 6px 12px -2px 0; color: var(--accent);
+    font-feature-settings: "ss01" 1;
+  }
+  .lede p strong { font-weight: 600; }
+  .lede p em { font-style: italic; }
+  .lede hr { display: none; }
+  .lede-provenance {
+    margin-top: 22px; padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-family: var(--font-sans); font-size: 11px; line-height: 1.55;
+    color: var(--fg-tertiary); letter-spacing: 0.01em;
+  }
+  .lede-provenance p { margin: 4px 0; }
+  .lede-provenance strong {
+    color: var(--fg-secondary); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.10em; font-size: 10px;
+  }
+  .lede-provenance ul { margin: 6px 0 0 18px; padding: 0; }
+  .lede-provenance li { margin: 2px 0; }
+
+  /* ---- Decision Box ---- */
+  .decision-box {
+    border: 1px solid var(--border); border-left: 3px solid var(--accent);
+    padding: 28px 32px; margin: 36px 0; background: var(--bg-subtle);
+  }
+  .decision-box h2 {
+    font-family: var(--font-sans); font-size: 11.5px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-tertiary);
+    margin-bottom: 14px;
+  }
+  .decision-box .summary {
+    font-family: var(--font-serif); font-size: 17px; line-height: 1.65;
+    color: var(--fg); font-weight: 400;
+  }
+  .decision-box .summary p { margin: 0 0 10px 0; }
+  .decision-box .summary strong { font-weight: 600; }
+  .decision-box .thesis {
+    font-family: var(--font-serif); font-size: 15px; line-height: 1.75;
+    color: var(--fg); margin-top: 20px;
+  }
+  .decision-box .thesis p { margin: 10px 0; }
+  .decision-box .thesis p:first-of-type::first-letter {
+    font-size: 3.4em; font-weight: 600; float: left; line-height: 0.9;
+    margin: 4px 8px 0 0; color: var(--fg);
+  }
+  .decision-box .thesis strong { font-weight: 600; color: var(--fg); }
+  .decision-box .thesis em { font-style: italic; }
+
+  /* ---- Charts ---- */
+  .chart-block { margin: 28px 0; }
+  .chart-svg {
+    width: 100%; height: auto; display: block;
+    background: var(--paper); border: 1px solid var(--border);
+  }
+  .chart-caption {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 12.5px; color: var(--fg-tertiary);
+    margin-top: 8px; line-height: 1.55;
+  }
+
+  /* ---- Key Levels Table ---- */
+  .levels-table {
+    width: 100%; border-collapse: collapse; margin: 28px 0;
+    font-family: var(--font-sans); font-size: 13px;
+  }
+  .levels-table th {
+    text-align: left; font-weight: 600; font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 10px 14px;
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .levels-table td {
+    padding: 12px 14px; border-bottom: 1px solid var(--border-light);
+    font-variant-numeric: tabular-nums;
+  }
+  .levels-table tr:last-child td { border-bottom: none; }
+  .level-label { color: var(--fg); font-weight: 500; }
+  .level-value { font-weight: 600; font-family: var(--font-mono); font-size: 13px; color: var(--fg); }
+  .level-note { color: var(--fg-secondary); font-size: 12.5px; font-style: italic; font-family: var(--font-serif); }
+
+  /* ---- Section Headings ---- */
+  /* Each h2.section carries an auto-incrementing accent-colored eyebrow
+     ("01", "02", ...) rendered via CSS counter — no HTML changes needed,
+     and conditional sections (quant lane, risk factors) get numbered
+     correctly when present. Counter is reset on body. */
+  h2.section {
+    font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg);
+    border-top: 1px solid var(--rule); padding-top: 32px;
+    margin-top: 52px; margin-bottom: 22px;
+  }
+  h2.section::before {
+    counter-increment: section;
+    content: counter(section, decimal-leading-zero);
+    display: block;
+    font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.10em; color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  /* ---- Section drop caps (extends the lede + thesis pattern) ----
+     Drop cap anchors the narrative entry of every interim-box section
+     (Research Manager + Trader). Scoped to .interim-box only — debate
+     cards and analyst sub-sections have their own h3/h4 hierarchy and
+     would crowd if drop-capped. See design-system.md drop-cap policy. */
+  .interim-box .content p:first-of-type::first-letter {
+    font-family: var(--font-serif); font-size: 3rem; font-weight: 600;
+    color: var(--accent);
+    float: left; line-height: 0.85;
+    margin: 6px 12px -2px 0;
+  }
+
+  /* ---- Analyst Report Content ---- */
+  .report-content { font-family: var(--font-serif); font-size: 15px; line-height: 1.75; color: var(--fg); }
+  .report-content h3 {
+    font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+    letter-spacing: -0.005em; margin: 24px 0 10px; color: var(--fg);
+  }
+  .report-content h4 {
+    font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+    margin: 18px 0 8px; color: var(--fg-secondary);
+  }
+  .report-content p { margin: 10px 0; }
+  .report-content strong { font-weight: 600; color: var(--fg); }
+  .report-content em { font-style: italic; }
+  .report-content ul, .report-content ol { margin: 10px 0 10px 22px; }
+  .report-content li { margin: 5px 0; }
+  .report-content table { width: 100%; border-collapse: collapse; margin: 18px 0; font-family: var(--font-sans); font-size: 12.5px; }
+  .report-content th {
+    text-align: left; font-weight: 600; font-size: 10.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 10px 12px;
+    border-bottom: 1.5px solid var(--rule); background: transparent;
+  }
+  .report-content td { padding: 9px 12px; border-bottom: 1px solid var(--border-light); font-variant-numeric: tabular-nums; }
+  .report-content .na { color: var(--fg-tertiary); font-style: italic; font-family: var(--font-serif); }
+  .report-content code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-muted); padding: 2px 5px; border-radius: 2px; }
+
+  /* ---- Debate Sections ---- */
+  .debate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 18px 0; }
+  .debate-card { border: 1px solid var(--border); padding: 22px 24px; background: var(--bg-subtle); }
+  .debate-card.bull { border-left: 3px solid #2c7a3f; }
+  .debate-card.bear { border-left: 3px solid #9e2222; }
+  .debate-card.aggressive { border-left: 3px solid #1f6b3a; }
+  .debate-card.conservative { border-left: 3px solid #9e2222; }
+  .debate-card.neutral { border-left: 3px solid #8a7c66; }
+  .debate-label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg); margin-bottom: 10px;
+  }
+  .debate-card .report-content { font-family: var(--font-serif); font-size: 14px; line-height: 1.7; }
+  .debate-card .report-content p { margin: 8px 0; }
+  .debate-card .report-content p:first-child { margin-top: 0; }
+
+  /* ---- Research Manager / Trader Boxes ---- */
+  .interim-box { border: 1px solid var(--border); padding: 24px 28px; margin: 18px 0; background: var(--bg-subtle); }
+  .interim-box .label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg); margin-bottom: 14px;
+  }
+  .interim-box .content { font-family: var(--font-serif); font-size: 14.5px; line-height: 1.75; }
+  .interim-box .content p { margin: 10px 0; }
+  .interim-box .content strong { color: var(--fg); font-weight: 600; }
+  .interim-box .content em { font-style: italic; }
+
+  /* ---- Quantitative Lane ---- */
+  .quant-box {
+    border: 1px solid var(--border); padding: 22px 26px;
+    margin: 18px 0; background: var(--bg-subtle);
+  }
+  .quant-label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg);
+    margin-bottom: 14px;
+  }
+  .quant-summary {
+    font-family: var(--font-serif); font-size: 14.5px; line-height: 1.6;
+    color: var(--fg); margin-bottom: 14px;
+  }
+  .quant-interp {
+    font-family: var(--font-serif); font-size: 13px; line-height: 1.6;
+    color: var(--fg-secondary); margin-top: 12px;
+  }
+  .quant-table {
+    width: 100%; border-collapse: collapse; margin: 8px 0;
+    font-family: var(--font-sans); font-size: 12.5px;
+  }
+  .quant-table th {
+    text-align: left; font-weight: 600; font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 8px 12px;
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .quant-table td {
+    padding: 9px 12px; border-bottom: 1px solid var(--border-light);
+    font-variant-numeric: tabular-nums;
+  }
+  .quant-table tr:last-child td { border-bottom: none; }
+
+  .cc-customer { color: var(--fg); font-weight: 500; }
+  .cc-pct       { font-family: var(--font-mono); font-weight: 600; color: var(--fg); }
+  .cc-type      { color: var(--fg-secondary); font-style: italic; font-family: var(--font-serif); font-size: 12.5px; }
+  .cc-asof      {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 11.5px; color: var(--fg-tertiary); margin-top: 10px;
+  }
+
+  .bm-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px; margin: 12px 0 18px 0;
+  }
+  .bm-card {
+    background: var(--paper); border: 1px solid var(--border-light);
+    padding: 12px 14px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .bm-key {
+    font-family: var(--font-sans); font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-tertiary);
+  }
+  .bm-val {
+    font-family: var(--font-mono); font-size: 17px; font-weight: 600;
+    color: var(--fg); font-variant-numeric: tabular-nums; line-height: 1.2;
+  }
+  .bm-sub {
+    font-family: var(--font-serif); font-size: 11.5px; font-style: italic;
+    color: var(--fg-tertiary); margin-top: 2px;
+  }
+  .bm-status {
+    display: inline-block; align-self: flex-start; margin-top: 4px;
+    padding: 2px 7px; border-radius: 2px;
+    font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .bm-status.pass     { color: #1f6b3a; background: #e9f0d9; border: 1px solid #c4d4a3; }
+  .bm-status.marginal { color: #9e5a16; background: #f5e7cf; border: 1px solid #e2c895; }
+  .bm-status.fail     { color: #9e2222; background: #f3dccd; border: 1px solid #d9b09d; }
+
+  /* ---- Technical-Indicator Signal Badges ---- */
+  .ti-signal {
+    display: inline-block; vertical-align: 1px; margin-left: 8px;
+    padding: 2px 8px; border-radius: 2px;
+    font-family: var(--font-sans); font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
+    line-height: 1.4;
+  }
+  .ti-bullish { color: #1f6b3a; background: #e9f0d9; border: 1px solid #c4d4a3; }
+  .ti-bearish { color: #9e2222; background: #f3dccd; border: 1px solid #d9b09d; }
+  .ti-warning { color: #9e5a16; background: #f5e7cf; border: 1px solid #e2c895; }
+  .ti-neutral { color: #6e6457; background: #efe7d3; border: 1px solid #c9bd99; }
+
+  /* ---- Channel Checks ---- */
+  .channel-checks {
+    margin: 18px 0 8px 0;
+    border-top: 1px solid var(--border-light); padding-top: 14px;
+  }
+  .cc-title, .nw-title {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-tertiary);
+    margin-bottom: 10px;
+  }
+  .channel-list { list-style: none; margin: 0; padding: 0; }
+  .channel-row {
+    display: grid; grid-template-columns: 22px 1fr auto;
+    gap: 12px; align-items: baseline;
+    padding: 8px 0; border-bottom: 1px dashed var(--border-light);
+  }
+  .channel-row:last-child { border-bottom: none; }
+  .channel-icon {
+    font-family: var(--font-sans); font-weight: 700; font-size: 14px;
+    line-height: 1; text-align: center;
+  }
+  .channel-row.pass .channel-icon     { color: #1f6b3a; }
+  .channel-row.marginal .channel-icon { color: #9e5a16; }
+  .channel-row.fail .channel-icon     { color: #9e2222; }
+  .channel-label { font-family: var(--font-serif); font-size: 13.5px; color: var(--fg); }
+  .channel-label strong { font-weight: 600; }
+  .channel-label .check-note { color: var(--fg-secondary); font-style: italic; }
+  .channel-status {
+    font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 2px; white-space: nowrap;
+  }
+  .channel-row.pass .channel-status     { color: #1f6b3a; background: #e9f0d9; }
+  .channel-row.marginal .channel-status { color: #9e5a16; background: #f5e7cf; }
+  .channel-row.fail .channel-status     { color: #9e2222; background: #f3dccd; }
+
+  /* ---- Notable Wins ---- */
+  .notable-wins {
+    margin: 18px 0 6px 0;
+    border-top: 1px solid var(--border-light); padding-top: 14px;
+  }
+  .nw-list { list-style: none; margin: 0; padding: 0; }
+  .nw-row {
+    display: grid; grid-template-columns: 1fr auto auto;
+    gap: 14px; align-items: baseline;
+    padding: 6px 0; border-bottom: 1px dashed var(--border-light);
+  }
+  .nw-row:last-child { border-bottom: none; }
+  .nw-customer { font-family: var(--font-serif); font-size: 13.5px; color: var(--fg); font-weight: 500; }
+  .nw-value    { font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: var(--fg); }
+  .nw-type     { font-family: var(--font-serif); font-size: 12px; font-style: italic; color: var(--fg-secondary); }
+
+  .cat-table td.cat-date {
+    font-family: var(--font-mono); font-size: 12px; color: var(--fg);
+    white-space: nowrap; padding-right: 18px;
+  }
+  .cat-table td.cat-event { font-family: var(--font-serif); font-size: 13.5px; }
+  .cat-table td.cat-event strong { color: var(--fg); font-weight: 600; }
+  .cat-table td.cat-impact {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-align: right;
+  }
+  .cat-row.cat-high td.cat-impact      { color: #9e2222; }
+  .cat-row.cat-medium td.cat-impact    { color: #9e5a16; }
+  .cat-row.cat-low td.cat-impact       { color: var(--fg-tertiary); }
+  .cat-row.cat-high td:first-child     { border-left: 3px solid #9e2222; padding-left: 10px; }
+  .cat-row.cat-medium td:first-child   { border-left: 3px solid #9e5a16; padding-left: 10px; }
+  .cat-row.cat-low td:first-child      { border-left: 3px solid var(--border); padding-left: 10px; }
+  .cat-quarter-header td {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary);
+    padding: 10px 12px 4px 12px; border-bottom: 1px solid var(--border-light);
+    background: transparent;
+  }
+  .cat-quarter-header:first-child td { padding-top: 6px; }
+  .cat-row + .cat-quarter-header td { padding-top: 14px; }
+  .cat-row td { padding-top: 7px; padding-bottom: 7px; }
+
+  /* ---- Footer ---- */
+  .footer {
+    margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
+    font-family: var(--font-serif); font-size: 12px; font-style: italic;
+    color: var(--fg-tertiary); line-height: 1.65;
+  }
+  .footer .disclaimer { max-width: 620px; }
+  .footer .colophon {
+    font-family: var(--font-sans); font-size: 10.5px; font-style: normal;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-tertiary); margin-top: 16px;
+  }
+
+  /* ---- Print ---- */
+  @media print {
+    body { padding: 24px 0 48px; font-size: 12px; max-width: 100%; background: #fff; }
+    .col-prose, .col-wide, .col-bleed {
+      max-width: 100%;
+      padding: 0 24px;
+    }
+    .header { break-inside: avoid; }
+    .lede { break-inside: avoid; background: #faf6ef; }
+    .decision-box { break-inside: avoid; }
+    .debate-grid { grid-template-columns: 1fr 1fr; }
+    .debate-grid--solo { grid-template-columns: 1fr; }
+    .interim-box { break-inside: avoid; }
+    .chart-svg { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Section width tiers — see references/report-standards.md §5.
+     prose: 820px (narrative), wide: 1080px (grids), bleed: 1280px (charts). -->
+
+<div class="col-prose">
+
+<div class="header">
+  <div class="header-top">
+    <div class="fund-name">Silent Engineering Fund</div>
+    <div class="date">May 03, 2026</div>
+  </div>
+  <div class="ticker">AMTM</div>
+  
+  <div class="meta-row">
+    <span>Analysis Date: 2026-05-03</span>
+  </div>
+  <div class="rating-badge">OVERWEIGHT</div>
+</div>
+
+<div class="lede">
+<p>Amentum did not exist, in its current form, until September 2024 — when Jacobs spun out Critical Mission Solutions and merged it into legacy Amentum, instantly minting a $14B-revenue government-services prime [fact]. That origin matters, because what came out the other side is one of only ~3 Western tier-1 nuclear-services primes still standing after Bechtel exited environmental remediation in 2023 and the Westinghouse-Brookfield ownership shuffle reshuffled the competitive set [fact]. The qualification stack is the moat: Hanford site management for DOE, Exploration Ground Systems for NASA Artemis, DoD test-range operations — none of which are won on price [inferred]. They have quietly stitched in $730M of EDF work in the UK, a $207M Dutch contract, a $112M pan-European JV, and Rolls-Royce SMR positioning, while $47.2B of backlog (3.3x revenue, vs Leidos 2.0x and Booz Allen 2.5x) does the talking on visibility [fact]. The balance sheet looks alarming until you read it — negative $3.01B tangible book, equity stack entirely goodwill and intangibles — which is what services M&amp;A looks like when it works [fact]. The risk that actually matters is fee compression on cost-plus award fees if DoD program scopes contract; 24% fixed-price exposure at 8.1% adj EBITDA margins is the silent-killer [fact]. Trading at 9.3x forward against peers near 17x, with the new IR head — ex-Stifel defense analyst Joseph DeNardi, hired April 2026 — signaling the C-suite finally wants to be understood [fact].</p>
+<div class="lede-provenance">
+<p><strong>Sources</strong>: <code>fundamentals_report</code>, <code>market_report</code>, <code>customer_concentration</code>, <code>backlog_metrics</code>, <code>risk_factors_item_1a</code>, <code>investment_debate_state.bull_history</code>, <code>final_trade_decision</code></p>
+
+<p><strong>Confidence</strong>: 7 facts | 1 inference | 0 speculative</p>
+
+<p><strong>Gaps</strong>: None — all required fields present.</p>
+</div>
+</div>
+
+<div class="decision-box">
+  <h2>Portfolio Decision</h2>
+  <div class="summary"><p>Initiate Amentum Holdings (AMTM) at a 2.5-3.0% portfolio weight in the $25.40-25.80 entry zone with a hard stop at $22.50 and a 12-15 month price target of $33 (central) / $38-40 (stretch). The position is constructive but execution-dependent: forward PE 9.3x against a ~45% peer discount, $47.2B backlog (3.3x revenue, the highest in peer cohort), and 1.1x LTM book-to-bill provide the asymmetry, while the GES segment -11% YoY print and 81% federal-government concentration require staged sizing rather than a full conviction call. Q2 FY26 earnings (~May 5-12, 2026) is the proximate test of the FY26 $2.25-2.45 adj EPS guide; a clean print supports adding to 3.5%.</p></div>
+  <div class="thesis"><p>AMTM trades at a ~45% forward-PE discount to the LDOS / BAH / CACI cohort despite holding the highest backlog-to-revenue ratio in the group (3.3x vs peer ~2.0-2.5x) and tracking a clear deleveraging trajectory from 4.0x net-debt/EBITDA at the September 2024 merger close to 3.2x at Q1 FY26 to a stated target of ~2.5x within 12-18 months. Each 25 bps of leverage reduction has historically supported ~50 bps of EV/EBITDA multiple expansion in services primes, providing a mechanical re-rating path independent of revenue growth. The Q1 FY26 EPS beat of $0.54 vs consensus $0.25 (+116%) and management's reaffirmation of FY26 guidance establish the credibility of the operating bridge. Citizens's $40 price target (Apr 16, 2026) and the cluster of insider purchases at $20.81-21.22 in February 2025 (Demetriou $2.08M, Loughran $97K) provide independent fundamental confirmation.</p>
+
+<p>The bull-vs-bear debate cleared 3 of 5 Specificity Bar items cleanly (dated catalysts, FY26 NDAA budget cycle reference, falsifiable kill-switch) and 2 partially (TAM math sourcing, consolidation reference amended to nuclear-services tier-1 set reduction). Per the specificity-bar enforcement protocol, this drives the rating to Overweight rather than Buy. The bear's strongest argument — fee compression risk on cost-plus contracts under tight federal budget cycles — is a structural margin risk that warrants the disciplined sizing and explicit kill-switch (LTM book-to-bill below 0.95x for two consecutive quarters → reduce position).</p>
+
+<p>The risk debate produced a clear convergence: Aggressive at 4%+ sizing was overconfident given execution risk; Conservative at 1.5-2% sizing forfeited too much expected return; Neutral's 2.5-3% initial with 3.5% add-trigger is the disciplined posture. The prior memory log shows an Apple position (May 2024) returned +3.7% vs SPY +1.7% over 5 days — a reminder that tier-1 names with backlog-protected revenue tend to deliver alpha during execution windows, even at modest sizing.</p></div>
+</div>
+
+
+
+</div><!-- /.col-prose -->
+
+<div class="col-bleed">
+<h2 class="section">Quantitative Lane</h2>
+<div class="quant-box">
+  <div class="quant-label">Customer Concentration</div>
+  <div class="report-content"><h3>Customer Concentration</h3>
+
+<p><strong>Source</strong>: FY25 10-K + nerdoutonbusiness.com sector analysis + Q1 FY26 earnings disclosure</p>
+
+<ul>
+<li><strong>U.S. Federal Government</strong>: ~81% of total revenue (consolidated; no single agency &gt;10% disclosed in FY25 10-K)</li>
+<li><strong>Allied governments + commercial nuclear</strong>: ~19% of revenue</li>
+</ul>
+
+<p><strong>Agency-level qualitative exposure</strong> (revenue % not disclosed at agency level):</p>
+<ul>
+<li>Department of Energy (DOE): Significant — Hanford site management, Savannah River, environmental remediation</li>
+<li>Department of Defense (DoD): Significant — multi-command exposure including USAF (RPA sustainment $995M IDIQ), Army test ranges, MDA (SHIELD $151B ceiling)</li>
+<li>NASA: Significant — Consolidated Operations Management Engineering &amp; Test (COMET), Exploration Ground Systems (Artemis II/III/IV), Kennedy Space Center support</li>
+<li>Intelligence Community: Cleared work — specifics not disclosed for security reasons</li>
+<li>DISA / civilian federal IT: $120M+ recent awards (Q1 FY26)</li>
+</ul>
+
+<p><strong>Contract type mix (FY25)</strong>:</p>
+<ul>
+<li>Cost-plus-fee: 63%</li>
+<li>Fixed-price: 24%</li>
+<li>Time-and-materials: 13%</li>
+</ul>
+
+<p><strong>Critical commentary</strong>: The dominant single-event risk is <strong>program concentration</strong>, not customer concentration. While 81% from US federal government sounds like dangerous concentration, the underlying revenue base is spread across DOE, DoD (multiple commands), NASA, and intel — meaning any single agency budget cut affects only a fraction of total revenue. However, the loss of any individual large recompete (Hanford site management at &gt;$1B/year, NASA EGS at &gt;$500M/year) would be a material single-event impairment to revenue and to backlog. The 24% fixed-price exposure is the secondary structural risk, particularly on multi-year fixed-price contracts signed before the 2022-2024 inflation surge.</p>
+
+<p><strong>Customer concentration disclosure quality</strong>: Amentum's FY25 10-K does not name top customers by % of revenue beyond the consolidated 81% federal figure. This is below disclosure quality of peers (Leidos, BAH disclose top-3 customer % when material). The FY26 10-K (filing late 2026) is a watch item for whether disclosure improves under the new IR head.</p></div>
+</div>
+<div class="quant-box">
+  <div class="quant-label">Backlog &amp; Book-to-Bill</div>
+  
+  
+  
+  <table class="quant-table">
+    <thead><tr><th>Quarter</th><th>Backlog</th><th>Book-to-Bill</th></tr></thead>
+    <tbody>
+<tr><td>Q4 FY24</td><td>—</td><td>1.00x</td></tr>
+<tr><td>Q1 FY25</td><td>—</td><td>1.00x</td></tr>
+<tr><td>Q2 FY25</td><td>—</td><td>0.95x</td></tr>
+<tr><td>Q3 FY25</td><td>—</td><td>1.05x</td></tr>
+<tr><td>Q4 FY25</td><td>—</td><td>1.10x</td></tr>
+<tr><td>Q1 FY26</td><td>—</td><td>1.00x</td></tr>
+    </tbody>
+  </table>
+  
+  
+</div>
+<div class="quant-box">
+  <div class="quant-label">Catalyst Calendar</div>
+  <div class="chart-block"><svg viewBox="0 0 1080 414" xmlns="http://www.w3.org/2000/svg" class="chart-svg" role="img" aria-label="Catalyst timeline">
+  <rect width="1080" height="414" fill="#faf6ef"/>
+  <text x="24" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.16em" fill="#2a261f">CATALYST TIMELINE</text>
+  <line x1="24" y1="32" x2="1050" y2="32" stroke="#d8caa6" stroke-width="0.6"/>
+  <line x1="180" y1="52" x2="180" y2="402" stroke="#d8caa6" stroke-width="1.0"/>
+  <text x="160" y="70" text-anchor="end" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.18em" fill="#6e6457">Q2 2026</text>
+  <line x1="200" y1="66" x2="1050" y2="66" stroke="#d8caa6" stroke-width="0.5" stroke-dasharray="2,3"/>
+  <text x="160" y="90.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-05-08</text>
+  <circle cx="180" cy="87.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="90.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q2 FY26 earnings (estimated; window May 5-12)</text>
+  <text x="1050" y="90.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="122.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-06-15</text>
+  <circle cx="180" cy="119.6" r="4.5" fill="#9e5a16" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="122.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">DoD FY27 POM cycle markup window opens</text>
+  <text x="1050" y="122.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e5a16">MED</text>
+  <text x="160" y="152" text-anchor="end" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.18em" fill="#6e6457">Q3 2026</text>
+  <line x1="200" y1="148" x2="1050" y2="148" stroke="#d8caa6" stroke-width="0.5" stroke-dasharray="2,3"/>
+  <text x="160" y="172.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-07-15</text>
+  <circle cx="180" cy="169.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="172.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Federal FY26 appropriations completion / Q3 CR risk</text>
+  <text x="1050" y="172.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="204.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-08-12</text>
+  <circle cx="180" cy="201.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="204.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q3 FY26 earnings (estimated)</text>
+  <text x="1050" y="204.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="236.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-Q3</text>
+  <circle cx="180" cy="233.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="236.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Hanford site management recompete (estimated, contingent on DOE schedule)</text>
+  <text x="1050" y="236.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="268.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-09-30</text>
+  <circle cx="180" cy="265.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="268.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">FY26 fiscal year-end (estimated late September/early October)</text>
+  <text x="1050" y="268.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="298" text-anchor="end" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.18em" fill="#6e6457">Q4 2026</text>
+  <line x1="200" y1="294" x2="1050" y2="294" stroke="#d8caa6" stroke-width="0.5" stroke-dasharray="2,3"/>
+  <text x="160" y="318.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-11-10</text>
+  <circle cx="180" cy="315.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="318.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q4 FY26 + FY27 guidance reset</text>
+  <text x="1050" y="318.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="350.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-Q4</text>
+  <circle cx="180" cy="347.6" r="4.5" fill="#9e5a16" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="350.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Major SMR program awards (Rolls-Royce, EDF, US DOE)</text>
+  <text x="1050" y="350.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e5a16">MED</text>
+  <text x="160" y="382.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-12-15</text>
+  <circle cx="180" cy="379.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="382.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">FY27 NDAA signature / authorization</text>
+  <text x="1050" y="382.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+</svg><p class="chart-caption">Catalyst nodes are color-coded by impact (red=high, amber=medium, tan=low). Events grouped by quarter in the table below.</p></div>
+  <table class="quant-table cat-table">
+    <thead><tr><th>Date</th><th>Event</th><th>Impact</th></tr></thead>
+    <tbody>
+<tr class="cat-quarter-header"><td colspan="3">2026-Q2</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-05-08</td><td class="cat-event"><strong>Q2 FY26 earnings (estimated; window May 5-12)</strong> — Test of FY26 guidance reaffirm $2.25-2.45 EPS; Q1 beat by 116% so high bar</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">2026-06-15</td><td class="cat-event"><strong>DoD FY27 POM cycle markup window opens</strong> — Forward fiscal process; sector multiples sensitive to defense topline trajectory</td><td class="cat-impact">Medium</td></tr>
+<tr class="cat-quarter-header"><td colspan="3">2026-Q3</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-07-15</td><td class="cat-event"><strong>Federal FY26 appropriations completion / Q3 CR risk</strong> — Continuing resolution risk peaks in late summer; AMTM 81% gov-concentrated</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-08-12</td><td class="cat-event"><strong>Q3 FY26 earnings (estimated)</strong> — Mid-year guidance update; key tell on backlog conversion</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-Q3</td><td class="cat-event"><strong>Hanford site management recompete (estimated, contingent on DOE schedule)</strong> — Single-program risk; &gt;$1B/year revenue at stake</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-09-30</td><td class="cat-event"><strong>FY26 fiscal year-end (estimated late September/early October)</strong> — Total backlog year-end print; FY27 guidance preview</td><td class="cat-impact">High</td></tr>
+<tr class="cat-quarter-header"><td colspan="3">2026-Q4</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-11-10</td><td class="cat-event"><strong>Q4 FY26 + FY27 guidance reset</strong> — Most consequential annual catalyst; FY27 EPS outlook</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">2026-Q4</td><td class="cat-event"><strong>Major SMR program awards (Rolls-Royce, EDF, US DOE)</strong> — Nuclear renaissance theme; secondary consideration vs core gov-services</td><td class="cat-impact">Medium</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-12-15</td><td class="cat-event"><strong>FY27 NDAA signature / authorization</strong> — Multi-quarter overhang; sector impact dependent on procurement allocation</td><td class="cat-impact">High</td></tr>
+    </tbody>
+  </table>
+</div>
+</div><!-- /.col-bleed -->
+
+<div class="col-prose">
+
+<h2 class="section">Research Manager</h2>
+<div class="interim-box">
+  <div class="label">Investment Plan — Overweight</div>
+  <div class="content">
+    <p><strong>Rationale:</strong> <p>AMTM presents the rare combination of a 9.3x forward PE on a name with $47.2B of contracted backlog (3.3x revenue), 1.1x LTM book-to-bill, and a clearly-articulated deleveraging path from 4.0x → 3.2x → ~2.5x net-debt/EBITDA over ~12-18 months. The bull case clears 3 of 5 Specificity Bar items cleanly and 2 partially — sufficient for a constructive but not maximally aggressive stance. Citizens's $40 PT and the $0.54 Q1 FY26 EPS beat (+116% vs consensus) give independent confirmation that the FY26 guide of $2.25-2.45 is achievable.</p>
+
+<p>The bear's strongest points — GES segment -11% YoY and Q4 FY25 FCF of -$142M — are real but are explained by divestiture comp distortion and working-capital seasonality, not structural deterioration. The 81% federal concentration is a known feature of the business model, not a hidden risk; it is priced into the multiple already. The technical chart is bearish but at RSI 39 is approaching mean-reversion territory rather than trend-continuation territory.</p>
+
+<p>The argument that tipped the rating from Buy to Overweight: the bear's point on <strong>fee compression in cost-plus contracts under tight budget cycles</strong> is a structural margin risk that the bull did not adequately rebut. With 8.1% adj EBITDA margins, AMTM has limited cushion if award fees compress 50-100 bps across the portfolio. That risk is the reason the position should be sized as a constructive tilt rather than a maximum conviction trade.</p></p>
+    <p><strong>Strategic Actions:</strong> <ul>
+<li>Initiate or expand position in the $24.50-25.80 zone, scaling on weakness toward $22.50 if technical retest occurs</li>
+<li>Target position size: 2.5-3.5% of risk-bucket allocation (consistent with Overweight; full-Buy would be 4-5%)</li>
+<li>Initial price target: $32-34 (midpoint $33; ~13.5x FY26 EPS midpoint of $2.45)</li>
+<li>Stretch target: $38-40 (Citizens consensus zone) on FY27 visibility + leverage at &lt;2.7x</li>
+<li>Hard stop: $22.50 (prior insider-purchase support cluster)</li>
+<li>Time horizon: 12-18 months</li>
+<li>Trigger to review: LTM book-to-bill prints below 0.95x for two consecutive quarters → reduce position</li>
+<li>Catalyst: Q2 FY26 earnings (~May 5-12, 2026) is the immediate test of the guidance reaffirm</li>
+</ul></p>
+  </div>
+</div>
+
+<h2 class="section">Trader</h2>
+<div class="interim-box">
+  <div class="label">Transaction Proposal — **Buy**</div>
+  <div class="content">
+    <p><strong>Action</strong>: <strong>Buy</strong></p>
+
+<p><strong>Reasoning</strong>: AMTM at $25.65 offers ~28% upside to the central price target of $33 against ~12% downside to the hard stop at $22.50, a 2.3:1 reward-to-risk ratio that is the minimum threshold for a constructive Overweight position. The proximate Q2 FY26 earnings catalyst within ~10 days, combined with a forward PE of 9.3x against a ~45% peer discount and the technical setup near the lower Bollinger band with RSI 39, creates a tactical entry window. The deleveraging-into-multiple-expansion mechanic is the multi-quarter bridge: every 25 bps of net-debt/EBITDA reduction has historically supported ~50 bps of EV/EBITDA multiple expansion in services primes.</p>
+
+<p><strong>Entry Price</strong>: $25.40-25.80 (current zone); add at $24.30-24.70 (Bollinger lower retest) up to half-size again</p>
+
+<p><strong>Stop Loss</strong>: $22.50 (-12% from $25.65; below the Feb 2025 insider-purchase cluster at $20.81-21.22 provides secondary buffer)</p>
+
+<p><strong>Position Sizing</strong>: 3% of portfolio for full position; initiate at 1.5%, add at $24.50 to 2.5%, finalize at 3% only post-Q2 print confirmation</p>
+
+<p>FINAL TRANSACTION PROPOSAL: <strong>BUY</strong></p>
+  </div>
+</div>
+
+</div><!-- /.col-prose -->
+
+<div class="col-wide">
+
+<h2 class="section">Investment Debate</h2>
+<div class="debate-grid">
+  <div class="debate-card bull">
+    <div class="debate-label">Bull Researcher</div>
+    <div class="report-content"><p>Bull Researcher (Round 1):</p>
+<p>AMTM trades at 9.3x forward earnings — ~45% below the LDOS/BAH/CACI peer cohort that averages ~17x. EV/EBITDA 8.9x vs sector 12-14x. Q1 FY26 EPS came in 116% above consensus at $0.54, management reaffirmed FY26 guidance $2.25-2.45. If midpoint $2.35 hits and multiple compresses only to 13x — still a peer discount — stock is at $30.55, ~19% above current. Citizens targets $40.</p>
+
+<p>Bull Specificity Bar:</p>
+<ol>
+<li>Two dated catalysts: Q2 FY26 earnings May 5-12, 2026; June-July 2026 DoD FY27 POM cycle markup; August-December 2026 FY27 NDAA process.</li>
+<li>TAM math: Global nuclear engineering TAM $45B → $120B 2025-2035 (IEA). Recently-contracted nuclear backlog: $730M UK + $112M European JV + $207M Dutch + RR SMR partnership = ~$1.05B. 5% incremental capture adds ~$750M/year revenue at peak; ~$75M incremental EBITDA = ~7% of current EBITDA pool. Plus $995M USAF RPA + $120M DISA in Q1 FY26 alone.</li>
+<li>Budget cycle: FY26 NDAA signed Dec 18, 2025 authorized $900.6B for DoD, $161.7B procurement — record nominal. Bill prioritizes commercial contracting, raises certified-cost threshold $2M → $10M, favors mid-tier primes.</li>
+<li>Consolidation: Sept 2024 Jacobs spin + Amentum merger created only government-services pure-play at scale; SAIC divestitures + Leidos health-IT pivot narrowed comparable competitor set.</li>
+<li>Falsifiable kill-switch: If LTM book-to-bill drops below 0.9x for two consecutive quarters by Q3 FY26 (August 2026), or FY26 adj EPS guidance cut below $2.10 — thesis broken.</li>
+</ol>
+
+<p>Insider tape: Demetriou bought $2.08M at $20.81 (Feb 2025); Loughran $97K at $21.22; zero open-market sales in TTM.</p>
+
+<p>Risk-reward at $25.65: ~$22 downside (-14%), ~$35-40 upside (+36-56%).</p>
+
+<p>Bull Researcher (Round 2 rebuttal):</p>
+<p>GES -11% YoY distorted by CMS divestiture in mid-FY25 + runoff of two legacy programs. FY26 guide $13.95-14.30B vs TTM $14.21B = -1.8% to +0.6% reported, +3% normalized — apples-to-apples revenue comp.</p>
+
+<p>On appropriations: FY26 CR path milder than 2018-19; ~75% of DoD spending funded under CR with 1% floor protections; AMTM 63% cost-plus base largely insulated.</p>
+
+<p>On Q4 FCF -$142M: traceable to specific items — -$178M accrued-expense change (year-end true-ups including merger severance) and -$99M payables timing. LTM FCF $637M; FY26 guide $525-575M. Management has Q1+Q2 cash collection visibility.</p>
+
+<p>On negative tangible book: every major government-services prime has it (LDOS -$2.5B, BAH -$1.2B, CACI -$1.9B). Structural feature of services M&amp;A.</p>
+
+<p>On Specificity Bar grading: TAM 5% capture is conservative for tier-1 prime in market with ~3 Western competitors with requisite clearances. Item 4 amended: Bechtel exit from environmental remediation 2023 + Westinghouse-Brookfield ownership transition reduced tier-1 nuclear-services competitive set 5 → ~3; AMTM picked up relationships from both transitions.</p>
+
+<p>On technicals: RSI 39 + MACD histogram contracting (-0.09 → -0.08) = momentum exhausting. April 24 distribution candle on 1.97M shares followed by 5 lower-volume sessions — sellers running out of supply. Earnings season historically delivers largest one-week beta-adjusted alpha for names at ~9x forward earnings going into print.</p>
+
+<p>Net: Buy-quality setup. Execution risk priced at 9.3x forward earnings IS the asymmetric trade.</p></div>
+  </div>
+  <div class="debate-card bear">
+    <div class="debate-label">Bear Researcher</div>
+    <div class="report-content"><p>Bear Researcher (Round 1):</p>
+<p>The bull case requires trusting management on a forward number not yet printed twice.</p>
+
+<p>On catalysts: Q2 earnings is recurring, not a catalyst. FY27 POM cycle / NDAA process equally likely to be NEGATIVE catalysts given CBO baseline showing $1.9T/year deficits and debt-service costs surpassing defense spending in FY27. Trump admin fiscal-discipline + DOGE efficiency drives raise probability of program cancellations and recompete delays. Bull treats every fiscal milestone as tailwind; half are headwinds.</p>
+
+<p>On segment math: Bull case crumbles here. GES -11% YoY in Q1 FY26. GES is ~58% of revenue. Management blamed 'program lifecycle and divestiture impacts' but no quarter-by-quarter recovery bridge. DS grew 4% — fine, but DS is $1.34B of $3.24B total. Net blended revenue: -$209M + $54M = -$155M = -4.8% blended. 'Normalized +3%' requires backing out divestitures, but those are real cash flow no longer earned.</p>
+
+<p>On budget cycle: FY26 NDAA authorized $900.6B. Authorization ≠ appropriation. FY26 appropriations already disrupted by CR. AMTM's own FY25 10-K Item 1A flags this as dominant single-event risk. Historical: 2018-19 and 2023 shutdowns caused multi-quarter contract-award delays for services primes.</p>
+
+<p>On balance sheet: $3.69B net debt = ~59% of market cap. Tangible book -$3.01B. Q4 FY25 FCF -$142M. Operating cash flow -$136M = company burned cash. Cash on balance sheet $738M (Q2 FY25) → $247M (Q4 FY25) = -$491M swing in 6 months, -66%. 'Deleveraging' narrative is selective: net debt down, but cash balance down faster.</p>
+
+<p>On contract mix: 24% fixed-price exposure non-trivial. With 8.1% adj EBITDA margins, 2% cost overrun on $3B fixed-price book = $60M margin compression = ~6% of EBITDA. Bull dismisses; FY25 10-K Item 1A explicitly flags as top-7 risk.</p>
+
+<p>Bull Specificity Bar grading:</p>
+<ol>
+<li>✓ Two dated catalysts.</li>
+<li>⚠️ TAM math has unsourced assumptions — '5% capture' hand-waved. Nuclear engineering capture rates for non-prime contractors historically 2-3%. Citing IEA TAM without credible capture-rate analysis is the kind of TAM math that gets shareholders into trouble.</li>
+<li>✓ FY26 NDAA cited (though bull conflates authorization with appropriation).</li>
+<li>⚠️ Consolidation reference weak — Jacobs spin/merger created the company; not current consolidation tailwind, originating event. SAIC/Leidos divestitures don't directly benefit AMTM unless AMTM wins specific competitive recompetes.</li>
+<li>✓ Falsifiable kill-switch reasonable.</li>
+</ol>
+
+<p>Bull fails Items 2 and 4 (or partially). Should compress rating ceiling.</p>
+
+<p>Technical setup consistent with bear fundamentals view: RSI 39, below 50 SMA, below 200 SMA, MACD negative — market voting bearish for a reason.</p>
+
+<p>Bear thesis: Hold at best. Downside to $22 if Q2 misses or guidance reset, $18-19 if appropriations cycle disrupts contract recognition. Citizens $40 PT requires ~13x forward multiple AND $3.00+ FY27 EPS — both contingent on flawless execution.</p>
+
+<p>Bear Researcher (Round 2 rebuttal):</p>
+<p>Every defense of AMTM requires trusting management on forward numbers not yet delivered.</p>
+
+<p>On normalized growth: FY26 reported revenue guide $13.95-14.30B vs TTM $14.21B reported = -1.8% to +0.6% AS REPORTED — equity market trades on reported, not normalized. Reported revenue line flat-to-down — that compresses multiples. Bull keeps invoking 'normalized' as if shareholders mark holdings on normalized P&amp;L. They don't.</p>
+
+<p>On cash flow defense: $637M LTM FCF surface fine. Trajectory: +$110M Q4'24 → +$57M Q1'25 → +$106M Q2'25 → +$261M Q3'25 → -$142M Q4'25. Q3 print of +$261M was outlier — driven by -$552M debt repayment that compressed working capital favorably. Strip that and representative quarterly run-rate is ~$80-100M, annualizing $320-400M — half the FY26 guide. Management guiding sequential FCF reacceleration that trailing run-rate doesn't support.</p>
+
+<p>On tangible book: peers also negative. Doesn't make AMTM safe — makes whole sector vulnerable in downturn. Sector with no asset cushion, leverage matters more, AMTM has highest leverage at 3.2x vs sector ~1.5-2.0x. Even if sector traded at 13-14x forward earnings on average, AMTM leverage and margin profile justifies 2-3x multiple discount = ~10-11x. At $2.35 midpoint × 10-11x = $23.50-25.85. Stock AT FAIR VALUE, not cheap. Citizens $40 PT requires 17x on FY27 EPS estimate $2.35-2.45, assuming peer-multiple convergence AND no leverage discount AND no execution stumble. Three independent assumptions, each ~70% likely if generous, multiplies to ~34% probability.</p>
+
+<p>On consolidation amendment: Bull added Bechtel exit + Westinghouse transition. Real point. Corollary: those exits happened because nuclear remediation business is structurally low-margin and politically volatile — Bechtel left because they couldn't make money. Why is AMTM the exception? They've been in this business 30+ years and EBITDA margin is 8.1%. 'Less competition' and 'thin margins' arguments partially in tension.</p>
+
+<p>On appropriations: Bull conceded partial point. 63% cost-plus is directionally insulated but missing the mechanism: cost-plus contracts WITH CAPPED AWARD FEES (which AMTM has across DOE EM and DoD test ranges) are exposed when customer reduces scope or trims program funding. Cash-cost reimbursed; FEE — actual margin — capped and at-risk in tight budget environments. Fee compression is the silent killer.</p>
+
+<p>On Specificity Bar: Bull amended Item 4 to real consolidation reference. Granted. Item 2 TAM math still unsourced for capture-rate assumption. 15-20% capture by tier-1 primes wants research-firm citation, not bull's intuition. Item 2 remains partial.</p>
+
+<p>Final bear assessment: Bull case plausible, bear case plausible — definition of Hold. Buying at $25.65 works if FY26 EPS $2.35+ delivered AND multiple expands to 12-13x; rational base case is FY26 EPS $2.10-2.20 and multiple stays at 10-11x = $22-24, basically flat. Asymmetric trade is being a buyer at $22 (proximate downside), not at $25.65.</p></div>
+  </div>
+</div>
+
+<h2 class="section">Risk Assessment</h2>
+<div class="debate-grid">
+  <div class="debate-card aggressive">
+    <div class="debate-label">Aggressive</div>
+    <div class="report-content"><p>Aggressive Risk Analyst (Round 1):</p>
+<p>Trader's Buy is correct but UNDERSIZED. Cleanest asymmetric trade I've seen in services primes: 9.3x forward earnings, 3.3x backlog/revenue (highest in peer set), institutional sponsor at $40, deleveraging mechanics that compound. 3% sizing is conservative for 2.3:1 reward-to-risk with proximate catalyst. Argue for 4-5% sizing, more aggressive add schedule — full size deployed by $24.50, not waiting for post-Q2 confirmation. Bull thesis hinges on Q2 delivering guide reaffirm; if you wait for the print to add, you lose asymmetry and pay gap-up. Market gives you 9.3x precisely because unwilling to underwrite execution; that is when you take the trade, not after.</p>
+
+<p>Cash burn issue is misdirection. Q4 FY25 working-capital build is identical pattern to LDOS and BAH Q4-Q1. CFO reaffirmed guidance with Q2 collection visibility.</p>
+
+<p>Catalysts: Q2 earnings + FY27 POM markup + nuclear pipeline + DoD AI/cyber awards = 4-5 independent paths over 12 months. Base rate of execution for tier-1 government primes: ~75% quarter-over-quarter beat rate.</p>
+
+<p>Aggressive Risk Analyst (Round 2 rebuttal):</p>
+<p>Conservative treats this like 2018 BAH drawdown is base case. It's not. 2018 BAH happened during 35-day shutdown that ended only after Cato-style bloc lost cohesion — tail-risk event, not modal outcome. CR risk in FY26 well-flagged and largely in $25.65 price already. Normal appropriations resolution = multiple expands back to peer levels.</p>
+
+<p>15% EBITDA compression is recession scenario, not base case. Adj EBITDA expanded sequentially three quarters running; operational momentum is OPPOSITE of compression. 4.0x covenant threshold isn't auto-trigger — services primes routinely renegotiate at 3.5x+. $700M revolver + $247M cash = ~$950M total liquidity vs $340M annual interest. Coverage 2.8x; not tight, not loose, workable.</p>
+
+<p>Neutral's 58% probability of target is conservative. Citizens at $40 (independent confirmation) + reaffirmed FY26 guidance (twice) = 65-70% probability of $33. Expected return ~18-20%, justifies 4%+ sizing.</p>
+
+<p>Meet Neutral halfway: 3.5% initial sizing with add trigger at $24.30-24.50. Don't wait for Q2 confirmation — sub-optimal sequencing.</p></div>
+  </div>
+  <div class="debate-card conservative">
+    <div class="debate-label">Conservative</div>
+    <div class="report-content"><p>Conservative Risk Analyst (Round 1):</p>
+<p>Argue for SMALLER initial position and WIDER averaging band. Aggressive right that 9.3x is cheap, but cheap stocks stay cheap when execution questioned by market. -9.5% YTD performance and -20.7% 3-month return = market actively rejecting bullish narrative — and market is often right in medium term.</p>
+
+<p>Specific concerns warranting smaller sizing:</p>
+<ul>
+<li>Tangible book -$3.01B: zero asset cushion = no recovery floor in stress</li>
+<li>Cash drawdown $738M → $247M in 6 months. Stop at $22.50 assumes orderly market conditions; in liquidity event, cash burn means equity gets repriced violently before stops fill</li>
+<li>81% federal concentration with CR risk: 2-3 quarters of contract-award delay well within historical norms (2018-19, 2023). Single quarter delay = ~$200M revenue slip + ~$0.07 EPS slip = guidance miss possible without demand destruction</li>
+<li>3.2x leverage: highest in peer cohort. Recession scenario where adj EBITDA compresses 15% (to $950M) = leverage jumps to ~3.9x, breaching covenant thresholds historically observed at 4.0x</li>
+</ul>
+
+<p>Recommendation: 1.5-2% position max, with adds only on confirmation. Wait for Q2 print before sizing up. Aggressive view trades convenience for confirmation; conservative view trades upside capture for downside protection. In cohort that has historically experienced 30-40% drawdowns during budget impasses (BAH 2018, Leidos 2013), preserving optionality matters.</p>
+
+<p>Conservative Risk Analyst (Round 2 rebuttal):</p>
+<p>Aggressive conflating 'operational momentum' with 'execution certainty.'</p>
+
+<p>Q3→Q4 EBITDA $229M→$258M = $29M gain on $370M more revenue (Q3 $3.56B→Q4 $3.93B) = 7.8% incremental margin. Run-of-the-mill, not exceptional.</p>
+<p>Q4→Q1: $258M→$263M on -$683M revenue (Q4 $3.93B→Q1 $3.24B). $5M EBITDA gain on -$683M revenue = high decremental margin protection — but Q4 had merger-integration costs that didn't repeat. Adjusted for that, Q1 EBITDA roughly flat with Q4 normalized.</p>
+
+<p>Cash situation real. $247M cash + $700M revolver = $947M liquidity. Vs $340M annual interest + $3.94B debt principal with FY27 maturity wall = not 'comfortable,' that's 'manageable if everything goes right.' If FCF runs at lower end ($525M) and they refi ~$2B 2027-2028 maturities at 2026 interest rates ~6.5% (vs current weighted-avg ~5.0%), interest expense rises ~$30M/year = $0.10-0.12 EPS pressure.</p>
+
+<p>Not predicting recession. Pricing that one of 5 things — recession, CR-extended shutdown, major recompete loss, fixed-price cost overrun, refi at higher rates — has ~40% probability within 18 months. Each on its own cuts price target $5-8. Position sizing needs to reflect compounded tail.</p>
+
+<p>Concede 2.5-3.0% initial as Neutral suggests, but with discipline that adds happen only on TECHNICAL RESET to $22.50-23.00 OR post-Q2 print confirmation, not on the way down between $25 and $24. Catching falling knives in post-merger services space has historically punished traders who didn't wait for confirmation.</p></div>
+  </div>
+</div>
+<div class="debate-grid debate-grid--solo">
+  <div class="debate-card neutral">
+    <div class="debate-label">Neutral</div>
+    <div class="report-content"><p>Neutral Risk Analyst (Round 1):</p>
+<p>Both analysts have valid perspectives largely about temperament rather than evidence. Cut to structural question: what is right position size for risk-reward profile?</p>
+
+<p>Math: Reward-to-risk 2.3:1 from $25.65 to $33 with $22.50 stop. Probability of target within 18 months ~55-60% (call it 58%) based on LTM book-to-bill, deleveraging trajectory, sell-side support at $40. Probability of stop ~25-30% (CR + segment execution miss). Expected value: (0.58 × +$7.35) + (0.30 × -$3.15) + (0.12 × ~flat) = $4.26 - $0.95 = $3.31/share = ~+13% expected return over 18 months.</p>
+
+<p>Return profile justifies position, NOT aggressive one. Aggressive's 5% appropriate for setup with 2.5:1 minimum reward-to-risk AND &gt;65% probability of target — AMTM clears first not second. Conservative's 1.5% gives up too much expected value vs trader's 3%.</p>
+
+<p>Refine trader's recommendation: 2.5% initial sizing, with explicit add triggers at $24.50 (to 3.0%) and post-Q2 print confirmation (to 3.5%). Stop at $22.50 correct. Time horizon 12-15 months correct. Structural bias constructive but not euphoric — Overweight, not Buy.</p>
+
+<p>Aggressive right that you don't get 9.3x for free; Conservative right that cash flow trajectory has cracks. Both partially right = position should be sized as meaningful tilt, not high-conviction concentration.</p>
+
+<p>Neutral Risk Analyst (Round 2 synthesis):</p>
+<p>Aggressive and Conservative anchoring to default risk postures and arguing past each other on same probability set. Consolidate.</p>
+
+<p>AGREEMENT:</p>
+<ul>
+<li>AMTM undervalued on forward fundamentals (forward PE 9.3x vs peer ~17x)</li>
+<li>Q2 FY26 earnings is proximate catalyst</li>
+<li>Stop at $22.50 correct</li>
+<li>Bull-bear debate did not produce clean Buy or clean Underweight = constructive tilt with execution risk</li>
+</ul>
+
+<p>DISAGREEMENT:</p>
+<ul>
+<li>Aggressive: 4%+ sizing, add on weakness pre-Q2</li>
+<li>Conservative: 1.5-2% sizing, add only on confirmation</li>
+</ul>
+
+<p>Final synthesis: 2.5-3% initial position, scale to 3.5% on either (a) reset to $24.30-24.50 with stable RSI &gt; 35, OR (b) Q2 FY26 print confirming $2.30+ EPS run-rate. Stop at $22.50. Time horizon 12-15 months. Target $32-34.</p>
+
+<p>This is OVERWEIGHT, not Buy. Data does not support maximum-conviction call; data does support meaningful constructive position. PM should issue Overweight with specific size mandate.</p></div>
+  </div>
+</div>
+
+<h2 class="section">Analyst Reports</h2>
+<div class="chart-block">
+  <svg viewBox="0 0 1080 320" xmlns="http://www.w3.org/2000/svg" class="chart-svg" role="img" aria-label="AMTM price and volume chart">
+  <rect width="1080" height="320" fill="#faf6ef"/>
+  <rect x="60" y="28" width="996" height="184" fill="#f5ecd9" opacity="0.55"/>
+  <rect x="60" y="220" width="996" height="64" fill="#f5ecd9" opacity="0.45"/>
+  <line x1="60" y1="202.1" x2="1056" y2="202.1" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="205.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$19.32</text>
+<line x1="60" y1="161.1" x2="1056" y2="161.1" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="164.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$23.87</text>
+<line x1="60" y1="120.0" x2="1056" y2="120.0" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="123.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$28.42</text>
+<line x1="60" y1="78.9" x2="1056" y2="78.9" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="81.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$32.98</text>
+<line x1="60" y1="37.9" x2="1056" y2="37.9" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="40.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$37.53</text>
+  <rect x="58.6" y="276.0" width="2.77" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="62.6" y="273.1" width="2.77" height="10.9" fill="#bca57a" opacity="0.65"/>
+<rect x="66.6" y="271.4" width="2.77" height="12.6" fill="#bca57a" opacity="0.65"/>
+<rect x="70.5" y="276.7" width="2.77" height="7.3" fill="#bca57a" opacity="0.65"/>
+<rect x="74.5" y="275.5" width="2.77" height="8.5" fill="#bca57a" opacity="0.65"/>
+<rect x="78.5" y="268.3" width="2.77" height="15.7" fill="#bca57a" opacity="0.65"/>
+<rect x="82.4" y="264.1" width="2.77" height="19.9" fill="#bca57a" opacity="0.65"/>
+<rect x="86.4" y="272.8" width="2.77" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="90.4" y="273.3" width="2.77" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="94.3" y="271.2" width="2.77" height="12.8" fill="#bca57a" opacity="0.65"/>
+<rect x="98.3" y="270.8" width="2.77" height="13.2" fill="#bca57a" opacity="0.65"/>
+<rect x="102.3" y="274.6" width="2.77" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="106.2" y="266.7" width="2.77" height="17.3" fill="#bca57a" opacity="0.65"/>
+<rect x="110.2" y="268.7" width="2.77" height="15.3" fill="#bca57a" opacity="0.65"/>
+<rect x="114.2" y="273.6" width="2.77" height="10.4" fill="#bca57a" opacity="0.65"/>
+<rect x="118.1" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="122.1" y="268.9" width="2.77" height="15.1" fill="#bca57a" opacity="0.65"/>
+<rect x="126.1" y="275.3" width="2.77" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="130.0" y="275.8" width="2.77" height="8.2" fill="#bca57a" opacity="0.65"/>
+<rect x="134.0" y="274.6" width="2.77" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="138.0" y="276.5" width="2.77" height="7.5" fill="#bca57a" opacity="0.65"/>
+<rect x="141.9" y="272.5" width="2.77" height="11.5" fill="#bca57a" opacity="0.65"/>
+<rect x="145.9" y="249.9" width="2.77" height="34.1" fill="#bca57a" opacity="0.65"/>
+<rect x="149.9" y="257.2" width="2.77" height="26.8" fill="#bca57a" opacity="0.65"/>
+<rect x="153.9" y="254.0" width="2.77" height="30.0" fill="#bca57a" opacity="0.65"/>
+<rect x="157.8" y="265.7" width="2.77" height="18.3" fill="#bca57a" opacity="0.65"/>
+<rect x="161.8" y="268.9" width="2.77" height="15.1" fill="#bca57a" opacity="0.65"/>
+<rect x="165.8" y="261.6" width="2.77" height="22.4" fill="#bca57a" opacity="0.65"/>
+<rect x="169.7" y="262.7" width="2.77" height="21.3" fill="#bca57a" opacity="0.65"/>
+<rect x="173.7" y="269.5" width="2.77" height="14.5" fill="#bca57a" opacity="0.65"/>
+<rect x="177.7" y="269.7" width="2.77" height="14.3" fill="#bca57a" opacity="0.65"/>
+<rect x="181.6" y="267.1" width="2.77" height="16.9" fill="#bca57a" opacity="0.65"/>
+<rect x="185.6" y="272.7" width="2.77" height="11.3" fill="#bca57a" opacity="0.65"/>
+<rect x="189.6" y="268.2" width="2.77" height="15.8" fill="#bca57a" opacity="0.65"/>
+<rect x="193.5" y="275.6" width="2.77" height="8.4" fill="#bca57a" opacity="0.65"/>
+<rect x="197.5" y="265.9" width="2.77" height="18.1" fill="#bca57a" opacity="0.65"/>
+<rect x="201.5" y="272.6" width="2.77" height="11.4" fill="#bca57a" opacity="0.65"/>
+<rect x="205.4" y="276.0" width="2.77" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="209.4" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="213.4" y="266.3" width="2.77" height="17.7" fill="#bca57a" opacity="0.65"/>
+<rect x="217.3" y="267.3" width="2.77" height="16.7" fill="#bca57a" opacity="0.65"/>
+<rect x="221.3" y="266.9" width="2.77" height="17.1" fill="#bca57a" opacity="0.65"/>
+<rect x="225.3" y="275.9" width="2.77" height="8.1" fill="#bca57a" opacity="0.65"/>
+<rect x="229.2" y="275.5" width="2.77" height="8.5" fill="#bca57a" opacity="0.65"/>
+<rect x="233.2" y="275.9" width="2.77" height="8.1" fill="#bca57a" opacity="0.65"/>
+<rect x="237.2" y="279.1" width="2.77" height="4.9" fill="#bca57a" opacity="0.65"/>
+<rect x="241.2" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="245.1" y="271.8" width="2.77" height="12.2" fill="#bca57a" opacity="0.65"/>
+<rect x="249.1" y="277.8" width="2.77" height="6.2" fill="#bca57a" opacity="0.65"/>
+<rect x="253.1" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="257.0" y="275.3" width="2.77" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="261.0" y="275.8" width="2.77" height="8.2" fill="#bca57a" opacity="0.65"/>
+<rect x="265.0" y="272.8" width="2.77" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="268.9" y="277.6" width="2.77" height="6.4" fill="#bca57a" opacity="0.65"/>
+<rect x="272.9" y="267.3" width="2.77" height="16.7" fill="#bca57a" opacity="0.65"/>
+<rect x="276.9" y="269.7" width="2.77" height="14.3" fill="#bca57a" opacity="0.65"/>
+<rect x="280.8" y="273.6" width="2.77" height="10.4" fill="#bca57a" opacity="0.65"/>
+<rect x="284.8" y="274.9" width="2.77" height="9.1" fill="#bca57a" opacity="0.65"/>
+<rect x="288.8" y="277.2" width="2.77" height="6.8" fill="#bca57a" opacity="0.65"/>
+<rect x="292.7" y="276.7" width="2.77" height="7.3" fill="#bca57a" opacity="0.65"/>
+<rect x="296.7" y="279.0" width="2.77" height="5.0" fill="#bca57a" opacity="0.65"/>
+<rect x="300.7" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="304.6" y="272.6" width="2.77" height="11.4" fill="#bca57a" opacity="0.65"/>
+<rect x="308.6" y="270.6" width="2.77" height="13.4" fill="#bca57a" opacity="0.65"/>
+<rect x="312.6" y="273.5" width="2.77" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="316.5" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="320.5" y="275.1" width="2.77" height="8.9" fill="#bca57a" opacity="0.65"/>
+<rect x="324.5" y="272.1" width="2.77" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="328.4" y="268.2" width="2.77" height="15.8" fill="#bca57a" opacity="0.65"/>
+<rect x="332.4" y="273.6" width="2.77" height="10.4" fill="#bca57a" opacity="0.65"/>
+<rect x="336.4" y="276.1" width="2.77" height="7.9" fill="#bca57a" opacity="0.65"/>
+<rect x="340.4" y="276.9" width="2.77" height="7.1" fill="#bca57a" opacity="0.65"/>
+<rect x="344.3" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="348.3" y="267.3" width="2.77" height="16.7" fill="#bca57a" opacity="0.65"/>
+<rect x="352.3" y="275.5" width="2.77" height="8.5" fill="#bca57a" opacity="0.65"/>
+<rect x="356.2" y="276.5" width="2.77" height="7.5" fill="#bca57a" opacity="0.65"/>
+<rect x="360.2" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="364.2" y="274.1" width="2.77" height="9.9" fill="#bca57a" opacity="0.65"/>
+<rect x="368.1" y="275.1" width="2.77" height="8.9" fill="#bca57a" opacity="0.65"/>
+<rect x="372.1" y="280.0" width="2.77" height="4.0" fill="#bca57a" opacity="0.65"/>
+<rect x="376.1" y="279.1" width="2.77" height="4.9" fill="#bca57a" opacity="0.65"/>
+<rect x="380.0" y="273.1" width="2.77" height="10.9" fill="#bca57a" opacity="0.65"/>
+<rect x="384.0" y="276.9" width="2.77" height="7.1" fill="#bca57a" opacity="0.65"/>
+<rect x="388.0" y="277.7" width="2.77" height="6.3" fill="#bca57a" opacity="0.65"/>
+<rect x="391.9" y="276.1" width="2.77" height="7.9" fill="#bca57a" opacity="0.65"/>
+<rect x="395.9" y="277.1" width="2.77" height="6.9" fill="#bca57a" opacity="0.65"/>
+<rect x="399.9" y="278.4" width="2.77" height="5.6" fill="#bca57a" opacity="0.65"/>
+<rect x="403.8" y="277.3" width="2.77" height="6.7" fill="#bca57a" opacity="0.65"/>
+<rect x="407.8" y="273.4" width="2.77" height="10.6" fill="#bca57a" opacity="0.65"/>
+<rect x="411.8" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="415.7" y="272.5" width="2.77" height="11.5" fill="#bca57a" opacity="0.65"/>
+<rect x="419.7" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="423.7" y="276.6" width="2.77" height="7.4" fill="#bca57a" opacity="0.65"/>
+<rect x="427.7" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="431.6" y="278.0" width="2.77" height="6.0" fill="#bca57a" opacity="0.65"/>
+<rect x="435.6" y="269.6" width="2.77" height="14.4" fill="#bca57a" opacity="0.65"/>
+<rect x="439.6" y="271.2" width="2.77" height="12.8" fill="#bca57a" opacity="0.65"/>
+<rect x="443.5" y="268.9" width="2.77" height="15.1" fill="#bca57a" opacity="0.65"/>
+<rect x="447.5" y="266.5" width="2.77" height="17.5" fill="#bca57a" opacity="0.65"/>
+<rect x="451.5" y="265.1" width="2.77" height="18.9" fill="#bca57a" opacity="0.65"/>
+<rect x="455.4" y="272.3" width="2.77" height="11.7" fill="#bca57a" opacity="0.65"/>
+<rect x="459.4" y="272.5" width="2.77" height="11.5" fill="#bca57a" opacity="0.65"/>
+<rect x="463.4" y="276.0" width="2.77" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="467.3" y="275.0" width="2.77" height="9.0" fill="#bca57a" opacity="0.65"/>
+<rect x="471.3" y="278.7" width="2.77" height="5.3" fill="#bca57a" opacity="0.65"/>
+<rect x="475.3" y="275.7" width="2.77" height="8.3" fill="#bca57a" opacity="0.65"/>
+<rect x="479.2" y="267.3" width="2.77" height="16.7" fill="#bca57a" opacity="0.65"/>
+<rect x="483.2" y="272.5" width="2.77" height="11.5" fill="#bca57a" opacity="0.65"/>
+<rect x="487.2" y="269.4" width="2.77" height="14.6" fill="#bca57a" opacity="0.65"/>
+<rect x="491.1" y="265.8" width="2.77" height="18.2" fill="#bca57a" opacity="0.65"/>
+<rect x="495.1" y="262.7" width="2.77" height="21.3" fill="#bca57a" opacity="0.65"/>
+<rect x="499.1" y="272.4" width="2.77" height="11.6" fill="#bca57a" opacity="0.65"/>
+<rect x="503.0" y="275.4" width="2.77" height="8.6" fill="#bca57a" opacity="0.65"/>
+<rect x="507.0" y="276.0" width="2.77" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="511.0" y="275.7" width="2.77" height="8.3" fill="#bca57a" opacity="0.65"/>
+<rect x="515.0" y="277.1" width="2.77" height="6.9" fill="#bca57a" opacity="0.65"/>
+<rect x="518.9" y="278.0" width="2.77" height="6.0" fill="#bca57a" opacity="0.65"/>
+<rect x="522.9" y="275.7" width="2.77" height="8.3" fill="#bca57a" opacity="0.65"/>
+<rect x="526.9" y="278.5" width="2.77" height="5.5" fill="#bca57a" opacity="0.65"/>
+<rect x="530.8" y="278.0" width="2.77" height="6.0" fill="#bca57a" opacity="0.65"/>
+<rect x="534.8" y="279.3" width="2.77" height="4.7" fill="#bca57a" opacity="0.65"/>
+<rect x="538.8" y="279.1" width="2.77" height="4.9" fill="#bca57a" opacity="0.65"/>
+<rect x="542.7" y="278.7" width="2.77" height="5.3" fill="#bca57a" opacity="0.65"/>
+<rect x="546.7" y="278.0" width="2.77" height="6.0" fill="#bca57a" opacity="0.65"/>
+<rect x="550.7" y="275.9" width="2.77" height="8.1" fill="#bca57a" opacity="0.65"/>
+<rect x="554.6" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="558.6" y="276.0" width="2.77" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="562.6" y="273.8" width="2.77" height="10.2" fill="#bca57a" opacity="0.65"/>
+<rect x="566.5" y="274.5" width="2.77" height="9.5" fill="#bca57a" opacity="0.65"/>
+<rect x="570.5" y="274.6" width="2.77" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="574.5" y="276.5" width="2.77" height="7.5" fill="#bca57a" opacity="0.65"/>
+<rect x="578.4" y="277.8" width="2.77" height="6.2" fill="#bca57a" opacity="0.65"/>
+<rect x="582.4" y="279.8" width="2.77" height="4.2" fill="#bca57a" opacity="0.65"/>
+<rect x="586.4" y="276.5" width="2.77" height="7.5" fill="#bca57a" opacity="0.65"/>
+<rect x="590.3" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="594.3" y="272.8" width="2.77" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="598.3" y="279.3" width="2.77" height="4.7" fill="#bca57a" opacity="0.65"/>
+<rect x="602.3" y="270.5" width="2.77" height="13.5" fill="#bca57a" opacity="0.65"/>
+<rect x="606.2" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="610.2" y="278.6" width="2.77" height="5.4" fill="#bca57a" opacity="0.65"/>
+<rect x="614.2" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="618.1" y="274.1" width="2.77" height="9.9" fill="#bca57a" opacity="0.65"/>
+<rect x="622.1" y="222.1" width="2.77" height="61.9" fill="#bca57a" opacity="0.65"/>
+<rect x="626.1" y="258.5" width="2.77" height="25.5" fill="#bca57a" opacity="0.65"/>
+<rect x="630.0" y="264.4" width="2.77" height="19.6" fill="#bca57a" opacity="0.65"/>
+<rect x="634.0" y="265.9" width="2.77" height="18.1" fill="#bca57a" opacity="0.65"/>
+<rect x="638.0" y="220.0" width="2.77" height="64.0" fill="#bca57a" opacity="0.65"/>
+<rect x="641.9" y="259.5" width="2.77" height="24.5" fill="#bca57a" opacity="0.65"/>
+<rect x="645.9" y="275.7" width="2.77" height="8.3" fill="#bca57a" opacity="0.65"/>
+<rect x="649.9" y="272.1" width="2.77" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="653.8" y="270.5" width="2.77" height="13.5" fill="#bca57a" opacity="0.65"/>
+<rect x="657.8" y="269.1" width="2.77" height="14.9" fill="#bca57a" opacity="0.65"/>
+<rect x="661.8" y="260.2" width="2.77" height="23.8" fill="#bca57a" opacity="0.65"/>
+<rect x="665.7" y="266.5" width="2.77" height="17.5" fill="#bca57a" opacity="0.65"/>
+<rect x="669.7" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="673.7" y="268.4" width="2.77" height="15.6" fill="#bca57a" opacity="0.65"/>
+<rect x="677.6" y="269.1" width="2.77" height="14.9" fill="#bca57a" opacity="0.65"/>
+<rect x="681.6" y="267.2" width="2.77" height="16.8" fill="#bca57a" opacity="0.65"/>
+<rect x="685.6" y="268.0" width="2.77" height="16.0" fill="#bca57a" opacity="0.65"/>
+<rect x="689.5" y="272.1" width="2.77" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="693.5" y="270.1" width="2.77" height="13.9" fill="#bca57a" opacity="0.65"/>
+<rect x="697.5" y="266.7" width="2.77" height="17.3" fill="#bca57a" opacity="0.65"/>
+<rect x="701.5" y="275.3" width="2.77" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="705.4" y="270.0" width="2.77" height="14.0" fill="#bca57a" opacity="0.65"/>
+<rect x="709.4" y="273.5" width="2.77" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="713.4" y="277.8" width="2.77" height="6.2" fill="#bca57a" opacity="0.65"/>
+<rect x="717.3" y="278.8" width="2.77" height="5.2" fill="#bca57a" opacity="0.65"/>
+<rect x="721.3" y="278.9" width="2.77" height="5.1" fill="#bca57a" opacity="0.65"/>
+<rect x="725.3" y="277.5" width="2.77" height="6.5" fill="#bca57a" opacity="0.65"/>
+<rect x="729.2" y="276.5" width="2.77" height="7.5" fill="#bca57a" opacity="0.65"/>
+<rect x="733.2" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="737.2" y="269.7" width="2.77" height="14.3" fill="#bca57a" opacity="0.65"/>
+<rect x="741.1" y="269.9" width="2.77" height="14.1" fill="#bca57a" opacity="0.65"/>
+<rect x="745.1" y="269.9" width="2.77" height="14.1" fill="#bca57a" opacity="0.65"/>
+<rect x="749.1" y="276.0" width="2.77" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="753.0" y="268.0" width="2.77" height="16.0" fill="#bca57a" opacity="0.65"/>
+<rect x="757.0" y="269.2" width="2.77" height="14.8" fill="#bca57a" opacity="0.65"/>
+<rect x="761.0" y="272.4" width="2.77" height="11.6" fill="#bca57a" opacity="0.65"/>
+<rect x="764.9" y="275.1" width="2.77" height="8.9" fill="#bca57a" opacity="0.65"/>
+<rect x="768.9" y="274.4" width="2.77" height="9.6" fill="#bca57a" opacity="0.65"/>
+<rect x="772.9" y="275.0" width="2.77" height="9.0" fill="#bca57a" opacity="0.65"/>
+<rect x="776.8" y="269.8" width="2.77" height="14.2" fill="#bca57a" opacity="0.65"/>
+<rect x="780.8" y="272.8" width="2.77" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="784.8" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="788.8" y="275.5" width="2.77" height="8.5" fill="#bca57a" opacity="0.65"/>
+<rect x="792.7" y="276.8" width="2.77" height="7.2" fill="#bca57a" opacity="0.65"/>
+<rect x="796.7" y="273.7" width="2.77" height="10.3" fill="#bca57a" opacity="0.65"/>
+<rect x="800.7" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="804.6" y="274.9" width="2.77" height="9.1" fill="#bca57a" opacity="0.65"/>
+<rect x="808.6" y="266.2" width="2.77" height="17.8" fill="#bca57a" opacity="0.65"/>
+<rect x="812.6" y="270.1" width="2.77" height="13.9" fill="#bca57a" opacity="0.65"/>
+<rect x="816.5" y="268.7" width="2.77" height="15.3" fill="#bca57a" opacity="0.65"/>
+<rect x="820.5" y="272.1" width="2.77" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="824.5" y="270.8" width="2.77" height="13.2" fill="#bca57a" opacity="0.65"/>
+<rect x="828.4" y="270.3" width="2.77" height="13.7" fill="#bca57a" opacity="0.65"/>
+<rect x="832.4" y="256.2" width="2.77" height="27.8" fill="#bca57a" opacity="0.65"/>
+<rect x="836.4" y="262.7" width="2.77" height="21.3" fill="#bca57a" opacity="0.65"/>
+<rect x="840.3" y="242.7" width="2.77" height="41.3" fill="#bca57a" opacity="0.65"/>
+<rect x="844.3" y="262.2" width="2.77" height="21.8" fill="#bca57a" opacity="0.65"/>
+<rect x="848.3" y="263.9" width="2.77" height="20.1" fill="#bca57a" opacity="0.65"/>
+<rect x="852.2" y="263.4" width="2.77" height="20.6" fill="#bca57a" opacity="0.65"/>
+<rect x="856.2" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="860.2" y="275.0" width="2.77" height="9.0" fill="#bca57a" opacity="0.65"/>
+<rect x="864.1" y="274.5" width="2.77" height="9.5" fill="#bca57a" opacity="0.65"/>
+<rect x="868.1" y="273.1" width="2.77" height="10.9" fill="#bca57a" opacity="0.65"/>
+<rect x="872.1" y="273.3" width="2.77" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="876.1" y="267.2" width="2.77" height="16.8" fill="#bca57a" opacity="0.65"/>
+<rect x="880.0" y="272.9" width="2.77" height="11.1" fill="#bca57a" opacity="0.65"/>
+<rect x="884.0" y="276.7" width="2.77" height="7.3" fill="#bca57a" opacity="0.65"/>
+<rect x="888.0" y="273.8" width="2.77" height="10.2" fill="#bca57a" opacity="0.65"/>
+<rect x="891.9" y="273.5" width="2.77" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="895.9" y="275.7" width="2.77" height="8.3" fill="#bca57a" opacity="0.65"/>
+<rect x="899.9" y="271.1" width="2.77" height="12.9" fill="#bca57a" opacity="0.65"/>
+<rect x="903.8" y="266.7" width="2.77" height="17.3" fill="#bca57a" opacity="0.65"/>
+<rect x="907.8" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="911.8" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="915.7" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="919.7" y="271.6" width="2.77" height="12.4" fill="#bca57a" opacity="0.65"/>
+<rect x="923.7" y="271.6" width="2.77" height="12.4" fill="#bca57a" opacity="0.65"/>
+<rect x="927.6" y="273.6" width="2.77" height="10.4" fill="#bca57a" opacity="0.65"/>
+<rect x="931.6" y="272.1" width="2.77" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="935.6" y="276.2" width="2.77" height="7.8" fill="#bca57a" opacity="0.65"/>
+<rect x="939.5" y="274.0" width="2.77" height="10.0" fill="#bca57a" opacity="0.65"/>
+<rect x="943.5" y="273.9" width="2.77" height="10.1" fill="#bca57a" opacity="0.65"/>
+<rect x="947.5" y="261.9" width="2.77" height="22.1" fill="#bca57a" opacity="0.65"/>
+<rect x="951.4" y="271.7" width="2.77" height="12.3" fill="#bca57a" opacity="0.65"/>
+<rect x="955.4" y="273.7" width="2.77" height="10.3" fill="#bca57a" opacity="0.65"/>
+<rect x="959.4" y="277.6" width="2.77" height="6.4" fill="#bca57a" opacity="0.65"/>
+<rect x="963.3" y="278.1" width="2.77" height="5.9" fill="#bca57a" opacity="0.65"/>
+<rect x="967.3" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="971.3" y="275.4" width="2.77" height="8.6" fill="#bca57a" opacity="0.65"/>
+<rect x="975.3" y="265.1" width="2.77" height="18.9" fill="#bca57a" opacity="0.65"/>
+<rect x="979.2" y="266.2" width="2.77" height="17.8" fill="#bca57a" opacity="0.65"/>
+<rect x="983.2" y="275.6" width="2.77" height="8.4" fill="#bca57a" opacity="0.65"/>
+<rect x="987.2" y="277.8" width="2.77" height="6.2" fill="#bca57a" opacity="0.65"/>
+<rect x="991.1" y="272.5" width="2.77" height="11.5" fill="#bca57a" opacity="0.65"/>
+<rect x="995.1" y="266.5" width="2.77" height="17.5" fill="#bca57a" opacity="0.65"/>
+<rect x="999.1" y="277.1" width="2.77" height="6.9" fill="#bca57a" opacity="0.65"/>
+<rect x="1003.0" y="277.2" width="2.77" height="6.8" fill="#bca57a" opacity="0.65"/>
+<rect x="1007.0" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="1011.0" y="277.9" width="2.77" height="6.1" fill="#bca57a" opacity="0.65"/>
+<rect x="1014.9" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="1018.9" y="274.0" width="2.77" height="10.0" fill="#bca57a" opacity="0.65"/>
+<rect x="1022.9" y="272.8" width="2.77" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="1026.8" y="273.8" width="2.77" height="10.2" fill="#bca57a" opacity="0.65"/>
+<rect x="1030.8" y="273.2" width="2.77" height="10.8" fill="#bca57a" opacity="0.65"/>
+<rect x="1034.8" y="274.4" width="2.77" height="9.6" fill="#bca57a" opacity="0.65"/>
+<rect x="1038.7" y="273.9" width="2.77" height="10.1" fill="#bca57a" opacity="0.65"/>
+<rect x="1042.7" y="272.1" width="2.77" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="1046.7" y="274.2" width="2.77" height="9.8" fill="#bca57a" opacity="0.65"/>
+<rect x="1050.6" y="277.5" width="2.77" height="6.5" fill="#bca57a" opacity="0.65"/>
+<rect x="1054.6" y="274.9" width="2.77" height="9.1" fill="#bca57a" opacity="0.65"/>
+  <polygon points="60,212 60.0,176.3 64.0,179.6 67.9,180.8 71.9,179.2 75.9,179.5 79.8,177.0 83.8,186.0 87.8,184.2 91.7,185.1 95.7,183.6 99.7,185.6 103.6,187.2 107.6,181.6 111.6,179.4 115.6,177.6 119.5,178.9 123.5,190.1 127.5,185.1 131.4,191.1 135.4,184.7 139.4,189.9 143.3,192.8 147.3,190.1 151.3,202.1 155.2,184.2 159.2,184.5 163.2,179.5 167.1,174.3 171.1,167.8 175.1,175.2 179.0,174.4 183.0,169.3 187.0,171.7 190.9,172.8 194.9,175.1 198.9,179.0 202.9,179.4 206.8,178.8 210.8,175.3 214.8,167.5 218.7,159.6 222.7,164.9 226.7,163.4 230.6,160.8 234.6,157.2 238.6,158.0 242.5,158.1 246.5,158.1 250.5,159.1 254.4,159.7 258.4,162.8 262.4,158.5 266.3,162.3 270.3,157.3 274.3,146.0 278.2,148.7 282.2,153.2 286.2,151.7 290.2,147.2 294.1,148.1 298.1,145.6 302.1,148.7 306.0,151.2 310.0,156.9 314.0,151.2 317.9,158.5 321.9,155.6 325.9,148.1 329.8,144.2 333.8,143.0 337.8,149.7 341.7,147.7 345.7,145.0 349.7,137.1 353.6,146.9 357.6,149.3 361.6,149.7 365.5,156.6 369.5,158.6 373.5,157.5 377.5,151.4 381.4,149.0 385.4,149.6 389.4,149.4 393.3,148.6 397.3,151.4 401.3,151.1 405.2,152.3 409.2,158.4 413.2,157.8 417.1,159.1 421.1,162.5 425.1,162.0 429.0,160.4 433.0,161.3 437.0,169.4 440.9,172.1 444.9,175.8 448.9,175.5 452.8,174.8 456.8,170.7 460.8,172.9 464.7,172.6 468.7,174.7 472.7,172.8 476.7,170.6 480.6,160.4 484.6,149.5 488.6,149.5 492.5,142.3 496.5,139.4 500.5,148.6 504.4,148.6 508.4,160.8 512.4,165.4 516.3,162.7 520.3,164.9 524.3,168.5 528.2,171.9 532.2,174.4 536.2,170.0 540.1,170.3 544.1,174.9 548.1,167.5 552.0,173.0 556.0,173.8 560.0,179.0 564.0,182.7 567.9,178.9 571.9,174.3 575.9,176.2 579.8,178.4 583.8,175.8 587.8,179.9 591.7,174.3 595.7,170.7 599.7,169.3 603.6,169.3 607.6,176.5 611.6,177.3 615.5,182.6 619.5,179.9 623.5,146.2 627.4,156.5 631.4,157.6 635.4,147.6 639.3,105.8 643.3,111.8 647.3,118.2 651.3,121.9 655.2,117.3 659.2,118.8 663.2,112.6 667.1,115.9 671.1,116.4 675.1,116.3 679.0,109.4 683.0,104.6 687.0,108.3 690.9,111.7 694.9,113.6 698.9,117.8 702.8,117.6 706.8,112.9 710.8,107.0 714.7,110.7 718.7,106.6 722.7,108.2 726.6,113.0 730.6,112.1 734.6,114.8 738.5,101.5 742.5,92.8 746.5,92.0 750.5,95.1 754.4,83.5 758.4,73.0 762.4,66.1 766.3,67.0 770.3,64.3 774.3,64.5 778.2,62.5 782.2,66.2 786.2,63.7 790.1,55.6 794.1,57.3 798.1,61.7 802.0,57.3 806.0,54.3 810.0,41.6 813.9,53.6 817.9,52.7 821.9,49.8 825.8,47.6 829.8,48.1 833.8,37.9 837.8,46.3 841.7,87.2 845.7,102.3 849.7,105.2 853.6,96.8 857.6,105.3 861.6,97.9 865.5,87.6 869.5,97.0 873.5,109.9 877.4,104.1 881.4,110.0 885.4,103.7 889.3,107.0 893.3,99.5 897.3,99.8 901.2,95.1 905.2,100.6 909.2,105.7 913.1,103.1 917.1,116.7 921.1,123.9 925.1,123.8 929.0,124.7 933.0,129.0 937.0,127.0 940.9,132.2 944.9,131.1 948.9,134.7 952.8,135.2 956.8,136.6 960.8,135.2 964.7,137.0 968.7,143.3 972.7,149.4 976.6,141.2 980.6,138.8 984.6,132.5 988.5,132.3 992.5,135.8 996.5,131.5 1000.4,137.1 1004.4,139.3 1008.4,127.7 1012.4,128.5 1016.3,127.6 1020.3,128.3 1024.3,127.6 1028.2,127.2 1032.2,127.0 1036.2,125.7 1040.1,134.0 1044.1,143.2 1048.1,140.6 1052.0,142.8 1056.0,147.8 1056,212" fill="#d8b878" opacity="0.35"/>
+  <polyline points="60.0,176.3 64.0,179.6 67.9,180.8 71.9,179.2 75.9,179.5 79.8,177.0 83.8,186.0 87.8,184.2 91.7,185.1 95.7,183.6 99.7,185.6 103.6,187.2 107.6,181.6 111.6,179.4 115.6,177.6 119.5,178.9 123.5,190.1 127.5,185.1 131.4,191.1 135.4,184.7 139.4,189.9 143.3,192.8 147.3,190.1 151.3,202.1 155.2,184.2 159.2,184.5 163.2,179.5 167.1,174.3 171.1,167.8 175.1,175.2 179.0,174.4 183.0,169.3 187.0,171.7 190.9,172.8 194.9,175.1 198.9,179.0 202.9,179.4 206.8,178.8 210.8,175.3 214.8,167.5 218.7,159.6 222.7,164.9 226.7,163.4 230.6,160.8 234.6,157.2 238.6,158.0 242.5,158.1 246.5,158.1 250.5,159.1 254.4,159.7 258.4,162.8 262.4,158.5 266.3,162.3 270.3,157.3 274.3,146.0 278.2,148.7 282.2,153.2 286.2,151.7 290.2,147.2 294.1,148.1 298.1,145.6 302.1,148.7 306.0,151.2 310.0,156.9 314.0,151.2 317.9,158.5 321.9,155.6 325.9,148.1 329.8,144.2 333.8,143.0 337.8,149.7 341.7,147.7 345.7,145.0 349.7,137.1 353.6,146.9 357.6,149.3 361.6,149.7 365.5,156.6 369.5,158.6 373.5,157.5 377.5,151.4 381.4,149.0 385.4,149.6 389.4,149.4 393.3,148.6 397.3,151.4 401.3,151.1 405.2,152.3 409.2,158.4 413.2,157.8 417.1,159.1 421.1,162.5 425.1,162.0 429.0,160.4 433.0,161.3 437.0,169.4 440.9,172.1 444.9,175.8 448.9,175.5 452.8,174.8 456.8,170.7 460.8,172.9 464.7,172.6 468.7,174.7 472.7,172.8 476.7,170.6 480.6,160.4 484.6,149.5 488.6,149.5 492.5,142.3 496.5,139.4 500.5,148.6 504.4,148.6 508.4,160.8 512.4,165.4 516.3,162.7 520.3,164.9 524.3,168.5 528.2,171.9 532.2,174.4 536.2,170.0 540.1,170.3 544.1,174.9 548.1,167.5 552.0,173.0 556.0,173.8 560.0,179.0 564.0,182.7 567.9,178.9 571.9,174.3 575.9,176.2 579.8,178.4 583.8,175.8 587.8,179.9 591.7,174.3 595.7,170.7 599.7,169.3 603.6,169.3 607.6,176.5 611.6,177.3 615.5,182.6 619.5,179.9 623.5,146.2 627.4,156.5 631.4,157.6 635.4,147.6 639.3,105.8 643.3,111.8 647.3,118.2 651.3,121.9 655.2,117.3 659.2,118.8 663.2,112.6 667.1,115.9 671.1,116.4 675.1,116.3 679.0,109.4 683.0,104.6 687.0,108.3 690.9,111.7 694.9,113.6 698.9,117.8 702.8,117.6 706.8,112.9 710.8,107.0 714.7,110.7 718.7,106.6 722.7,108.2 726.6,113.0 730.6,112.1 734.6,114.8 738.5,101.5 742.5,92.8 746.5,92.0 750.5,95.1 754.4,83.5 758.4,73.0 762.4,66.1 766.3,67.0 770.3,64.3 774.3,64.5 778.2,62.5 782.2,66.2 786.2,63.7 790.1,55.6 794.1,57.3 798.1,61.7 802.0,57.3 806.0,54.3 810.0,41.6 813.9,53.6 817.9,52.7 821.9,49.8 825.8,47.6 829.8,48.1 833.8,37.9 837.8,46.3 841.7,87.2 845.7,102.3 849.7,105.2 853.6,96.8 857.6,105.3 861.6,97.9 865.5,87.6 869.5,97.0 873.5,109.9 877.4,104.1 881.4,110.0 885.4,103.7 889.3,107.0 893.3,99.5 897.3,99.8 901.2,95.1 905.2,100.6 909.2,105.7 913.1,103.1 917.1,116.7 921.1,123.9 925.1,123.8 929.0,124.7 933.0,129.0 937.0,127.0 940.9,132.2 944.9,131.1 948.9,134.7 952.8,135.2 956.8,136.6 960.8,135.2 964.7,137.0 968.7,143.3 972.7,149.4 976.6,141.2 980.6,138.8 984.6,132.5 988.5,132.3 992.5,135.8 996.5,131.5 1000.4,137.1 1004.4,139.3 1008.4,127.7 1012.4,128.5 1016.3,127.6 1020.3,128.3 1024.3,127.6 1028.2,127.2 1032.2,127.0 1036.2,125.7 1040.1,134.0 1044.1,143.2 1048.1,140.6 1052.0,142.8 1056.0,147.8" fill="none" stroke="#7a5a26" stroke-width="1.6" stroke-linejoin="round"/>
+  <text x="60.0" y="308" text-anchor="start" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Apr 2025</text>
+<text x="560.0" y="308" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Oct 2025</text>
+<text x="1056.0" y="308" text-anchor="end" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Apr 2026</text>
+  <text x="52" y="223.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9" fill="#6e6457">10.6M</text>
+  <text x="60" y="16" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.16em" text-transform="uppercase" fill="#2a261f">AMTM · PRICE &amp; VOLUME</text><text x="1056" y="16" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="#2a261f">$25.34  <tspan fill="#1f6b3a" font-weight="600">+14.2%</tspan></text>
+</svg>
+  <p class="chart-caption">Daily close (warm umber) with under-fill, volume bars in tan. Trailing range capped at 252 trading days.</p>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Market Analysis</h3><h3>Market Report</h3>
+
+<p><strong>AMTM | Technical Posture: Defensive — Trend Damaged, Momentum Bottoming</strong></p>
+
+<p>Amentum Holdings closed the prior session at $25.65, sitting 7.5% below its 50-day SMA ($27.72) and 5.6% below its 200-day SMA ($27.17). The stock has now broken below both intermediate and long-term trend supports — a classic 'death-cross-pending' configuration, with the 50 SMA flattening from $30.53 on April 6 to $27.72 on May 1, a 9.2% decline in the medium-term trend mean over 19 trading sessions. The 200 SMA, however, is still gently rising (from $26.86 to $27.17 over the same window), so the bearish damage is concentrated in the medium horizon, not the secular trend. This is a 3-month correction inside a 12-month uptrend, not a regime change.</p>
+
+<h4>Price action and structural levels</h4>
+
+<p>The 20-day window shows a clear breakdown sequence: the stock peaked at $28.54 intraday on April 22, then unraveled through $27.79 → $26.87 → $25.85 over 3 sessions (April 22-24), losing 9.5%. The April 24 candle ($27.00 → $25.69 → $25.85, 1.97M shares) was a wide-range distribution bar on ~75% above-average volume — the highest single-day volume in the window — and confirms institutional sellers stepped through bid stacks rather than working orders patiently. Subsequent action has been a low-volatility drift between $25.13 (April 29 low) and $26.67 (April 28 high) — a $1.54 consolidation range, exactly 1.5x ATR. That is the textbook profile of a stock searching for absorption.</p>
+
+<p><strong>Support tier</strong>: $25.13 (April 29 swing low) → $24.93 (Bollinger lower band, April 6) → $19.11 (52-week low, late 2024). The $25.10-$25.30 zone is the proximal floor; a daily close below $24.90 would open air down to the high $22s.</p>
+
+<p><strong>Resistance tier</strong>: $26.93 (Bollinger middle / April 17 close) → $27.72 (50 SMA) → $28.10-$28.54 (April 15-22 swing highs). The first reclamation target is $27.20; a sustained move back above $27.72 would re-engage the bull trend.</p>
+
+<h4>Momentum signals</h4>
+
+<table>
+<tr><th>Indicator</th><th>Value (May 1)</th><th>Reading</th></tr>
+<tr><td>RSI(14)</td><td>39.3</td><td>Weakly oversold; not yet capitulation (sub-30)</td></tr>
+<tr><td>MACD line</td><td>-0.52</td><td>Negative; momentum decisively bearish</td></tr>
+<tr><td>MACD signal</td><td>-0.44</td><td>Below zero; signal trailing</td></tr>
+<tr><td>MACD histogram</td><td>-0.08</td><td>Negative but <strong>shrinking</strong> vs -0.09 on April 29 → first hint of momentum deceleration</td></tr>
+<tr><td>10 EMA</td><td>$26.28</td><td>Price 2.4% below — short-term mean-reversion pull modest</td></tr>
+<tr><td>Bollinger middle (20 SMA)</td><td>$26.82</td><td>Price 4.4% below; bandwidth tight</td></tr>
+<tr><td>Bollinger lower</td><td>$25.26</td><td>Price 1.5% above — proximate cushion</td></tr>
+<tr><td>ATR(14)</td><td>1.02</td><td>~4.0% of price; moderate volatility, slightly elevated</td></tr>
+<tr><td>VWMA(20)</td><td>$26.89</td><td>Volume-weighted mean above price → distribution-tilted tape</td></tr>
+</table>
+
+<p>The MACD histogram tightening from -0.09 (April 29) to -0.08 (May 1) is the first quantitative tell that downside momentum is exhausting. RSI at 39.3 is not technically oversold, but in a stock with strong fundamentals trading near the lower Bollinger band, the 35-40 RSI zone has historically marked tradeable bounces.</p>
+
+<h4>Volume profile</h4>
+
+<p>20-day average volume tracks roughly 1.6M shares. The April 22-24 distribution sequence ran 1.57M, 1.66M, 1.97M — clearly elevated and clearly negative. The May 1 session printed 2.06M on a -0.58 close (-2.2%), indicating sellers are still active but the rate of change has slowed. No bullish capitulation candle yet; the constructive read is 'controlled selling fading,' not 'reversal confirmed.'</p>
+
+<h4>Tactical synthesis</h4>
+
+<p>The technicals are <strong>cautiously bearish but bottoming</strong>. The setup favors a tactical entry between $25.10-$25.40 with a stop below $24.90 (~1% below the proximal swing low and below the lower Bollinger). Targeting $27.70 (50 SMA) yields roughly 2.3:1 reward-to-risk on a mean-reversion trade. A trend-following entry should wait for a daily close above $27.72 (50 SMA reclaim) with confirmation from an MACD cross above zero — that does not appear imminent in the next 5-10 sessions.</p>
+
+<table>
+<tr><th>Key Technical Datapoint</th><th>Value</th></tr>
+<tr><td>Last close (May 1, 2026)</td><td>$25.65</td></tr>
+<tr><td>50 SMA / 200 SMA</td><td>$27.72 / $27.17</td></tr>
+<tr><td>Distance to 50 SMA</td><td>-7.5%</td></tr>
+<tr><td>RSI(14)</td><td>39.3</td></tr>
+<tr><td>MACD line / signal / histogram</td><td>-0.52 / -0.44 / -0.08</td></tr>
+<tr><td>ATR(14) (% of price)</td><td>~4.0%</td></tr>
+<tr><td>Proximal support / resistance</td><td>$25.13 / $26.93</td></tr>
+<tr><td>20-day return</td><td>-5.2%</td></tr>
+<tr><td>52-week range</td><td>$19.11 - $38.11</td></tr>
+<tr><td>Trend posture</td><td>Below 50 + 200 SMA; momentum bottoming</td></tr>
+</table>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Social Sentiment</h3><h3>Social Sentiment Report</h3>
+
+<p><strong>AMTM | Sentiment: Mixed — Sell-Side Constructive, Retail Confused, Buy-Side Quiet</strong></p>
+
+<p>Amentum's social and media footprint is best characterized as 'thinly covered, quietly constructive' — a profile typical of post-merger spin-offs that have not yet built a durable retail or sell-side identity. The Sept 2024 spin from Jacobs created a $14B-revenue government services giant overnight, but the brand is ~18 months old in equity-market memory, and the discourse reflects that immaturity.</p>
+
+<h4>Sell-side and analyst commentary</h4>
+
+<p>The most notable single sentiment data point is <strong>Citizens reiterating a Market Outperform rating with a $40 price target on April 16, 2026</strong> — implying ~56% upside from the current $25.65 print. The framing in the research note focused on 'growth prospects and profitability opportunities following meetings with top management,' which is sell-side shorthand for 'we sat with the new IR head and the FY26 EPS bridge convinced us.' Importantly, this was a <strong>reiteration after a price-target update</strong>, not initiation — Citizens has held a constructive stance through the post-merger period. Other coverage themes from Insider Monkey, Simply Wall St, and StockStory tilt cautiously bullish: 2 of the 8 retail-oriented articles in the past 30 days ranked AMTM as a 'best up-and-coming stock' or 'best industrial stock to buy in 2026,' 1 was framed as a valuation reassessment after a strong run, and 1 was a generic 'cash-producing stocks we steer clear of' piece. Bear coverage is essentially absent in the curated newsfeed — there is no short report, no sell-side downgrade, no activist letter.</p>
+
+<h4>Insider activity as proxy for management sentiment</h4>
+
+<p>Insider transactions are the strongest sentiment signal in the dataset and they read <strong>constructively</strong>. Director Steven Demetriou bought $2.08M worth at $20.81 on Feb 12, 2025; Director Barbara Loughran bought $97K at $21.22 on Feb 18, 2025. These are not vesting events — they are open-market purchases at prices ~18% below current quote. The remainder of the insider tape is dominated by routine stock awards and grants (CEO John Heller received 155,897 shares on Nov 17, 2025 as a grant; CFO Travis Johnson received 100,220), which are compensation rather than conviction. Of note: 0 insider sales in the trailing 12 months on the disclosed tape, which is unusual — most diversified C-suites trim 2-5% of holdings annually for tax purposes.</p>
+
+<h4>Retail and forum discourse</h4>
+
+<p>AMTM does not generate meaningful traffic on r/wallstreetbets or X/Twitter retail-finance threads — sentiment scrapes return low message volume and neutral polarity. The retail crowd has not adopted AMTM as a meme, a 'value play,' or a 'defense play.' This is partly a function of the unfortunate ticker (the 4-letter symbol implies a small-cap, but AMTM is $6.3B mkt cap) and partly because government-services names have never sustained retail interest the way semis or consumer brands do. The flip side: there is no froth to deflate. The stock is owned by institutions and quants, not retail.</p>
+
+<h4>Company-specific news pulse</h4>
+
+<p>The April news dossier shows a healthy cadence of contract announcements and operational milestones:</p>
+<ul>
+<li><strong>April 7, 2026</strong>: $425M Cal Fire aerial firefighting contract (3-year, +2 option years)</li>
+<li><strong>April 13, 2026</strong>: NASA Artemis II ground systems support — high-prestige, low-revenue but reputationally meaningful</li>
+<li><strong>April 16, 2026</strong>: Citizens reiterates Outperform with $40 PT</li>
+<li><strong>Mid-April</strong>: Joseph DeNardi appointed SVP / Head of IR — succeeding Nathan Rutledge</li>
+</ul>
+
+<p>The IR head transition is worth noting: DeNardi previously covered defense names at Stifel (sell-side), so this is an explicitly market-fluent appointment, not a corporate-comms hire. That signals the C-suite knows the equity story needs more institutional polish.</p>
+
+<h4>Sentiment summary</h4>
+
+<p>The aggregate read is <strong>net positive but lacking conviction</strong>. Sell-side is supportive, insiders are net buyers, news flow is operationally constructive. What is missing is any momentum or amplification — no buy-side notes circulating in the chat-room layer, no thematic ETF inclusion drumbeat, no activist mention. AMTM is the kind of name that needs a catalyst (a beat, a major contract, a re-rating) to break out of the 'ignored mid-cap' trap.</p>
+
+<table>
+<tr><th>Sentiment Datapoint</th><th>Value</th></tr>
+<tr><td>Citizens price target</td><td>$40 (Apr 16, 2026)</td></tr>
+<tr><td>Citizens implied upside</td><td>~56%</td></tr>
+<tr><td>Insider open-market buys (TTM)</td><td>$2.18M (Demetriou + Loughran)</td></tr>
+<tr><td>Insider sales (TTM)</td><td>$0</td></tr>
+<tr><td>Retail forum mention rate</td><td>Low / neutral</td></tr>
+<tr><td>Sell-side bull pieces (30-day)</td><td>4 of 8 articles</td></tr>
+<tr><td>Sell-side bear pieces (30-day)</td><td>1 of 8 articles</td></tr>
+<tr><td>Net sentiment</td><td>Constructive but quiet</td></tr>
+</table>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>News &amp; Macro</h3><h3>News Report</h3>
+
+<p><strong>AMTM | Macro &amp; News: Government-Services Tailwind Intact, Budget Cycle Skews Constructive</strong></p>
+
+<p>Amentum operates at the intersection of three macro tailwinds and one structural headwind. The bull case for the sector — and AMTM specifically — depends on whether the sector tailwinds outpace the federal budget compression risk that defines the post-2024 fiscal regime.</p>
+
+<h4>Macro tailwind 1: Nuclear renaissance — globally synchronized</h4>
+
+<p>This is the single most important macro thread for AMTM and arguably under-recognized in the equity narrative. In 2024-2026, 26 countries signed the Tripled Nuclear Capacity declaration at COP28; the UK launched Sizewell C and SMR procurement; the EU re-classified nuclear as a transition fuel; the US allocated $72B across loan guarantees and Production Tax Credits via IIJA + IRA. Amentum sits in the engineering, decommissioning, and life-extension layer of this stack. Recent contract wins make the positioning concrete:</p>
+
+<ul>
+<li><strong>EDF UK</strong>: $730M, 10-year professional services for new build + life extension (announced Q1 FY26)</li>
+<li><strong>European JV</strong>: $112M framework for decommissioning and waste management at research facilities in Italy, Germany, Belgium, and the Netherlands (2-year initial + 3 × 2-year options)</li>
+<li><strong>Dutch Ministry</strong>: $207M (€207M reported) nuclear program</li>
+<li><strong>Rolls-Royce Small Modular Reactor partnership</strong>: announced Q1 FY26</li>
+</ul>
+
+<p>These are not one-off contracts — they are foothold positions in a market that the IEA estimates will grow from $45B in 2025 to $120B by 2035 in services and engineering alone.</p>
+
+<h4>Macro tailwind 2: Defense modernization + space</h4>
+
+<p>FY26 NDAA (signed Dec 18, 2025) authorized $900.6B for DoD, including $161.7B for procurement — a record nominal level. Critically for AMTM, the bill explicitly directs DoD to 'increase use of commercial contracting' and raises the cost-and-pricing-data threshold from $2M to $10M, which materially favors mid-tier prime contractors over traditional cost-plus shops. AMTM's positioning on the <strong>Missile Defense Agency SHIELD IDIQ</strong> ($151B ceiling, multiple-award) and the recently-announced <strong>U.S. Air Force Remotely Piloted Aircraft sustainment</strong> ($995M IDIQ) are direct beneficiaries. NASA Artemis II ground systems work — visible in the April 13 announcement — is reputationally important even if revenue-light, because it positions AMTM as a tier-1 NASA prime for the upcoming Artemis III/IV cycle.</p>
+
+<h4>Macro tailwind 3: Critical digital infrastructure and AI for government</h4>
+
+<p>The DISA $120M compute services award (Q1 FY26) is small in absolute terms but signals that Amentum's Digital Solutions segment is winning the secular shift from on-prem federal IT to hybrid cloud + AI workloads. The FY26 NDAA explicitly funds AI/ML infrastructure for DoD, and the federal civilian-side AI executive guidance (OMB M-25-21 series) compels agencies to procure AI services from cleared vendors — a moat that Amentum has by virtue of its workforce clearance density.</p>
+
+<h4>Structural headwind: Fiscal compression + continuing-resolution risk</h4>
+
+<p>The countervailing force is the federal fiscal arithmetic. The CBO's January 2026 baseline projects federal deficits averaging $1.9T/year through 2029, with debt-service costs surpassing defense spending in FY27. In that environment, the probability of multi-quarter continuing resolutions, contract-award delays, and program reprogrammings is elevated. AMTM disclosed in its FY25 10-K Item 1A that 'budget completion delays, continuing resolutions, government shutdowns, or spending priority shifts can materially harm business operations.' This is the dominant single-event risk for the name.</p>
+
+<p>The FY27 DoD POM cycle markup runs ~June-July 2026, with the FY27 NDAA process running from August 2026 through December 2026. Any signal of meaningful DoD discretionary cuts in those windows would compress sector multiples, AMTM included.</p>
+
+<h4>Sector comparable benchmarks</h4>
+
+<table>
+<tr><th>Peer</th><th>Forward PE</th><th>Backlog/Revenue</th><th>YTD price</th></tr>
+<tr><td>Leidos (LDOS)</td><td>~16x</td><td>~2.0x</td><td>+11%</td></tr>
+<tr><td>Booz Allen (BAH)</td><td>~18x</td><td>~2.5x</td><td>+8%</td></tr>
+<tr><td>CACI (CACI)</td><td>~17x</td><td>~2.4x</td><td>+14%</td></tr>
+<tr><td><strong>AMTM</strong></td><td><strong>9.3x</strong></td><td><strong>3.3x</strong></td><td><strong>-9.5%</strong></td></tr>
+</table>
+
+<p>AMTM trades at a ~45% discount to peers on forward PE despite having <strong>the highest backlog-to-revenue ratio in the cohort</strong>. The discount reflects merger integration overhang, leverage (3.2x vs peers ~1.5-2.0x), and the lower margin profile (8.1% adj EBITDA margin vs peers 10-12%). The valuation gap is the equity story.</p>
+
+<h4>News-flow summary</h4>
+
+<table>
+<tr><th>News Catalyst</th><th>Date</th><th>Significance</th></tr>
+<tr><td>Cal Fire $425M aerial firefighting contract</td><td>Apr 7, 2026</td><td>Commercial diversification proof point</td></tr>
+<tr><td>NASA Artemis II ground systems support</td><td>Apr 13, 2026</td><td>Reputational, low-revenue, tier-1 positioning</td></tr>
+<tr><td>Citizens Outperform $40 PT</td><td>Apr 16, 2026</td><td>~56% implied upside from sell-side</td></tr>
+<tr><td>EDF UK $730M, 10-year nuclear</td><td>Q1 FY26</td><td>Major nuclear renaissance proof point</td></tr>
+<tr><td>MDA SHIELD $151B ceiling IDIQ position</td><td>Q1 FY26</td><td>Multi-award, ceiling not revenue</td></tr>
+<tr><td>FY26 NDAA signed: $900.6B DoD authorization</td><td>Dec 18, 2025</td><td>Sector budget tailwind</td></tr>
+<tr><td>FY27 POM cycle markup</td><td>June-July 2026</td><td>Forward fiscal-process catalyst</td></tr>
+<tr><td>FY27 NDAA process</td><td>Aug-Dec 2026</td><td>Multi-quarter overhang</td></tr>
+</table>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Fundamental Analysis</h3><h3>Fundamentals Report</h3>
+
+<p><strong>AMTM | Fundamentals: Cheap on Forward Earnings, Levered on Trailing, Backlog Provides the Bridge</strong></p>
+
+<p>Amentum's fundamentals tell a story of post-merger transition: a company digesting $5.7B of goodwill and $3.7B of net debt while simultaneously pivoting its revenue mix toward the higher-margin Digital Solutions segment. The trailing financials look thin and stretched; the forward financials, if delivered, look reasonable; the bridge between the two is execution risk.</p>
+
+<h4>Income statement quality</h4>
+
+<p>FY25 revenue ran ~$14.2B (TTM through fiscal Q4 2025, ended Oct 3, 2025) with adjusted EBITDA of ~$1.0B for an 8.1% adj EBITDA margin (up 40 bps from 7.7%). Q1 FY26 (ended Jan 2, 2026) printed $3.24B revenue (-5% YoY reported, +3% normalized for divestitures), $263M adj EBITDA (8.1% margin), and $0.54 adj EPS — a 116% beat vs sell-side consensus of $0.25. The reported GAAP picture is rougher: net income $44M for Q1 ($0.18 diluted EPS), reflecting $94M of intangibles amortization that the adjusted-EBITDA framework strips out. That $94M/quarter of amortization ($376M/year) is the single largest gap between GAAP and adjusted earnings, and it persists for ~10-15 years post-merger as the customer-relationship intangibles roll off.</p>
+
+<table>
+<tr><th>Income Statement</th><th>Q1 FY26</th><th>Q4 FY25</th><th>Q3 FY25</th></tr>
+<tr><td>Revenue</td><td>$3.24B</td><td>$3.93B</td><td>$3.56B</td></tr>
+<tr><td>Gross profit</td><td>$326M</td><td>$417M</td><td>$368M</td></tr>
+<tr><td>Gross margin</td><td>10.1%</td><td>10.6%</td><td>10.3%</td></tr>
+<tr><td>Operating income</td><td>$117M</td><td>$120M</td><td>$85M</td></tr>
+<tr><td>Operating margin</td><td>3.6%</td><td>3.1%</td><td>2.4%</td></tr>
+<tr><td>Adj EBITDA</td><td>$263M</td><td>$258M (est)</td><td>$229M</td></tr>
+<tr><td>Net income</td><td>$44M</td><td>$40M</td><td>$10M</td></tr>
+<tr><td>Diluted EPS</td><td>$0.18</td><td>$0.16</td><td>$0.04</td></tr>
+</table>
+
+<p>The sequential pattern shows operating margin expansion from 2.4% → 3.1% → 3.6% over three quarters — clear evidence that synergy realization from the merger is flowing through. Management's FY26 guidance of adj EPS $2.25-2.45 implies ~12% growth and an effective forward PE of 9.3x at the current quote — the cheapest of any major government-services name.</p>
+
+<h4>Segment composition</h4>
+
+<p>Q1 FY26 segment detail:</p>
+<ul>
+<li><strong>Digital Solutions (DS)</strong>: $1.34B revenue (+4% YoY), $103M adj EBITDA (7.7% margin)</li>
+<li><strong>Global Engineering Solutions (GES)</strong>: $1.90B revenue (-11% YoY), $160M adj EBITDA (8.4% margin)</li>
+</ul>
+
+<p>GES's -11% revenue print is the bear's strongest fundamental ammunition — it represents ~58% of total revenue and is shrinking. Management attributes the decline to 'program lifecycle and divestiture impacts' but has not given a specific quarter-by-quarter recovery bridge. DS, while smaller, is growing and carries the better margin trajectory in the long run as the federal IT/AI mix expands. The strategic narrative is 'GES stable, DS compounds' — the burden of proof remains with DS to grow into segment majority over 5-7 years.</p>
+
+<h4>Balance sheet</h4>
+
+<p>At Q4 FY25 (Dec 31, 2025 balance sheet date in the data):</p>
+<ul>
+<li>Total assets: $11.20B</li>
+<li>Cash: $247M (down from $437M Q3 — ~-43% sequential)</li>
+<li>Total debt: $3.94B (down from $4.17B Q3, $4.68B Q4 FY24 — clear deleveraging)</li>
+<li>Net debt: $3.69B</li>
+<li>Stockholders equity: $4.56B</li>
+<li>Goodwill: $5.70B (stable)</li>
+<li>Other intangibles: $1.86B (declining as amortization runs)</li>
+<li><strong>Tangible book value: -$3.01B</strong> (negative — the entire equity stack is goodwill + intangibles)</li>
+</ul>
+
+<p>The negative tangible book is mechanical (it is what you get when you merge two large services businesses) but it does mean the equity has no asset cushion in a stress scenario. The mitigant: services businesses with $47.2B of contracted backlog have very stable cash-generating profiles, which is why creditors and equity holders price them on cash flow rather than book.</p>
+
+<p>Leverage at Q1 FY26 reported as 3.2x net debt / adjusted EBITDA, down from 4.0x at the merger close — 200 bps of deleveraging in ~16 months. Debt covenants and refinancing risk are not flagged in the disclosed materials; the next material refi window is FY27.</p>
+
+<h4>Cash flow</h4>
+
+<p>Q4 FY25 (calendar Q4 2025) printed FCF of -$142M — concerning at first glance but explained by:</p>
+<ul>
+<li>Working capital build of -$296M (typical year-end DSO swing; receivables $2.53B at 12/31)</li>
+<li>-$277M change in payables and accrued expense (timing of vendor payments)</li>
+<li>+$1.12B debt issuance offset by -$1.13B repayment (refinancing churn, net -$9M)</li>
+</ul>
+
+<p>LTM FCF: ~$637M — solid, supports the FY26 guidance midpoint of $550M. FCF conversion of ~63% of adj EBITDA is at the lower end of peer cohort (Leidos, BAH at 70-80%) due to cash interest (~$340M/year on $3.94B debt) and elevated working capital tied to long-cycle government contracts.</p>
+
+<h4>Capital structure economics</h4>
+
+<table>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Market cap</td><td>$6.26B</td></tr>
+<tr><td>Total debt</td><td>$3.94B</td></tr>
+<tr><td>Net debt</td><td>$3.69B</td></tr>
+<tr><td>Enterprise value</td><td>~$9.95B</td></tr>
+<tr><td>EV / FY26E adj EBITDA (mid $1.12B)</td><td>~8.9x</td></tr>
+<tr><td>EV / TTM revenue</td><td>~0.7x</td></tr>
+<tr><td>Forward P/E</td><td>9.3x</td></tr>
+<tr><td>Net debt / adj EBITDA (LTM)</td><td>~3.2x</td></tr>
+<tr><td>Forward FCF yield (mkt cap basis)</td><td>~8.8%</td></tr>
+</table>
+
+<p>EV/EBITDA at 8.9x vs sector at 12-14x represents a ~30% discount on EV. On forward FCF yield, AMTM offers 8.8% — that is ~290 bps above the 10Y Treasury and equity-market-attractive on a risk-adjusted basis if the operating execution holds.</p>
+
+<h4>Capital allocation</h4>
+
+<p>Management has prioritized debt reduction over buybacks or dividends — consistent with the 4.0x → 3.2x leverage trajectory. No dividend; no buyback program of consequence. Capex is minimal (~$25M/year) — this is an asset-light services model, with PP&amp;E only $108M against $11.2B of total assets. Free cash flow goes to debt paydown until leverage hits ~2.5x, at which point management has signaled willingness to return capital. That milestone is ~12-18 months out at the current run-rate.</p>
+
+<table>
+<tr><th>Fundamentals Datapoint</th><th>Value</th></tr>
+<tr><td>Market cap / EV</td><td>$6.26B / $9.95B</td></tr>
+<tr><td>Forward PE / EV/EBITDA</td><td>9.3x / 8.9x</td></tr>
+<tr><td>Net debt / EBITDA</td><td>3.2x</td></tr>
+<tr><td>Adj EBITDA margin (Q1 FY26)</td><td>8.1%</td></tr>
+<tr><td>FCF yield (forward)</td><td>~8.8%</td></tr>
+<tr><td>Backlog / Revenue</td><td>3.3x</td></tr>
+<tr><td>LTM Book-to-Bill</td><td>1.1x</td></tr>
+<tr><td>Tangible book value</td><td>-$3.01B</td></tr>
+<tr><td>Dividend / buyback</td><td>0 / minimal</td></tr>
+<tr><td>Capital allocation priority</td><td>Debt reduction to ~2.5x</td></tr>
+</table>
+</div>
+
+</div><!-- /.col-wide -->
+
+<div class="col-prose">
+
+<h2 class="section">Risk Factors (Item 1A)</h2>
+<div class="report-content">
+<h3>Item 1A Risk Factors (Source: Amentum FY25 10-K, fiscal year ended October 3, 2025)</h3>
+
+<p><strong>Filing source</strong>: https://www.stocktitan.net/sec-filings/AMTM/10-k-amentum-holdings-inc-files-annual-report-818f7344ce4a.html | https://s204.q4cdn.com/720274487/files/doc_financials/2025/q4/FY25-Amentum-Holdings-Inc-Form-10-K.pdf</p>
+
+<p><strong>Top 7 risks in disclosed order of materiality</strong>:</p>
+
+<ol>
+<li><strong>U.S. Federal Government Revenue Concentration (~81%)</strong>: Amentum derives approximately 81% of revenues from agencies of the U.S. federal government. A material decrease in federal spending priorities, agency budget reductions, or specific program reprogramming would materially harm financial condition and operating results. No single named customer is disclosed at &gt;10% of revenue, but program-level concentration (Hanford, NASA EGS, DoD test ranges) creates de facto single-event risk.</li>
+</ol>
+
+<ol>
+<li><strong>Government Contract Audits &amp; False Claims Risk</strong>: U.S. federal government contract work is regularly reviewed and audited by DCAA, IG offices, and contracting officers. Adverse findings can result in payment withholdings, fee denial, false-claims actions, debarment proceedings, and penalties — all of which directly affect cash flow, contract profitability, and reputation. The FY25 10-K does not disclose a material pending audit issue.</li>
+</ol>
+
+<ol>
+<li><strong>Federal Budget Process: Continuing Resolutions, Shutdowns, Reprogrammings</strong>: Budget completion delays, continuing resolutions, government shutdowns, or shifts in spending priorities can delay contract awards and revenue recognition. This is the dominant single-event risk for the name. Historical reference: 2018-19 (35-day shutdown), 2023 (multi-week CR-driven delays) each caused multi-quarter contract-award delays for services primes.</li>
+</ol>
+
+<ol>
+<li><strong>Competitive Market Pressures</strong>: Direct competition from Leidos Holdings, Booz Allen Hamilton, CACI International, and specialized firms. Loss of major recompetes (programs valued &gt;$500M-$1B) can swing segment results materially. The ~$23B pending-awards pipeline creates upside optionality but the competitive recompete dynamic creates downside cliff risk.</li>
+</ol>
+
+<ol>
+<li><strong>New Contract Award Dependency</strong>: Operating results depend significantly on winning new contracts and timely award completion. Bid-protest delays, customer-driven award-process pauses, or contract-vehicle ceiling exhaustion can create revenue gaps that are difficult to close mid-year.</li>
+</ol>
+
+<ol>
+<li><strong>Cost Inflation and Fixed-Price Contract Exposure (24% of mix)</strong>: Continuing elevated inflation, rising or sustained interest rates, and labor-cost escalation reduce service demand and decrease profitability — particularly on fixed-price contracts (24% of contract mix) where Amentum bears cost overrun risk. With 8.1% adj EBITDA margins, a 2% cost overrun on the $3B annual fixed-price book is ~$60M of margin compression, equivalent to ~6% of EBITDA.</li>
+</ol>
+
+<ol>
+<li><strong>Backlog Adjustment, Cancellation, and Suspension Risk</strong>: $47.2B backlog (Q1 FY26) is contractually subject to customer adjustment, suspension, and cancellation. Backlog is not a guarantee of future revenue realization. Funded backlog is only $6.9B (Q1 FY26), meaning ~85% of total backlog is unfunded option-year exposure that requires customer appropriation to convert to revenue.</li>
+</ol>
+
+<p><strong>Filing context</strong>: FY25 10-K filed in late 2025 covering fiscal year ended October 3, 2025. Total revenues for FY25 ~$14.2B. Total backlog at fiscal year-end ~$45.2B (subsequently grown to $47.2B by Q1 FY26 close on January 2, 2026).</p>
+</div>
+
+<div class="footer">
+  <div class="disclaimer">
+    This document is the confidential work product of the Silent Engineering Fund's
+    internal research process and is intended for partners and authorized personnel only.
+    It does not constitute investment advice, an offer to sell, or a solicitation to buy
+    any security. Past performance is not indicative of future results.
+  </div>
+  <div class="colophon">Silent Engineering Fund &middot; Internal Research</div>
+</div>
+
+</div><!-- /.col-prose -->
+
+</body>
+</html>

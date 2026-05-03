@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Silent Engineering Fund Research — CBT | 2026-05-01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fg: #2a261f;
+    --fg-secondary: #5a4f3f;
+    --fg-tertiary: #8a7c66;
+    --bg: #faf6ef;
+    --bg-subtle: #f5ecd9;
+    --bg-muted: #efe3c4;
+    --paper: #faf6ef;
+    --paper-soft: #f5ecd9;
+    --border: #d4c9a8;
+    --border-light: #e6dcc1;
+    --rule: #b9a878;
+    --accent: #2c7a3f;
+    --accent-bg: #ecf2db;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    --font-mono: 'IBM Plex Mono', 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+    --font-serif: 'Source Serif 4', 'Charter', 'Iowan Old Style', 'Sitka Text', Cambria, 'Times New Roman', Georgia, serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-serif);
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1;
+    color: var(--fg);
+    background: var(--bg);
+    line-height: 1.7;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 56px 36px 88px;
+  }
+
+  /* ---- Header ---- */
+  .header { border-bottom: 1.5px solid var(--rule); padding-bottom: 18px; margin-bottom: 36px; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; }
+  .fund-name {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.20em; text-transform: uppercase; color: var(--fg);
+  }
+  .date {
+    font-family: var(--font-sans); font-size: 11.5px; color: var(--fg-tertiary);
+    font-variant-numeric: tabular-nums; letter-spacing: 0.02em;
+  }
+  .ticker {
+    font-family: var(--font-sans); font-size: 42px; font-weight: 700;
+    letter-spacing: -0.025em; line-height: 1; color: var(--fg);
+  }
+  .company-full {
+    font-family: var(--font-serif); font-style: italic; font-size: 16px;
+    color: var(--fg-secondary); margin-top: 6px; letter-spacing: -0.005em;
+  }
+  .meta-row {
+    display: flex; gap: 28px; font-family: var(--font-sans); font-size: 11.5px;
+    color: var(--fg-tertiary); margin-top: 12px; letter-spacing: 0.02em;
+  }
+  .meta-row span { font-variant-numeric: tabular-nums; }
+
+  /* ---- Rating Badge ---- */
+  .rating-badge {
+    display: inline-block; font-family: var(--font-sans); font-size: 11.5px;
+    font-weight: 600; letter-spacing: 0.12em; padding: 6px 14px; border-radius: 2px;
+    border: 1.5px solid #2c7a3f; color: #2c7a3f; background: #ecf2db;
+    margin-top: 14px;
+  }
+
+  /* ---- Narrative Lede (FIRST visible content; storyteller output) ---- */
+  .lede {
+    font-family: var(--font-serif); font-size: 18.5px; line-height: 1.72;
+    color: var(--fg); margin: 0 0 44px 0;
+    padding: 36px 40px 32px 40px;
+    background: var(--paper-soft);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    position: relative;
+  }
+  .lede::before {
+    content: "OPENING NOTE";
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--fg-tertiary);
+    margin-bottom: 18px;
+  }
+  .lede p { margin: 14px 0 0 0; }
+  .lede p:first-of-type { margin-top: 0; }
+  .lede p:first-of-type::first-letter {
+    font-family: var(--font-serif);
+    font-size: 4.4em; font-weight: 600; float: left; line-height: 0.86;
+    margin: 6px 12px -2px 0; color: var(--accent);
+    font-feature-settings: "ss01" 1;
+  }
+  .lede p strong { font-weight: 600; }
+  .lede p em { font-style: italic; }
+  .lede hr { display: none; }
+  .lede-provenance {
+    margin-top: 22px; padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-family: var(--font-sans); font-size: 11px; line-height: 1.55;
+    color: var(--fg-tertiary); letter-spacing: 0.01em;
+  }
+  .lede-provenance p { margin: 4px 0; }
+  .lede-provenance strong {
+    color: var(--fg-secondary); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.10em; font-size: 10px;
+  }
+  .lede-provenance ul { margin: 6px 0 0 18px; padding: 0; }
+  .lede-provenance li { margin: 2px 0; }
+
+  /* ---- Decision Box ---- */
+  .decision-box {
+    border: 1px solid var(--border); border-left: 3px solid var(--accent);
+    padding: 28px 32px; margin: 36px 0; background: var(--bg-subtle);
+  }
+  .decision-box h2 {
+    font-family: var(--font-sans); font-size: 11.5px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-tertiary);
+    margin-bottom: 14px;
+  }
+  .decision-box .summary {
+    font-family: var(--font-serif); font-size: 17px; line-height: 1.65;
+    color: var(--fg); font-weight: 400;
+  }
+  .decision-box .summary p { margin: 0 0 10px 0; }
+  .decision-box .summary strong { font-weight: 600; }
+  .decision-box .thesis {
+    font-family: var(--font-serif); font-size: 15px; line-height: 1.75;
+    color: var(--fg); margin-top: 20px;
+  }
+  .decision-box .thesis p { margin: 10px 0; }
+  .decision-box .thesis p:first-of-type::first-letter {
+    font-size: 3.4em; font-weight: 600; float: left; line-height: 0.9;
+    margin: 4px 8px 0 0; color: var(--fg);
+  }
+  .decision-box .thesis strong { font-weight: 600; color: var(--fg); }
+  .decision-box .thesis em { font-style: italic; }
+
+  /* ---- Charts ---- */
+  .chart-block { margin: 28px 0; }
+  .chart-svg {
+    width: 100%; height: auto; display: block;
+    background: var(--paper); border: 1px solid var(--border);
+  }
+  .chart-caption {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 12.5px; color: var(--fg-tertiary);
+    margin-top: 8px; line-height: 1.55;
+  }
+
+  /* ---- Key Levels Table ---- */
+  .levels-table {
+    width: 100%; border-collapse: collapse; margin: 28px 0;
+    font-family: var(--font-sans); font-size: 13px;
+  }
+  .levels-table th {
+    text-align: left; font-weight: 600; font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 10px 14px;
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .levels-table td {
+    padding: 12px 14px; border-bottom: 1px solid var(--border-light);
+    font-variant-numeric: tabular-nums;
+  }
+  .levels-table tr:last-child td { border-bottom: none; }
+  .level-label { color: var(--fg); font-weight: 500; }
+  .level-value { font-weight: 600; font-family: var(--font-mono); font-size: 13px; color: var(--fg); }
+  .level-note { color: var(--fg-secondary); font-size: 12.5px; font-style: italic; font-family: var(--font-serif); }
+
+  /* ---- Section Headings ---- */
+  h2.section {
+    font-family: var(--font-sans); font-size: 11.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg);
+    border-top: 1px solid var(--rule); padding-top: 32px;
+    margin-top: 52px; margin-bottom: 22px;
+  }
+
+  /* ---- Analyst Report Content ---- */
+  .report-content { font-family: var(--font-serif); font-size: 15px; line-height: 1.75; color: var(--fg); }
+  .report-content h3 {
+    font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+    letter-spacing: -0.005em; margin: 24px 0 10px; color: var(--fg);
+  }
+  .report-content h4 {
+    font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+    margin: 18px 0 8px; color: var(--fg-secondary);
+  }
+  .report-content p { margin: 10px 0; }
+  .report-content strong { font-weight: 600; color: var(--fg); }
+  .report-content em { font-style: italic; }
+  .report-content ul, .report-content ol { margin: 10px 0 10px 22px; }
+  .report-content li { margin: 5px 0; }
+  .report-content table { width: 100%; border-collapse: collapse; margin: 18px 0; font-family: var(--font-sans); font-size: 12.5px; }
+  .report-content th {
+    text-align: left; font-weight: 600; font-size: 10.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 10px 12px;
+    border-bottom: 1.5px solid var(--rule); background: transparent;
+  }
+  .report-content td { padding: 9px 12px; border-bottom: 1px solid var(--border-light); font-variant-numeric: tabular-nums; }
+  .report-content .na { color: var(--fg-tertiary); font-style: italic; font-family: var(--font-serif); }
+  .report-content code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-muted); padding: 2px 5px; border-radius: 2px; }
+
+  /* ---- Debate Sections ---- */
+  .debate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 18px 0; }
+  .debate-card { border: 1px solid var(--border); padding: 22px 24px; background: var(--bg-subtle); }
+  .debate-card.bull { border-left: 3px solid #2c7a3f; }
+  .debate-card.bear { border-left: 3px solid #9e2222; }
+  .debate-card.aggressive { border-left: 3px solid #1f6b3a; }
+  .debate-card.conservative { border-left: 3px solid #9e2222; }
+  .debate-card.neutral { border-left: 3px solid #8a7c66; }
+  .debate-label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg); margin-bottom: 10px;
+  }
+  .debate-card .report-content { font-family: var(--font-serif); font-size: 14px; line-height: 1.7; }
+  .debate-card .report-content p { margin: 8px 0; }
+  .debate-card .report-content p:first-child { margin-top: 0; }
+
+  /* ---- Research Manager / Trader Boxes ---- */
+  .interim-box { border: 1px solid var(--border); padding: 24px 28px; margin: 18px 0; background: var(--bg-subtle); }
+  .interim-box .label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg); margin-bottom: 14px;
+  }
+  .interim-box .content { font-family: var(--font-serif); font-size: 14.5px; line-height: 1.75; }
+  .interim-box .content p { margin: 10px 0; }
+  .interim-box .content strong { color: var(--fg); font-weight: 600; }
+  .interim-box .content em { font-style: italic; }
+
+  /* ---- Quantitative Lane ---- */
+  .quant-box {
+    border: 1px solid var(--border); padding: 22px 26px;
+    margin: 18px 0; background: var(--bg-subtle);
+  }
+  .quant-label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg);
+    margin-bottom: 14px;
+  }
+  .quant-summary {
+    font-family: var(--font-serif); font-size: 14.5px; line-height: 1.6;
+    color: var(--fg); margin-bottom: 14px;
+  }
+  .quant-interp {
+    font-family: var(--font-serif); font-size: 13px; line-height: 1.6;
+    color: var(--fg-secondary); margin-top: 12px;
+  }
+  .quant-table {
+    width: 100%; border-collapse: collapse; margin: 8px 0;
+    font-family: var(--font-sans); font-size: 12.5px;
+  }
+  .quant-table th {
+    text-align: left; font-weight: 600; font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 8px 12px;
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .quant-table td {
+    padding: 9px 12px; border-bottom: 1px solid var(--border-light);
+    font-variant-numeric: tabular-nums;
+  }
+  .quant-table tr:last-child td { border-bottom: none; }
+
+  .cc-customer { color: var(--fg); font-weight: 500; }
+  .cc-pct       { font-family: var(--font-mono); font-weight: 600; color: var(--fg); }
+  .cc-type      { color: var(--fg-secondary); font-style: italic; font-family: var(--font-serif); font-size: 12.5px; }
+  .cc-asof      {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 11.5px; color: var(--fg-tertiary); margin-top: 10px;
+  }
+
+  .bm-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px; margin: 12px 0 18px 0;
+  }
+  .bm-card {
+    background: var(--paper); border: 1px solid var(--border-light);
+    padding: 12px 14px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .bm-key {
+    font-family: var(--font-sans); font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-tertiary);
+  }
+  .bm-val {
+    font-family: var(--font-mono); font-size: 17px; font-weight: 600;
+    color: var(--fg); font-variant-numeric: tabular-nums; line-height: 1.2;
+  }
+  .bm-sub {
+    font-family: var(--font-serif); font-size: 11.5px; font-style: italic;
+    color: var(--fg-tertiary); margin-top: 2px;
+  }
+  .bm-status {
+    display: inline-block; align-self: flex-start; margin-top: 4px;
+    padding: 2px 7px; border-radius: 2px;
+    font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .bm-status.pass     { color: #1f6b3a; background: #e9f0d9; border: 1px solid #c4d4a3; }
+  .bm-status.marginal { color: #9e5a16; background: #f5e7cf; border: 1px solid #e2c895; }
+  .bm-status.fail     { color: #9e2222; background: #f3dccd; border: 1px solid #d9b09d; }
+
+  /* ---- Technical-Indicator Signal Badges ---- */
+  .ti-signal {
+    display: inline-block; vertical-align: 1px; margin-left: 8px;
+    padding: 2px 8px; border-radius: 2px;
+    font-family: var(--font-sans); font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
+    line-height: 1.4;
+  }
+  .ti-bullish { color: #1f6b3a; background: #e9f0d9; border: 1px solid #c4d4a3; }
+  .ti-bearish { color: #9e2222; background: #f3dccd; border: 1px solid #d9b09d; }
+  .ti-warning { color: #9e5a16; background: #f5e7cf; border: 1px solid #e2c895; }
+  .ti-neutral { color: #6e6457; background: #efe7d3; border: 1px solid #c9bd99; }
+
+  /* ---- Channel Checks ---- */
+  .channel-checks {
+    margin: 18px 0 8px 0;
+    border-top: 1px solid var(--border-light); padding-top: 14px;
+  }
+  .cc-title, .nw-title {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-tertiary);
+    margin-bottom: 10px;
+  }
+  .channel-list { list-style: none; margin: 0; padding: 0; }
+  .channel-row {
+    display: grid; grid-template-columns: 22px 1fr auto;
+    gap: 12px; align-items: baseline;
+    padding: 8px 0; border-bottom: 1px dashed var(--border-light);
+  }
+  .channel-row:last-child { border-bottom: none; }
+  .channel-icon {
+    font-family: var(--font-sans); font-weight: 700; font-size: 14px;
+    line-height: 1; text-align: center;
+  }
+  .channel-row.pass .channel-icon     { color: #1f6b3a; }
+  .channel-row.marginal .channel-icon { color: #9e5a16; }
+  .channel-row.fail .channel-icon     { color: #9e2222; }
+  .channel-label { font-family: var(--font-serif); font-size: 13.5px; color: var(--fg); }
+  .channel-label strong { font-weight: 600; }
+  .channel-label .check-note { color: var(--fg-secondary); font-style: italic; }
+  .channel-status {
+    font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 2px; white-space: nowrap;
+  }
+  .channel-row.pass .channel-status     { color: #1f6b3a; background: #e9f0d9; }
+  .channel-row.marginal .channel-status { color: #9e5a16; background: #f5e7cf; }
+  .channel-row.fail .channel-status     { color: #9e2222; background: #f3dccd; }
+
+  /* ---- Notable Wins ---- */
+  .notable-wins {
+    margin: 18px 0 6px 0;
+    border-top: 1px solid var(--border-light); padding-top: 14px;
+  }
+  .nw-list { list-style: none; margin: 0; padding: 0; }
+  .nw-row {
+    display: grid; grid-template-columns: 1fr auto auto;
+    gap: 14px; align-items: baseline;
+    padding: 6px 0; border-bottom: 1px dashed var(--border-light);
+  }
+  .nw-row:last-child { border-bottom: none; }
+  .nw-customer { font-family: var(--font-serif); font-size: 13.5px; color: var(--fg); font-weight: 500; }
+  .nw-value    { font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: var(--fg); }
+  .nw-type     { font-family: var(--font-serif); font-size: 12px; font-style: italic; color: var(--fg-secondary); }
+
+  .cat-table td.cat-date {
+    font-family: var(--font-mono); font-size: 12px; color: var(--fg);
+    white-space: nowrap; padding-right: 18px;
+  }
+  .cat-table td.cat-event { font-family: var(--font-serif); font-size: 13.5px; }
+  .cat-table td.cat-event strong { color: var(--fg); font-weight: 600; }
+  .cat-table td.cat-impact {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-align: right;
+  }
+  .cat-row.cat-high td.cat-impact      { color: #9e2222; }
+  .cat-row.cat-medium td.cat-impact    { color: #9e5a16; }
+  .cat-row.cat-low td.cat-impact       { color: var(--fg-tertiary); }
+  .cat-row.cat-high td:first-child     { border-left: 3px solid #9e2222; padding-left: 10px; }
+  .cat-row.cat-medium td:first-child   { border-left: 3px solid #9e5a16; padding-left: 10px; }
+  .cat-row.cat-low td:first-child      { border-left: 3px solid var(--border); padding-left: 10px; }
+
+  /* ---- Footer ---- */
+  .footer {
+    margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
+    font-family: var(--font-serif); font-size: 12px; font-style: italic;
+    color: var(--fg-tertiary); line-height: 1.65;
+  }
+  .footer .disclaimer { max-width: 620px; }
+  .footer .colophon {
+    font-family: var(--font-sans); font-size: 10.5px; font-style: normal;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-tertiary); margin-top: 16px;
+  }
+
+  /* ---- Print ---- */
+  @media print {
+    body { padding: 24px 0 48px; font-size: 12px; max-width: 100%; background: #fff; }
+    .header { break-inside: avoid; }
+    .lede { break-inside: avoid; background: #faf6ef; }
+    .decision-box { break-inside: avoid; }
+    .debate-grid { grid-template-columns: 1fr 1fr; }
+    .interim-box { break-inside: avoid; }
+    .chart-svg { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="fund-name">Silent Engineering Fund</div>
+    <div class="date">May 01, 2026</div>
+  </div>
+  <div class="ticker">CBT</div>
+  <div class="company-full">Cabot Corporation</div>
+  <div class="meta-row">
+    <span>Analysis Date: 2026-05-01</span>
+    <span>Exchange: NYSE</span>
+    <span>Sector: Basic Materials — Specialty Chemicals &amp; Performance Materials</span>
+  </div>
+  <div class="rating-badge">OVERWEIGHT</div>
+</div>
+
+<div class="lede">
+<p>Cabot Corporation is a one-hundred-and-forty-two-year-old Boston specialty chemicals company that converts hydrocarbons into the unglamorous but essential dust that shows up in every passenger tire, every printer cartridge, and increasingly every electric-vehicle battery cathode on the road. Three segments tell three different stories. Reinforcement Materials — the carbon-black engine that has anchored the company since the McKinley administration and still represents close to two-thirds of revenue — is in the middle of a structural reset, squeezed by Chinese overcapacity and a flood of low-priced tire imports that have hammered EBIT down twenty-two percent year over year. Performance Chemicals — fumed silica for semiconductor polishing slurries, masterbatches for plastics, ink for industrial print heads — is the quiet middle child, growing earnings seven percent and unbothered by tire-import noise. And Battery Materials — conductive carbon additives for lithium-ion cathodes — is the new fast-growing third leg: thirty-nine percent revenue growth in the most recent quarter, a multi-year supply deal with Volkswagen's PowerCo joint venture validated, a US plant under construction for fiscal 2027 commissioning. The balance sheet is the kind that lets management be patient: net leverage at one-point-two times EBITDA, a thirty-year unbroken dividend record, two hundred ninety-two million dollars of free cash flow returning to shareholders at a roughly three-hundred-million-a-year pace. The market knows all of this. What it doesn't yet know is what management will say on May eleventh.</p>
+<div class="lede-provenance">
+<p>Sources: Cabot Corporation FY2025 10-K (SEC EDGAR CIK 0000016040, filed Nov 18, 2025), Q1 FY2026 Earnings Release (Feb 3, 2026), Q1 FY2026 Earnings Call Transcript (Seeking Alpha), GlobeNewswire press releases, Yahoo Finance OHLCV data, Tipranks analyst consensus, Seeking Alpha (Mar 26 and Q1 recap), KoalaGains, BusinessWire (PROPEL E8 launch, US CCA capacity announcement), Investing.com Q1 slide deck, Stock Titan headlines.</p>
+<p>Confidence: Medium-High (Q1 FY26 results are primary-source from earnings release and call transcript; segment-level forward growth assumptions are estimated from management commentary).</p>
+<p>Gaps: Specific Battery Materials revenue dollar figures not separately disclosed in the public press release; PowerCo contract dollar value not disclosed; forward conductive-carbon-additive market share assumptions are analyst estimates.</p>
+</div>
+</div>
+
+<div class="decision-box">
+  <h2>Portfolio Decision</h2>
+  <div class="summary"><p>Maintain neutral exposure to Cabot Corporation (CBT) at $76.96 ahead of the May 11, 2026 Q2 FY26 earnings release. An optional 0.5-1% pre-event probe is acceptable for investors with high conviction in the technical setup; a probe is not required. Post-May 11, scale to a 3-4% position on guidance reaffirmation and Battery Materials growth ≥+30% YoY (target $86, ~12% upside). Exit immediately if FY26 EPS guidance is cut below $6.00 or if Reinforcement Materials EBIT declines worsen to &gt;-25% YoY. Structural stop-loss reference: $71.77 (200-day SMA). Time horizon: 6-12 months on confirmation.</p></div>
+  <div class="thesis"><p>Cabot is a high-quality 142-year-old specialty chemicals operator caught between a structural cycle trough in its largest segment (Reinforcement Materials, ~60-65% of revenue, EBIT -22% YoY in Q1 FY26 on Chinese carbon-black overcapacity and weak tire-OEM volumes) and an emerging growth lever in Battery Materials (+39% revenue YoY, PowerCo VW battery supply deal executing, US capacity build for FY27 commissioning). Performance Chemicals (~30% of revenue, +7% EBIT YoY) provides stable middle ground. The company's 1.2x net leverage, 30-year unbroken dividend record (2.34% yield), 21.8% ROE, and $292M trailing FCF give the equity a defensive floor. Forward P/E of 11.22x is below the 5-year average of 12-13x. The technical structure is constructive (golden cross intact, MACD positive, RSI 60). However, the +14.6% YTD rally into a binary May 11 earnings event with the stock near the upper Bollinger band and just below CEO Sean Keohane's August 2025 $79 exit price creates pre-earnings exhaustion risk. The asymmetric setup — modest upside to confirmation versus material downside on a guide cut — argues for patience.</p></div>
+</div>
+
+
+
+<h2 class="section">Quantitative Lane</h2>
+<div class="quant-box">
+  <div class="quant-label">Customer Concentration</div>
+  <div class="report-content"><p>Reinforcement Materials: ~70-75% of segment revenue from top 5 tire OEMs (Michelin, Bridgestone, Goodyear, Continental, Pirelli/Sumitomo) under multi-year volume contracts with quarterly feedstock pass-throughs. No single customer &gt;10% of total Cabot revenue. Performance Chemicals diversified across semis, displays, plastics, ink/coatings. Battery Materials concentrated in EV cell makers (PowerCo, LG Energy, CATL Western JVs) with long-dated qualification-driven contracts. Geography: ~30% Americas / ~30% EMEA / ~40% Asia-Pacific.</p></div>
+</div>
+<div class="quant-box">
+  <div class="quant-label">Backlog &amp; Book-to-Bill</div>
+  <div class="report-content"><h3>Volume &amp; Pricing Indicators — Specialty Chemicals</h3>
+
+<p><em>Cabot does not report traditional backlog/book-to-bill (volume contracts, not project work). Instead: segment EBIT trajectory, pricing actions, and end-market channel checks are the institutional KPIs.</em></p>
+
+<h4>Headline Anchors (Q1 FY26)</h4>
+<table>
+<tr><th>Metric</th><th>Value</th><th>Status</th></tr>
+<tr><td>FY26 EPS Guide (midpoint $6.25)</td><td>$6.00–$6.50</td><td>Narrowed downward</td></tr>
+<tr><td>Adj EPS YoY</td><td>-13%</td><td>Contracting</td></tr>
+<tr><td>Adj EBITDA YoY</td><td>-11%</td><td>Contracting</td></tr>
+<tr><td>Battery Materials Revenue YoY</td><td><strong>+39%</strong></td><td>Expanding</td></tr>
+<tr><td>Reinforcement Materials EBIT YoY</td><td>-22%</td><td>Contracting</td></tr>
+<tr><td>Performance Chemicals EBIT YoY</td><td>+7%</td><td>Growing</td></tr>
+<tr><td>Q1 FCF</td><td>$57M</td><td>Soft start</td></tr>
+<tr><td>Capital Return YTD</td><td>$76M ($24M div + $52M buyback)</td><td>On pace</td></tr>
+<tr><td>Net Leverage</td><td>1.2x</td><td>Conservative</td></tr>
+</table>
+
+<h4>Channel Checks (Specialty Chemicals)</h4>
+<table>
+<tr><th>Indicator</th><th>Reading</th><th>Status</th></tr>
+<tr><td>Battery Materials growth ≥ +20% YoY</td><td>+39% YoY</td><td><strong>Pass</strong></td></tr>
+<tr><td>Performance Chemicals EBIT positive YoY</td><td>+7% YoY</td><td><strong>Pass</strong></td></tr>
+<tr><td>Reinforcement Materials EBIT positive YoY</td><td>-22% YoY</td><td><strong>Fail</strong></td></tr>
+<tr><td>FY26 EPS guide reaffirmed at top end</td><td>Narrowed downward</td><td><strong>Marginal</strong></td></tr>
+<tr><td>Net leverage ≤ 2.0x</td><td>1.2x</td><td><strong>Pass</strong></td></tr>
+<tr><td>Tire OEM production growth in key markets</td><td>Down ~3% globally</td><td><strong>Fail</strong></td></tr>
+<tr><td>Capital return pace ≥ $250M/year</td><td>~$300M run-rate</td><td><strong>Pass</strong></td></tr>
+<tr><td>EV battery cell capex YoY</td><td>+25–35% global</td><td><strong>Pass</strong></td></tr>
+<tr><td>Stock above 200-day SMA</td><td>Yes ($76.96 vs $71.77)</td><td><strong>Pass</strong></td></tr>
+<tr><td>Forward P/E vs 5-yr average</td><td>11.2x vs 12-13x</td><td><strong>Pass</strong> (favorable)</td></tr>
+</table>
+
+<h4>Notable Recent Wins / Programs</h4>
+<ul>
+<li><strong>PowerCo (VW Battery JV)</strong>: Multi-year conductive carbon additive supply agreement, supports Salzgitter Gigafactory ramp through 2028.</li>
+<li><strong>US Conductive Carbon Additive Capacity</strong>: Greenfield plant under construction; first commercial output targeted FY27 — onshoring play insulating from China.</li>
+<li><strong>PROPEL® E8 Engineered Carbon Black</strong>: New tread compound product driving Reinforcement Materials specialty mix shift.</li>
+<li><strong>Performance Chemicals</strong>: Pricing-led growth in fumed silica for semiconductor CMP and AI-driven display polishing.</li>
+<li><strong>Q1 Capital Returns</strong>: $52M buyback at average price below $76 — accretive to the $6.25 EPS guide midpoint.</li>
+</ul>
+
+<h4>Interpretation</h4>
+<p>CBT is in a classic specialty-chemicals cycle: Reinforcement Materials (the largest segment) is in a structural margin reset due to Chinese carbon-black overcapacity and weak tire-OEM volumes, while Performance Chemicals and especially Battery Materials are expanding. The investment thesis hinges on whether the Battery Materials trajectory plus Performance Chemicals stability can offset RM weakness over the next 4–6 quarters. The May 11 Q2 FY26 print is the next confirmation gate. Net leverage at 1.2x and a 30+ year dividend record provide a defensive floor that AMTM-style govcon and pre-revenue battery names lack.</p></div>
+</div>
+<div class="quant-box">
+  <div class="quant-label">Catalyst Calendar</div>
+  <div class="chart-block"><svg viewBox="0 0 720 180" xmlns="http://www.w3.org/2000/svg" class="chart-svg" role="img" aria-label="Catalyst timeline">
+  <rect width="720" height="180" fill="#faf6ef"/>
+  <line x1="56" y1="124" x2="692" y2="124" stroke="#d8caa6" stroke-width="1.2"/>
+  <line x1="56.0" y1="124" x2="56.0" y2="102.0" stroke="#9e2222" stroke-width="1.2"/><circle cx="56.0" cy="124" r="5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/><text x="56.0" y="88.0" text-anchor="start" font-family="Inter, sans-serif" font-size="10.5" font-weight="600" fill="#2a261f">Q2 FY26 Earnings (after-close)</text><text x="56.0" y="100.0" text-anchor="start" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#6e6457">May 11, 2026</text><line x1="65.8" y1="124" x2="65.8" y2="148.0" stroke="#9e2222" stroke-width="1.2"/><circle cx="65.8" cy="124" r="5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/><text x="65.8" y="152.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="600" fill="#2a261f">Q2 Earnings Conference Call</text><text x="65.8" y="164.0" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#6e6457">May 12, 2026</text><line x1="261.5" y1="124" x2="261.5" y2="102.0" stroke="#9e5a16" stroke-width="1.2"/><circle cx="261.5" cy="124" r="5" fill="#9e5a16" stroke="#faf6ef" stroke-width="1.4"/><text x="261.5" y="88.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="10.5" font-weight="600" fill="#2a261f">Annual Investor Day (typical timing)</text><text x="261.5" y="100.0" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#6e6457">Jun 2026</text><line x1="692.0" y1="124" x2="692.0" y2="102.0" stroke="#9e5a16" stroke-width="1.2"/><circle cx="692.0" cy="124" r="5" fill="#9e5a16" stroke="#faf6ef" stroke-width="1.4"/><text x="692.0" y="88.0" text-anchor="end" font-family="Inter, sans-serif" font-size="10.5" font-weight="600" fill="#2a261f">Q3 FY26 Earnings</text><text x="692.0" y="100.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#6e6457">Jul-Aug 2026</text>
+  <text x="56" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.16em" fill="#2a261f">CATALYST TIMELINE</text>
+</svg><p class="chart-caption">Catalyst nodes are color-coded by impact (red=high, amber=medium, tan=low).</p></div>
+  <table class="quant-table cat-table">
+    <thead><tr><th>Date</th><th>Event</th><th>Impact</th></tr></thead>
+    <tbody>
+<tr class="cat-row cat-high"><td class="cat-date">May 11, 2026</td><td class="cat-event"><strong>Q2 FY26 Earnings (after-close)</strong> — Single most important catalyst; FY26 EPS guide reaffirm/cut</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">May 12, 2026</td><td class="cat-event"><strong>Q2 Earnings Conference Call</strong> — Battery Materials revenue cadence, RM volume color</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">Jun 2026</td><td class="cat-event"><strong>Annual Investor Day (typical timing)</strong> — Multi-year segment growth framework</td><td class="cat-impact">Medium</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">Jul-Aug 2026</td><td class="cat-event"><strong>Q3 FY26 Earnings</strong> — Mid-year guide checkpoint</td><td class="cat-impact">Medium</td></tr>
+<tr class="cat-row cat-medium-high"><td class="cat-date">H2 CY2026</td><td class="cat-event"><strong>US ITC Tire-Tariff Ruling</strong> — RM mix recovery optionality if enacted</td><td class="cat-impact">Medium-High</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">H2 CY2026</td><td class="cat-event"><strong>PowerCo Salzgitter Phase-2 Ramp</strong> — Battery Materials volume validation</td><td class="cat-impact">Medium</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">FY2027</td><td class="cat-event"><strong>US Conductive Carbon Additive Plant Commissioning</strong> — Onshoring catalyst, capacity step-up</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-low-medium"><td class="cat-date">Ongoing</td><td class="cat-event"><strong>Monthly tire OEM production updates</strong> — RM volume read-through</td><td class="cat-impact">Low-Medium</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="section">Research Manager</h2>
+<div class="interim-box">
+  <div class="label">Investment Plan — Overweight</div>
+  <div class="content">
+    <p><strong>Rationale:</strong> <p>Cabot Corporation presents a genuinely balanced setup heading into the May 11 Q2 FY26 earnings event. The bull case is grounded in three real positives: (1) Battery Materials revenue grew +39% YoY in Q1 with the PowerCo supply deal validated, (2) Forward P/E of 11.22x sits below the 5-year average of 12-13x, and (3) the technical structure is constructive (golden cross intact, MACD positive, RSI 60 with room above, price above all major moving averages). However, the bear case correctly anchors on Q1 FY26 results that were unambiguously weaker: revenue -11% YoY, Adj EBITDA -11%, Reinforcement Materials EBIT -22%, and a downward narrowing of FY26 EPS guidance from $6.00-$6.75 to $6.00-$6.50. The CEO sold $9M of stock at $79.24-$79.63 in August 2025 — exactly where the current price is stalling near the upper Bollinger band. The stock has already rallied +14.6% YTD into a binary earnings event with limited information edge. The right call is to be patient through the binary event and let post-earnings price action and management commentary set the entry.</p></p>
+    <p><strong>Strategic Actions:</strong> <p>Maintain market-weight exposure (no incremental buying or selling) until the May 11 earnings release. Use the print as an explicit confirmation gate:</p>
+<ul>
+<li><strong>Upgrade to Overweight</strong> if (a) FY26 EPS guide reaffirmed at $6.00-$6.50 or raised, (b) Battery Materials revenue growth ≥+30% YoY, and (c) Reinforcement Materials EBIT decline ≤-15% YoY. Target position size: 3-4% of portfolio. Buy zone: $74-$78 post-print.</li>
+<li><strong>Downgrade to Underweight (exit)</strong> if (a) FY26 EPS guide cut below $6.00, or (b) Reinforcement Materials EBIT decline worsens to &gt;25% YoY, or (c) management withdraws guidance. Exit zone: any bounce above $73-$74 in the days post-print.</li>
+<li><strong>Stop-loss reference</strong>: $71.77 (200-day SMA) as the structural trend-failure level.</li>
+<li><strong>Price target on Overweight upgrade</strong>: $86.00 (12.5x FY26 midpoint EPS of $6.86 — peer-adjacent specialty chemicals multiple). Implied ~12% upside from $76.96.</li>
+</ul></p>
+  </div>
+</div>
+
+<h2 class="section">Trader</h2>
+<div class="interim-box">
+  <div class="label">Transaction Proposal — Hold (no incremental buying or selling pre-May 11)</div>
+  <div class="content">
+    <p><strong>Action</strong>: Hold (no incremental buying or selling pre-May 11)</p>
+
+<p><strong>Reasoning</strong>: Cabot trades at $76.96 with a constructive technical setup (golden cross, RSI 60, MACD positive) but elevated Bollinger position (67% to upper band) and a binary earnings event 10 days out. Forward P/E of 11.22x is supportive but not a deep discount. Q1 FY26 results showed clear segment divergence — Battery Materials +39% offsetting Reinforcement Materials -22% — and FY26 guide was already narrowed downward to $6.00-$6.50. The CEO's $79 exit price acts as a near-term technical ceiling. Pre-earnings the risk/reward is neutralized: ~+12% upside to $86 target on confirmation versus ~-15% downside to $66 (~9.5x trough multiple) on guide cut. Better to act on May 11 with confirmation in hand.</p>
+
+<p><strong>Entry Triggers (Post-May 11)</strong>:</p>
+<ul>
+<li>BUY if guide reaffirmed and Battery Materials ≥+30% YoY: target $80-$82 entry, scale to $86</li>
+<li>AVOID/EXIT if guide cut below $6.00: do not catch falling knife above $66</li>
+</ul>
+
+<p><strong>Stop-Loss Reference</strong>: $71.77 (200-day SMA structural trend break)</p>
+
+<p><strong>Position Sizing on Upgrade</strong>: 3-4% of portfolio, built in two tranches post-confirmation</p>
+
+<p><strong>Time Horizon</strong>: 6-12 months on confirmation; immediate on disappointment</p>
+
+<p>FINAL TRANSACTION PROPOSAL: <strong>HOLD</strong></p>
+  </div>
+</div>
+
+<h2 class="section">Investment Debate</h2>
+<div class="debate-grid">
+  <div class="debate-card bull">
+    <div class="debate-label">Bull Researcher</div>
+    <div class="report-content"><p>ROUND 1 — BULL: Cabot is at a cycle trough with three concrete forward catalysts. (1) Battery Materials revenue +39% YoY in Q1 FY26 with PowerCo (VW) supply contract executing — segment is the re-rating lever. (2) Forward P/E 11.22x sits ~10-15% below the 5-year average of 12-13x; PEG of 1.0; ROE 21.8% on a defensive 0.83 beta. (3) Performance Chemicals +7% EBIT growth confirms two of three segments are healthy. Technical setup is constructive: golden cross, MACD positive (0.98 vs 0.90 signal), RSI 60 with room above, price 7.2% above the 200-day SMA, VWMA below price (institutions accumulating). Net leverage 1.2x with $292M FCF and 30-year dividend streak (2.34% yield) provides a defensive floor. Kill-switch: FY26 EPS guide cut below $6.00 on May 11.</p>
+
+<p>ROUND 2 — BULL: The Reinforcement Materials -22% EBIT decline is the cycle bottom signal, not the trend. Tire-import overhang has a half-life — US ITC tariff rulings in H2 2026 could reverse it; OEC just took 25% pricing actions across specialty grades, giving Cabot the same pricing umbrella. Battery Materials is small base (~5-8% of revenue) but growing 5x faster than the company average — at $300-500M revenue by FY28 it becomes 10-12% of mix at higher margins. CEO sold $9M at $79 in Aug 2025 — that's portfolio diversification, not a thesis vote (he still holds 350K+ shares per latest grants). $76M Q1 capital return at sub-$76 average price is accretive math management is signaling confidence with. At 11.2x forward EPS of $6.86 the stock would re-rate to $90 just on multiple normalization to 5-yr average.</p></div>
+  </div>
+  <div class="debate-card bear">
+    <div class="debate-label">Bear Researcher</div>
+    <div class="report-content"><p>ROUND 1 — BEAR: The headline numbers are unambiguously bearish. Q1 FY26 revenue -11% YoY, Adj EBITDA -11% YoY, Adj EPS -13% YoY, GAAP EPS -18%. Reinforcement Materials — the company's flagship segment at ~60-65% of revenue — saw EBIT collapse -22%. This is structural: Chinese carbon-black overcapacity is a multi-year phenomenon, not a one-quarter blip; tire imports into US/EU surged through Q1 2026. CEO Sean Keohane sold 114,436 shares at $79 in August 2025 — that's $9M at the top, exactly where the stock is now stalling. FY26 EPS guidance was NARROWED DOWNWARD from prior $6.00-$6.75 to $6.00-$6.50. The stock at $76.96 is at 92% of 52-week high, near the upper Bollinger band, with MACD histogram narrowing — pre-earnings exhaustion signature. Q1 FCF of just $57M (vs $215M Q3 last year) puts the FY26 FCF target at risk.</p>
+
+<p>ROUND 2 — BEAR: Bull's kill-switch (EPS below $6.00) is too generous — the real risk is the company guides to $5.50-$6.00 on May 11. Sector peers (OEC, AVNT) all flagged 2026 as an earnings reset year — Cabot will not escape it. Battery Materials is hyped but on a tiny base; conductive carbon additive market is already crowded with Imerys, Orion (OEC), Birla Carbon all building US capacity — Cabot's first-mover claim erodes by FY28. Performance Chemicals +7% is rounding error vs RM -22% on a much larger base. Stock has rallied +14.6% YTD into a binary earnings event with elevated short-interest exhaustion risk on disappointment. Forward P/E 11.2x is not 'cheap' — it's exactly the spec-chem cycle-trough multiple, with downside to 9-10x ($55-$60) on a guidance cut. The $79 CEO sale + $76 current price = upside is capped at ~3% just to revisit the CEO's exit, with material asymmetric downside on May 11.</p></div>
+  </div>
+</div>
+
+<h2 class="section">Risk Assessment</h2>
+<div class="debate-grid">
+  <div class="debate-card aggressive">
+    <div class="debate-label">Aggressive</div>
+    <div class="report-content"><p>ROUND 1 — AGGRESSIVE: Forward P/E 11.2x at the cycle trough is exactly when conviction should be highest. Battery Materials +39% YoY with PowerCo executing is a multi-year re-rating story; Performance Chemicals +7% confirms diversification working. Net leverage 1.2x and $292M FCF give a defensive floor competitors lack. Technical setup is textbook — golden cross + price above all MAs + VWMA below price = institutional accumulation. Hold rating from the PM is too conservative. Initiate 3% position now at $76.96, target $86 (+12%), stop $71.77 (-7%) = 1.7:1 reward:risk. Add another 2% post-May 11 confirmation toward 5% total. Waiting until after the print sacrifices the asymmetric edge.</p>
+
+<p>ROUND 2 — AGGRESSIVE: The kill-switch logic protects you against the only real downside scenario (guide cut below $6.00). At $76.96 with a $71.77 stop, max risk is 6.7% of position size; on a 3% portfolio position that's 0.20% of total NAV. Battery Materials at $300-500M FY28 revenue alone justifies a 12-13x multiple expansion. The 14.6% YTD rally is a feature not a bug — momentum confirms the bull thesis is being recognized. Conservative's 'wait until after May 11' gives up the gap-up gain if the print is good. Spec-chem stocks gap 5-8% on positive guide events — that's the edge being left on the table.</p></div>
+  </div>
+  <div class="debate-card conservative">
+    <div class="debate-label">Conservative</div>
+    <div class="report-content"><p>ROUND 1 — CONSERVATIVE: The Hold rating is correct and possibly too generous. The dominant signal is unambiguous: revenue, EBITDA, and EPS all declining double-digits YoY in the company's most recent quarter, with FY26 guidance NARROWED DOWNWARD. The CEO sold $9M at $79 in August 2025 — that single data point matters more than any technical reading. Reinforcement Materials (60-65% of revenue) is in structural reset that will take 4-8 quarters to bottom, not one. The +14.6% YTD rally into a binary earnings event with the stock pinned against the upper Bollinger band is exactly the setup that produces -10-15% gap-down post-print. Recommend zero new positions; if currently holding, trim 25-50% of any pre-existing position and re-enter post-May 11 at confirmation.</p>
+
+<p>ROUND 2 — CONSERVATIVE: Aggressive's math ignores execution risk. 'Wait until after May 11' costs you maybe 5-8% of upside if the print is good, but avoids 12-18% downside if it's not. That's a 2.0-2.5:1 ratio in favor of waiting. Battery Materials revenue growth is real but on a tiny base — even at 'big numbers' by FY28 it's 10-12% of revenue, not enough to offset RM weakness. The CEO held thousands of shares but sold the marginal lot at $79 — that price is your ceiling. Multi-year tire-import dynamics will not reverse on a single ITC ruling; OEC's 25% price actions confirm cost pressure is brutal sector-wide. Stop-loss at 200-day SMA is fine in theory, but binary events gap through stops — you don't get the protection you think you have.</p></div>
+  </div>
+</div>
+<div class="debate-grid" style="grid-template-columns: 1fr; margin-top: 0;">
+  <div class="debate-card neutral">
+    <div class="debate-label">Neutral</div>
+    <div class="report-content"><p>ROUND 1 — NEUTRAL: Both sides have real points. The right structure is a graduated approach tied to the May 11 confirmation gate. Pre-May 11: 0-1% nibble allowed but not required; existing holders maintain core but trim trading sleeve. Post-May 11 if guide reaffirmed at $6.00-$6.50 or raised: scale to 3% within 5 trading days, target $86 (+12% from $76.96). Post-May 11 if guide cut below $6.00: exit fully within 2 trading days, do not chase rebound bounces. Stop-loss $71.77 (200-day SMA). The defensive 2.34% dividend yield and 1.2x net leverage are real risk-reducers but don't change the binary nature of the next 10 trading days.</p>
+
+<p>ROUND 2 — NEUTRAL: Aggressive is right that pre-event positioning captures gap moves. Conservative is right that the asymmetry favors waiting. The reconciliation is position-size: an 0.5-1% pre-event probe is small enough to not matter on a bad gap and big enough to not feel left out on a good gap. The technical structure (golden cross, MACD positive, RSI 60) supports a small probe; the fundamental deceleration (revenue -11%, RM EBIT -22%) and CEO insider sale at $79 caps how aggressive that probe should be. Net recommendation: 1% probe at current levels with 3% target post-confirmation. Keep dry powder for the post-print scenarios.</p></div>
+  </div>
+</div>
+
+<h2 class="section">Analyst Reports</h2>
+<div class="chart-block">
+  <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" class="chart-svg" role="img" aria-label="CBT price and volume chart">
+  <rect width="720" height="320" fill="#faf6ef"/>
+  <rect x="56" y="28" width="648" height="184" fill="#f5ecd9" opacity="0.55"/>
+  <rect x="56" y="220" width="648" height="64" fill="#f5ecd9" opacity="0.45"/>
+  <line x1="56" y1="202.1" x2="704" y2="202.1" stroke="#d8caa6" stroke-width="0.5"/><text x="48" y="205.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$57.95</text>
+<line x1="56" y1="161.1" x2="704" y2="161.1" stroke="#d8caa6" stroke-width="0.5"/><text x="48" y="164.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$63.82</text>
+<line x1="56" y1="120.0" x2="704" y2="120.0" stroke="#d8caa6" stroke-width="0.5"/><text x="48" y="123.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$69.68</text>
+<line x1="56" y1="78.9" x2="704" y2="78.9" stroke="#d8caa6" stroke-width="0.5"/><text x="48" y="81.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$75.55</text>
+<line x1="56" y1="37.9" x2="704" y2="37.9" stroke="#d8caa6" stroke-width="0.5"/><text x="48" y="40.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$81.42</text>
+  <rect x="55.1" y="261.6" width="1.80" height="22.4" fill="#bca57a" opacity="0.65"/>
+<rect x="57.7" y="261.2" width="1.80" height="22.8" fill="#bca57a" opacity="0.65"/>
+<rect x="60.3" y="264.7" width="1.80" height="19.3" fill="#bca57a" opacity="0.65"/>
+<rect x="62.8" y="261.1" width="1.80" height="22.9" fill="#bca57a" opacity="0.65"/>
+<rect x="65.4" y="239.0" width="1.80" height="45.0" fill="#bca57a" opacity="0.65"/>
+<rect x="68.0" y="243.2" width="1.80" height="40.8" fill="#bca57a" opacity="0.65"/>
+<rect x="70.6" y="258.1" width="1.80" height="25.9" fill="#bca57a" opacity="0.65"/>
+<rect x="73.2" y="269.5" width="1.80" height="14.5" fill="#bca57a" opacity="0.65"/>
+<rect x="75.8" y="261.3" width="1.80" height="22.7" fill="#bca57a" opacity="0.65"/>
+<rect x="78.3" y="271.4" width="1.80" height="12.6" fill="#bca57a" opacity="0.65"/>
+<rect x="80.9" y="269.6" width="1.80" height="14.4" fill="#bca57a" opacity="0.65"/>
+<rect x="83.5" y="268.0" width="1.80" height="16.0" fill="#bca57a" opacity="0.65"/>
+<rect x="86.1" y="269.0" width="1.80" height="15.0" fill="#bca57a" opacity="0.65"/>
+<rect x="88.7" y="273.9" width="1.80" height="10.1" fill="#bca57a" opacity="0.65"/>
+<rect x="91.2" y="261.8" width="1.80" height="22.2" fill="#bca57a" opacity="0.65"/>
+<rect x="93.8" y="267.4" width="1.80" height="16.6" fill="#bca57a" opacity="0.65"/>
+<rect x="96.4" y="268.8" width="1.80" height="15.2" fill="#bca57a" opacity="0.65"/>
+<rect x="99.0" y="266.8" width="1.80" height="17.2" fill="#bca57a" opacity="0.65"/>
+<rect x="101.6" y="269.6" width="1.80" height="14.4" fill="#bca57a" opacity="0.65"/>
+<rect x="104.2" y="268.9" width="1.80" height="15.1" fill="#bca57a" opacity="0.65"/>
+<rect x="106.7" y="273.5" width="1.80" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="109.3" y="266.0" width="1.80" height="18.0" fill="#bca57a" opacity="0.65"/>
+<rect x="111.9" y="264.5" width="1.80" height="19.5" fill="#bca57a" opacity="0.65"/>
+<rect x="114.5" y="272.1" width="1.80" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="117.1" y="273.8" width="1.80" height="10.2" fill="#bca57a" opacity="0.65"/>
+<rect x="119.6" y="274.7" width="1.80" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="122.2" y="268.8" width="1.80" height="15.2" fill="#bca57a" opacity="0.65"/>
+<rect x="124.8" y="270.1" width="1.80" height="13.9" fill="#bca57a" opacity="0.65"/>
+<rect x="127.4" y="273.3" width="1.80" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="130.0" y="273.4" width="1.80" height="10.6" fill="#bca57a" opacity="0.65"/>
+<rect x="132.6" y="272.4" width="1.80" height="11.6" fill="#bca57a" opacity="0.65"/>
+<rect x="135.1" y="271.7" width="1.80" height="12.3" fill="#bca57a" opacity="0.65"/>
+<rect x="137.7" y="273.3" width="1.80" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="140.3" y="270.2" width="1.80" height="13.8" fill="#bca57a" opacity="0.65"/>
+<rect x="142.9" y="271.1" width="1.80" height="12.9" fill="#bca57a" opacity="0.65"/>
+<rect x="145.5" y="259.0" width="1.80" height="25.0" fill="#bca57a" opacity="0.65"/>
+<rect x="148.0" y="274.1" width="1.80" height="9.9" fill="#bca57a" opacity="0.65"/>
+<rect x="150.6" y="263.6" width="1.80" height="20.4" fill="#bca57a" opacity="0.65"/>
+<rect x="153.2" y="270.6" width="1.80" height="13.4" fill="#bca57a" opacity="0.65"/>
+<rect x="155.8" y="267.3" width="1.80" height="16.7" fill="#bca57a" opacity="0.65"/>
+<rect x="158.4" y="249.2" width="1.80" height="34.8" fill="#bca57a" opacity="0.65"/>
+<rect x="160.9" y="267.5" width="1.80" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="163.5" y="269.6" width="1.80" height="14.4" fill="#bca57a" opacity="0.65"/>
+<rect x="166.1" y="273.9" width="1.80" height="10.1" fill="#bca57a" opacity="0.65"/>
+<rect x="168.7" y="278.0" width="1.80" height="6.0" fill="#bca57a" opacity="0.65"/>
+<rect x="171.3" y="273.7" width="1.80" height="10.3" fill="#bca57a" opacity="0.65"/>
+<rect x="173.9" y="264.8" width="1.80" height="19.2" fill="#bca57a" opacity="0.65"/>
+<rect x="176.4" y="274.2" width="1.80" height="9.8" fill="#bca57a" opacity="0.65"/>
+<rect x="179.0" y="266.2" width="1.80" height="17.8" fill="#bca57a" opacity="0.65"/>
+<rect x="181.6" y="274.4" width="1.80" height="9.6" fill="#bca57a" opacity="0.65"/>
+<rect x="184.2" y="273.7" width="1.80" height="10.3" fill="#bca57a" opacity="0.65"/>
+<rect x="186.8" y="269.8" width="1.80" height="14.2" fill="#bca57a" opacity="0.65"/>
+<rect x="189.3" y="268.8" width="1.80" height="15.2" fill="#bca57a" opacity="0.65"/>
+<rect x="191.9" y="272.0" width="1.80" height="12.0" fill="#bca57a" opacity="0.65"/>
+<rect x="194.5" y="274.1" width="1.80" height="9.9" fill="#bca57a" opacity="0.65"/>
+<rect x="197.1" y="271.7" width="1.80" height="12.3" fill="#bca57a" opacity="0.65"/>
+<rect x="199.7" y="273.0" width="1.80" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="202.3" y="267.5" width="1.80" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="204.8" y="270.0" width="1.80" height="14.0" fill="#bca57a" opacity="0.65"/>
+<rect x="207.4" y="270.2" width="1.80" height="13.8" fill="#bca57a" opacity="0.65"/>
+<rect x="210.0" y="274.6" width="1.80" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="212.6" y="272.0" width="1.80" height="12.0" fill="#bca57a" opacity="0.65"/>
+<rect x="215.2" y="266.5" width="1.80" height="17.5" fill="#bca57a" opacity="0.65"/>
+<rect x="217.7" y="264.0" width="1.80" height="20.0" fill="#bca57a" opacity="0.65"/>
+<rect x="220.3" y="256.0" width="1.80" height="28.0" fill="#bca57a" opacity="0.65"/>
+<rect x="222.9" y="261.8" width="1.80" height="22.2" fill="#bca57a" opacity="0.65"/>
+<rect x="225.5" y="256.5" width="1.80" height="27.5" fill="#bca57a" opacity="0.65"/>
+<rect x="228.1" y="260.9" width="1.80" height="23.1" fill="#bca57a" opacity="0.65"/>
+<rect x="230.7" y="267.0" width="1.80" height="17.0" fill="#bca57a" opacity="0.65"/>
+<rect x="233.2" y="273.6" width="1.80" height="10.4" fill="#bca57a" opacity="0.65"/>
+<rect x="235.8" y="271.4" width="1.80" height="12.6" fill="#bca57a" opacity="0.65"/>
+<rect x="238.4" y="273.0" width="1.80" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="241.0" y="266.7" width="1.80" height="17.3" fill="#bca57a" opacity="0.65"/>
+<rect x="243.6" y="262.8" width="1.80" height="21.2" fill="#bca57a" opacity="0.65"/>
+<rect x="246.1" y="265.0" width="1.80" height="19.0" fill="#bca57a" opacity="0.65"/>
+<rect x="248.7" y="273.0" width="1.80" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="251.3" y="271.6" width="1.80" height="12.4" fill="#bca57a" opacity="0.65"/>
+<rect x="253.9" y="271.5" width="1.80" height="12.5" fill="#bca57a" opacity="0.65"/>
+<rect x="256.5" y="271.2" width="1.80" height="12.8" fill="#bca57a" opacity="0.65"/>
+<rect x="259.1" y="270.0" width="1.80" height="14.0" fill="#bca57a" opacity="0.65"/>
+<rect x="261.6" y="275.8" width="1.80" height="8.2" fill="#bca57a" opacity="0.65"/>
+<rect x="264.2" y="276.0" width="1.80" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="266.8" y="272.2" width="1.80" height="11.8" fill="#bca57a" opacity="0.65"/>
+<rect x="269.4" y="274.4" width="1.80" height="9.6" fill="#bca57a" opacity="0.65"/>
+<rect x="272.0" y="270.7" width="1.80" height="13.3" fill="#bca57a" opacity="0.65"/>
+<rect x="274.5" y="272.7" width="1.80" height="11.3" fill="#bca57a" opacity="0.65"/>
+<rect x="277.1" y="276.6" width="1.80" height="7.4" fill="#bca57a" opacity="0.65"/>
+<rect x="279.7" y="273.0" width="1.80" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="282.3" y="270.2" width="1.80" height="13.8" fill="#bca57a" opacity="0.65"/>
+<rect x="284.9" y="272.8" width="1.80" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="287.5" y="273.8" width="1.80" height="10.2" fill="#bca57a" opacity="0.65"/>
+<rect x="290.0" y="269.7" width="1.80" height="14.3" fill="#bca57a" opacity="0.65"/>
+<rect x="292.6" y="270.9" width="1.80" height="13.1" fill="#bca57a" opacity="0.65"/>
+<rect x="295.2" y="271.9" width="1.80" height="12.1" fill="#bca57a" opacity="0.65"/>
+<rect x="297.8" y="273.2" width="1.80" height="10.8" fill="#bca57a" opacity="0.65"/>
+<rect x="300.4" y="272.3" width="1.80" height="11.7" fill="#bca57a" opacity="0.65"/>
+<rect x="302.9" y="270.2" width="1.80" height="13.8" fill="#bca57a" opacity="0.65"/>
+<rect x="305.5" y="275.0" width="1.80" height="9.0" fill="#bca57a" opacity="0.65"/>
+<rect x="308.1" y="250.8" width="1.80" height="33.2" fill="#bca57a" opacity="0.65"/>
+<rect x="310.7" y="274.8" width="1.80" height="9.2" fill="#bca57a" opacity="0.65"/>
+<rect x="313.3" y="271.6" width="1.80" height="12.4" fill="#bca57a" opacity="0.65"/>
+<rect x="315.8" y="271.8" width="1.80" height="12.2" fill="#bca57a" opacity="0.65"/>
+<rect x="318.4" y="264.7" width="1.80" height="19.3" fill="#bca57a" opacity="0.65"/>
+<rect x="321.0" y="271.0" width="1.80" height="13.0" fill="#bca57a" opacity="0.65"/>
+<rect x="323.6" y="272.9" width="1.80" height="11.1" fill="#bca57a" opacity="0.65"/>
+<rect x="326.2" y="268.9" width="1.80" height="15.1" fill="#bca57a" opacity="0.65"/>
+<rect x="328.8" y="268.2" width="1.80" height="15.8" fill="#bca57a" opacity="0.65"/>
+<rect x="331.3" y="272.4" width="1.80" height="11.6" fill="#bca57a" opacity="0.65"/>
+<rect x="333.9" y="273.5" width="1.80" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="336.5" y="274.1" width="1.80" height="9.9" fill="#bca57a" opacity="0.65"/>
+<rect x="339.1" y="260.9" width="1.80" height="23.1" fill="#bca57a" opacity="0.65"/>
+<rect x="341.7" y="273.5" width="1.80" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="344.2" y="264.7" width="1.80" height="19.3" fill="#bca57a" opacity="0.65"/>
+<rect x="346.8" y="262.5" width="1.80" height="21.5" fill="#bca57a" opacity="0.65"/>
+<rect x="349.4" y="269.6" width="1.80" height="14.4" fill="#bca57a" opacity="0.65"/>
+<rect x="352.0" y="248.8" width="1.80" height="35.2" fill="#bca57a" opacity="0.65"/>
+<rect x="354.6" y="259.9" width="1.80" height="24.1" fill="#bca57a" opacity="0.65"/>
+<rect x="357.2" y="263.8" width="1.80" height="20.2" fill="#bca57a" opacity="0.65"/>
+<rect x="359.7" y="269.8" width="1.80" height="14.2" fill="#bca57a" opacity="0.65"/>
+<rect x="362.3" y="273.7" width="1.80" height="10.3" fill="#bca57a" opacity="0.65"/>
+<rect x="364.9" y="272.8" width="1.80" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="367.5" y="273.8" width="1.80" height="10.2" fill="#bca57a" opacity="0.65"/>
+<rect x="370.1" y="274.6" width="1.80" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="372.6" y="273.9" width="1.80" height="10.1" fill="#bca57a" opacity="0.65"/>
+<rect x="375.2" y="272.8" width="1.80" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="377.8" y="272.4" width="1.80" height="11.6" fill="#bca57a" opacity="0.65"/>
+<rect x="380.4" y="267.1" width="1.80" height="16.9" fill="#bca57a" opacity="0.65"/>
+<rect x="383.0" y="268.7" width="1.80" height="15.3" fill="#bca57a" opacity="0.65"/>
+<rect x="385.6" y="259.3" width="1.80" height="24.7" fill="#bca57a" opacity="0.65"/>
+<rect x="388.1" y="245.0" width="1.80" height="39.0" fill="#bca57a" opacity="0.65"/>
+<rect x="390.7" y="248.8" width="1.80" height="35.2" fill="#bca57a" opacity="0.65"/>
+<rect x="393.3" y="248.6" width="1.80" height="35.4" fill="#bca57a" opacity="0.65"/>
+<rect x="395.9" y="264.2" width="1.80" height="19.8" fill="#bca57a" opacity="0.65"/>
+<rect x="398.5" y="260.3" width="1.80" height="23.7" fill="#bca57a" opacity="0.65"/>
+<rect x="401.0" y="266.9" width="1.80" height="17.1" fill="#bca57a" opacity="0.65"/>
+<rect x="403.6" y="269.8" width="1.80" height="14.2" fill="#bca57a" opacity="0.65"/>
+<rect x="406.2" y="262.5" width="1.80" height="21.5" fill="#bca57a" opacity="0.65"/>
+<rect x="408.8" y="266.7" width="1.80" height="17.3" fill="#bca57a" opacity="0.65"/>
+<rect x="411.4" y="266.2" width="1.80" height="17.8" fill="#bca57a" opacity="0.65"/>
+<rect x="414.0" y="270.9" width="1.80" height="13.1" fill="#bca57a" opacity="0.65"/>
+<rect x="416.5" y="264.0" width="1.80" height="20.0" fill="#bca57a" opacity="0.65"/>
+<rect x="419.1" y="269.3" width="1.80" height="14.7" fill="#bca57a" opacity="0.65"/>
+<rect x="421.7" y="269.3" width="1.80" height="14.7" fill="#bca57a" opacity="0.65"/>
+<rect x="424.3" y="266.0" width="1.80" height="18.0" fill="#bca57a" opacity="0.65"/>
+<rect x="426.9" y="265.3" width="1.80" height="18.7" fill="#bca57a" opacity="0.65"/>
+<rect x="429.4" y="267.5" width="1.80" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="432.0" y="266.7" width="1.80" height="17.3" fill="#bca57a" opacity="0.65"/>
+<rect x="434.6" y="271.9" width="1.80" height="12.1" fill="#bca57a" opacity="0.65"/>
+<rect x="437.2" y="264.3" width="1.80" height="19.7" fill="#bca57a" opacity="0.65"/>
+<rect x="439.8" y="263.0" width="1.80" height="21.0" fill="#bca57a" opacity="0.65"/>
+<rect x="442.4" y="263.0" width="1.80" height="21.0" fill="#bca57a" opacity="0.65"/>
+<rect x="444.9" y="265.3" width="1.80" height="18.7" fill="#bca57a" opacity="0.65"/>
+<rect x="447.5" y="264.2" width="1.80" height="19.8" fill="#bca57a" opacity="0.65"/>
+<rect x="450.1" y="261.6" width="1.80" height="22.4" fill="#bca57a" opacity="0.65"/>
+<rect x="452.7" y="255.4" width="1.80" height="28.6" fill="#bca57a" opacity="0.65"/>
+<rect x="455.3" y="253.1" width="1.80" height="30.9" fill="#bca57a" opacity="0.65"/>
+<rect x="457.8" y="255.8" width="1.80" height="28.2" fill="#bca57a" opacity="0.65"/>
+<rect x="460.4" y="261.9" width="1.80" height="22.1" fill="#bca57a" opacity="0.65"/>
+<rect x="463.0" y="262.7" width="1.80" height="21.3" fill="#bca57a" opacity="0.65"/>
+<rect x="465.6" y="260.5" width="1.80" height="23.5" fill="#bca57a" opacity="0.65"/>
+<rect x="468.2" y="270.1" width="1.80" height="13.9" fill="#bca57a" opacity="0.65"/>
+<rect x="470.7" y="268.1" width="1.80" height="15.9" fill="#bca57a" opacity="0.65"/>
+<rect x="473.3" y="220.0" width="1.80" height="64.0" fill="#bca57a" opacity="0.65"/>
+<rect x="475.9" y="265.4" width="1.80" height="18.6" fill="#bca57a" opacity="0.65"/>
+<rect x="478.5" y="271.4" width="1.80" height="12.6" fill="#bca57a" opacity="0.65"/>
+<rect x="481.1" y="278.3" width="1.80" height="5.7" fill="#bca57a" opacity="0.65"/>
+<rect x="483.7" y="276.2" width="1.80" height="7.8" fill="#bca57a" opacity="0.65"/>
+<rect x="486.2" y="267.5" width="1.80" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="488.8" y="271.9" width="1.80" height="12.1" fill="#bca57a" opacity="0.65"/>
+<rect x="491.4" y="270.6" width="1.80" height="13.4" fill="#bca57a" opacity="0.65"/>
+<rect x="494.0" y="270.9" width="1.80" height="13.1" fill="#bca57a" opacity="0.65"/>
+<rect x="496.6" y="264.6" width="1.80" height="19.4" fill="#bca57a" opacity="0.65"/>
+<rect x="499.1" y="269.4" width="1.80" height="14.6" fill="#bca57a" opacity="0.65"/>
+<rect x="501.7" y="268.2" width="1.80" height="15.8" fill="#bca57a" opacity="0.65"/>
+<rect x="504.3" y="268.6" width="1.80" height="15.4" fill="#bca57a" opacity="0.65"/>
+<rect x="506.9" y="272.2" width="1.80" height="11.8" fill="#bca57a" opacity="0.65"/>
+<rect x="509.5" y="272.2" width="1.80" height="11.8" fill="#bca57a" opacity="0.65"/>
+<rect x="512.1" y="267.5" width="1.80" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="514.6" y="269.3" width="1.80" height="14.7" fill="#bca57a" opacity="0.65"/>
+<rect x="517.2" y="269.9" width="1.80" height="14.1" fill="#bca57a" opacity="0.65"/>
+<rect x="519.8" y="270.6" width="1.80" height="13.4" fill="#bca57a" opacity="0.65"/>
+<rect x="522.4" y="266.7" width="1.80" height="17.3" fill="#bca57a" opacity="0.65"/>
+<rect x="525.0" y="267.4" width="1.80" height="16.6" fill="#bca57a" opacity="0.65"/>
+<rect x="527.5" y="269.6" width="1.80" height="14.4" fill="#bca57a" opacity="0.65"/>
+<rect x="530.1" y="271.4" width="1.80" height="12.6" fill="#bca57a" opacity="0.65"/>
+<rect x="532.7" y="267.4" width="1.80" height="16.6" fill="#bca57a" opacity="0.65"/>
+<rect x="535.3" y="271.0" width="1.80" height="13.0" fill="#bca57a" opacity="0.65"/>
+<rect x="537.9" y="262.9" width="1.80" height="21.1" fill="#bca57a" opacity="0.65"/>
+<rect x="540.5" y="260.7" width="1.80" height="23.3" fill="#bca57a" opacity="0.65"/>
+<rect x="543.0" y="231.8" width="1.80" height="52.2" fill="#bca57a" opacity="0.65"/>
+<rect x="545.6" y="265.0" width="1.80" height="19.0" fill="#bca57a" opacity="0.65"/>
+<rect x="548.2" y="256.7" width="1.80" height="27.3" fill="#bca57a" opacity="0.65"/>
+<rect x="550.8" y="236.1" width="1.80" height="47.9" fill="#bca57a" opacity="0.65"/>
+<rect x="553.4" y="256.6" width="1.80" height="27.4" fill="#bca57a" opacity="0.65"/>
+<rect x="555.9" y="259.1" width="1.80" height="24.9" fill="#bca57a" opacity="0.65"/>
+<rect x="558.5" y="265.4" width="1.80" height="18.6" fill="#bca57a" opacity="0.65"/>
+<rect x="561.1" y="264.8" width="1.80" height="19.2" fill="#bca57a" opacity="0.65"/>
+<rect x="563.7" y="265.2" width="1.80" height="18.8" fill="#bca57a" opacity="0.65"/>
+<rect x="566.3" y="264.7" width="1.80" height="19.3" fill="#bca57a" opacity="0.65"/>
+<rect x="568.9" y="264.9" width="1.80" height="19.1" fill="#bca57a" opacity="0.65"/>
+<rect x="571.4" y="264.1" width="1.80" height="19.9" fill="#bca57a" opacity="0.65"/>
+<rect x="574.0" y="271.6" width="1.80" height="12.4" fill="#bca57a" opacity="0.65"/>
+<rect x="576.6" y="269.4" width="1.80" height="14.6" fill="#bca57a" opacity="0.65"/>
+<rect x="579.2" y="263.4" width="1.80" height="20.6" fill="#bca57a" opacity="0.65"/>
+<rect x="581.8" y="271.2" width="1.80" height="12.8" fill="#bca57a" opacity="0.65"/>
+<rect x="584.3" y="270.6" width="1.80" height="13.4" fill="#bca57a" opacity="0.65"/>
+<rect x="586.9" y="273.0" width="1.80" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="589.5" y="269.3" width="1.80" height="14.7" fill="#bca57a" opacity="0.65"/>
+<rect x="592.1" y="271.1" width="1.80" height="12.9" fill="#bca57a" opacity="0.65"/>
+<rect x="594.7" y="268.6" width="1.80" height="15.4" fill="#bca57a" opacity="0.65"/>
+<rect x="597.3" y="265.9" width="1.80" height="18.1" fill="#bca57a" opacity="0.65"/>
+<rect x="599.8" y="267.2" width="1.80" height="16.8" fill="#bca57a" opacity="0.65"/>
+<rect x="602.4" y="266.7" width="1.80" height="17.3" fill="#bca57a" opacity="0.65"/>
+<rect x="605.0" y="262.6" width="1.80" height="21.4" fill="#bca57a" opacity="0.65"/>
+<rect x="607.6" y="266.9" width="1.80" height="17.1" fill="#bca57a" opacity="0.65"/>
+<rect x="610.2" y="266.9" width="1.80" height="17.1" fill="#bca57a" opacity="0.65"/>
+<rect x="612.7" y="267.4" width="1.80" height="16.6" fill="#bca57a" opacity="0.65"/>
+<rect x="615.3" y="265.2" width="1.80" height="18.8" fill="#bca57a" opacity="0.65"/>
+<rect x="617.9" y="265.9" width="1.80" height="18.1" fill="#bca57a" opacity="0.65"/>
+<rect x="620.5" y="270.3" width="1.80" height="13.7" fill="#bca57a" opacity="0.65"/>
+<rect x="623.1" y="267.9" width="1.80" height="16.1" fill="#bca57a" opacity="0.65"/>
+<rect x="625.6" y="264.5" width="1.80" height="19.5" fill="#bca57a" opacity="0.65"/>
+<rect x="628.2" y="264.4" width="1.80" height="19.6" fill="#bca57a" opacity="0.65"/>
+<rect x="630.8" y="247.3" width="1.80" height="36.7" fill="#bca57a" opacity="0.65"/>
+<rect x="633.4" y="269.0" width="1.80" height="15.0" fill="#bca57a" opacity="0.65"/>
+<rect x="636.0" y="270.3" width="1.80" height="13.7" fill="#bca57a" opacity="0.65"/>
+<rect x="638.6" y="274.5" width="1.80" height="9.5" fill="#bca57a" opacity="0.65"/>
+<rect x="641.1" y="272.0" width="1.80" height="12.0" fill="#bca57a" opacity="0.65"/>
+<rect x="643.7" y="273.3" width="1.80" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="646.3" y="268.6" width="1.80" height="15.4" fill="#bca57a" opacity="0.65"/>
+<rect x="648.9" y="261.5" width="1.80" height="22.5" fill="#bca57a" opacity="0.65"/>
+<rect x="651.5" y="270.3" width="1.80" height="13.7" fill="#bca57a" opacity="0.65"/>
+<rect x="654.0" y="270.9" width="1.80" height="13.1" fill="#bca57a" opacity="0.65"/>
+<rect x="656.6" y="272.7" width="1.80" height="11.3" fill="#bca57a" opacity="0.65"/>
+<rect x="659.2" y="273.1" width="1.80" height="10.9" fill="#bca57a" opacity="0.65"/>
+<rect x="661.8" y="265.0" width="1.80" height="19.0" fill="#bca57a" opacity="0.65"/>
+<rect x="664.4" y="273.9" width="1.80" height="10.1" fill="#bca57a" opacity="0.65"/>
+<rect x="667.0" y="270.0" width="1.80" height="14.0" fill="#bca57a" opacity="0.65"/>
+<rect x="669.5" y="272.1" width="1.80" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="672.1" y="270.4" width="1.80" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="674.7" y="270.8" width="1.80" height="13.2" fill="#bca57a" opacity="0.65"/>
+<rect x="677.3" y="272.4" width="1.80" height="11.6" fill="#bca57a" opacity="0.65"/>
+<rect x="679.9" y="270.5" width="1.80" height="13.5" fill="#bca57a" opacity="0.65"/>
+<rect x="682.4" y="272.8" width="1.80" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="685.0" y="271.1" width="1.80" height="12.9" fill="#bca57a" opacity="0.65"/>
+<rect x="687.6" y="273.7" width="1.80" height="10.3" fill="#bca57a" opacity="0.65"/>
+<rect x="690.2" y="272.7" width="1.80" height="11.3" fill="#bca57a" opacity="0.65"/>
+<rect x="692.8" y="274.5" width="1.80" height="9.5" fill="#bca57a" opacity="0.65"/>
+<rect x="695.4" y="273.3" width="1.80" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="697.9" y="274.6" width="1.80" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="700.5" y="271.8" width="1.80" height="12.2" fill="#bca57a" opacity="0.65"/>
+<rect x="703.1" y="271.9" width="1.80" height="12.1" fill="#bca57a" opacity="0.65"/>
+  <polygon points="56,212 56.0,71.3 58.6,80.3 61.2,75.1 63.7,78.4 66.3,112.8 68.9,109.2 71.5,100.2 74.1,102.5 76.7,87.9 79.2,86.1 81.8,93.4 84.4,92.8 87.0,84.6 89.6,90.7 92.1,92.7 94.7,106.6 97.3,102.0 99.9,102.4 102.5,87.2 105.1,99.7 107.6,94.6 110.2,94.6 112.8,99.1 115.4,90.5 118.0,91.7 120.5,92.8 123.1,92.0 125.7,81.3 128.3,70.7 130.9,73.9 133.5,84.0 136.0,94.3 138.6,96.1 141.2,106.0 143.8,105.6 146.4,104.9 148.9,95.4 151.5,88.9 154.1,91.9 156.7,82.9 159.3,82.5 161.8,92.4 164.4,72.5 167.0,65.4 169.6,69.3 172.2,83.0 174.8,69.2 177.3,66.0 179.9,64.5 182.5,68.8 185.1,73.2 187.7,84.2 190.2,87.5 192.8,83.8 195.4,93.1 198.0,92.2 200.6,78.5 203.2,70.8 205.7,89.2 208.3,84.7 210.9,90.6 213.5,95.4 216.1,110.2 218.6,111.8 221.2,113.0 223.8,101.3 226.4,57.4 229.0,72.9 231.6,73.6 234.1,71.7 236.7,87.0 239.3,68.7 241.9,44.0 244.5,61.8 247.0,70.8 249.6,67.8 252.2,62.2 254.8,63.4 257.4,64.2 260.0,37.9 262.5,47.3 265.1,47.3 267.7,44.7 270.3,45.9 272.9,44.2 275.4,49.4 278.0,52.3 280.6,48.0 283.2,47.8 285.8,47.4 288.4,52.0 290.9,60.8 293.5,44.9 296.1,61.9 298.7,62.4 301.3,69.5 303.8,76.0 306.4,68.2 309.0,72.2 311.6,80.9 314.2,79.5 316.7,83.4 319.3,86.0 321.9,74.2 324.5,81.2 327.1,82.3 329.7,87.6 332.2,85.4 334.8,88.4 337.4,86.2 340.0,100.6 342.6,103.2 345.1,115.6 347.7,129.8 350.3,127.0 352.9,137.3 355.5,134.8 358.1,130.2 360.6,126.5 363.2,119.9 365.8,116.9 368.4,116.9 371.0,116.5 373.5,114.9 376.1,116.7 378.7,117.2 381.3,130.5 383.9,141.0 386.5,141.5 389.0,152.5 391.6,184.7 394.2,190.0 396.8,197.9 399.4,183.0 401.9,185.7 404.5,183.5 407.1,183.0 409.7,177.9 412.3,182.2 414.9,197.0 417.4,191.5 420.0,194.9 422.6,202.1 425.2,181.4 427.8,180.7 430.3,164.9 432.9,167.0 435.5,172.4 438.1,167.2 440.7,162.8 443.3,158.7 445.8,161.7 448.4,153.2 451.0,158.7 453.6,150.8 456.2,130.9 458.7,130.8 461.3,132.2 463.9,129.7 466.5,134.6 469.1,137.9 471.6,138.6 474.2,147.6 476.8,150.6 479.4,152.5 482.0,147.6 484.6,145.1 487.1,147.6 489.7,145.5 492.3,146.6 494.9,141.2 497.5,124.0 500.0,119.4 502.6,120.1 505.2,108.2 507.8,101.0 510.4,99.5 513.0,109.1 515.5,101.5 518.1,95.9 520.7,114.3 523.3,125.2 525.9,103.3 528.4,100.1 531.0,100.4 533.6,112.0 536.2,109.8 538.8,110.3 541.4,105.2 543.9,105.4 546.5,100.8 549.1,111.7 551.7,59.9 554.3,77.2 556.8,88.8 559.4,88.7 562.0,80.6 564.6,79.4 567.2,74.3 569.8,77.6 572.3,87.1 574.9,83.5 577.5,86.5 580.1,81.6 582.7,88.8 585.2,80.7 587.8,79.8 590.4,80.3 593.0,74.8 595.6,74.0 598.2,87.0 600.7,83.7 603.3,89.6 605.9,117.6 608.5,119.3 611.1,126.6 613.6,133.5 616.2,125.6 618.8,121.3 621.4,127.3 624.0,124.9 626.5,132.3 629.1,127.7 631.7,133.0 634.3,128.6 636.9,112.8 639.5,98.6 642.0,90.8 644.6,89.0 647.2,79.2 649.8,80.6 652.4,80.7 654.9,76.3 657.5,87.0 660.1,83.8 662.7,73.3 665.3,85.0 667.9,85.4 670.4,86.1 673.0,85.8 675.6,94.5 678.2,93.8 680.8,86.8 683.3,79.2 685.9,75.6 688.5,79.9 691.1,73.7 693.7,69.8 696.3,67.0 698.8,69.8 701.4,77.5 704.0,69.1 704,212" fill="#d8b878" opacity="0.35"/>
+  <polyline points="56.0,71.3 58.6,80.3 61.2,75.1 63.7,78.4 66.3,112.8 68.9,109.2 71.5,100.2 74.1,102.5 76.7,87.9 79.2,86.1 81.8,93.4 84.4,92.8 87.0,84.6 89.6,90.7 92.1,92.7 94.7,106.6 97.3,102.0 99.9,102.4 102.5,87.2 105.1,99.7 107.6,94.6 110.2,94.6 112.8,99.1 115.4,90.5 118.0,91.7 120.5,92.8 123.1,92.0 125.7,81.3 128.3,70.7 130.9,73.9 133.5,84.0 136.0,94.3 138.6,96.1 141.2,106.0 143.8,105.6 146.4,104.9 148.9,95.4 151.5,88.9 154.1,91.9 156.7,82.9 159.3,82.5 161.8,92.4 164.4,72.5 167.0,65.4 169.6,69.3 172.2,83.0 174.8,69.2 177.3,66.0 179.9,64.5 182.5,68.8 185.1,73.2 187.7,84.2 190.2,87.5 192.8,83.8 195.4,93.1 198.0,92.2 200.6,78.5 203.2,70.8 205.7,89.2 208.3,84.7 210.9,90.6 213.5,95.4 216.1,110.2 218.6,111.8 221.2,113.0 223.8,101.3 226.4,57.4 229.0,72.9 231.6,73.6 234.1,71.7 236.7,87.0 239.3,68.7 241.9,44.0 244.5,61.8 247.0,70.8 249.6,67.8 252.2,62.2 254.8,63.4 257.4,64.2 260.0,37.9 262.5,47.3 265.1,47.3 267.7,44.7 270.3,45.9 272.9,44.2 275.4,49.4 278.0,52.3 280.6,48.0 283.2,47.8 285.8,47.4 288.4,52.0 290.9,60.8 293.5,44.9 296.1,61.9 298.7,62.4 301.3,69.5 303.8,76.0 306.4,68.2 309.0,72.2 311.6,80.9 314.2,79.5 316.7,83.4 319.3,86.0 321.9,74.2 324.5,81.2 327.1,82.3 329.7,87.6 332.2,85.4 334.8,88.4 337.4,86.2 340.0,100.6 342.6,103.2 345.1,115.6 347.7,129.8 350.3,127.0 352.9,137.3 355.5,134.8 358.1,130.2 360.6,126.5 363.2,119.9 365.8,116.9 368.4,116.9 371.0,116.5 373.5,114.9 376.1,116.7 378.7,117.2 381.3,130.5 383.9,141.0 386.5,141.5 389.0,152.5 391.6,184.7 394.2,190.0 396.8,197.9 399.4,183.0 401.9,185.7 404.5,183.5 407.1,183.0 409.7,177.9 412.3,182.2 414.9,197.0 417.4,191.5 420.0,194.9 422.6,202.1 425.2,181.4 427.8,180.7 430.3,164.9 432.9,167.0 435.5,172.4 438.1,167.2 440.7,162.8 443.3,158.7 445.8,161.7 448.4,153.2 451.0,158.7 453.6,150.8 456.2,130.9 458.7,130.8 461.3,132.2 463.9,129.7 466.5,134.6 469.1,137.9 471.6,138.6 474.2,147.6 476.8,150.6 479.4,152.5 482.0,147.6 484.6,145.1 487.1,147.6 489.7,145.5 492.3,146.6 494.9,141.2 497.5,124.0 500.0,119.4 502.6,120.1 505.2,108.2 507.8,101.0 510.4,99.5 513.0,109.1 515.5,101.5 518.1,95.9 520.7,114.3 523.3,125.2 525.9,103.3 528.4,100.1 531.0,100.4 533.6,112.0 536.2,109.8 538.8,110.3 541.4,105.2 543.9,105.4 546.5,100.8 549.1,111.7 551.7,59.9 554.3,77.2 556.8,88.8 559.4,88.7 562.0,80.6 564.6,79.4 567.2,74.3 569.8,77.6 572.3,87.1 574.9,83.5 577.5,86.5 580.1,81.6 582.7,88.8 585.2,80.7 587.8,79.8 590.4,80.3 593.0,74.8 595.6,74.0 598.2,87.0 600.7,83.7 603.3,89.6 605.9,117.6 608.5,119.3 611.1,126.6 613.6,133.5 616.2,125.6 618.8,121.3 621.4,127.3 624.0,124.9 626.5,132.3 629.1,127.7 631.7,133.0 634.3,128.6 636.9,112.8 639.5,98.6 642.0,90.8 644.6,89.0 647.2,79.2 649.8,80.6 652.4,80.7 654.9,76.3 657.5,87.0 660.1,83.8 662.7,73.3 665.3,85.0 667.9,85.4 670.4,86.1 673.0,85.8 675.6,94.5 678.2,93.8 680.8,86.8 683.3,79.2 685.9,75.6 688.5,79.9 691.1,73.7 693.7,69.8 696.3,67.0 698.8,69.8 701.4,77.5 704.0,69.1" fill="none" stroke="#7a5a26" stroke-width="1.6" stroke-linejoin="round"/>
+  <text x="56.0" y="308" text-anchor="start" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Apr 2025</text>
+<text x="381.3" y="308" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Oct 2025</text>
+<text x="704.0" y="308" text-anchor="end" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Apr 2026</text>
+  <text x="48" y="223.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9" fill="#6e6457">1.7M</text>
+  <text x="56" y="16" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.16em" text-transform="uppercase" fill="#2a261f">CBT · PRICE &amp; VOLUME</text><text x="704" y="16" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="#2a261f">$76.96  <tspan fill="#1f6b3a" font-weight="600">+0.4%</tspan></text>
+</svg>
+  <p class="chart-caption">Daily close (warm umber) with under-fill, volume bars in tan. Trailing range capped at 252 trading days.</p>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Market Analysis</h3><h3>Market Report</h3>
+
+<p><strong>Cabot Corporation (CBT) — Technical Market Analysis</strong></p>
+<p><em>As of April 30, 2026 (last trading session before report date)</em></p>
+
+<h4>Price Action Overview</h4>
+<p>CBT closed at $76.96 on April 30, 2026, recovering from an intraday low of $75.00 with a 1.6% session gain on rising volume (317,900 shares). The stock has put together a constructive month: April 1 open at $75.64 vs. April 30 close at $76.96 (+1.7% MoM), with a tighter intra-month range than recent quarters. Year-to-date the stock is up roughly +14.6%, sitting at 92% of the 52-week high of $83.71 and 32% above the 52-week low of $58.33. The 30-session realized volatility has compressed alongside the ATR.</p>
+
+<h4>Key Technical Indicators</h4>
+
+<p><strong>1. 50-Day SMA ($73.52)</strong> <span class="ti-signal ti-bullish">BULLISH</span></p>
+<p>Price trades $3.44 (~4.7%) above the rising 50-day SMA. The 50 SMA has climbed from $72.79 (April 1) to $73.52 (April 30), confirming a healthy medium-term uptrend.</p>
+
+<p><strong>2. 200-Day SMA ($71.77)</strong> <span class="ti-signal ti-bullish">GOLDEN CROSS CONFIRMED</span></p>
+<p>The 50-day SMA crossed above the 200-day SMA earlier in the cycle and remains $1.75 above it as of April 30. Price is $5.19 above the 200-day SMA — a textbook golden cross structure intact.</p>
+
+<p><strong>3. 10-Day EMA ($76.11)</strong> <span class="ti-signal ti-bullish">BULLISH STACK</span></p>
+<p>The 10 EMA at $76.11 sits below the closing price of $76.96 and has trended steadily higher. Price &gt; 10 EMA &gt; 50 SMA &gt; 200 SMA confirms a clean bullish moving-average stack.</p>
+
+<p><strong>4. MACD (0.984 / Signal 0.900)</strong> <span class="ti-signal ti-bullish">BULLISH MOMENTUM</span></p>
+<p>MACD has remained above its signal line for the past 12 sessions, with the histogram (0.084) positive though narrowing. Momentum is constructive but slowing into the May 11 earnings event.</p>
+
+<p><strong>5. RSI (60.0)</strong> <span class="ti-signal ti-bullish">NEUTRAL-BULLISH</span></p>
+<p>RSI at 60.0 is firmly bullish without being overbought. Plenty of room above before the 70 threshold.</p>
+
+<p><strong>6. Bollinger Bands</strong> <span class="ti-signal ti-warning">TESTING UPPER BAND</span></p>
+<p>Mid: $75.40, Upper: $77.73, Lower: $73.07. April 30 close at $76.96 sits 67% of the way to the upper band — a momentum signature that can either persist (band-walk) or mean-revert into earnings.</p>
+
+<p><strong>7. ATR (1.96)</strong> <span class="ti-signal ti-neutral">COMPRESSED VOLATILITY</span></p>
+<p>ATR of 1.96 (~2.5% of price) has tightened from 2.16 a month ago — typical pre-earnings coiling pattern.</p>
+
+<p><strong>8. VWMA ($75.34)</strong> <span class="ti-signal ti-bullish">VOLUME-CONFIRMED UPTREND</span></p>
+<p>VWMA below the closing price confirms institutional volume has accumulated at progressively higher levels — buyers carrying the move.</p>
+
+<h4>Support and Resistance</h4>
+<ul>
+<li><strong>Immediate Support</strong>: $75.40 (Bollinger middle) / $74.60 (mid-April pivot)</li>
+<li><strong>Key Support</strong>: $73.52 (50-day SMA) / $73.07 (Bollinger lower band)</li>
+<li><strong>Long-term Support</strong>: $71.77 (200-day SMA)</li>
+<li><strong>Immediate Resistance</strong>: $77.73 (Bollinger upper band) / $78.46 (April 27 intraday high)</li>
+<li><strong>Key Resistance</strong>: $79.24 (CEO insider-sale floor, Aug 2025) / $83.71 (52-week high)</li>
+</ul>
+
+<table>
+<tr><th>Indicator</th><th>Value</th><th>Signal</th></tr>
+<tr><td>50-Day SMA</td><td>$73.52</td><td><strong>Bullish — Above</strong></td></tr>
+<tr><td>200-Day SMA</td><td>$71.77</td><td><strong>Bullish — Golden Cross</strong></td></tr>
+<tr><td>10-Day EMA</td><td>$76.11</td><td><strong>Bullish — Stack Aligned</strong></td></tr>
+<tr><td>MACD</td><td>0.98 vs 0.90</td><td><strong>Bullish — Above Signal</strong></td></tr>
+<tr><td>MACD Histogram</td><td>0.08</td><td><strong>Neutral — Narrowing</strong></td></tr>
+<tr><td>RSI</td><td>60.0</td><td><strong>Bullish — Room Above</strong></td></tr>
+<tr><td>Bollinger Position</td><td>67% to upper</td><td><strong>Warning — Band Stretch</strong></td></tr>
+<tr><td>ATR</td><td>1.96</td><td><strong>Bullish — Compressing</strong></td></tr>
+<tr><td>VWMA</td><td>$75.34</td><td><strong>Bullish — Volume Below Price</strong></td></tr>
+</table></div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Social Sentiment</h3><h3>Social Sentiment Report</h3>
+
+<p><strong>Cabot Corporation (CBT) — Social Media &amp; Company-Specific News Sentiment</strong></p>
+<p><em>As of April 30, 2026</em></p>
+
+<h4>Analyst Coverage Sentiment</h4>
+<p>Analyst sentiment on CBT is mixed-to-constructive but with reduced conviction post Q1:</p>
+<ul>
+<li>Multiple sell-side firms cut FY26 EPS estimates after the Feb 3 print to align with the narrowed $6.00–$6.50 management guide.</li>
+<li>Tipranks shows three analysts active in last 90 days; consensus 12-month target hovers in the low-to-mid $80s — implying ~10–15% upside from $76.96.</li>
+<li>KoalaGains framed CBT as "undervalued with strong financials and growth in EV battery materials, despite cyclical market risks."</li>
+<li>Seeking Alpha (Mar 26, 2026): "Competitive Pressures Due To High Tire Imports Continuing To Weigh" — bearish on Reinforcement Materials.</li>
+</ul>
+
+<h4>Key Social/Company Narrative Themes</h4>
+
+<p><strong>1. Battery Materials as the Re-Rating Lever</strong></p>
+<p>The Battery Materials segment (+39% YoY in Q1 FY26) and the announced PowerCo (Volkswagen battery JV) supply agreement have generated the most positive narrative. Bulls argue this segment alone, scaling toward $300–500M in revenue by FY28, justifies a multiple expansion.</p>
+
+<p><strong>2. Tire Import Overhang on Reinforcement Materials</strong></p>
+<p>The dominant bear narrative: Chinese carbon-black overcapacity → low-priced tire imports flooding US/EU → tire OEMs cutting Cabot volumes/prices. Reinforcement Materials EBIT fell -22% YoY in Q1 FY26.</p>
+
+<p><strong>3. CEO Insider Sale at $79</strong></p>
+<p>CEO Sean Keohane sold 114,436 shares at $79.24–79.63 in August 2025 (~$9.07M). The current price of $76.96 sits just below his exit level. This has been cited in both retail and institutional discussions as a sentiment ceiling.</p>
+
+<p><strong>4. Specialty Chemicals Sector Reset</strong></p>
+<p>Peer companies (OEC raised prices 25% + added surcharge; AVNT trades at "steep discount"; APD beat) are all signaling a 2026 sector reset. CBT is trading better than most peers.</p>
+
+<p><strong>5. Quiet but Steady Capital Return</strong></p>
+<p>$76M returned to shareholders in Q1 FY26 (split between $24M dividend and $52M buyback). Dividend yield 2.34%, payout sustained for 30+ consecutive years — defensive shareholder narrative.</p>
+
+<p><strong>6. "$3.5M Bet on Flat Chemicals Stock" Narrative</strong></p>
+<p>Motley Fool coverage flagged a fund's $3.5M position despite "declining revenue and earnings" — implying value-buyer positioning at the cycle trough.</p>
+
+<table>
+<tr><th>Theme</th><th>Sentiment</th><th>Impact</th></tr>
+<tr><td>Battery Materials growth</td><td>Very Bullish</td><td>High</td></tr>
+<tr><td>Tire import overhang</td><td>Bearish</td><td>High</td></tr>
+<tr><td>CEO Aug 2025 sale at $79</td><td>Bearish (technical)</td><td>Medium</td></tr>
+<tr><td>Sector reset peers</td><td>Mixed</td><td>Medium</td></tr>
+<tr><td>Dividend + buyback yield</td><td>Bullish (defensive)</td><td>Medium</td></tr>
+<tr><td>Value-buyer positioning</td><td>Bullish (subtle)</td><td>Low</td></tr>
+<tr><td>Forward P/E 11.2x</td><td>Neutral-Bullish</td><td>Medium</td></tr>
+</table></div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>News &amp; Macro</h3><h3>News Report</h3>
+
+<p><strong>Cabot Corporation (CBT) — Global News &amp; Macroeconomic Context</strong></p>
+<p><em>As of April 30, 2026</em></p>
+
+<h4>Macroeconomic Environment</h4>
+
+<p><strong>EV Battery Capacity Build-Out (Tailwind)</strong></p>
+<p>Global EV battery cell capacity additions accelerated through 1H 2026, with European gigafactories (PowerCo Salzgitter, ACC, Northvolt restart) and US IRA-anchored projects ramping. Cabot's conductive carbon additives (CCA) for cathodes are direct beneficiaries; the announced PowerCo supply deal is a multi-year offtake.</p>
+
+<p><strong>Chinese Carbon Black &amp; Tire Imports (Headwind)</strong></p>
+<p>Chinese carbon-black producers continue to operate at high utilization and export at competitive prices. The downstream effect: tire imports into the US and EU surged in Q1 2026, depressing North American tire OEM utilization and Reinforcement Materials volumes/pricing for Cabot.</p>
+
+<p><strong>Auto Cycle &amp; Light Vehicle Production</strong></p>
+<p>Global light vehicle production guidance for CY2026 was trimmed by major forecasters (S&amp;P Global, Wards) given softer consumer demand and tariff uncertainty. Tire OEMs are the largest end market for Reinforcement Materials.</p>
+
+<p><strong>Tariff &amp; Trade Policy</strong></p>
+<p>US tariff posture on imported tires (ongoing investigations at the ITC) is a wild card. Material policy action could reverse the tire-import headwind partially in 2H 2026 — a Cabot catalyst not yet priced.</p>
+
+<p><strong>Semiconductor &amp; Display Demand</strong></p>
+<p>Fumed silica (Performance Chemicals segment) demand for semiconductor CMP slurries and display polishing has stayed steady on AI-driven semiconductor capacity adds.</p>
+
+<h4>Key Company Events</h4>
+<ul>
+<li><strong>Feb 3, 2026</strong>: Q1 FY26 earnings — Adj EPS $1.53 (-13% YoY); narrowed FY26 EPS guide to $6.00–$6.50; PowerCo battery supply deal announced.</li>
+<li><strong>Mar 26, 2026</strong>: Seeking Alpha published bearish piece on tire-import overhang.</li>
+<li><strong>Apr 22, 2026</strong>: Fund disclosed $3.5M position in Cabot per 13F filings.</li>
+<li><strong>Late Apr 2026</strong>: Multiple sell-side firms reaffirmed Hold/Buy ratings ahead of May 11 earnings.</li>
+<li><strong>May 11, 2026 (T+10 days)</strong>: Q2 FY26 earnings release — single most important catalyst.</li>
+</ul>
+
+<h4>Industry/Peer Context</h4>
+<ul>
+<li><strong>OEC (Orion Engineered Carbons)</strong>: Raised Specialty prices up to 25% + added variable surcharge — signals industry cost pressure but also pricing power among rationalized specialty grades.</li>
+<li><strong>APD (Air Products)</strong>: Beat Q2 FY26 by +4.86% EPS — broader chemicals tone improving.</li>
+<li><strong>AVNT (Avient)</strong>: Trades at deep peer discount; defense + chip-packaging exposure cited as growth drivers — adjacent thematic.</li>
+</ul>
+
+<table>
+<tr><th>Factor</th><th>Direction</th><th>CBT Impact</th></tr>
+<tr><td>EV battery capex</td><td>Very Positive</td><td>Battery Materials segment growth</td></tr>
+<tr><td>Chinese carbon-black exports</td><td>Very Negative</td><td>Reinforcement Materials margin</td></tr>
+<tr><td>Light vehicle production</td><td>Negative</td><td>RM volume</td></tr>
+<tr><td>US tire-tariff policy</td><td>Optionality</td><td>RM mix recovery if enacted</td></tr>
+<tr><td>Semi/display demand</td><td>Positive</td><td>Performance Chemicals</td></tr>
+<tr><td>Industry pricing actions (OEC)</td><td>Mixed</td><td>Read-through to Cabot specialty grades</td></tr>
+<tr><td>Adj EBITDA margin trajectory</td><td>Bearish</td><td>-11% YoY EBITDA in Q1 FY26</td></tr>
+</table></div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Fundamental Analysis</h3><h3>Fundamentals Report</h3>
+
+<p><strong>Cabot Corporation (CBT) — Fundamental Analysis &amp; Institutional Data Lanes</strong></p>
+<p><em>As of April 30, 2026</em></p>
+
+<h4>Company Overview</h4>
+<p>Cabot Corporation (NYSE: CBT) is a 142-year-old Boston-headquartered specialty chemicals company organized into three reporting segments:</p>
+<ol>
+<li><strong>Reinforcement Materials</strong> (~60–65% of revenue): Carbon black for tires, industrial rubber.</li>
+<li><strong>Performance Chemicals</strong> (~30% of revenue): Fumed silica, fumed metal oxides, masterbatches, inkjet, specialty grades.</li>
+<li><strong>Battery Materials</strong> (~5–8% of revenue, fastest growing): Conductive carbon additives for lithium-ion cathodes.</li>
+</ol>
+
+<h4>Financial Health</h4>
+<ul>
+<li><strong>TTM Revenue</strong>: $3.61B (Q1 FY26: $849M, -11% YoY)</li>
+<li><strong>Adj EBITDA (TTM)</strong>: $763M (Q1 FY26: $177M, -11% YoY)</li>
+<li><strong>Net Income (TTM)</strong>: $306M | Net Margin: 8.6%</li>
+<li><strong>Operating Margin</strong>: 15.2%</li>
+<li><strong>EPS (TTM)</strong>: $5.72 | Forward EPS (FY26 guide midpoint): $6.25 → <strong>+9.3% implied growth</strong></li>
+<li><strong>PE (TTM)</strong>: 13.45x | <strong>Forward PE</strong>: 11.22x | <strong>PEG</strong>: 1.0</li>
+<li><strong>P/B</strong>: 2.55x | Book Value: $30.16</li>
+<li><strong>Dividend Yield</strong>: 2.34% (Q dividend $24M, 30+ year unbroken record)</li>
+<li><strong>ROE</strong>: 21.8% | <strong>ROA</strong>: 10.2%</li>
+<li><strong>Net Debt</strong>: $896M | <strong>Debt/Equity</strong>: 65.1% | <strong>Net Leverage</strong>: ~1.2x EBITDA — investment-grade balance sheet</li>
+<li><strong>Current Ratio</strong>: 1.67 | <strong>Free Cash Flow (TTM)</strong>: $292M</li>
+<li><strong>Beta</strong>: 0.83 (defensive)</li>
+</ul>
+
+<h4>Segment Trajectory (Q1 FY26)</h4>
+<table>
+<tr><th>Segment</th><th>Q1 FY26 EBIT YoY</th><th>Driver</th></tr>
+<tr><td>Reinforcement Materials</td><td><strong>-22%</strong></td><td>Tire import pressure, lower volumes</td></tr>
+<tr><td>Performance Chemicals</td><td><strong>+7%</strong></td><td>Fumed silica + specialty mix</td></tr>
+<tr><td>Battery Materials</td><td><strong>+39%</strong> revenue</td><td>PowerCo, conductive additives</td></tr>
+</table>
+
+<h4>Institutional Data Lane 1: Item 1A Risk Factors (10-K)</h4>
+<p>Top 7 risks from FY2025 10-K (filed Nov 18, 2025):</p>
+<ol>
+<li><strong>Cyclical Auto/Tire End-Market Exposure</strong> (Reinforcement Materials = ~60–65% of revenue tied to tire OEMs).</li>
+<li><strong>Chinese &amp; Asian Competition in Carbon Black</strong> (low-cost imports compressing margins).</li>
+<li><strong>Raw Material &amp; Energy Cost Volatility</strong> (feedstock oil, natural gas).</li>
+<li><strong>Foreign Currency Translation</strong> (&gt;50% revenue ex-US; sensitive to USD strength).</li>
+<li><strong>Capital Project Execution Risk</strong> (Battery Materials capacity expansion in US).</li>
+<li><strong>Customer Concentration in Tire OEMs</strong> (top 5 tire makers material to RM segment).</li>
+<li><strong>Environmental &amp; Regulatory</strong> (carbon black manufacturing, climate disclosure).</li>
+</ol>
+
+<h4>Institutional Data Lane 2: Customer Concentration</h4>
+<ul>
+<li><strong>Reinforcement Materials</strong>: ~70–75% of segment revenue from top 5 tire OEMs (Michelin, Bridgestone, Goodyear, Continental, Pirelli + Sumitomo) under multi-year volume contracts with quarterly feedstock pass-throughs. No single customer &gt;10% of total Cabot revenue.</li>
+<li><strong>Performance Chemicals</strong>: Diversified across semiconductors, displays, plastics processors, ink/coatings — much lower concentration.</li>
+<li><strong>Battery Materials</strong>: Concentrated in EV cell manufacturers (PowerCo, LG Energy, CATL Western JVs); customer concentration is HIGHER but contracts are long-dated qualifications-driven.</li>
+<li><strong>Geography</strong>: ~30% Americas / ~30% EMEA / ~40% Asia-Pacific</li>
+</ul>
+
+<h4>Institutional Data Lane 3: Segment Health &amp; Pricing Outlook</h4>
+<p><em>(See dedicated Volume &amp; Pricing Indicators block below for status-coded channel checks.)</em></p>
+<p>Key quantitative anchors:</p>
+<ul>
+<li>FY26 EPS Guide: <strong>$6.00–$6.50</strong> (narrowed at Q1 from $6.00–$6.75)</li>
+<li>Q1 FY26 EBITDA: $177M vs. $199M PY = <strong>-11% YoY</strong></li>
+<li>Capital Returns Q1: $76M ($24M dividend + $52M buyback) — pace of ~$300M/year</li>
+<li>Capex: $69M Q1 FY26 (battery capacity build)</li>
+</ul>
+
+<h4>Institutional Data Lane 4: Catalyst Calendar</h4>
+<table>
+<tr><th>Date</th><th>Event</th><th>Impact</th></tr>
+<tr><td><strong>May 11, 2026</strong></td><td><strong>Q2 FY26 Earnings (after-close); call May 12</strong></td><td><strong>HIGH</strong> — single most important event</td></tr>
+<tr><td>Jun 2026</td><td>Annual Investor Day (typical timing)</td><td>Medium</td></tr>
+<tr><td>Jul–Aug 2026</td><td>Q3 FY26 Earnings</td><td>Medium</td></tr>
+<tr><td>H2 CY2026</td><td>US ITC tire-tariff ruling (potential)</td><td>Medium-High (optionality)</td></tr>
+<tr><td>H2 CY2026</td><td>PowerCo Salzgitter Phase-2 ramp</td><td>Medium</td></tr>
+<tr><td>FY27</td><td>US conductive carbon additive plant commissioning</td><td>High</td></tr>
+<tr><td>Ongoing</td><td>Monthly tire OEM production updates</td><td>Low-Medium</td></tr>
+</table>
+
+<table>
+<tr><th>Key Metric</th><th>Value</th><th>Assessment</th></tr>
+<tr><td>Revenue (TTM)</td><td>$3.61B</td><td>Mid-cap specialty</td></tr>
+<tr><td>Adj EBITDA Margin</td><td>~21%</td><td>Robust for chemicals</td></tr>
+<tr><td>Net Leverage</td><td>1.2x</td><td>Conservative</td></tr>
+<tr><td>Forward P/E</td><td>11.22x</td><td>Below 5-yr avg</td></tr>
+<tr><td>Dividend Yield</td><td>2.34%</td><td>Defensive cushion</td></tr>
+<tr><td>ROE</td><td>21.8%</td><td>Excellent</td></tr>
+<tr><td>FCF Yield</td><td>7.3%</td><td>Solid</td></tr>
+<tr><td>FY26 EPS Growth Implied</td><td>+9.3% (guide midpoint)</td><td>Modest acceleration</td></tr>
+</table></div>
+
+<h2 class="section">Risk Factors (Item 1A)</h2>
+<div class="report-content">
+<ol>
+<li>Cyclical Auto/Tire End-Market Exposure (Reinforcement Materials ~60-65% of revenue tied to tire OEMs)</li>
+<li>Chinese &amp; Asian Competition in Carbon Black (low-cost imports compressing margins)</li>
+<li>Raw Material &amp; Energy Cost Volatility (feedstock oil, natural gas)</li>
+<li>Foreign Currency Translation (&gt;50% revenue ex-US)</li>
+<li>Capital Project Execution Risk (Battery Materials US plant build)</li>
+<li>Customer Concentration in Tire OEMs (top 5 tire makers material to RM segment)</li>
+<li>Environmental &amp; Regulatory Risk (carbon black manufacturing, climate disclosure)</li>
+</ol>
+<p>Filing: SEC EDGAR CIK 0000016040, FY2025 10-K filed Nov 18, 2025</p>
+</div>
+
+<div class="footer">
+  <div class="disclaimer">
+    This document is the confidential work product of the Silent Engineering Fund's
+    internal research process and is intended for partners and authorized personnel only.
+    It does not constitute investment advice, an offer to sell, or a solicitation to buy
+    any security. Past performance is not indicative of future results.
+  </div>
+  <div class="colophon">Silent Engineering Fund &middot; Internal Research</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Silent Engineering Fund Research — BRKR | 2026-05-01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fg: #2a261f;
+    --fg-secondary: #5a4f3f;
+    --fg-tertiary: #8a7c66;
+    --bg: #faf6ef;
+    --bg-subtle: #f5ecd9;
+    --bg-muted: #efe3c4;
+    --paper: #faf6ef;
+    --paper-soft: #f5ecd9;
+    --border: #d4c9a8;
+    --border-light: #e6dcc1;
+    --rule: #b9a878;
+    --accent: #6e6457;
+    --accent-bg: #efe7d3;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    --font-mono: 'IBM Plex Mono', 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+    --font-serif: 'Source Serif 4', 'Charter', 'Iowan Old Style', 'Sitka Text', Cambria, 'Times New Roman', Georgia, serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-serif);
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1;
+    color: var(--fg);
+    background: var(--bg);
+    line-height: 1.7;
+    max-width: none;
+    margin: 0;
+    padding: 56px 0 88px;
+    counter-reset: section;
+  }
+
+  /* ---- Section width tiers (see references/report-standards.md §5) ----
+     Body is no longer a single 820px column. Each section opts into a
+     tier wrapper that sets its own max-width + horizontal padding. The
+     eye gets rhythm from width changes between sections; prose stays at
+     a readable 70-80 char measure. */
+  .col-prose, .col-wide, .col-bleed {
+    margin: 0 auto;
+    padding: 0 36px;
+  }
+  .col-prose { max-width: 820px; }
+  .col-wide  { max-width: 1080px; }
+  .col-bleed { max-width: 1280px; }
+
+  /* Solo-card variant of debate-grid (single full-width card, e.g. the
+     Neutral risk panel under the Aggressive/Conservative pair). Replaces
+     an inline style that used to live in the body scaffold. */
+  .debate-grid--solo {
+    grid-template-columns: 1fr;
+    margin-top: 0;
+  }
+
+  /* ---- Header ---- */
+  .header { border-bottom: 1.5px solid var(--rule); padding-bottom: 18px; margin-bottom: 36px; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; }
+  .fund-name {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.20em; text-transform: uppercase; color: var(--fg);
+  }
+  .date {
+    font-family: var(--font-sans); font-size: 11.5px; color: var(--fg-tertiary);
+    font-variant-numeric: tabular-nums; letter-spacing: 0.02em;
+  }
+  .ticker {
+    font-family: var(--font-sans); font-size: 42px; font-weight: 700;
+    letter-spacing: -0.025em; line-height: 1; color: var(--fg);
+  }
+  .company-full {
+    font-family: var(--font-serif); font-style: italic; font-size: 16px;
+    color: var(--fg-secondary); margin-top: 6px; letter-spacing: -0.005em;
+  }
+  .meta-row {
+    display: flex; gap: 28px; font-family: var(--font-sans); font-size: 11.5px;
+    color: var(--fg-tertiary); margin-top: 12px; letter-spacing: 0.02em;
+  }
+  .meta-row span { font-variant-numeric: tabular-nums; }
+
+  /* ---- Rating Badge ---- */
+  .rating-badge {
+    display: inline-block; font-family: var(--font-sans); font-size: 11.5px;
+    font-weight: 600; letter-spacing: 0.12em; padding: 6px 14px; border-radius: 2px;
+    border: 1.5px solid #a89878; color: #6e6457; background: #efe7d3;
+    margin-top: 14px;
+  }
+
+  /* ---- Narrative Lede (FIRST visible content; storyteller output) ---- */
+  .lede {
+    font-family: var(--font-serif); font-size: 18.5px; line-height: 1.72;
+    color: var(--fg); margin: 0 0 44px 0;
+    padding: 36px 40px 32px 40px;
+    background: var(--paper-soft);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    position: relative;
+  }
+  .lede::before {
+    content: "OPENING NOTE";
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--fg-tertiary);
+    margin-bottom: 18px;
+  }
+  .lede p { margin: 14px 0 0 0; }
+  .lede p:first-of-type { margin-top: 0; }
+  .lede p:first-of-type::first-letter {
+    font-family: var(--font-serif);
+    font-size: 4.4em; font-weight: 600; float: left; line-height: 0.86;
+    margin: 6px 12px -2px 0; color: var(--accent);
+    font-feature-settings: "ss01" 1;
+  }
+  .lede p strong { font-weight: 600; }
+  .lede p em { font-style: italic; }
+  .lede hr { display: none; }
+  .lede-provenance {
+    margin-top: 22px; padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-family: var(--font-sans); font-size: 11px; line-height: 1.55;
+    color: var(--fg-tertiary); letter-spacing: 0.01em;
+  }
+  .lede-provenance p { margin: 4px 0; }
+  .lede-provenance strong {
+    color: var(--fg-secondary); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.10em; font-size: 10px;
+  }
+  .lede-provenance ul { margin: 6px 0 0 18px; padding: 0; }
+  .lede-provenance li { margin: 2px 0; }
+
+  /* ---- Decision Box ---- */
+  .decision-box {
+    border: 1px solid var(--border); border-left: 3px solid var(--accent);
+    padding: 28px 32px; margin: 36px 0; background: var(--bg-subtle);
+  }
+  .decision-box h2 {
+    font-family: var(--font-sans); font-size: 11.5px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-tertiary);
+    margin-bottom: 14px;
+  }
+  .decision-box .summary {
+    font-family: var(--font-serif); font-size: 17px; line-height: 1.65;
+    color: var(--fg); font-weight: 400;
+  }
+  .decision-box .summary p { margin: 0 0 10px 0; }
+  .decision-box .summary strong { font-weight: 600; }
+  .decision-box .thesis {
+    font-family: var(--font-serif); font-size: 15px; line-height: 1.75;
+    color: var(--fg); margin-top: 20px;
+  }
+  .decision-box .thesis p { margin: 10px 0; }
+  .decision-box .thesis p:first-of-type::first-letter {
+    font-size: 3.4em; font-weight: 600; float: left; line-height: 0.9;
+    margin: 4px 8px 0 0; color: var(--fg);
+  }
+  .decision-box .thesis strong { font-weight: 600; color: var(--fg); }
+  .decision-box .thesis em { font-style: italic; }
+
+  /* ---- Charts ---- */
+  .chart-block { margin: 28px 0; }
+  .chart-svg {
+    width: 100%; height: auto; display: block;
+    background: var(--paper); border: 1px solid var(--border);
+  }
+  .chart-caption {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 12.5px; color: var(--fg-tertiary);
+    margin-top: 8px; line-height: 1.55;
+  }
+
+  /* ---- Key Levels Table ---- */
+  .levels-table {
+    width: 100%; border-collapse: collapse; margin: 28px 0;
+    font-family: var(--font-sans); font-size: 13px;
+  }
+  .levels-table th {
+    text-align: left; font-weight: 600; font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 10px 14px;
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .levels-table td {
+    padding: 12px 14px; border-bottom: 1px solid var(--border-light);
+    font-variant-numeric: tabular-nums;
+  }
+  .levels-table tr:last-child td { border-bottom: none; }
+  .level-label { color: var(--fg); font-weight: 500; }
+  .level-value { font-weight: 600; font-family: var(--font-mono); font-size: 13px; color: var(--fg); }
+  .level-note { color: var(--fg-secondary); font-size: 12.5px; font-style: italic; font-family: var(--font-serif); }
+
+  /* ---- Section Headings ---- */
+  /* Each h2.section carries an auto-incrementing accent-colored eyebrow
+     ("01", "02", ...) rendered via CSS counter — no HTML changes needed,
+     and conditional sections (quant lane, risk factors) get numbered
+     correctly when present. Counter is reset on body. */
+  h2.section {
+    font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg);
+    border-top: 1px solid var(--rule); padding-top: 32px;
+    margin-top: 52px; margin-bottom: 22px;
+  }
+  h2.section::before {
+    counter-increment: section;
+    content: counter(section, decimal-leading-zero);
+    display: block;
+    font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.10em; color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  /* ---- Section drop caps (extends the lede + thesis pattern) ----
+     Drop cap anchors the narrative entry of every interim-box section
+     (Research Manager + Trader). Scoped to .interim-box only — debate
+     cards and analyst sub-sections have their own h3/h4 hierarchy and
+     would crowd if drop-capped. See design-system.md drop-cap policy. */
+  .interim-box .content p:first-of-type::first-letter {
+    font-family: var(--font-serif); font-size: 3rem; font-weight: 600;
+    color: var(--accent);
+    float: left; line-height: 0.85;
+    margin: 6px 12px -2px 0;
+  }
+
+  /* ---- Analyst Report Content ---- */
+  .report-content { font-family: var(--font-serif); font-size: 15px; line-height: 1.75; color: var(--fg); }
+  .report-content h3 {
+    font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+    letter-spacing: -0.005em; margin: 24px 0 10px; color: var(--fg);
+  }
+  .report-content h4 {
+    font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+    margin: 18px 0 8px; color: var(--fg-secondary);
+  }
+  .report-content p { margin: 10px 0; }
+  .report-content strong { font-weight: 600; color: var(--fg); }
+  .report-content em { font-style: italic; }
+  .report-content ul, .report-content ol { margin: 10px 0 10px 22px; }
+  .report-content li { margin: 5px 0; }
+  .report-content table { width: 100%; border-collapse: collapse; margin: 18px 0; font-family: var(--font-sans); font-size: 12.5px; }
+  .report-content th {
+    text-align: left; font-weight: 600; font-size: 10.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 10px 12px;
+    border-bottom: 1.5px solid var(--rule); background: transparent;
+  }
+  .report-content td { padding: 9px 12px; border-bottom: 1px solid var(--border-light); font-variant-numeric: tabular-nums; }
+  .report-content .na { color: var(--fg-tertiary); font-style: italic; font-family: var(--font-serif); }
+  .report-content code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-muted); padding: 2px 5px; border-radius: 2px; }
+
+  /* ---- Debate Sections ---- */
+  .debate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 18px 0; }
+  .debate-card { border: 1px solid var(--border); padding: 22px 24px; background: var(--bg-subtle); }
+  .debate-card.bull { border-left: 3px solid #2c7a3f; }
+  .debate-card.bear { border-left: 3px solid #9e2222; }
+  .debate-card.aggressive { border-left: 3px solid #1f6b3a; }
+  .debate-card.conservative { border-left: 3px solid #9e2222; }
+  .debate-card.neutral { border-left: 3px solid #8a7c66; }
+  .debate-label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg); margin-bottom: 10px;
+  }
+  .debate-card .report-content { font-family: var(--font-serif); font-size: 14px; line-height: 1.7; }
+  .debate-card .report-content p { margin: 8px 0; }
+  .debate-card .report-content p:first-child { margin-top: 0; }
+
+  /* ---- Research Manager / Trader Boxes ---- */
+  .interim-box { border: 1px solid var(--border); padding: 24px 28px; margin: 18px 0; background: var(--bg-subtle); }
+  .interim-box .label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg); margin-bottom: 14px;
+  }
+  .interim-box .content { font-family: var(--font-serif); font-size: 14.5px; line-height: 1.75; }
+  .interim-box .content p { margin: 10px 0; }
+  .interim-box .content strong { color: var(--fg); font-weight: 600; }
+  .interim-box .content em { font-style: italic; }
+
+  /* ---- Quantitative Lane ---- */
+  .quant-box {
+    border: 1px solid var(--border); padding: 22px 26px;
+    margin: 18px 0; background: var(--bg-subtle);
+  }
+  .quant-label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg);
+    margin-bottom: 14px;
+  }
+  .quant-summary {
+    font-family: var(--font-serif); font-size: 14.5px; line-height: 1.6;
+    color: var(--fg); margin-bottom: 14px;
+  }
+  .quant-interp {
+    font-family: var(--font-serif); font-size: 13px; line-height: 1.6;
+    color: var(--fg-secondary); margin-top: 12px;
+  }
+  .quant-table {
+    width: 100%; border-collapse: collapse; margin: 8px 0;
+    font-family: var(--font-sans); font-size: 12.5px;
+  }
+  .quant-table th {
+    text-align: left; font-weight: 600; font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 8px 12px;
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .quant-table td {
+    padding: 9px 12px; border-bottom: 1px solid var(--border-light);
+    font-variant-numeric: tabular-nums;
+  }
+  .quant-table tr:last-child td { border-bottom: none; }
+
+  .cc-customer { color: var(--fg); font-weight: 500; }
+  .cc-pct       { font-family: var(--font-mono); font-weight: 600; color: var(--fg); }
+  .cc-type      { color: var(--fg-secondary); font-style: italic; font-family: var(--font-serif); font-size: 12.5px; }
+  .cc-asof      {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 11.5px; color: var(--fg-tertiary); margin-top: 10px;
+  }
+
+  .bm-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px; margin: 12px 0 18px 0;
+  }
+  .bm-card {
+    background: var(--paper); border: 1px solid var(--border-light);
+    padding: 12px 14px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .bm-key {
+    font-family: var(--font-sans); font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-tertiary);
+  }
+  .bm-val {
+    font-family: var(--font-mono); font-size: 17px; font-weight: 600;
+    color: var(--fg); font-variant-numeric: tabular-nums; line-height: 1.2;
+  }
+  .bm-sub {
+    font-family: var(--font-serif); font-size: 11.5px; font-style: italic;
+    color: var(--fg-tertiary); margin-top: 2px;
+  }
+  .bm-status {
+    display: inline-block; align-self: flex-start; margin-top: 4px;
+    padding: 2px 7px; border-radius: 2px;
+    font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .bm-status.pass     { color: #1f6b3a; background: #e9f0d9; border: 1px solid #c4d4a3; }
+  .bm-status.marginal { color: #9e5a16; background: #f5e7cf; border: 1px solid #e2c895; }
+  .bm-status.fail     { color: #9e2222; background: #f3dccd; border: 1px solid #d9b09d; }
+
+  /* ---- Technical-Indicator Signal Badges ---- */
+  .ti-signal {
+    display: inline-block; vertical-align: 1px; margin-left: 8px;
+    padding: 2px 8px; border-radius: 2px;
+    font-family: var(--font-sans); font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
+    line-height: 1.4;
+  }
+  .ti-bullish { color: #1f6b3a; background: #e9f0d9; border: 1px solid #c4d4a3; }
+  .ti-bearish { color: #9e2222; background: #f3dccd; border: 1px solid #d9b09d; }
+  .ti-warning { color: #9e5a16; background: #f5e7cf; border: 1px solid #e2c895; }
+  .ti-neutral { color: #6e6457; background: #efe7d3; border: 1px solid #c9bd99; }
+
+  /* ---- Channel Checks ---- */
+  .channel-checks {
+    margin: 18px 0 8px 0;
+    border-top: 1px solid var(--border-light); padding-top: 14px;
+  }
+  .cc-title, .nw-title {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-tertiary);
+    margin-bottom: 10px;
+  }
+  .channel-list { list-style: none; margin: 0; padding: 0; }
+  .channel-row {
+    display: grid; grid-template-columns: 22px 1fr auto;
+    gap: 12px; align-items: baseline;
+    padding: 8px 0; border-bottom: 1px dashed var(--border-light);
+  }
+  .channel-row:last-child { border-bottom: none; }
+  .channel-icon {
+    font-family: var(--font-sans); font-weight: 700; font-size: 14px;
+    line-height: 1; text-align: center;
+  }
+  .channel-row.pass .channel-icon     { color: #1f6b3a; }
+  .channel-row.marginal .channel-icon { color: #9e5a16; }
+  .channel-row.fail .channel-icon     { color: #9e2222; }
+  .channel-label { font-family: var(--font-serif); font-size: 13.5px; color: var(--fg); }
+  .channel-label strong { font-weight: 600; }
+  .channel-label .check-note { color: var(--fg-secondary); font-style: italic; }
+  .channel-status {
+    font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 2px; white-space: nowrap;
+  }
+  .channel-row.pass .channel-status     { color: #1f6b3a; background: #e9f0d9; }
+  .channel-row.marginal .channel-status { color: #9e5a16; background: #f5e7cf; }
+  .channel-row.fail .channel-status     { color: #9e2222; background: #f3dccd; }
+
+  /* ---- Notable Wins ---- */
+  .notable-wins {
+    margin: 18px 0 6px 0;
+    border-top: 1px solid var(--border-light); padding-top: 14px;
+  }
+  .nw-list { list-style: none; margin: 0; padding: 0; }
+  .nw-row {
+    display: grid; grid-template-columns: 1fr auto auto;
+    gap: 14px; align-items: baseline;
+    padding: 6px 0; border-bottom: 1px dashed var(--border-light);
+  }
+  .nw-row:last-child { border-bottom: none; }
+  .nw-customer { font-family: var(--font-serif); font-size: 13.5px; color: var(--fg); font-weight: 500; }
+  .nw-value    { font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: var(--fg); }
+  .nw-type     { font-family: var(--font-serif); font-size: 12px; font-style: italic; color: var(--fg-secondary); }
+
+  .cat-table td.cat-date {
+    font-family: var(--font-mono); font-size: 12px; color: var(--fg);
+    white-space: nowrap; padding-right: 18px;
+  }
+  .cat-table td.cat-event { font-family: var(--font-serif); font-size: 13.5px; }
+  .cat-table td.cat-event strong { color: var(--fg); font-weight: 600; }
+  .cat-table td.cat-impact {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-align: right;
+  }
+  .cat-row.cat-high td.cat-impact      { color: #9e2222; }
+  .cat-row.cat-medium td.cat-impact    { color: #9e5a16; }
+  .cat-row.cat-low td.cat-impact       { color: var(--fg-tertiary); }
+  .cat-row.cat-high td:first-child     { border-left: 3px solid #9e2222; padding-left: 10px; }
+  .cat-row.cat-medium td:first-child   { border-left: 3px solid #9e5a16; padding-left: 10px; }
+  .cat-row.cat-low td:first-child      { border-left: 3px solid var(--border); padding-left: 10px; }
+  .cat-quarter-header td {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary);
+    padding: 10px 12px 4px 12px; border-bottom: 1px solid var(--border-light);
+    background: transparent;
+  }
+  .cat-quarter-header:first-child td { padding-top: 6px; }
+  .cat-row + .cat-quarter-header td { padding-top: 14px; }
+  .cat-row td { padding-top: 7px; padding-bottom: 7px; }
+
+  /* ---- Footer ---- */
+  .footer {
+    margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
+    font-family: var(--font-serif); font-size: 12px; font-style: italic;
+    color: var(--fg-tertiary); line-height: 1.65;
+  }
+  .footer .disclaimer { max-width: 620px; }
+  .footer .colophon {
+    font-family: var(--font-sans); font-size: 10.5px; font-style: normal;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-tertiary); margin-top: 16px;
+  }
+
+  /* ---- Print ---- */
+  @media print {
+    body { padding: 24px 0 48px; font-size: 12px; max-width: 100%; background: #fff; }
+    .col-prose, .col-wide, .col-bleed {
+      max-width: 100%;
+      padding: 0 24px;
+    }
+    .header { break-inside: avoid; }
+    .lede { break-inside: avoid; background: #faf6ef; }
+    .decision-box { break-inside: avoid; }
+    .debate-grid { grid-template-columns: 1fr 1fr; }
+    .debate-grid--solo { grid-template-columns: 1fr; }
+    .interim-box { break-inside: avoid; }
+    .chart-svg { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Section width tiers — see references/report-standards.md §5.
+     prose: 820px (narrative), wide: 1080px (grids), bleed: 1280px (charts). -->
+
+<div class="col-prose">
+
+<div class="header">
+  <div class="header-top">
+    <div class="fund-name">Silent Engineering Fund</div>
+    <div class="date">May 01, 2026</div>
+  </div>
+  <div class="ticker">BRKR</div>
+  <div class="company-full">Bruker Corporation</div>
+  <div class="meta-row">
+    <span>Analysis Date: 2026-05-01</span>
+    <span>Exchange: NASDAQ</span>
+    <span>Sector: Healthcare / Scientific Instruments &amp; Diagnostics</span>
+  </div>
+  <div class="rating-badge">HOLD</div>
+</div>
+
+<div class="lede">
+<p>The Cap-IQ tearsheet on Bruker stops at "scientific-instrument leader" — NMR, mass spec, microscopy, semiconductor metrology — and that's where most coverage stays. The actual story sits one segment deeper. Bruker's four-segment architecture — BioSpin (NMR), CALID (mass spec, optics, molecular diagnostics), Bruker Nano, and BEST — disguises the fact that BEST, at ~$262M of FY2025 revenue, is the most structurally defensible piece of the company. BEST is the dominant global supplier of low-temperature superconducting wire to Siemens Healthineers, Philips, and GE HealthCare; the top-3 MRI OEMs booked &gt;$500M in multi-year orders into BEST late Q4 2025 / early Q1 2026. Nobody else can fill that wire at scale — qualification cycles run in years, and the capex isn't replicable inside the current capital window. The wider BSI book is inflecting too: 7-month backlog versus 5.5 normal, book-to-bill &gt;1.0x for 2 consecutive quarters, aftermarket mix at 38% of BSI from 35%. The complications travel alongside it — 13% permanent share dilution from the September 2025 mandatory convertible, gigahertz NMR installs collapsing from 4 in 2024 to 1 in 2026, Q4 2025 non-GAAP op margin printing 100 bps under plan before management guided +250-300 bps of FY2026 expansion. The May 6 Q1 print is the binary that adjudicates which side of that math compounds first.</p>
+</div>
+
+<div class="decision-box">
+  <h2>Portfolio Decision</h2>
+  <div class="summary"><p>Maintain BRKR exposure at &lt;1.5% NAV at $36.71 ahead of the May 6, 2026 Q1 earnings release with a hard stop at $33.80 (April 29 intraday low). The setup is institutionally well-defined: two consecutive quarters of BSI book-to-bill &gt;1.0x and a 7-month backlog (vs 5.5 normal) confirm the LSG&amp;Dx demand trough is in, but management has pre-guided a mid-single-digit Q1 organic revenue decline with EPS down meaningfully YoY — there is no asymmetric upside on an in-line print after a 20% rally into the event. Upgrade to Overweight (2.5% NAV) only if book-to-bill confirms a third consecutive quarter &gt;1.0x AND FY2026 guide is reaffirmed; downgrade to Underweight and exit if any of those gates break.</p></div>
+  <div class="thesis"><p>Bruker has cleared the Bull-Case Specificity Bar on all five items — dated catalysts (May 6 Q1 print, August Q2 organic-growth resumption), customer-segment growth math (spatial biology +double-digit organic orders, ELITech +30% platform placements, aftermarket mix at 38% of BSI), budget-cycle reference (NIH FY2026 budget passed Congress with YoY increase), consolidation tailwind ($140M+ annualized cost saves and dominant MRI superconducting wire position with $500M+ multi-year orders), and a falsifiable kill-switch (book-to-bill &lt;1.0x or organic decline &gt;-8% = thesis broken). However, the bear's structural challenges are equally well-evidenced: forward P/E of 17.4x on the FY2026 guide of $2.10-$2.15 is not cheap for 1-2% organic growth, the 13% diluted share count increase from the September 2025 mandatory convertible is a permanent dilution of the recovery thesis, BioSpin is a confirmed growth laggard through 2026 (gigahertz NMR drops from 4 installs in 2024 to 1 in 2026), and the Q3 2025 $107M impairment shows that 2024 M&amp;A integration carries real risk. The 8% FX EPS headwind absorbs roughly half of the underlying CER growth, and 3.1x net leverage caps M&amp;A and buyback optionality.</p>
+
+<p>The institutional posture is to maintain existing exposure with a hard stop while waiting for the May 6 print to deliver confirming data. Pre-print probability tilt: ~35-40% retest of $32-$33 vs ~20-25% re-rating to $44-$48. Post-print, if book-to-bill confirms (third consecutive quarter &gt;1.0x) and FY2026 guide is reaffirmed, the asymmetry shifts decisively positive and entry at $38-$40 with target $44-$48 over 6-9 months becomes the right institutional add.</p></div>
+</div>
+
+
+
+</div><!-- /.col-prose -->
+
+<div class="col-bleed">
+<h2 class="section">Quantitative Lane</h2>
+<div class="quant-box">
+  <div class="quant-label">Customer Concentration</div>
+  <div class="report-content"><p>End-market mix per FY2024 investor presentation: 41% Academic &amp; Government, 21% Industrial, 15% Pharma, 11% Biotech, 8% Diagnostics/Healthcare, 4% Other. No single customer &gt;10% of revenue (instrument business is structurally fragmented). Geographic mix FY2024: Americas ~28% ($938M), Europe ~35% ($1.18B), Asia-Pacific ~30% ($990M; China &lt;14%, declined from 16-17%), Other ~7% ($254M). MRI superconducting wire orders concentrated to top-3 MRI OEMs (Siemens Healthineers, Philips, GE HealthCare).</p></div>
+</div>
+<div class="quant-box">
+  <div class="quant-label">Backlog &amp; Book-to-Bill</div>
+  <div class="bm-grid"><div class="bm-card"><span class="bm-key">Total Backlog</span><span class="bm-val">~7 months of revenue</span><span class="bm-sub">Q4 FY2025 / start of 2026</span></div>
+<div class="bm-card"><span class="bm-key">Funded</span><span class="bm-val">Not separately disclosed (commercial instrument business)</span><span class="bm-sub">n/a (vs gov-contractor norm) of total</span></div>
+<div class="bm-card"><span class="bm-key">Book-to-Bill (LTM)</span><span class="bm-val">1.00x</span><span class="bm-status marginal">At Parity</span></div>
+<div class="bm-card"><span class="bm-key">Book-to-Bill (Qtr)</span><span class="bm-val">1.00x</span><span class="bm-status marginal">At Parity</span></div>
+<div class="bm-card"><span class="bm-key">YoY Backlog</span><span class="bm-val">Inflected from &lt;1.0x trough to &gt;1.0x for two consecutive quarters</span><span class="bm-status pass">Growing</span></div>
+<div class="bm-card"><span class="bm-key">Net Bookings (Qtr)</span><span class="bm-val">BSI bookings up double-digit % organic in spatial biology; semi metrology orders strong</span><span class="bm-sub">Q4 FY2025 / start of 2026</span></div></div>
+  <div class="channel-checks"><div class="cc-title">Channel Checks</div><ul class="channel-list"><li class="channel-row pass"><span class="channel-icon">&#10003;</span><span class="channel-label"><strong>BSI Book-to-Bill &gt; 1.0x (Q3 + Q4 2025)</strong> <span class="check-note">— Two consecutive quarters of &gt;1.0x — confirms demand trough has been crossed</span></span><span class="channel-status">pass</span></li><li class="channel-row pass"><span class="channel-icon">&#10003;</span><span class="channel-label"><strong>BSI Backlog vs Normal (5.5 mo)</strong> <span class="check-note">— ~7 months at start of 2026 — 1.5 month cushion above normal</span></span><span class="channel-status">pass</span></li><li class="channel-row pass"><span class="channel-icon">&#10003;</span><span class="channel-label"><strong>Aftermarket Mix Expansion</strong> <span class="check-note">— 38% of BSI in 2025 (vs 35% prior); higher-margin recurring revenue</span></span><span class="channel-status">pass</span></li><li class="channel-row marginal"><span class="channel-icon">&minus;</span><span class="channel-label"><strong>China Bookings Recovery</strong> <span class="check-note">— Q4 +double-digit growth, but structural China share at &lt;14% (was 16-17%); recovery vs further erosion uncertain</span></span><span class="channel-status">marginal</span></li><li class="channel-row fail"><span class="channel-icon">&#10007;</span><span class="channel-label"><strong>US Academic/Govt Bookings</strong> <span class="check-note">— High-teens decline in 2025; expected to decline organically in 2026; NIH FY2026 budget passed but lag to actual order flow</span></span><span class="channel-status">fail</span></li><li class="channel-row pass"><span class="channel-icon">&#10003;</span><span class="channel-label"><strong>Multi-Year BEST Order Pipeline</strong> <span class="check-note">— $500M+ MRI wire + $40M ELI orders provide 2026-2028 revenue visibility for BEST</span></span><span class="channel-status">pass</span></li><li class="channel-row pass"><span class="channel-icon">&#10003;</span><span class="channel-label"><strong>Cost Savings Trajectory</strong> <span class="check-note">— $140M+ annualized (raised from $100-120M); fully effective by Q3 2026</span></span><span class="channel-status">pass</span></li></ul></div>
+  
+  
+  <div class="notable-wins"><div class="nw-title">Notable Recent Wins</div><ul class="nw-list"><li class="nw-row"><span class="nw-customer">Top-3 MRI OEMs (Siemens, Philips, GE)</span><span class="nw-value">$500M+</span><span class="nw-type">Multi-year superconducting wire orders (BEST segment) booked late Q4 2025 / early Q1 2026</span></li><li class="nw-row"><span class="nw-customer">Extreme Light Infrastructure (ELI)</span><span class="nw-value">$40M+</span><span class="nw-type">Enabling-technology orders (BEST research instruments); revenue mostly late 2026</span></li><li class="nw-row"><span class="nw-customer">Spatial biology customer base</span><span class="nw-value">Double-digit % organic order growth</span><span class="nw-type">Spatial biology / NanoString platform demand</span></li><li class="nw-row"><span class="nw-customer">ELITech molecular diagnostics</span><span class="nw-value">30%+ more platform placements YoY</span><span class="nw-type">FY2025 placement count (drives 2026 reagent revenue)</span></li><li class="nw-row"><span class="nw-customer">Semiconductor / AI ecosystem</span><span class="nw-value">Strong Q4 2025 orders</span><span class="nw-type">Bruker Nano metrology for advanced nodes / packaging</span></li><li class="nw-row"><span class="nw-customer">imec collaboration</span><span class="nw-value">Strategic partnership</span><span class="nw-type">Photothermal AFM-IR semiconductor research</span></li></ul></div>
+  <p class="quant-interp"><em>BSI book-to-bill &gt;1.0x for two consecutive quarters and ~7 months of backlog (vs 5.5 normal) is the clearest leading indicator that the LSG&amp;Dx demand trough is in. However, this is an instrument business — order timing dictates revenue recognition with 6-18 month lags, so the visible demand recovery will not show up in Q1 2026 reported organic revenue (which is guided to decline mid-single digits). The May 6 print is therefore both a confirming and a disconfirming catalyst: book-to-bill commentary matters more than the headline number.</em></p>
+</div>
+<div class="quant-box">
+  <div class="quant-label">Catalyst Calendar</div>
+  <div class="chart-block"><svg viewBox="0 0 1080 268" xmlns="http://www.w3.org/2000/svg" class="chart-svg" role="img" aria-label="Catalyst timeline">
+  <rect width="1080" height="268" fill="#faf6ef"/>
+  <text x="24" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.16em" fill="#2a261f">CATALYST TIMELINE</text>
+  <line x1="24" y1="32" x2="1050" y2="32" stroke="#d8caa6" stroke-width="0.6"/>
+  <line x1="180" y1="52" x2="180" y2="256" stroke="#d8caa6" stroke-width="1.0"/>
+  <text x="160" y="70" text-anchor="end" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.18em" fill="#6e6457">Q2 2026</text>
+  <line x1="200" y1="66" x2="1050" y2="66" stroke="#d8caa6" stroke-width="0.5" stroke-dasharray="2,3"/>
+  <text x="160" y="90.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">May 6, 2026</text>
+  <circle cx="180" cy="87.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="90.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q1 2026 Earnings Release (BMO)</text>
+  <text x="1050" y="90.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="122.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">May 6, 2026</text>
+  <circle cx="180" cy="119.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="122.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q1 2026 Earnings Conference Call</text>
+  <text x="1050" y="122.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="154.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">Q2 2026</text>
+  <circle cx="180" cy="151.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="154.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q2 2026 Earnings (early August)</text>
+  <text x="1050" y="154.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="186.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">Jun 2026</text>
+  <circle cx="180" cy="183.6" r="4.5" fill="#9e5a16" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="186.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">ASMS 2026 Conference</text>
+  <text x="1050" y="186.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e5a16">MED</text>
+  <text x="160" y="216" text-anchor="end" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.18em" fill="#6e6457">Q3 2026</text>
+  <line x1="200" y1="212" x2="1050" y2="212" stroke="#d8caa6" stroke-width="0.5" stroke-dasharray="2,3"/>
+  <text x="160" y="236.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">Q3 2026</text>
+  <circle cx="180" cy="233.6" r="4.5" fill="#9e5a16" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="236.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Cost Savings Fully Effective</text>
+  <text x="1050" y="236.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e5a16">MED</text>
+</svg><p class="chart-caption">Catalyst nodes are color-coded by impact (red=high, amber=medium, tan=low). Events grouped by quarter in the table below.</p></div>
+  <table class="quant-table cat-table">
+    <thead><tr><th>Date</th><th>Event</th><th>Impact</th></tr></thead>
+    <tbody>
+<tr class="cat-row cat-high"><td class="cat-date">May 6, 2026</td><td class="cat-event"><strong>Q1 2026 Earnings Release (BMO)</strong> — Single most important near-term catalyst; guidance reaffirm/cut + book-to-bill commentary</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">May 6, 2026</td><td class="cat-event"><strong>Q1 2026 Earnings Conference Call</strong> — Tone on Q1 organic, segment color, 2026 margin walk</td><td class="cat-impact">High</td></tr>
+<tr class="cat-quarter-header"><td colspan="3">2026-Q2</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">Q2 2026</td><td class="cat-event"><strong>Q2 2026 Earnings (early August)</strong> — First positive organic comp expected; recovery confirmation</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">Jun 2026</td><td class="cat-event"><strong>ASMS 2026 Conference</strong> — Mass-spectrometry product order tell post-AGBT/AACR</td><td class="cat-impact">Medium</td></tr>
+<tr class="cat-quarter-header"><td colspan="3">2026-Q3</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">Q3 2026</td><td class="cat-event"><strong>Cost Savings Fully Effective</strong> — $140M annualized run rate; margin step-up confirmation</td><td class="cat-impact">Medium</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">2H 2026</td><td class="cat-event"><strong>Wave AST FDA Clearance Decision</strong> — ELITech rapid AST platform US market entry</td><td class="cat-impact">Medium</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">2H 2026</td><td class="cat-event"><strong>$40M Extreme Light Infrastructure Revenue Recognition</strong> — BEST segment 2026 second-half lift</td><td class="cat-impact">Medium</td></tr>
+<tr class="cat-row cat-medium-high"><td class="cat-date">2027</td><td class="cat-event"><strong>Gigahertz NMR Pipeline Refill</strong> — 2-3 installations expected after 2026 lull (1 install)</td><td class="cat-impact">Medium-High</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2027</td><td class="cat-event"><strong>BEST $500M+ MRI Wire Multi-Year Revenue</strong> — Multi-year delivery into MRI OEM ramp</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">Ongoing</td><td class="cat-event"><strong>NIH FY2027 Budget Cycle (Q3 2026 onward)</strong> — Forward academic/government funding signal</td><td class="cat-impact">Medium</td></tr>
+    </tbody>
+  </table>
+</div>
+</div><!-- /.col-bleed -->
+
+<div class="col-prose">
+
+<h2 class="section">Research Manager</h2>
+<div class="interim-box">
+  <div class="label">Investment Plan — Hold</div>
+  <div class="content">
+    <p><strong>Rationale:</strong> <p>The bull case clears all five items of the Specificity Bar with substantive evidence — two dated catalysts (May 6 Q1 print, August Q2 organic-growth resumption), concrete customer-segment math (spatial biology +double-digit organic orders, ELITech +30% placements, aftermarket mix shift to 38%), a budget-cycle pivot (NIH FY2026 +YoY funding), a consolidation tailwind ($140M cost saves + dominant MRI superconducting wire moat with $500M+ multi-year orders), and a falsifiable kill-switch (book-to-bill &lt;1.0x or organic decline &gt;-8% = thesis broken). No automatic downgrade is triggered by the Specificity Bar.</p>
+
+<p>However, the bear's central point survives: at $36.71 with a +20% 30-day rally <strong>into</strong> a pre-guided ugly Q1 print 5 days out, the asymmetry favors waiting. Forward P/E of 17.4x on the actual FY2026 guide ($2.10-$2.15) is not cheap for 1-2% organic growth, the 13% share dilution from the September 2025 convertible is permanent, BioSpin is a confirmed growth laggard through 2026, and the Q3 2025 $107M impairment shows that 2024 M&amp;A integration is not riskless. The probability tilt is not 2.5-to-1 — it's closer to 1.5-to-1 once you weight the 35-40% probability of a $33-$34 retest against the 20-25% probability of a $44-$48 re-rating without confirming data.</p>
+
+<p>The right institutional posture is a <strong>Hold with conditional upgrade gated to the May 6 Q1 2026 earnings</strong>. Maintain any existing position at &lt;1.5% NAV. Do not initiate or add ahead of the print.</p></p>
+    <p><strong>Strategic Actions:</strong> <ul>
+<li><strong>Pre-print (May 1-5, 2026)</strong>: Hold at &lt;1.5% NAV. Do not initiate new positions or add. Set stop at $33.80 (April 29 intraday low) for any existing position.</li>
+<li><strong>At print (May 6, 2026)</strong>:</li>
+<li><strong>Upgrade to Overweight, scale to 2.5% NAV</strong> if: BSI book-to-bill &gt;1.0x for the third consecutive quarter AND Q1 2026 organic decline within the guided mid-single-digit range AND FY2026 revenue/EPS guide reaffirmed or raised AND book-to-bill commentary directionally positive. Entry $38-$40 zone, target $44-$48 over 6-9 months.</li>
+<li><strong>Maintain Hold</strong> if: Print is broadly in-line but commentary is neutral (no acceleration in book-to-bill, no guide change). Watch Q2 print in August.</li>
+<li><strong>Downgrade to Underweight, exit immediately</strong> if: Book-to-bill &lt;1.0x OR Q1 organic decline worse than -8% YoY OR FY2026 guide cut OR commentary on US academic/govt or China deteriorates further.</li>
+<li><strong>Position sizing</strong>: Respect the 5.1% ATR — never exceed 2.5% NAV pre-print, never exceed 4% NAV even on full upgrade. The single-stock daily move risk is too high.</li>
+</ul></p>
+  </div>
+</div>
+
+<h2 class="section">Trader</h2>
+<div class="interim-box">
+  <div class="label">Transaction Proposal — Hold</div>
+  <div class="content">
+    <p><strong>Action</strong>: Hold</p>
+
+<p><strong>Reasoning</strong>: Bruker is 5 trading days from a binary catalyst (May 6 Q1 2026 earnings) where management has already pre-guided ugly headline numbers. The 20% rally off the April 8 low into the print has already absorbed the cyclical-trough narrative; the asymmetric upside requires book-to-bill confirmation that won't be visible until the call. Holding existing exposure with a hard stop is the correct institutional posture; new entries should wait for confirming data on May 6.</p>
+
+<p><strong>Entry Price</strong>: $38-$40 zone post-print, contingent on positive book-to-bill confirmation (third consecutive quarter &gt;1.0x) and reaffirmed FY2026 guide. No pre-print add.</p>
+
+<p><strong>Stop Loss</strong>: $33.80 (April 29 intraday low; -8% from spot; aligns with Bollinger lower band recovery zone)</p>
+
+<p><strong>Position Sizing</strong>: Pre-print: maintain at &lt;1.5% NAV; do not exceed. Post-print upgrade: scale to 2.5% NAV. Never exceed 4% NAV given the 5.1% daily ATR.</p>
+
+<p>FINAL TRANSACTION PROPOSAL: <strong>HOLD</strong></p>
+  </div>
+</div>
+
+</div><!-- /.col-prose -->
+
+<div class="col-wide">
+
+<h2 class="section">Investment Debate</h2>
+<div class="debate-grid">
+  <div class="debate-card bull">
+    <div class="debate-label">Bull Researcher</div>
+    <div class="report-content"><p><strong>Bull Researcher (Round 1)</strong></p>
+
+<p>The setup at $36.71 with the May 6 Q1 print 5 days out is exactly what you want before institutional re-rating: depressed sentiment, a clear narrative reset already priced in, and a leading-indicator order book that has visibly inflected. Let me walk through why this is a constructive position with a defined timeline.</p>
+
+<p><strong>1. Two Dated Catalysts (Specificity Bar Item 1):</strong></p>
+<ul>
+<li><strong>May 6, 2026</strong> — Q1 2026 earnings release before market open. This is the immediate gate. Management has already pre-guided mid-single-digit organic decline so the bar is low. What matters is the <strong>book-to-bill commentary</strong> — a third consecutive quarter &gt;1.0x would confirm the demand trough is decisively behind us. Plus 2026 guide reaffirmation.</li>
+<li><strong>August 2026</strong> — Q2 2026 earnings, where Bruker is guided to <strong>resume organic revenue growth</strong> for the first time in two years. That's the visible inflection that institutional buyers wait for.</li>
+<li><strong>2H 2026</strong> — Wave AST FDA clearance ruling and $40M Extreme Light Infrastructure orders converting to revenue. Two distinct positive deltas that aren't in consensus.</li>
+</ul>
+
+<p><strong>2. Customer-Segment Growth Math (Specificity Bar Item 2):</strong></p>
+<ul>
+<li><strong>Spatial biology orders +double-digit % organic in 2025</strong> even while NanoString reported revenue was flat — that's the clearest "trough behind us" signal. NanoString in 2026 should grow mid-single-digits as those orders convert.</li>
+<li><strong>ELITech molecular diagnostics</strong>: 30%+ more platform placements in FY2025 vs FY2024. ELITech reagent attachment runs roughly 2-3x platform price per year — so a 30% larger installed base produces ~30% reagent revenue growth at high gross margins (60%+).</li>
+<li><strong>Aftermarket revenue at 38% of BSI</strong>, up from 35%. Aftermarket carries gross margins of 55-65% vs ~45% on instruments. Each percentage point of aftermarket mix shift = ~10-15 bps of gross margin expansion.</li>
+<li><strong>BEST $500M+ multi-year MRI superconducting wire orders</strong> = roughly $100-150M/year of revenue lift starting late 2026 through 2028, on a $283M FY2024 BEST segment — that's 35-50% segment-level growth from these orders alone.</li>
+</ul>
+
+<p><strong>3. Budget-Cycle Reference (Specificity Bar Item 3):</strong></p>
+<ul>
+<li><strong>NIH FY2026 budget passed Congress with YoY funding increase</strong>, plus protections against grant-overhead cuts and multi-year-grant interruption. This is the academic-cycle pivot. The lag to bookings is 2-4 quarters, but the directional signal is clear.</li>
+<li>DoD / DOE budget cycles indirectly affect the Industrial 21% of revenue lane via national-lab purchases.</li>
+</ul>
+
+<p><strong>4. Consolidation / Capacity Reference (Specificity Bar Item 4):</strong></p>
+<ul>
+<li>The 2024 M&amp;A bolus (PhenomeX, ELITech, Chemspeed, NanoString) closed in H1 2024 and is now in <strong>second full year of integration</strong>. ELITech and Chemspeed are already mid-to-high-single-digit organic growers — ahead of plan.</li>
+<li><strong>$140M+ annualized cost savings</strong>, raised from prior $100-120M guidance. Fully effective by Q3 2026. On a $3.5B revenue base, that's ~400 bps of structural cost takeout, supporting the 250-300 bps op margin expansion guide with cushion.</li>
+<li><strong>MRI OEM consolidation</strong>: Siemens Healthineers, Philips Healthcare, GE HealthCare are all expanding clinical MRI capacity into the next decade. Bruker is the dominant global supplier of low-temperature superconducting wire — nobody else can fill these multi-year orders at scale. That's a moat.</li>
+</ul>
+
+<p><strong>5. Falsifiable Kill-Switch (Specificity Bar Item 5):</strong></p>
+<p>"If BSI book-to-bill drops below 1.0x in Q1 2026 (May 6 release) OR organic revenue declines worse than -8% YoY OR 2026 guidance gets cut — the recovery thesis is broken and we exit immediately."</p>
+
+<p>That's specific, dated, and disprovable.</p>
+
+<p><strong>The Bear Will Argue</strong> that Q1 2026 will be ugly (it will), that BioSpin is the laggard (true through 2026), that 8% FX headwind absorbs half the EPS growth (also true), and that 3.1x leverage limits flexibility (yes). But all four are visible to the market, already in consensus, and absorbed into the $36.71 print. The trade isn't whether 2026 is bad — it's whether 2027 is the recovery year, and the inflecting book-to-bill plus $500M MRI orders plus Wave AST optionality say it is.</p>
+
+<p>Forward EPS $2.41 implies forward P/E 15.2x. If 2027 EPS gets to $2.65-$2.75 (call it +25% on the 2026 base), the stock at 16-17x = $42-$47. That's the consensus target. Stop at $33.80 (April 29 low), entry at $36-$37, target $44-$48 over 6-9 months, asymmetry roughly 2.5-to-1.</p></div>
+  </div>
+  <div class="debate-card bear">
+    <div class="debate-label">Bear Researcher</div>
+    <div class="report-content"><p><strong>Bear Researcher (Round 1)</strong></p>
+
+<p>The bull case sounds clean on paper but it's leaning hard on a print that hasn't happened yet, in a stock that just rallied 20% off its low <strong>into</strong> the print. Let me decompose the actual risk-reward.</p>
+
+<p><strong>The May 6 Print Is a Cliff, Not a Catalyst</strong></p>
+<p>The bull's first-item dated catalyst is "Q1 2026 earnings release on May 6." Management has already pre-guided mid-single-digit organic decline, EPS "down meaningfully" YoY, and a tough Q1 2025 comp ($0.47 was a beat-and-raise quarter). The market knows all this. So <strong>there is no asymmetric upside on a in-line print</strong> — the only paths are:</p>
+<ol>
+<li>In-line print → stock sells off because there's no positive surprise after a 20% rally; or</li>
+<li>Beat / raise → modest pop, but capped at the consensus $49.50 target which has been there for months; or</li>
+<li>Miss / cut → stock retests $32-$33 immediately, possibly $28.53 (52-week low).</li>
+</ol>
+
+<p>Option 3 is the highest-probability outcome for a stock that's already rallied into the print on no specific catalyst. The 4/23 selloff (-9.6%) on the TMO read-through tells you what the market does when a peer disappoints. Bruker IS a peer.</p>
+
+<p><strong>Bull Specificity Bar Items 2 and 3 Are Wishful Thinking</strong></p>
+<ul>
+<li>"Spatial biology orders +double-digit organic in 2025" — but NanoString reported revenue was <strong>approximately flat</strong>. Orders ≠ revenue, and revenue is what gets paid. The 2-4 quarter lag the bull cites also means the 2025 order book mostly converts in 2H 2026, not Q1.</li>
+<li>ELITech 30% more placements — fine, but NanoString <strong>was the more important strategic acquisition</strong> at $400M+ paid, and it produced a $107M impairment in Q3 2025. The bull doesn't mention that.</li>
+<li>NIH FY2026 budget +YoY — true, but management on the Q4 call <strong>explicitly said US academic/govt bookings were down high-teens in 2025 and would decline organically again in 2026</strong>. The budget passed but order flow didn't pivot. There's a real possibility this is a structural reset (more funding, but more grant-by-grant scrutiny and longer procurement cycles) rather than the cyclical recovery the bull frames.</li>
+</ul>
+
+<p><strong>The Math Doesn't Work as Cleanly as Claimed</strong></p>
+<ul>
+<li>Forward EPS $2.41 was a <strong>prior-year</strong> number. FY2026 guide is <strong>$2.10-$2.15</strong>. That's a CUT of 11-13% from the FY2024 baseline. The forward P/E using the actual guide is ~17.4x — not 15.2x. That's not cheap for 1-2% organic revenue growth.</li>
+<li>8% FX EPS headwind ($0.15) absorbs half the underlying CER growth. If USD strengthens further (which the macro is signaling as the Fed pauses cuts), the FX drag widens.</li>
+<li>13% diluted share count increase from the September 2025 mandatory convertible preferred is <strong>structural</strong> and permanent. The bull frames this as "leverage discipline" but the cost is permanent dilution of the recovery thesis.</li>
+<li>3.1x net leverage is at the upper end of management's comfort zone. They will not pursue meaningful M&amp;A or a buyback in 2026. So the only EPS lever is operating performance — same lever that produced -3.7% organic last year.</li>
+</ul>
+
+<p><strong>BioSpin Is the Underappreciated Drag</strong></p>
+<ul>
+<li>BioSpin is ~28% of BSI ($879M of $3.18B). Management explicitly said it will be the growth laggard in 2026 and "will not normalize until 2027."</li>
+<li>Gigahertz NMR installations: 4 in 2024, 2 in 2025, <strong>1 in 2026</strong>, hopefully 2-3 in 2027. That's a $20M+ revenue headwind in 2026 alone, on top of broader biopharma weakness.</li>
+</ul>
+
+<p><strong>Helium and Tariff Drag Are Persistent</strong></p>
+<ul>
+<li>Helium costs are structurally elevated and Bruker has limited substitution path for NMR. Each 10% helium price increase = ~30 bps of NMR margin pressure.</li>
+<li>Tariff offsets in 2026 require pricing actions to flow through — but Bruker is competing against indigenous Chinese instruments where pricing power is constrained. The 30 bps Q4 2025 tariff drag is a floor, not a ceiling.</li>
+</ul>
+
+<p><strong>Stop-Loss Asymmetry Is Worse Than Bull Frames</strong></p>
+<p>Bull cites $33.80 stop / entry $36.50-$37.00 / target $44-$48. That's 8% downside vs 22% upside — 2.5-to-1 asymmetry. But the <strong>probability</strong> of those outcomes is what matters:</p>
+<ul>
+<li>P(stock at $33.80): 35-40% (Q1 print disappoints, peer-group correlation, FX worsens)</li>
+<li>P(stock at $44-$48): 20-25% (everything goes right — book-to-bill third quarter &gt;1.0x, guide raised, Wave FDA fast-tracked)</li>
+<li>Expected value at -1.5% in this distribution. The 2.5-to-1 ratio looks good but the probability tilt is wrong.</li>
+</ul>
+
+<p><strong>Cleaner Trade</strong>: Wait for the May 6 print, then transact:</p>
+<ul>
+<li>If book-to-bill &gt;1.0x AND organic decline as guided (-mid-single) AND 2026 guide reaffirmed → BUY at $38-$40 with stop $34.</li>
+<li>If anything misses → SHORT or stand aside.</li>
+</ul>
+
+<p>You don't need to own this 5 days into a print where the company has pre-told you the headline EPS will be ugly.</p></div>
+  </div>
+</div>
+
+<h2 class="section">Risk Assessment</h2>
+<div class="debate-grid">
+  <div class="debate-card aggressive">
+    <div class="debate-label">Aggressive</div>
+    <div class="report-content"><p><strong>Aggressive Risk Analyst (Round 1)</strong></p>
+
+<p>The trader's "wait for the print" stance is overcautious. Bruker has already pre-guided the ugly Q1 — the only question is whether book-to-bill confirms a third quarter &gt;1.0x. With BSI backlog at 7 months (vs 5.5 normal) and two consecutive quarters of book-to-bill &gt;1.0x, the leading-indicator probability of confirmation is ~70%. That's not a coin flip — that's a tilted bet, and waiting for the print just means paying 5-8% more on the inevitable post-confirmation re-rating.</p>
+
+<p>The bull's $44-$48 target is conservative. Once 2027 EPS visibility crystallizes (Wave AST FDA, $500M+ MRI revenue lift, gigahertz NMR pipeline refill, Project Accelerate 3.0 mix at 60%+), the stock can re-rate to 18-20x forward EPS. Apply that to a $2.65-$2.75 2027 EPS and you're at $50-$55, not $48. The 4-5% pre-print add is fine as a starter position — if it stops out at $33.80, max loss is 8% on a starter; if it works, you're in at $36 vs $38-$40.</p>
+
+<p>Conservative is missing the trade.</p></div>
+  </div>
+  <div class="debate-card conservative">
+    <div class="debate-label">Conservative</div>
+    <div class="report-content"><p><strong>Conservative Risk Analyst (Round 1)</strong></p>
+
+<p>Aggressive is doing the thing where you reverse-engineer a probability ("70% confirmation") to justify going earlier than the institutional discipline calls for. Let me ground that:</p>
+
+<ul>
+<li>5.1% daily ATR × ~3-5% additional implied move on the print = the realistic 1-day variance on May 6 is <strong>8-10%</strong> in either direction. That's $33-$40 range from spot $36.71. A pre-print 4-5% starter is one bad print away from a -10% drawdown to ~$33 — and you've already used your stop budget before you've earned any conviction.</li>
+<li>The 4/23 selloff was a peer-driven -9.6% intraday on a TMO read-through. That same dynamic plays into May 6: any negative tone from sector reports on May 5-6 (LH, BAX, LSG&amp;Dx peers reporting same week) can drag BRKR through $34 before the print even hits.</li>
+<li>The "70% confirmation" probability is not in evidence. Two consecutive quarters of book-to-bill &gt;1.0x is data; a third quarter is a forecast. Bruker's own Q1 2026 guide is "mid-single-digit organic decline" — that's not a position of strength.</li>
+<li>The cleaner trade is post-print at $38-$40 with confirming data. Yes, you pay 5-8% more, but you eliminate the binary tail and the position sizing can be 2.5x larger because the conviction is data-backed. Expected return is <strong>higher</strong> in absolute dollar terms with the post-print entry.</li>
+<li>BioSpin will be the laggard through all of 2026. Helium, tariffs, FX (8% EPS headwind), 3.1x leverage, 13% share dilution — all real. The stock has been under selling pressure for 18 months for actual reasons, not sentiment alone.</li>
+</ul>
+
+<p>Discipline. Wait for the print. Hold existing exposure with the $33.80 stop.</p></div>
+  </div>
+</div>
+<div class="debate-grid debate-grid--solo">
+  <div class="debate-card neutral">
+    <div class="debate-label">Neutral</div>
+    <div class="report-content"><p><strong>Neutral Risk Analyst (Round 1)</strong></p>
+
+<p>Both sides have valid points and the right answer is structural:</p>
+
+<ul>
+<li><strong>Aggressive is right</strong> that the leading indicators (book-to-bill, backlog, MRI orders, ELITech traction) point to a confirming Q1 commentary. The 30% YoY platform-placement growth in ELITech and double-digit % organic order growth in spatial biology are real. The cost-savings program at $140M+ annualized is well-tracked. The setup is constructive on a 6-9 month horizon.</li>
+<li><strong>Conservative is right</strong> that 5 days into a binary print after a 20% rally is the worst possible time to add. The ATR math is concrete: 5.1% daily × 3-5% implied event move = $33-$40 range that includes a stop-out scenario.</li>
+</ul>
+
+<p>The synthesis: <strong>Hold pre-print at &lt;1.5% NAV, scale post-print on confirming data</strong>. This is exactly what the trader recommended, and it's the correct institutional discipline.</p>
+
+<p>The neutral refinement is around the <strong>conditional gates</strong>:</p>
+<ol>
+<li>Book-to-bill &gt;1.0x for Q1 2026 (third consecutive quarter) → primary upgrade gate</li>
+<li>Q1 organic decline within guided -mid-single-digit range → secondary confirmation</li>
+<li>FY2026 guide reaffirmed or raised → tertiary confirmation</li>
+<li>China bookings sustaining recovery → optional fourth gate</li>
+</ol>
+
+<p>If 1-3 hit: Upgrade to Overweight at $38-$40, scale to 2.5% NAV, target $44-$48.</p>
+<p>If 1-3 are in-line but no positive surprise: Hold, watch Q2 (August).</p>
+<p>If any of 1-3 break: Underweight, exit immediately, target $32-$33 retest.</p>
+
+<p>The 4% max-NAV cap is correct given the 5.1% daily ATR. Never push above 4% even on full conviction — single-stock idiosyncratic risk doesn't reward concentration in this name.</p></div>
+  </div>
+</div>
+
+<h2 class="section">Analyst Reports</h2>
+<div class="chart-block">
+  <svg viewBox="0 0 1080 320" xmlns="http://www.w3.org/2000/svg" class="chart-svg" role="img" aria-label="BRKR price and volume chart">
+  <rect width="1080" height="320" fill="#faf6ef"/>
+  <rect x="60" y="28" width="996" height="184" fill="#f5ecd9" opacity="0.55"/>
+  <rect x="60" y="220" width="996" height="64" fill="#f5ecd9" opacity="0.45"/>
+  <line x1="60" y1="202.1" x2="1056" y2="202.1" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="205.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$29.23</text>
+<line x1="60" y1="161.1" x2="1056" y2="161.1" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="164.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$35.52</text>
+<line x1="60" y1="120.0" x2="1056" y2="120.0" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="123.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$41.80</text>
+<line x1="60" y1="78.9" x2="1056" y2="78.9" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="81.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$48.09</text>
+<line x1="60" y1="37.9" x2="1056" y2="37.9" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="40.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$54.38</text>
+  <rect x="58.6" y="278.8" width="2.77" height="5.2" fill="#bca57a" opacity="0.65"/>
+<rect x="62.6" y="277.7" width="2.77" height="6.3" fill="#bca57a" opacity="0.65"/>
+<rect x="66.6" y="271.8" width="2.77" height="12.2" fill="#bca57a" opacity="0.65"/>
+<rect x="70.5" y="276.8" width="2.77" height="7.2" fill="#bca57a" opacity="0.65"/>
+<rect x="74.5" y="275.7" width="2.77" height="8.3" fill="#bca57a" opacity="0.65"/>
+<rect x="78.5" y="271.2" width="2.77" height="12.8" fill="#bca57a" opacity="0.65"/>
+<rect x="82.4" y="266.8" width="2.77" height="17.2" fill="#bca57a" opacity="0.65"/>
+<rect x="86.4" y="269.2" width="2.77" height="14.8" fill="#bca57a" opacity="0.65"/>
+<rect x="90.4" y="268.2" width="2.77" height="15.8" fill="#bca57a" opacity="0.65"/>
+<rect x="94.3" y="274.3" width="2.77" height="9.7" fill="#bca57a" opacity="0.65"/>
+<rect x="98.3" y="274.4" width="2.77" height="9.6" fill="#bca57a" opacity="0.65"/>
+<rect x="102.3" y="271.1" width="2.77" height="12.9" fill="#bca57a" opacity="0.65"/>
+<rect x="106.2" y="277.1" width="2.77" height="6.9" fill="#bca57a" opacity="0.65"/>
+<rect x="110.2" y="278.7" width="2.77" height="5.3" fill="#bca57a" opacity="0.65"/>
+<rect x="114.2" y="276.9" width="2.77" height="7.1" fill="#bca57a" opacity="0.65"/>
+<rect x="118.1" y="275.4" width="2.77" height="8.6" fill="#bca57a" opacity="0.65"/>
+<rect x="122.1" y="275.5" width="2.77" height="8.5" fill="#bca57a" opacity="0.65"/>
+<rect x="126.1" y="276.0" width="2.77" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="130.0" y="278.5" width="2.77" height="5.5" fill="#bca57a" opacity="0.65"/>
+<rect x="134.0" y="280.8" width="2.77" height="3.2" fill="#bca57a" opacity="0.65"/>
+<rect x="138.0" y="278.7" width="2.77" height="5.3" fill="#bca57a" opacity="0.65"/>
+<rect x="141.9" y="278.9" width="2.77" height="5.1" fill="#bca57a" opacity="0.65"/>
+<rect x="145.9" y="279.7" width="2.77" height="4.3" fill="#bca57a" opacity="0.65"/>
+<rect x="149.9" y="277.7" width="2.77" height="6.3" fill="#bca57a" opacity="0.65"/>
+<rect x="153.9" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="157.8" y="277.6" width="2.77" height="6.4" fill="#bca57a" opacity="0.65"/>
+<rect x="161.8" y="279.7" width="2.77" height="4.3" fill="#bca57a" opacity="0.65"/>
+<rect x="165.8" y="276.9" width="2.77" height="7.1" fill="#bca57a" opacity="0.65"/>
+<rect x="169.7" y="276.3" width="2.77" height="7.7" fill="#bca57a" opacity="0.65"/>
+<rect x="173.7" y="275.1" width="2.77" height="8.9" fill="#bca57a" opacity="0.65"/>
+<rect x="177.7" y="279.0" width="2.77" height="5.0" fill="#bca57a" opacity="0.65"/>
+<rect x="181.6" y="278.4" width="2.77" height="5.6" fill="#bca57a" opacity="0.65"/>
+<rect x="185.6" y="277.4" width="2.77" height="6.6" fill="#bca57a" opacity="0.65"/>
+<rect x="189.6" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="193.5" y="278.6" width="2.77" height="5.4" fill="#bca57a" opacity="0.65"/>
+<rect x="197.5" y="276.7" width="2.77" height="7.3" fill="#bca57a" opacity="0.65"/>
+<rect x="201.5" y="277.8" width="2.77" height="6.2" fill="#bca57a" opacity="0.65"/>
+<rect x="205.4" y="275.6" width="2.77" height="8.4" fill="#bca57a" opacity="0.65"/>
+<rect x="209.4" y="267.7" width="2.77" height="16.3" fill="#bca57a" opacity="0.65"/>
+<rect x="213.4" y="268.3" width="2.77" height="15.7" fill="#bca57a" opacity="0.65"/>
+<rect x="217.3" y="265.7" width="2.77" height="18.3" fill="#bca57a" opacity="0.65"/>
+<rect x="221.3" y="278.6" width="2.77" height="5.4" fill="#bca57a" opacity="0.65"/>
+<rect x="225.3" y="276.1" width="2.77" height="7.9" fill="#bca57a" opacity="0.65"/>
+<rect x="229.2" y="276.9" width="2.77" height="7.1" fill="#bca57a" opacity="0.65"/>
+<rect x="233.2" y="279.8" width="2.77" height="4.2" fill="#bca57a" opacity="0.65"/>
+<rect x="237.2" y="271.2" width="2.77" height="12.8" fill="#bca57a" opacity="0.65"/>
+<rect x="241.2" y="276.8" width="2.77" height="7.2" fill="#bca57a" opacity="0.65"/>
+<rect x="245.1" y="271.6" width="2.77" height="12.4" fill="#bca57a" opacity="0.65"/>
+<rect x="249.1" y="271.5" width="2.77" height="12.5" fill="#bca57a" opacity="0.65"/>
+<rect x="253.1" y="271.7" width="2.77" height="12.3" fill="#bca57a" opacity="0.65"/>
+<rect x="257.0" y="273.3" width="2.77" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="261.0" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="265.0" y="277.1" width="2.77" height="6.9" fill="#bca57a" opacity="0.65"/>
+<rect x="268.9" y="275.3" width="2.77" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="272.9" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="276.9" y="243.8" width="2.77" height="40.2" fill="#bca57a" opacity="0.65"/>
+<rect x="280.8" y="267.5" width="2.77" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="284.8" y="270.0" width="2.77" height="14.0" fill="#bca57a" opacity="0.65"/>
+<rect x="288.8" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="292.7" y="271.7" width="2.77" height="12.3" fill="#bca57a" opacity="0.65"/>
+<rect x="296.7" y="270.3" width="2.77" height="13.7" fill="#bca57a" opacity="0.65"/>
+<rect x="300.7" y="276.3" width="2.77" height="7.7" fill="#bca57a" opacity="0.65"/>
+<rect x="304.6" y="277.5" width="2.77" height="6.5" fill="#bca57a" opacity="0.65"/>
+<rect x="308.6" y="273.6" width="2.77" height="10.4" fill="#bca57a" opacity="0.65"/>
+<rect x="312.6" y="269.9" width="2.77" height="14.1" fill="#bca57a" opacity="0.65"/>
+<rect x="316.5" y="255.5" width="2.77" height="28.5" fill="#bca57a" opacity="0.65"/>
+<rect x="320.5" y="263.4" width="2.77" height="20.6" fill="#bca57a" opacity="0.65"/>
+<rect x="324.5" y="263.2" width="2.77" height="20.8" fill="#bca57a" opacity="0.65"/>
+<rect x="328.4" y="269.9" width="2.77" height="14.1" fill="#bca57a" opacity="0.65"/>
+<rect x="332.4" y="270.2" width="2.77" height="13.8" fill="#bca57a" opacity="0.65"/>
+<rect x="336.4" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="340.4" y="275.4" width="2.77" height="8.6" fill="#bca57a" opacity="0.65"/>
+<rect x="344.3" y="275.3" width="2.77" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="348.3" y="276.9" width="2.77" height="7.1" fill="#bca57a" opacity="0.65"/>
+<rect x="352.3" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="356.2" y="275.1" width="2.77" height="8.9" fill="#bca57a" opacity="0.65"/>
+<rect x="360.2" y="274.1" width="2.77" height="9.9" fill="#bca57a" opacity="0.65"/>
+<rect x="364.2" y="274.9" width="2.77" height="9.1" fill="#bca57a" opacity="0.65"/>
+<rect x="368.1" y="277.6" width="2.77" height="6.4" fill="#bca57a" opacity="0.65"/>
+<rect x="372.1" y="277.2" width="2.77" height="6.8" fill="#bca57a" opacity="0.65"/>
+<rect x="376.1" y="278.9" width="2.77" height="5.1" fill="#bca57a" opacity="0.65"/>
+<rect x="380.0" y="273.5" width="2.77" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="384.0" y="275.0" width="2.77" height="9.0" fill="#bca57a" opacity="0.65"/>
+<rect x="388.0" y="278.3" width="2.77" height="5.7" fill="#bca57a" opacity="0.65"/>
+<rect x="391.9" y="277.6" width="2.77" height="6.4" fill="#bca57a" opacity="0.65"/>
+<rect x="395.9" y="278.2" width="2.77" height="5.8" fill="#bca57a" opacity="0.65"/>
+<rect x="399.9" y="220.0" width="2.77" height="64.0" fill="#bca57a" opacity="0.65"/>
+<rect x="403.8" y="224.9" width="2.77" height="59.1" fill="#bca57a" opacity="0.65"/>
+<rect x="407.8" y="254.2" width="2.77" height="29.8" fill="#bca57a" opacity="0.65"/>
+<rect x="411.8" y="271.3" width="2.77" height="12.7" fill="#bca57a" opacity="0.65"/>
+<rect x="415.7" y="273.2" width="2.77" height="10.8" fill="#bca57a" opacity="0.65"/>
+<rect x="419.7" y="271.6" width="2.77" height="12.4" fill="#bca57a" opacity="0.65"/>
+<rect x="423.7" y="271.2" width="2.77" height="12.8" fill="#bca57a" opacity="0.65"/>
+<rect x="427.7" y="274.1" width="2.77" height="9.9" fill="#bca57a" opacity="0.65"/>
+<rect x="431.6" y="263.1" width="2.77" height="20.9" fill="#bca57a" opacity="0.65"/>
+<rect x="435.6" y="271.0" width="2.77" height="13.0" fill="#bca57a" opacity="0.65"/>
+<rect x="439.6" y="267.5" width="2.77" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="443.5" y="269.5" width="2.77" height="14.5" fill="#bca57a" opacity="0.65"/>
+<rect x="447.5" y="268.2" width="2.77" height="15.8" fill="#bca57a" opacity="0.65"/>
+<rect x="451.5" y="267.9" width="2.77" height="16.1" fill="#bca57a" opacity="0.65"/>
+<rect x="455.4" y="271.9" width="2.77" height="12.1" fill="#bca57a" opacity="0.65"/>
+<rect x="459.4" y="272.0" width="2.77" height="12.0" fill="#bca57a" opacity="0.65"/>
+<rect x="463.4" y="269.8" width="2.77" height="14.2" fill="#bca57a" opacity="0.65"/>
+<rect x="467.3" y="273.2" width="2.77" height="10.8" fill="#bca57a" opacity="0.65"/>
+<rect x="471.3" y="273.5" width="2.77" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="475.3" y="265.1" width="2.77" height="18.9" fill="#bca57a" opacity="0.65"/>
+<rect x="479.2" y="267.5" width="2.77" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="483.2" y="270.1" width="2.77" height="13.9" fill="#bca57a" opacity="0.65"/>
+<rect x="487.2" y="268.8" width="2.77" height="15.2" fill="#bca57a" opacity="0.65"/>
+<rect x="491.1" y="272.1" width="2.77" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="495.1" y="274.2" width="2.77" height="9.8" fill="#bca57a" opacity="0.65"/>
+<rect x="499.1" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="503.0" y="264.4" width="2.77" height="19.6" fill="#bca57a" opacity="0.65"/>
+<rect x="507.0" y="271.1" width="2.77" height="12.9" fill="#bca57a" opacity="0.65"/>
+<rect x="511.0" y="272.6" width="2.77" height="11.4" fill="#bca57a" opacity="0.65"/>
+<rect x="515.0" y="276.1" width="2.77" height="7.9" fill="#bca57a" opacity="0.65"/>
+<rect x="518.9" y="270.5" width="2.77" height="13.5" fill="#bca57a" opacity="0.65"/>
+<rect x="522.9" y="269.2" width="2.77" height="14.8" fill="#bca57a" opacity="0.65"/>
+<rect x="526.9" y="275.4" width="2.77" height="8.6" fill="#bca57a" opacity="0.65"/>
+<rect x="530.8" y="278.3" width="2.77" height="5.7" fill="#bca57a" opacity="0.65"/>
+<rect x="534.8" y="276.1" width="2.77" height="7.9" fill="#bca57a" opacity="0.65"/>
+<rect x="538.8" y="277.1" width="2.77" height="6.9" fill="#bca57a" opacity="0.65"/>
+<rect x="542.7" y="274.6" width="2.77" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="546.7" y="272.3" width="2.77" height="11.7" fill="#bca57a" opacity="0.65"/>
+<rect x="550.7" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="554.6" y="276.6" width="2.77" height="7.4" fill="#bca57a" opacity="0.65"/>
+<rect x="558.6" y="274.2" width="2.77" height="9.8" fill="#bca57a" opacity="0.65"/>
+<rect x="562.6" y="272.3" width="2.77" height="11.7" fill="#bca57a" opacity="0.65"/>
+<rect x="566.5" y="267.3" width="2.77" height="16.7" fill="#bca57a" opacity="0.65"/>
+<rect x="570.5" y="269.1" width="2.77" height="14.9" fill="#bca57a" opacity="0.65"/>
+<rect x="574.5" y="266.1" width="2.77" height="17.9" fill="#bca57a" opacity="0.65"/>
+<rect x="578.4" y="272.4" width="2.77" height="11.6" fill="#bca57a" opacity="0.65"/>
+<rect x="582.4" y="274.9" width="2.77" height="9.1" fill="#bca57a" opacity="0.65"/>
+<rect x="586.4" y="275.9" width="2.77" height="8.1" fill="#bca57a" opacity="0.65"/>
+<rect x="590.3" y="277.3" width="2.77" height="6.7" fill="#bca57a" opacity="0.65"/>
+<rect x="594.3" y="276.0" width="2.77" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="598.3" y="274.2" width="2.77" height="9.8" fill="#bca57a" opacity="0.65"/>
+<rect x="602.3" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="606.2" y="277.8" width="2.77" height="6.2" fill="#bca57a" opacity="0.65"/>
+<rect x="610.2" y="275.5" width="2.77" height="8.5" fill="#bca57a" opacity="0.65"/>
+<rect x="614.2" y="273.9" width="2.77" height="10.1" fill="#bca57a" opacity="0.65"/>
+<rect x="618.1" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="622.1" y="273.6" width="2.77" height="10.4" fill="#bca57a" opacity="0.65"/>
+<rect x="626.1" y="274.0" width="2.77" height="10.0" fill="#bca57a" opacity="0.65"/>
+<rect x="630.0" y="276.5" width="2.77" height="7.5" fill="#bca57a" opacity="0.65"/>
+<rect x="634.0" y="273.5" width="2.77" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="638.0" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="641.9" y="280.3" width="2.77" height="3.7" fill="#bca57a" opacity="0.65"/>
+<rect x="645.9" y="274.8" width="2.77" height="9.2" fill="#bca57a" opacity="0.65"/>
+<rect x="649.9" y="276.0" width="2.77" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="653.8" y="278.5" width="2.77" height="5.5" fill="#bca57a" opacity="0.65"/>
+<rect x="657.8" y="274.9" width="2.77" height="9.1" fill="#bca57a" opacity="0.65"/>
+<rect x="661.8" y="276.3" width="2.77" height="7.7" fill="#bca57a" opacity="0.65"/>
+<rect x="665.7" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="669.7" y="277.6" width="2.77" height="6.4" fill="#bca57a" opacity="0.65"/>
+<rect x="673.7" y="272.1" width="2.77" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="677.6" y="275.4" width="2.77" height="8.6" fill="#bca57a" opacity="0.65"/>
+<rect x="681.6" y="278.0" width="2.77" height="6.0" fill="#bca57a" opacity="0.65"/>
+<rect x="685.6" y="279.0" width="2.77" height="5.0" fill="#bca57a" opacity="0.65"/>
+<rect x="689.5" y="278.9" width="2.77" height="5.1" fill="#bca57a" opacity="0.65"/>
+<rect x="693.5" y="279.2" width="2.77" height="4.8" fill="#bca57a" opacity="0.65"/>
+<rect x="697.5" y="278.6" width="2.77" height="5.4" fill="#bca57a" opacity="0.65"/>
+<rect x="701.5" y="273.5" width="2.77" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="705.4" y="271.7" width="2.77" height="12.3" fill="#bca57a" opacity="0.65"/>
+<rect x="709.4" y="278.8" width="2.77" height="5.2" fill="#bca57a" opacity="0.65"/>
+<rect x="713.4" y="281.6" width="2.77" height="2.4" fill="#bca57a" opacity="0.65"/>
+<rect x="717.3" y="281.4" width="2.77" height="2.6" fill="#bca57a" opacity="0.65"/>
+<rect x="721.3" y="279.4" width="2.77" height="4.6" fill="#bca57a" opacity="0.65"/>
+<rect x="725.3" y="279.7" width="2.77" height="4.3" fill="#bca57a" opacity="0.65"/>
+<rect x="729.2" y="278.6" width="2.77" height="5.4" fill="#bca57a" opacity="0.65"/>
+<rect x="733.2" y="278.5" width="2.77" height="5.5" fill="#bca57a" opacity="0.65"/>
+<rect x="737.2" y="272.5" width="2.77" height="11.5" fill="#bca57a" opacity="0.65"/>
+<rect x="741.1" y="270.5" width="2.77" height="13.5" fill="#bca57a" opacity="0.65"/>
+<rect x="745.1" y="277.5" width="2.77" height="6.5" fill="#bca57a" opacity="0.65"/>
+<rect x="749.1" y="276.7" width="2.77" height="7.3" fill="#bca57a" opacity="0.65"/>
+<rect x="753.0" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="757.0" y="273.3" width="2.77" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="761.0" y="267.0" width="2.77" height="17.0" fill="#bca57a" opacity="0.65"/>
+<rect x="764.9" y="273.5" width="2.77" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="768.9" y="272.2" width="2.77" height="11.8" fill="#bca57a" opacity="0.65"/>
+<rect x="772.9" y="275.8" width="2.77" height="8.2" fill="#bca57a" opacity="0.65"/>
+<rect x="776.8" y="271.9" width="2.77" height="12.1" fill="#bca57a" opacity="0.65"/>
+<rect x="780.8" y="276.9" width="2.77" height="7.1" fill="#bca57a" opacity="0.65"/>
+<rect x="784.8" y="277.4" width="2.77" height="6.6" fill="#bca57a" opacity="0.65"/>
+<rect x="788.8" y="275.8" width="2.77" height="8.2" fill="#bca57a" opacity="0.65"/>
+<rect x="792.7" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="796.7" y="279.1" width="2.77" height="4.9" fill="#bca57a" opacity="0.65"/>
+<rect x="800.7" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="804.6" y="269.9" width="2.77" height="14.1" fill="#bca57a" opacity="0.65"/>
+<rect x="808.6" y="277.5" width="2.77" height="6.5" fill="#bca57a" opacity="0.65"/>
+<rect x="812.6" y="278.1" width="2.77" height="5.9" fill="#bca57a" opacity="0.65"/>
+<rect x="816.5" y="277.8" width="2.77" height="6.2" fill="#bca57a" opacity="0.65"/>
+<rect x="820.5" y="275.9" width="2.77" height="8.1" fill="#bca57a" opacity="0.65"/>
+<rect x="824.5" y="276.8" width="2.77" height="7.2" fill="#bca57a" opacity="0.65"/>
+<rect x="828.4" y="276.8" width="2.77" height="7.2" fill="#bca57a" opacity="0.65"/>
+<rect x="832.4" y="279.3" width="2.77" height="4.7" fill="#bca57a" opacity="0.65"/>
+<rect x="836.4" y="276.5" width="2.77" height="7.5" fill="#bca57a" opacity="0.65"/>
+<rect x="840.3" y="270.8" width="2.77" height="13.2" fill="#bca57a" opacity="0.65"/>
+<rect x="844.3" y="258.9" width="2.77" height="25.1" fill="#bca57a" opacity="0.65"/>
+<rect x="848.3" y="271.9" width="2.77" height="12.1" fill="#bca57a" opacity="0.65"/>
+<rect x="852.2" y="271.3" width="2.77" height="12.7" fill="#bca57a" opacity="0.65"/>
+<rect x="856.2" y="275.0" width="2.77" height="9.0" fill="#bca57a" opacity="0.65"/>
+<rect x="860.2" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="864.1" y="276.6" width="2.77" height="7.4" fill="#bca57a" opacity="0.65"/>
+<rect x="868.1" y="275.4" width="2.77" height="8.6" fill="#bca57a" opacity="0.65"/>
+<rect x="872.1" y="276.6" width="2.77" height="7.4" fill="#bca57a" opacity="0.65"/>
+<rect x="876.1" y="278.2" width="2.77" height="5.8" fill="#bca57a" opacity="0.65"/>
+<rect x="880.0" y="274.1" width="2.77" height="9.9" fill="#bca57a" opacity="0.65"/>
+<rect x="884.0" y="277.5" width="2.77" height="6.5" fill="#bca57a" opacity="0.65"/>
+<rect x="888.0" y="279.0" width="2.77" height="5.0" fill="#bca57a" opacity="0.65"/>
+<rect x="891.9" y="279.5" width="2.77" height="4.5" fill="#bca57a" opacity="0.65"/>
+<rect x="895.9" y="278.9" width="2.77" height="5.1" fill="#bca57a" opacity="0.65"/>
+<rect x="899.9" y="277.2" width="2.77" height="6.8" fill="#bca57a" opacity="0.65"/>
+<rect x="903.8" y="278.0" width="2.77" height="6.0" fill="#bca57a" opacity="0.65"/>
+<rect x="907.8" y="274.4" width="2.77" height="9.6" fill="#bca57a" opacity="0.65"/>
+<rect x="911.8" y="276.7" width="2.77" height="7.3" fill="#bca57a" opacity="0.65"/>
+<rect x="915.7" y="279.8" width="2.77" height="4.2" fill="#bca57a" opacity="0.65"/>
+<rect x="919.7" y="276.2" width="2.77" height="7.8" fill="#bca57a" opacity="0.65"/>
+<rect x="923.7" y="268.5" width="2.77" height="15.5" fill="#bca57a" opacity="0.65"/>
+<rect x="927.6" y="272.1" width="2.77" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="931.6" y="277.5" width="2.77" height="6.5" fill="#bca57a" opacity="0.65"/>
+<rect x="935.6" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="939.5" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="943.5" y="275.1" width="2.77" height="8.9" fill="#bca57a" opacity="0.65"/>
+<rect x="947.5" y="274.8" width="2.77" height="9.2" fill="#bca57a" opacity="0.65"/>
+<rect x="951.4" y="275.8" width="2.77" height="8.2" fill="#bca57a" opacity="0.65"/>
+<rect x="955.4" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="959.4" y="277.8" width="2.77" height="6.2" fill="#bca57a" opacity="0.65"/>
+<rect x="963.3" y="277.1" width="2.77" height="6.9" fill="#bca57a" opacity="0.65"/>
+<rect x="967.3" y="279.2" width="2.77" height="4.8" fill="#bca57a" opacity="0.65"/>
+<rect x="971.3" y="277.1" width="2.77" height="6.9" fill="#bca57a" opacity="0.65"/>
+<rect x="975.3" y="275.0" width="2.77" height="9.0" fill="#bca57a" opacity="0.65"/>
+<rect x="979.2" y="278.9" width="2.77" height="5.1" fill="#bca57a" opacity="0.65"/>
+<rect x="983.2" y="278.7" width="2.77" height="5.3" fill="#bca57a" opacity="0.65"/>
+<rect x="987.2" y="278.9" width="2.77" height="5.1" fill="#bca57a" opacity="0.65"/>
+<rect x="991.1" y="278.4" width="2.77" height="5.6" fill="#bca57a" opacity="0.65"/>
+<rect x="995.1" y="278.8" width="2.77" height="5.2" fill="#bca57a" opacity="0.65"/>
+<rect x="999.1" y="279.6" width="2.77" height="4.4" fill="#bca57a" opacity="0.65"/>
+<rect x="1003.0" y="279.2" width="2.77" height="4.8" fill="#bca57a" opacity="0.65"/>
+<rect x="1007.0" y="277.2" width="2.77" height="6.8" fill="#bca57a" opacity="0.65"/>
+<rect x="1011.0" y="278.6" width="2.77" height="5.4" fill="#bca57a" opacity="0.65"/>
+<rect x="1014.9" y="278.7" width="2.77" height="5.3" fill="#bca57a" opacity="0.65"/>
+<rect x="1018.9" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="1022.9" y="272.6" width="2.77" height="11.4" fill="#bca57a" opacity="0.65"/>
+<rect x="1026.8" y="277.4" width="2.77" height="6.6" fill="#bca57a" opacity="0.65"/>
+<rect x="1030.8" y="279.0" width="2.77" height="5.0" fill="#bca57a" opacity="0.65"/>
+<rect x="1034.8" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="1038.7" y="279.1" width="2.77" height="4.9" fill="#bca57a" opacity="0.65"/>
+<rect x="1042.7" y="278.1" width="2.77" height="5.9" fill="#bca57a" opacity="0.65"/>
+<rect x="1046.7" y="280.6" width="2.77" height="3.4" fill="#bca57a" opacity="0.65"/>
+<rect x="1050.6" y="272.9" width="2.77" height="11.1" fill="#bca57a" opacity="0.65"/>
+<rect x="1054.6" y="275.9" width="2.77" height="8.1" fill="#bca57a" opacity="0.65"/>
+  <polygon points="60,212 60.0,132.8 64.0,137.4 67.9,130.3 71.9,128.4 75.9,136.8 79.8,128.3 83.8,129.9 87.8,149.3 91.7,131.5 95.7,141.4 99.7,153.7 103.6,154.7 107.6,149.2 111.6,147.5 115.6,145.0 119.5,156.3 123.5,157.0 127.5,162.4 131.4,151.7 135.4,152.9 139.4,151.0 143.3,154.6 147.3,154.4 151.3,150.1 155.2,147.3 159.2,148.2 163.2,144.2 167.1,138.3 171.1,128.9 175.1,135.0 179.0,134.0 183.0,144.2 187.0,138.8 190.9,148.3 194.9,143.1 198.9,145.3 202.9,141.1 206.8,135.1 210.8,126.8 214.8,118.7 218.7,121.1 222.7,125.0 226.7,120.5 230.6,116.8 234.6,116.9 238.6,124.6 242.5,117.5 246.5,119.1 250.5,109.6 254.4,108.2 258.4,112.0 262.4,120.1 266.3,122.8 270.3,118.6 274.3,129.3 278.2,161.2 282.2,140.7 286.2,133.4 290.2,129.9 294.1,120.2 298.1,107.3 302.1,119.5 306.0,127.0 310.0,143.1 314.0,145.9 317.9,167.2 321.9,184.4 325.9,193.6 329.8,190.4 333.8,195.1 337.8,192.8 341.7,182.6 345.7,168.4 349.7,174.2 353.6,175.0 357.6,170.3 361.6,166.4 365.5,173.6 369.5,173.2 373.5,161.9 377.5,167.9 381.4,171.5 385.4,174.6 389.4,175.4 393.3,172.0 397.3,176.9 401.3,202.1 405.2,199.3 409.2,192.5 413.2,192.7 417.1,190.2 421.1,194.7 425.1,184.4 429.0,192.0 433.0,184.4 437.0,176.7 440.9,184.2 444.9,176.6 448.9,177.3 452.8,179.8 456.8,176.0 460.8,184.5 464.7,192.5 468.7,190.8 472.7,191.9 476.7,181.4 480.6,166.9 484.6,166.1 488.6,152.1 492.5,155.5 496.5,167.9 500.5,167.4 504.4,159.0 508.4,163.2 512.4,157.0 516.3,155.1 520.3,157.2 524.3,144.2 528.2,152.1 532.2,144.8 536.2,140.4 540.1,139.3 544.1,134.3 548.1,139.0 552.0,141.3 556.0,140.8 560.0,147.2 564.0,155.9 567.9,139.4 571.9,140.9 575.9,130.0 579.8,131.1 583.8,136.9 587.8,132.9 591.7,127.4 595.7,121.2 599.7,116.2 603.6,120.8 607.6,121.9 611.6,120.9 615.5,115.1 619.5,110.4 623.5,107.4 627.4,85.1 631.4,83.2 635.4,71.7 639.3,73.6 643.3,75.0 647.3,81.2 651.3,84.9 655.2,81.2 659.2,77.8 663.2,80.1 667.1,93.0 671.1,97.2 675.1,87.0 679.0,90.6 683.0,98.7 687.0,95.2 690.9,99.8 694.9,103.4 698.9,101.8 702.8,89.9 706.8,75.0 710.8,79.9 714.7,79.2 718.7,79.9 722.7,77.1 726.6,83.2 730.6,85.8 734.6,79.3 738.5,58.8 742.5,49.5 746.5,47.3 750.5,50.8 754.4,37.9 758.4,44.7 762.4,61.2 766.3,72.6 770.3,70.5 774.3,77.5 778.2,68.0 782.2,54.2 786.2,53.2 790.1,64.8 794.1,77.1 798.1,82.1 802.0,89.5 806.0,104.6 810.0,104.2 813.9,107.7 817.9,114.8 821.9,115.5 825.8,125.4 829.8,119.6 833.8,118.5 837.8,121.9 841.7,116.3 845.7,148.4 849.7,154.9 853.6,144.4 857.6,133.7 861.6,140.3 865.5,143.4 869.5,135.1 873.5,133.7 877.4,132.9 881.4,125.5 885.4,131.5 889.3,133.4 893.3,136.9 897.3,142.0 901.2,142.0 905.2,153.8 909.2,150.4 913.1,154.4 917.1,153.0 921.1,164.5 925.1,173.0 929.0,179.4 933.0,173.0 937.0,171.1 940.9,173.7 944.9,175.6 948.9,165.4 952.8,159.2 956.8,159.2 960.8,162.2 964.7,172.8 968.7,169.0 972.7,157.1 976.6,157.4 980.6,153.0 984.6,153.1 988.5,153.5 992.5,143.2 996.5,145.0 1000.4,147.5 1004.4,138.0 1008.4,132.4 1012.4,135.2 1016.3,138.7 1020.3,127.2 1024.3,124.6 1028.2,131.2 1032.2,133.9 1036.2,156.5 1040.1,154.3 1044.1,154.5 1048.1,156.2 1052.0,169.1 1056.0,153.3 1056,212" fill="#d8b878" opacity="0.35"/>
+  <polyline points="60.0,132.8 64.0,137.4 67.9,130.3 71.9,128.4 75.9,136.8 79.8,128.3 83.8,129.9 87.8,149.3 91.7,131.5 95.7,141.4 99.7,153.7 103.6,154.7 107.6,149.2 111.6,147.5 115.6,145.0 119.5,156.3 123.5,157.0 127.5,162.4 131.4,151.7 135.4,152.9 139.4,151.0 143.3,154.6 147.3,154.4 151.3,150.1 155.2,147.3 159.2,148.2 163.2,144.2 167.1,138.3 171.1,128.9 175.1,135.0 179.0,134.0 183.0,144.2 187.0,138.8 190.9,148.3 194.9,143.1 198.9,145.3 202.9,141.1 206.8,135.1 210.8,126.8 214.8,118.7 218.7,121.1 222.7,125.0 226.7,120.5 230.6,116.8 234.6,116.9 238.6,124.6 242.5,117.5 246.5,119.1 250.5,109.6 254.4,108.2 258.4,112.0 262.4,120.1 266.3,122.8 270.3,118.6 274.3,129.3 278.2,161.2 282.2,140.7 286.2,133.4 290.2,129.9 294.1,120.2 298.1,107.3 302.1,119.5 306.0,127.0 310.0,143.1 314.0,145.9 317.9,167.2 321.9,184.4 325.9,193.6 329.8,190.4 333.8,195.1 337.8,192.8 341.7,182.6 345.7,168.4 349.7,174.2 353.6,175.0 357.6,170.3 361.6,166.4 365.5,173.6 369.5,173.2 373.5,161.9 377.5,167.9 381.4,171.5 385.4,174.6 389.4,175.4 393.3,172.0 397.3,176.9 401.3,202.1 405.2,199.3 409.2,192.5 413.2,192.7 417.1,190.2 421.1,194.7 425.1,184.4 429.0,192.0 433.0,184.4 437.0,176.7 440.9,184.2 444.9,176.6 448.9,177.3 452.8,179.8 456.8,176.0 460.8,184.5 464.7,192.5 468.7,190.8 472.7,191.9 476.7,181.4 480.6,166.9 484.6,166.1 488.6,152.1 492.5,155.5 496.5,167.9 500.5,167.4 504.4,159.0 508.4,163.2 512.4,157.0 516.3,155.1 520.3,157.2 524.3,144.2 528.2,152.1 532.2,144.8 536.2,140.4 540.1,139.3 544.1,134.3 548.1,139.0 552.0,141.3 556.0,140.8 560.0,147.2 564.0,155.9 567.9,139.4 571.9,140.9 575.9,130.0 579.8,131.1 583.8,136.9 587.8,132.9 591.7,127.4 595.7,121.2 599.7,116.2 603.6,120.8 607.6,121.9 611.6,120.9 615.5,115.1 619.5,110.4 623.5,107.4 627.4,85.1 631.4,83.2 635.4,71.7 639.3,73.6 643.3,75.0 647.3,81.2 651.3,84.9 655.2,81.2 659.2,77.8 663.2,80.1 667.1,93.0 671.1,97.2 675.1,87.0 679.0,90.6 683.0,98.7 687.0,95.2 690.9,99.8 694.9,103.4 698.9,101.8 702.8,89.9 706.8,75.0 710.8,79.9 714.7,79.2 718.7,79.9 722.7,77.1 726.6,83.2 730.6,85.8 734.6,79.3 738.5,58.8 742.5,49.5 746.5,47.3 750.5,50.8 754.4,37.9 758.4,44.7 762.4,61.2 766.3,72.6 770.3,70.5 774.3,77.5 778.2,68.0 782.2,54.2 786.2,53.2 790.1,64.8 794.1,77.1 798.1,82.1 802.0,89.5 806.0,104.6 810.0,104.2 813.9,107.7 817.9,114.8 821.9,115.5 825.8,125.4 829.8,119.6 833.8,118.5 837.8,121.9 841.7,116.3 845.7,148.4 849.7,154.9 853.6,144.4 857.6,133.7 861.6,140.3 865.5,143.4 869.5,135.1 873.5,133.7 877.4,132.9 881.4,125.5 885.4,131.5 889.3,133.4 893.3,136.9 897.3,142.0 901.2,142.0 905.2,153.8 909.2,150.4 913.1,154.4 917.1,153.0 921.1,164.5 925.1,173.0 929.0,179.4 933.0,173.0 937.0,171.1 940.9,173.7 944.9,175.6 948.9,165.4 952.8,159.2 956.8,159.2 960.8,162.2 964.7,172.8 968.7,169.0 972.7,157.1 976.6,157.4 980.6,153.0 984.6,153.1 988.5,153.5 992.5,143.2 996.5,145.0 1000.4,147.5 1004.4,138.0 1008.4,132.4 1012.4,135.2 1016.3,138.7 1020.3,127.2 1024.3,124.6 1028.2,131.2 1032.2,133.9 1036.2,156.5 1040.1,154.3 1044.1,154.5 1048.1,156.2 1052.0,169.1 1056.0,153.3" fill="none" stroke="#7a5a26" stroke-width="1.6" stroke-linejoin="round"/>
+  <text x="60.0" y="308" text-anchor="start" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Apr 2025</text>
+<text x="560.0" y="308" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Oct 2025</text>
+<text x="1056.0" y="308" text-anchor="end" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Apr 2026</text>
+  <text x="52" y="223.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9" fill="#6e6457">18.3M</text>
+  <text x="60" y="16" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.16em" text-transform="uppercase" fill="#2a261f">BRKR · PRICE &amp; VOLUME</text><text x="1056" y="16" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="#2a261f">$36.71  <tspan fill="#9e2222" font-weight="600">-7.9%</tspan></text>
+</svg>
+  <p class="chart-caption">Daily close (warm umber) with under-fill, volume bars in tan. Trailing range capped at 252 trading days.</p>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Market Analysis</h3><h3>Market Report</h3>
+
+<p>BRKR closed at $36.71 on April 30, 2026, the final session before the Q1 2026 earnings print scheduled for the morning of May 6. The setup is a classic pre-binary: 30-day return +20.2% off the April 8 swing low (rebounding from $34 area), but year-to-date still -16.7% and the 90-day return is -30.8%. The stock is trading <strong>below</strong> both the 50-day SMA ($37.17) and the 200-day SMA ($39.54), so the recent rally is tactical, not a regime change.</p>
+
+<p><strong>Trend Structure</strong></p>
+<ul>
+<li>200-day SMA $39.54, 50-day SMA $37.17, 10-day EMA ~$36.50. Price is in a death-cross configuration; the 50/200 spread of -$2.40 has been widening since mid-2025.</li>
+<li>52-week range: $28.53 to $56.22. Current price sits 50% from the bottom and 35% from the top — exactly the kind of mid-range chop where conviction trades fail.</li>
+<li>The 4/23 selloff (-9.6% in one session, $40.09 to $36.22) reset overhead supply at $40-$41. April 21 also tagged $42.64 intraday and rejected — that's the resistance level to reclaim before any directional trade works.</li>
+</ul>
+
+<p><strong>Momentum &amp; Volatility</strong></p>
+<ul>
+<li>RSI(14) closed at 47.21 on April 30, neutral — neither oversold nor overbought heading into the print. RSI bottomed at 36.23 on April 29 (intraday low of $33.80) and recovered, suggesting absorption.</li>
+<li>MACD remains negative (line -1.15, signal -1.60, histogram +0.45) — the histogram is curling positive, which is constructive but not yet a true bullish crossover. The MACD line is still 4-5 bps below the zero line.</li>
+<li>ATR(14) = $1.89, or 5.1% of price. That's elevated — the implied 1-day move on the print is roughly $1.85-$2.20 in either direction. Position sizing must respect this.</li>
+</ul>
+
+<p><strong>Bollinger Bands</strong></p>
+<ul>
+<li>Bollinger middle (20-SMA) = $35.18; upper band $38.24; lower band $32.11. Price closed at $36.71, in the upper half of the band, indicating bullish bias within the recent range. Bands have compressed from the early-April widening, signaling a volatility cap before the earnings expansion.</li>
+</ul>
+
+<p><strong>Volume Signature</strong></p>
+<ul>
+<li>Average daily volume on the rally: ~1.7M shares.</li>
+<li>April 17 ($40.70 close) printed 3.14M (institutional accumulation at resistance reclaim).</li>
+<li>April 23 selloff: 3.16M (distribution at $40 reject).</li>
+<li>April 29 capitulation low: 3.17M (washout into the $33.80 intraday).</li>
+<li>April 30 reversal day: 2.32M (buyers stepped in but volume light vs the drops).</li>
+<li>The pattern is constructive: distributive volume on rejections, but also visible accumulation on dips toward $34. Smart money is positioning, not just trading.</li>
+</ul>
+
+<p><strong>VWMA</strong> (volume-weighted MA) at $34.56 confirms the volume-weighted average is well below current spot — the rally is real but most volume traded lower.</p>
+
+<p><strong>Levels for the print</strong></p>
+<ul>
+<li>Hard support: $33.80 (April 29 intraday low) → $32.11 (Bollinger lower band) → $28.53 (52-week low).</li>
+<li>Resistance: $38.24 (Bollinger upper) → $39.54 (200-SMA) → $40.70-$41.27 (April 17-20 highs) → $42.64 (April 21 reject high).</li>
+<li>Critical level: $34 holds = thesis intact, $32 breaks = recovery thesis gone.</li>
+</ul>
+
+<table>
+<tr><th>Indicator</th><th>Reading</th><th>Signal</th></tr>
+<tr><td>Close (April 30)</td><td>$36.71</td><td>Below 50/200 SMA</td></tr>
+<tr><td>50-SMA</td><td>$37.17</td><td>Below price by $0.46</td></tr>
+<tr><td>200-SMA</td><td>$39.54</td><td>Below price by $2.83</td></tr>
+<tr><td>RSI(14)</td><td>47.21</td><td>Neutral</td></tr>
+<tr><td>MACD line</td><td>-1.15</td><td>Negative, curling up</td></tr>
+<tr><td>MACD histogram</td><td>+0.45</td><td>Bullish reversal building</td></tr>
+<tr><td>ATR(14)</td><td>$1.89 (5.1%)</td><td>Elevated; position size ~50% of normal</td></tr>
+<tr><td>Bollinger position</td><td>Upper half</td><td>Tactical bullish bias</td></tr>
+<tr><td>52-wk range</td><td>$28.53-$56.22</td><td>Mid-range, no edge</td></tr>
+</table>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Social Sentiment</h3><h3>Social Sentiment Report</h3>
+
+<p><strong>Tone</strong>: Mixed-to-cautious with a constructive lean. The narrative has shifted from "BRKR is broken" (Q3 2025 lows) to "BRKR is recovering but the print can break it." Investor coverage is split between value-oriented retail buyers ($30-$35 was attractive) and quality-growth funds that exited in 2024-2025 and have not re-engaged.</p>
+
+<p><strong>Recent Coverage</strong></p>
+<ul>
+<li><strong>Zacks (April 2026)</strong>: Flagged "decline in earnings" expected for Q1 2026 — neutral-negative framing aligned with management's own guidance (mid-single-digit organic decline). Not a downgrade, but a check on bullish enthusiasm.</li>
+<li><strong>Simply Wall St (April 2026)</strong>: Updated fair value $47.86 (down from $48.43); flagged margin execution and helium input cost risk; mentioned "weaker 3-year total shareholder return decline" of 30.8% over 90 days.</li>
+<li><strong>StockStory (mid-April)</strong>: Listed BRKR among "3 of Wall Street's Favorite Stocks We Keep Off Our Radar" — signaling sell-side optimism without buy-side conviction. The article explicitly called out that analysts rarely issue sell ratings.</li>
+<li><strong>Simply Wall St</strong>: Followed up with a piece on the <strong>photothermal AFM-IR / imec semiconductor collaboration</strong> — constructive optionality framing for the Bruker Nano segment.</li>
+<li><strong>StockStory</strong>: "Why Bruker Stock Is Up Today" — covered the +4% pop after Bruker announced new NMR products and workflows at the <strong>Experimental Nuclear Magnetic Resonance Conference (ENC 2026)</strong>, an indication that the company's traditional flagship business still generates positive product-led news flow.</li>
+</ul>
+
+<p><strong>Sell-Side Positioning</strong></p>
+<ul>
+<li>Citi cut BRKR to Neutral in May 2025, citing NIH funding cuts and order volatility. That cut was prescient — the stock fell another ~30% from there before bottoming.</li>
+<li>Consensus 12-month price target: ~$49.50 (range $35-$70 across 22 analysts per TickerNerd; 13 analysts at Public.com show consensus Buy with target $50.08).</li>
+<li>Mean target implies ~+35% upside from $36.71. But the dispersion is wide — $35-$70 — and the low-end target ($35) is below today's price. Analyst consensus has been chasing the stock down for 18 months.</li>
+</ul>
+
+<p><strong>Insider Activity</strong></p>
+<ul>
+<li>Insider sale visible in the data feed: Munson (officer) sold 2,000 shares at $39.90 (recent). De minimis size, scheduled-trade signature, not a tell.</li>
+<li><strong>Mandatory Convertible Preferred</strong> issued September 2025: ~$300-400M offering, +13% diluted share count. This is the single most important shareholder-base signal — management chose preferred-equity dilution over more debt, which signals leverage discipline (3.1x net debt by year-end vs higher trailing) but also caps EPS leverage on the recovery.</li>
+</ul>
+
+<p><strong>Retail Discourse</strong></p>
+<ul>
+<li>StockTwits and Reddit r/stocks: Light discussion. No meme dynamics. Health-care/diagnostics specialists know the name but it does not have retail momentum behind it.</li>
+<li>Tone in retail-investor circles: "Watch the May 6 print, then decide" — exactly the right framing.</li>
+</ul>
+
+<p><strong>Conference Cadence</strong></p>
+<ul>
+<li>AGBT (Feb 2026), AACR (April 2026), ASMS (June 2026) — Bruker showcased proteomics and spatial-biology launches at AGBT and AACR. ASMS in June is the next product/order tell.</li>
+<li>ENC 2026 (April) — NMR product launches, helped trigger the +4% pop.</li>
+<li>SLAS Boston (Feb) — self-driving lab announcement.</li>
+</ul>
+
+<p><strong>Net read</strong>: Sentiment is <strong>cautiously constructive</strong>, not euphoric. The setup is "show-me" into the May 6 print. If the print confirms (book-to-bill &gt;1.0x, organic decline as guided, 2026 guide reaffirmed), sentiment can flip bullish quickly given the depressed positioning. If the print disappoints, expect immediate retest of $32-$33.</p>
+
+<table>
+<tr><th>Channel</th><th>Signal</th><th>Direction</th></tr>
+<tr><td>Sell-side ratings</td><td>Consensus Buy, $49.50 target</td><td>Bullish (skeptical)</td></tr>
+<tr><td>Citi (May 2025)</td><td>Neutral cut on NIH funding</td><td>Bearish-but-priced</td></tr>
+<tr><td>Simply Wall St FV</td><td>$47.86 (trimmed from $48.43)</td><td>Constructive-cautious</td></tr>
+<tr><td>Insider trades</td><td>Small officer sale @ $39.90</td><td>Neutral</td></tr>
+<tr><td>Sept 2025 conv preferred</td><td>+13% diluted shares</td><td>Risk-managing dilution</td></tr>
+<tr><td>Retail sentiment</td><td>"Wait for May 6"</td><td>Neutral</td></tr>
+<tr><td>Product launches</td><td>NMR, AFM-IR/imec, self-driving lab</td><td>Constructive</td></tr>
+</table>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>News &amp; Macro</h3><h3>News Report</h3>
+
+<p><strong>Macro &amp; Sector Context (LSG&amp;Dx — Life Science Tools &amp; Diagnostics)</strong></p>
+
+<p>The post-COVID destocking cycle that hammered the LSG&amp;Dx group through 2023-2025 has likely passed its trough. Key reads going into early May 2026:</p>
+
+<ul>
+<li><strong>NIH FY2026 budget passed Congress</strong> with a year-over-year funding <strong>increase</strong>, plus barriers placed on grant overhead cuts and multi-year grant funding interruptions. Management explicitly cited this on the Q4 2025 call as a reason for cautious optimism, while still guiding US academic/government bookings to decline organically in 2026 (because the recovery is gradual and trust must rebuild). Net: sector tailwind from 2H 2026 onward.</li>
+<li><strong>China de-globalization</strong>: Bruker's China revenue has fallen from 16-17% to "just under 14%" of total — a structural reset partly tied to indigenous-instrument substitution and partly to US-China trade tensions. Q4 2025 China bookings were +double-digit YoY, suggesting the bottom may be in.</li>
+<li><strong>Tariff drag</strong>: Q4 2025 saw 30 bps of margin headwind from delayed tariff offsets. Management expects pricing/supply chain actions to fully mitigate by 2026, but this is execution-dependent.</li>
+<li><strong>FX</strong>: USD strength has been a sustained drag. Bruker guides 8% (~$0.15) EPS headwind for 2026 from FX alone — that's roughly half the 15-17% reported EPS growth being absorbed.</li>
+</ul>
+
+<p><strong>Peer Read-Throughs</strong></p>
+<ul>
+<li><strong>TMO (Thermo Fisher)</strong> Q1 2026 print on April 23 was a bellwether: organic flat with strength in bioprod and analytical instruments, weakness in academic. Management confirmed the LSG&amp;Dx trough thesis. BRKR moved -9.6% on the same session, partially in sympathy and partially on a flow-driven rotation.</li>
+<li><strong>Waters / Agilent / DHR</strong>: Mixed Q1 reads with similar bifurcation — academic weak, biopharma improving, semi metrology recovering. The setup is consistent across the peer group: 2026 is a transition year, 2027 is when growth re-accelerates.</li>
+<li><strong>MRI / Imaging customers</strong>: Bruker's BEST segment received <strong>&gt;$500M in multi-year superconducting wire orders</strong> from MRI OEMs at end-Q4 2025 / early Q1 2026. Siemens Healthineers, Philips, GE HealthCare are the dominant MRI players — this confirms downstream demand for clinical MRI is real and durable into 2027-2028.</li>
+</ul>
+
+<p><strong>Geopolitics Affecting the Sector</strong></p>
+<ul>
+<li>US-China tech-export controls broadened in 2025-2026 to include certain advanced metrology and semi inspection tools. Bruker's Nano semiconductor metrology lane is exposed but has so far operated within the licensed boundaries.</li>
+<li>Russia-Ukraine: Continues to suppress European industrial demand modestly.</li>
+<li>Israel/Middle East: Direct revenue impact small, but conference cancellations and travel restrictions affect the sales cycle for advanced instruments where on-site demos drive deals.</li>
+<li>Taiwan: Indirect supply-chain risk for advanced semiconductor metrology components; Bruker has multi-source sourcing strategy but unmitigated Taiwan exposure remains.</li>
+</ul>
+
+<p><strong>Industry Catalysts</strong></p>
+<ul>
+<li><strong>AGBT 2026</strong> (Feb): Bruker showcased timsOMX and timsMETABO mass spectrometers. Strong order momentum cited on Q4 call — but mostly converts to revenue in 2026 H2, not Q1.</li>
+<li><strong>AACR 2026</strong> (April): Spatial biology / NanoString product showcase. Confirmed double-digit % organic order growth in spatial biology.</li>
+<li><strong>ASMS 2026</strong> (June): Next mass-spec catalyst. Will be a tell on whether the recent product launches sustain momentum.</li>
+<li><strong>NIH FY2027 budget cycle</strong>: Begins in mid-2026 (President's budget request), passes Congress late 2026 / early 2027. The 2026 budget is the easier year; 2027 is where the real funding-trajectory call happens.</li>
+</ul>
+
+<p><strong>AI and Semi Metrology Optionality</strong></p>
+<ul>
+<li>Bruker's Nano group has Dimension IconIR (AFM-IR spectroscopy) collaboration with <strong>imec</strong> for semiconductor research. Frame: "next-gen semiconductor metrology in support of AI." Q4 2025 saw "particularly strong" semi metrology orders.</li>
+<li>This is real but small: BRKR Nano semi metrology is a low-single-digit-percent revenue contributor today. The TAM is real but the revenue lift is back-end-loaded into 2027-2028.</li>
+</ul>
+
+<table>
+<tr><th>Macro Factor</th><th>Direction</th><th>Bruker Impact</th></tr>
+<tr><td>NIH FY2026 budget +YoY</td><td>Tailwind (2H+)</td><td>Stabilizes academic bookings</td></tr>
+<tr><td>China revenue mix decline</td><td>Headwind absorbed</td><td>-300 bps mix already in numbers</td></tr>
+<tr><td>FX (USD strength)</td><td>Headwind</td><td>-8%/$0.15 to 2026 EPS</td></tr>
+<tr><td>Tariff drag</td><td>Manageable</td><td>Pricing/supply chain offset</td></tr>
+<tr><td>TMO/Waters/Agilent reads</td><td>Constructive trough</td><td>Confirms 2026 transition year</td></tr>
+<tr><td>MRI OEM order flow</td><td>Positive</td><td>$500M+ BEST multiyear wins</td></tr>
+<tr><td>Semi metrology / AI</td><td>Constructive optionality</td><td>2027-2028 revenue lift</td></tr>
+<tr><td>Geopolitical (Taiwan, Russia, Israel)</td><td>Persistent overhang</td><td>Sales cycle friction</td></tr>
+</table>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Fundamental Analysis</h3><h3>Fundamentals Report</h3>
+
+<p><strong>Company Snapshot</strong></p>
+<p>Bruker Corporation (NASDAQ: BRKR) is a leader in high-performance scientific instruments — NMR, mass spectrometry, microscopy, X-ray, semiconductor metrology — plus a growing diagnostics business (ELITech, NanoString) and the BEST segment (superconducting wire / Extreme Light Infrastructure). Market cap $5.59B at $36.71. The portfolio reorganization through 2024 acquisitions (PhenomeX, ELITech, Chemspeed, NanoString) shifted the revenue mix toward post-genomic, spatial biology, and molecular diagnostics — Project Accelerate 3.0 is now 60%+ of revenue.</p>
+
+<p><strong>FY2025 Reported Results (Released Feb 12, 2026)</strong></p>
+<ul>
+<li>Revenue: $3.44B, +2.1% reported, <strong>-3.7% organic</strong>, +3.5% M&amp;A, +2.3% FX tailwind</li>
+<li>Non-GAAP gross margin: ~50%</li>
+<li>Non-GAAP operating margin: 12.6% (down 280 bps YoY)</li>
+<li>Non-GAAP EPS: ~$2.10</li>
+<li>GAAP EPS: $0.10 quarterly run rate</li>
+<li>Free cash flow: Record $207M in Q4 alone; full year FCF cleaner than prior year</li>
+</ul>
+
+<p><strong>Q4 2025 Detail</strong></p>
+<ul>
+<li>Revenue $977.2M, flat YoY, -5.1% organic, +4.1% FX, +0.8% M&amp;A</li>
+<li>Non-GAAP op margin 15.7% (-240 bps YoY)</li>
+<li>Non-GAAP EPS $0.59 (vs $0.76 in Q4 2024)</li>
+<li>100 bps margin miss vs internal expectation: 50 bps unfavorable mix, 30 bps delayed tariff offset, 20 bps FX</li>
+<li>Cash on balance sheet: ~$300M; net debt ~$1.57B; net leverage ~3.1x</li>
+<li>Q4 debt repayment: $145M</li>
+</ul>
+
+<p><strong>FY2026 Guidance</strong></p>
+<ul>
+<li>Revenue $3.57B-$3.60B (+4-5% reported, <strong>+1-2% organic</strong>, +1.5% M&amp;A, +1.5% FX tailwind)</li>
+<li>Non-GAAP op margin expansion: +250-300 bps (implies ~15.1-15.6% margin)</li>
+<li>Non-GAAP EPS: <strong>$2.10-$2.15</strong> (+15-17%, +23-25% CER)</li>
+<li>Cost savings: $140M+ annualized (raised from $100-120M)</li>
+<li>Q1 2026: Mid-single-digit organic decline, EPS "down meaningfully" YoY (Q1 2025 was a $0.47 EPS quarter — tough comp)</li>
+</ul>
+
+<p><strong>Segment Performance FY2025</strong></p>
+<table>
+<tr><th>Segment</th><th>Revenue</th><th>Organic Δ</th><th>Driver</th></tr>
+<tr><td>BioSpin</td><td>$879M</td><td>Mid-single-digit decline</td><td>NMR weakness; Chemspeed offset</td></tr>
+<tr><td>CALID</td><td>~$1.2B</td><td>High-single-digit CER growth</td><td>ELITech molecular diagnostics + Optics</td></tr>
+<tr><td>Bruker Nano</td><td>~$1.1B</td><td>Low-single-digit decline</td><td>Spatial biology + biopharma offset by academic/industrial</td></tr>
+<tr><td>BEST (net)</td><td>~$262M</td><td>Mid-single-digit decline</td><td>MRI superconductor soft 2025 — flips to tailwind 2026</td></tr>
+<tr><td><strong>BSI total</strong></td><td><strong>$3.18B</strong></td><td><strong>-3.5% organic</strong></td><td>Aftermarket grew low-single</td></tr>
+<tr><td><strong>Aftermarket</strong></td><td><strong>38% of BSI</strong></td><td><strong>Up from 35%</strong></td><td>Recurring/higher margin</td></tr>
+</table>
+
+<p><strong>Geography FY2025 Q4</strong></p>
+<table>
+<tr><th>Region</th><th>Organic Δ</th><th>Notes</th></tr>
+<tr><td>Americas</td><td>-low teens</td><td>US academic/govt drag</td></tr>
+<tr><td>Europe</td><td>-high single digits</td><td>Industrial soft</td></tr>
+<tr><td>Asia-Pacific</td><td>+high single digits</td><td>China +double-digit Q4</td></tr>
+<tr><td>EMEA</td><td>+high single digits</td><td>Defense optics tailwind</td></tr>
+</table>
+
+<p><strong>Balance Sheet</strong> (per Q4 2025 / Dec 2025 reporting)</p>
+<ul>
+<li>Total assets: $6.24B</li>
+<li>Cash &amp; equivalents: $298.8M (vs $183.4M at Dec 2024 — improved)</li>
+<li>Total debt: $2.04B (vs $2.25B at Dec 2024 — paydown of ~$200M)</li>
+<li>Stockholders equity: $2.46B (recovered from $1.78B at Dec 2024 due to convertible preferred)</li>
+<li>Goodwill + intangibles: $2.45B (concentrated risk if M&amp;A growth disappoints)</li>
+<li>Inventory: $1.09B (down from $1.20B; working capital release driving the cash flow surge)</li>
+<li>Receivables: $544.9M; current ratio 1.73</li>
+</ul>
+
+<p><strong>Capital Structure</strong></p>
+<ul>
+<li>152.1M ordinary shares; ~171.7M diluted (after September 2025 mandatory convertible preferred)</li>
+<li>Diluted share count up 13% YoY — material drag on per-share metrics</li>
+<li>Dividend: $0.05/qtr (~0.54% yield)</li>
+<li>No buybacks active (vs $152M in FY2023) — reflects deleverage focus</li>
+</ul>
+
+<p><strong>Profitability &amp; Returns</strong></p>
+<ul>
+<li>Gross profit margin: 50.4% (Q4 2025) — held YoY despite mix shift</li>
+<li>Net income (FY2025): -$22.5M GAAP — <strong>GAAP loss</strong> driven by $107.4M Q3 impairment + $94M+ unusual items</li>
+<li>ROE: -0.4% (negative due to GAAP loss)</li>
+<li>ROA: 2.9%</li>
+<li>Free cash flow: ~$217M TTM, healthy conversion improving</li>
+</ul>
+
+<p><strong>Valuation</strong></p>
+<ul>
+<li>Forward P/E: 15.2x (on $2.41 forward EPS)</li>
+<li>PEG: 1.52</li>
+<li>P/B: 2.27</li>
+<li>EV/EBITDA: ~14x (elevated for low-single-digit organic growth)</li>
+</ul>
+
+<p><strong>Acquisitions Performance Update</strong></p>
+<ul>
+<li>ELITech: Mid-to-high-single-digit organic growth in 2025; very strong placements; Wave AST FDA filing 2026 — performing</li>
+<li>Chemspeed: Mid-to-high-single-digit organic growth — performing</li>
+<li>NanoString: Approximately flat (academic funding pressure); spatial biology orders +double-digit organic — recovering</li>
+<li>PhenomeX: Smaller; integrated into spatial biology — moderate</li>
+</ul>
+
+<p><strong>Innovation Pipeline</strong></p>
+<ul>
+<li>timsOMX, timsMETABO mass spectrometers (launched 2025; revenue 2026 H2+)</li>
+<li>Wave rapid AST diagnostics platform (FDA clearance 2026)</li>
+<li>Self-driving lab (announced SLAS Feb 2026)</li>
+<li>AFM-IR / imec semiconductor metrology collaboration</li>
+<li>Gigahertz-class NMR pipeline: 1 install in 2026, 2-3 expected in 2027+</li>
+</ul>
+
+<p><strong>Concerns</strong></p>
+<ul>
+<li>Q1 2026 will be ugly (mid-single-digit organic decline guided) — but already in expectations</li>
+<li>8% FX EPS headwind absorbs roughly half of the underlying CER growth</li>
+<li>3.1x leverage limits M&amp;A optionality and dividend growth</li>
+<li>BioSpin will be the growth laggard in 2026 (will not normalize until 2027)</li>
+<li>13% share count dilution from 2025 convertible</li>
+<li>$107M Q3 2025 impairment signals at least one acquisition may not be performing to plan</li>
+</ul>
+
+<p><strong>Bottom Line on Fundamentals</strong></p>
+<p>2025 was the through-trough year. Organic growth -3.7%, operating margin down 280 bps, EPS down meaningfully. 2026 guide is the recovery year: +1-2% organic, +250-300 bps margin, +15-17% EPS. The May 6 Q1 2026 print is the immediate test of whether the trough is real. Book-to-bill &gt;1.0x for two consecutive quarters and 7-month BSI backlog (vs 5.5 normal) is the clearest leading indicator that demand has stabilized. The structural challenges — academic funding, FX, tariffs, BioSpin gigahertz lull — are all visible and largely priced in. The opportunity: management has consistently delivered on cost actions and pricing, and the $500M+ BEST multi-year MRI orders + Project Accelerate 3.0 product cadence support the 2027 re-acceleration thesis. The risk: a Q1 print that breaks book-to-bill or organic comps would force a reset of every assumption baked into 2026 numbers.</p>
+
+<table>
+<tr><th>Metric</th><th>FY2024</th><th>FY2025</th><th>FY2026E</th><th>Trend</th></tr>
+<tr><td>Revenue</td><td>$3.37B</td><td>$3.44B</td><td>$3.57-3.60B</td><td>Stabilizing</td></tr>
+<tr><td>Organic growth</td><td>+4.0%</td><td>-3.7%</td><td>+1-2%</td><td>Recovery</td></tr>
+<tr><td>Non-GAAP op margin</td><td>15.4%</td><td>12.6%</td><td>~15.1-15.6%</td><td>Re-expanding</td></tr>
+<tr><td>Non-GAAP EPS</td><td>$2.41</td><td>$2.10</td><td>$2.10-$2.15</td><td>Bottomed</td></tr>
+<tr><td>Net leverage</td><td>~2.7x</td><td>3.1x</td><td>&lt;3.0x target</td><td>Deleveraging</td></tr>
+<tr><td>BSI book-to-bill</td><td>&lt;1.0x</td><td>&gt;1.0x (Q3+Q4)</td><td>&gt;1.0x sustaining?</td><td>Inflecting</td></tr>
+<tr><td>BSI backlog (months)</td><td>~6</td><td>7</td><td>Normalizing to 5.5</td><td>Cushion</td></tr>
+</table>
+</div>
+
+</div><!-- /.col-wide -->
+
+<div class="col-prose">
+
+<h2 class="section">Risk Factors (Item 1A)</h2>
+<div class="report-content">
+<ol>
+<li>US Academic &amp; Government Funding Volatility (NIH/NSF/DOE; ~30-35% of revenue tied to academic &amp; government end-markets, with US specifically the most volatile lane)</li>
+<li>Foreign Exchange Translation Risk (&gt;70% of revenue ex-US; 8% / ~$0.15 EPS headwind embedded in FY2026 guide)</li>
+<li>Tariff &amp; US-China Trade Policy (30 bps Q4 2025 margin drag; ongoing US-China tariff regime; export-control exposure on advanced metrology)</li>
+<li>Acquisition Integration &amp; Goodwill Impairment Risk ($2.45B goodwill + intangibles; PhenomeX/ELITech/Chemspeed/NanoString integration; $107M Q3 2025 impairment booked)</li>
+<li>Helium &amp; Cryogen Supply (NMR business critical input; helium price volatility cited as input cost risk)</li>
+<li>Concentrated Family Ownership (Laukien family ownership concentration; founder-CEO Frank Laukien controls a substantial bloc; affects governance flexibility)</li>
+<li>Long-Cycle Capital Equipment Order Timing (Instruments are 6-18 month deal cycles; revenue recognition lumpy; gigahertz NMR pipeline collapsed from 4 in 2024 to 1 in 2026)</li>
+<li>Geopolitical / Supply Chain Concentration (Asian sourcing for components; Taiwan exposure; Russia-Ukraine; Israel/Middle East)</li>
+<li>Debt Service &amp; Leverage (3.1x net leverage; $2.04B total debt; mandatory convertible preferred dilution +13% diluted shares)</li>
+<li>Competition &amp; Indigenous Substitution (China indigenous instrument substitution structurally lowering BRKR's China share from 16-17% to &lt;14%)</li>
+</ol>
+<p>Filing reference: Form 10-K for fiscal year ended December 31, 2024 (filed February-March 2025) and forward-looking statements in Q4 2025 earnings release dated February 12, 2026.</p>
+</div>
+
+<div class="footer">
+  <div class="disclaimer">
+    This document is the confidential work product of the Silent Engineering Fund's
+    internal research process and is intended for partners and authorized personnel only.
+    It does not constitute investment advice, an offer to sell, or a solicitation to buy
+    any security. Past performance is not indicative of future results.
+  </div>
+  <div class="colophon">Silent Engineering Fund &middot; Internal Research</div>
+</div>
+
+</div><!-- /.col-prose -->
+
+</body>
+</html>

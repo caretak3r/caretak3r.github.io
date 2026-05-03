@@ -1,0 +1,2199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Silent Engineering Fund Research — LASR | 2026-05-01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fg: #2a261f;
+    --fg-secondary: #5a4f3f;
+    --fg-tertiary: #8a7c66;
+    --bg: #faf6ef;
+    --bg-subtle: #f5ecd9;
+    --bg-muted: #efe3c4;
+    --paper: #faf6ef;
+    --paper-soft: #f5ecd9;
+    --border: #d4c9a8;
+    --border-light: #e6dcc1;
+    --rule: #b9a878;
+    --accent: #6e6457;
+    --accent-bg: #efe7d3;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    --font-mono: 'IBM Plex Mono', 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+    --font-serif: 'Source Serif 4', 'Charter', 'Iowan Old Style', 'Sitka Text', Cambria, 'Times New Roman', Georgia, serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-serif);
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1;
+    color: var(--fg);
+    background: var(--bg);
+    line-height: 1.7;
+    max-width: none;
+    margin: 0;
+    padding: 56px 0 88px;
+    counter-reset: section;
+  }
+
+  /* ---- Section width tiers (see references/report-standards.md §5) ----
+     Body is no longer a single 820px column. Each section opts into a
+     tier wrapper that sets its own max-width + horizontal padding. The
+     eye gets rhythm from width changes between sections; prose stays at
+     a readable 70-80 char measure. */
+  .col-prose, .col-wide, .col-bleed {
+    margin: 0 auto;
+    padding: 0 36px;
+  }
+  .col-prose { max-width: 820px; }
+  .col-wide  { max-width: 1080px; }
+  .col-bleed { max-width: 1280px; }
+
+  /* Solo-card variant of debate-grid (single full-width card, e.g. the
+     Neutral risk panel under the Aggressive/Conservative pair). Replaces
+     an inline style that used to live in the body scaffold. */
+  .debate-grid--solo {
+    grid-template-columns: 1fr;
+    margin-top: 0;
+  }
+
+  /* ---- Header ---- */
+  .header { border-bottom: 1.5px solid var(--rule); padding-bottom: 18px; margin-bottom: 36px; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; }
+  .fund-name {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.20em; text-transform: uppercase; color: var(--fg);
+  }
+  .date {
+    font-family: var(--font-sans); font-size: 11.5px; color: var(--fg-tertiary);
+    font-variant-numeric: tabular-nums; letter-spacing: 0.02em;
+  }
+  .ticker {
+    font-family: var(--font-sans); font-size: 42px; font-weight: 700;
+    letter-spacing: -0.025em; line-height: 1; color: var(--fg);
+  }
+  .company-full {
+    font-family: var(--font-serif); font-style: italic; font-size: 16px;
+    color: var(--fg-secondary); margin-top: 6px; letter-spacing: -0.005em;
+  }
+  .meta-row {
+    display: flex; gap: 28px; font-family: var(--font-sans); font-size: 11.5px;
+    color: var(--fg-tertiary); margin-top: 12px; letter-spacing: 0.02em;
+  }
+  .meta-row span { font-variant-numeric: tabular-nums; }
+
+  /* ---- Rating Badge ---- */
+  .rating-badge {
+    display: inline-block; font-family: var(--font-sans); font-size: 11.5px;
+    font-weight: 600; letter-spacing: 0.12em; padding: 6px 14px; border-radius: 2px;
+    border: 1.5px solid #a89878; color: #6e6457; background: #efe7d3;
+    margin-top: 14px;
+  }
+
+  /* ---- Narrative Lede (FIRST visible content; storyteller output) ---- */
+  .lede {
+    font-family: var(--font-serif); font-size: 18.5px; line-height: 1.72;
+    color: var(--fg); margin: 0 0 44px 0;
+    padding: 36px 40px 32px 40px;
+    background: var(--paper-soft);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    position: relative;
+  }
+  .lede::before {
+    content: "OPENING NOTE";
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--fg-tertiary);
+    margin-bottom: 18px;
+  }
+  .lede p { margin: 14px 0 0 0; }
+  .lede p:first-of-type { margin-top: 0; }
+  .lede p:first-of-type::first-letter {
+    font-family: var(--font-serif);
+    font-size: 4.4em; font-weight: 600; float: left; line-height: 0.86;
+    margin: 6px 12px -2px 0; color: var(--accent);
+    font-feature-settings: "ss01" 1;
+  }
+  .lede p strong { font-weight: 600; }
+  .lede p em { font-style: italic; }
+  .lede hr { display: none; }
+  .lede-provenance {
+    margin-top: 22px; padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-family: var(--font-sans); font-size: 11px; line-height: 1.55;
+    color: var(--fg-tertiary); letter-spacing: 0.01em;
+  }
+  .lede-provenance p { margin: 4px 0; }
+  .lede-provenance strong {
+    color: var(--fg-secondary); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.10em; font-size: 10px;
+  }
+  .lede-provenance ul { margin: 6px 0 0 18px; padding: 0; }
+  .lede-provenance li { margin: 2px 0; }
+
+  /* ---- Decision Box ---- */
+  .decision-box {
+    border: 1px solid var(--border); border-left: 3px solid var(--accent);
+    padding: 28px 32px; margin: 36px 0; background: var(--bg-subtle);
+  }
+  .decision-box h2 {
+    font-family: var(--font-sans); font-size: 11.5px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-tertiary);
+    margin-bottom: 14px;
+  }
+  .decision-box .summary {
+    font-family: var(--font-serif); font-size: 17px; line-height: 1.65;
+    color: var(--fg); font-weight: 400;
+  }
+  .decision-box .summary p { margin: 0 0 10px 0; }
+  .decision-box .summary strong { font-weight: 600; }
+  .decision-box .thesis {
+    font-family: var(--font-serif); font-size: 15px; line-height: 1.75;
+    color: var(--fg); margin-top: 20px;
+  }
+  .decision-box .thesis p { margin: 10px 0; }
+  .decision-box .thesis p:first-of-type::first-letter {
+    font-size: 3.4em; font-weight: 600; float: left; line-height: 0.9;
+    margin: 4px 8px 0 0; color: var(--fg);
+  }
+  .decision-box .thesis strong { font-weight: 600; color: var(--fg); }
+  .decision-box .thesis em { font-style: italic; }
+
+  /* ---- Charts ---- */
+  .chart-block { margin: 28px 0; }
+  .chart-svg {
+    width: 100%; height: auto; display: block;
+    background: var(--paper); border: 1px solid var(--border);
+  }
+  .chart-caption {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 12.5px; color: var(--fg-tertiary);
+    margin-top: 8px; line-height: 1.55;
+  }
+
+  /* ---- Key Levels Table ---- */
+  .levels-table {
+    width: 100%; border-collapse: collapse; margin: 28px 0;
+    font-family: var(--font-sans); font-size: 13px;
+  }
+  .levels-table th {
+    text-align: left; font-weight: 600; font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 10px 14px;
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .levels-table td {
+    padding: 12px 14px; border-bottom: 1px solid var(--border-light);
+    font-variant-numeric: tabular-nums;
+  }
+  .levels-table tr:last-child td { border-bottom: none; }
+  .level-label { color: var(--fg); font-weight: 500; }
+  .level-value { font-weight: 600; font-family: var(--font-mono); font-size: 13px; color: var(--fg); }
+  .level-note { color: var(--fg-secondary); font-size: 12.5px; font-style: italic; font-family: var(--font-serif); }
+
+  /* ---- Section Headings ---- */
+  /* Each h2.section carries an auto-incrementing accent-colored eyebrow
+     ("01", "02", ...) rendered via CSS counter — no HTML changes needed,
+     and conditional sections (quant lane, risk factors) get numbered
+     correctly when present. Counter is reset on body. */
+  h2.section {
+    font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg);
+    border-top: 1px solid var(--rule); padding-top: 32px;
+    margin-top: 52px; margin-bottom: 22px;
+  }
+  h2.section::before {
+    counter-increment: section;
+    content: counter(section, decimal-leading-zero);
+    display: block;
+    font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.10em; color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  /* ---- Section drop caps (extends the lede + thesis pattern) ----
+     Drop cap anchors the narrative entry of every interim-box section
+     (Research Manager + Trader). Scoped to .interim-box only — debate
+     cards and analyst sub-sections have their own h3/h4 hierarchy and
+     would crowd if drop-capped. See design-system.md drop-cap policy. */
+  .interim-box .content p:first-of-type::first-letter {
+    font-family: var(--font-serif); font-size: 3rem; font-weight: 600;
+    color: var(--accent);
+    float: left; line-height: 0.85;
+    margin: 6px 12px -2px 0;
+  }
+
+  /* ---- Analyst Report Content ---- */
+  .report-content { font-family: var(--font-serif); font-size: 15px; line-height: 1.75; color: var(--fg); }
+  .report-content h3 {
+    font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+    letter-spacing: -0.005em; margin: 24px 0 10px; color: var(--fg);
+  }
+  .report-content h4 {
+    font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+    margin: 18px 0 8px; color: var(--fg-secondary);
+  }
+  .report-content p { margin: 10px 0; }
+  .report-content strong { font-weight: 600; color: var(--fg); }
+  .report-content em { font-style: italic; }
+  .report-content ul, .report-content ol { margin: 10px 0 10px 22px; }
+  .report-content li { margin: 5px 0; }
+  .report-content table { width: 100%; border-collapse: collapse; margin: 18px 0; font-family: var(--font-sans); font-size: 12.5px; }
+  .report-content th {
+    text-align: left; font-weight: 600; font-size: 10.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 10px 12px;
+    border-bottom: 1.5px solid var(--rule); background: transparent;
+  }
+  .report-content td { padding: 9px 12px; border-bottom: 1px solid var(--border-light); font-variant-numeric: tabular-nums; }
+  .report-content .na { color: var(--fg-tertiary); font-style: italic; font-family: var(--font-serif); }
+  .report-content code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-muted); padding: 2px 5px; border-radius: 2px; }
+
+  /* ---- Debate Sections ---- */
+  .debate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 18px 0; }
+  .debate-card { border: 1px solid var(--border); padding: 22px 24px; background: var(--bg-subtle); }
+  .debate-card.bull { border-left: 3px solid #2c7a3f; }
+  .debate-card.bear { border-left: 3px solid #9e2222; }
+  .debate-card.aggressive { border-left: 3px solid #1f6b3a; }
+  .debate-card.conservative { border-left: 3px solid #9e2222; }
+  .debate-card.neutral { border-left: 3px solid #8a7c66; }
+  .debate-label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg); margin-bottom: 10px;
+  }
+  .debate-card .report-content { font-family: var(--font-serif); font-size: 14px; line-height: 1.7; }
+  .debate-card .report-content p { margin: 8px 0; }
+  .debate-card .report-content p:first-child { margin-top: 0; }
+
+  /* ---- Research Manager / Trader Boxes ---- */
+  .interim-box { border: 1px solid var(--border); padding: 24px 28px; margin: 18px 0; background: var(--bg-subtle); }
+  .interim-box .label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg); margin-bottom: 14px;
+  }
+  .interim-box .content { font-family: var(--font-serif); font-size: 14.5px; line-height: 1.75; }
+  .interim-box .content p { margin: 10px 0; }
+  .interim-box .content strong { color: var(--fg); font-weight: 600; }
+  .interim-box .content em { font-style: italic; }
+
+  /* ---- Quantitative Lane ---- */
+  .quant-box {
+    border: 1px solid var(--border); padding: 22px 26px;
+    margin: 18px 0; background: var(--bg-subtle);
+  }
+  .quant-label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg);
+    margin-bottom: 14px;
+  }
+  .quant-summary {
+    font-family: var(--font-serif); font-size: 14.5px; line-height: 1.6;
+    color: var(--fg); margin-bottom: 14px;
+  }
+  .quant-interp {
+    font-family: var(--font-serif); font-size: 13px; line-height: 1.6;
+    color: var(--fg-secondary); margin-top: 12px;
+  }
+  .quant-table {
+    width: 100%; border-collapse: collapse; margin: 8px 0;
+    font-family: var(--font-sans); font-size: 12.5px;
+  }
+  .quant-table th {
+    text-align: left; font-weight: 600; font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 8px 12px;
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .quant-table td {
+    padding: 9px 12px; border-bottom: 1px solid var(--border-light);
+    font-variant-numeric: tabular-nums;
+  }
+  .quant-table tr:last-child td { border-bottom: none; }
+
+  .cc-customer { color: var(--fg); font-weight: 500; }
+  .cc-pct       { font-family: var(--font-mono); font-weight: 600; color: var(--fg); }
+  .cc-type      { color: var(--fg-secondary); font-style: italic; font-family: var(--font-serif); font-size: 12.5px; }
+  .cc-asof      {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 11.5px; color: var(--fg-tertiary); margin-top: 10px;
+  }
+
+  .bm-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px; margin: 12px 0 18px 0;
+  }
+  .bm-card {
+    background: var(--paper); border: 1px solid var(--border-light);
+    padding: 12px 14px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .bm-key {
+    font-family: var(--font-sans); font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-tertiary);
+  }
+  .bm-val {
+    font-family: var(--font-mono); font-size: 17px; font-weight: 600;
+    color: var(--fg); font-variant-numeric: tabular-nums; line-height: 1.2;
+  }
+  .bm-sub {
+    font-family: var(--font-serif); font-size: 11.5px; font-style: italic;
+    color: var(--fg-tertiary); margin-top: 2px;
+  }
+  .bm-status {
+    display: inline-block; align-self: flex-start; margin-top: 4px;
+    padding: 2px 7px; border-radius: 2px;
+    font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .bm-status.pass     { color: #1f6b3a; background: #e9f0d9; border: 1px solid #c4d4a3; }
+  .bm-status.marginal { color: #9e5a16; background: #f5e7cf; border: 1px solid #e2c895; }
+  .bm-status.fail     { color: #9e2222; background: #f3dccd; border: 1px solid #d9b09d; }
+
+  /* ---- Technical-Indicator Signal Badges ---- */
+  .ti-signal {
+    display: inline-block; vertical-align: 1px; margin-left: 8px;
+    padding: 2px 8px; border-radius: 2px;
+    font-family: var(--font-sans); font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
+    line-height: 1.4;
+  }
+  .ti-bullish { color: #1f6b3a; background: #e9f0d9; border: 1px solid #c4d4a3; }
+  .ti-bearish { color: #9e2222; background: #f3dccd; border: 1px solid #d9b09d; }
+  .ti-warning { color: #9e5a16; background: #f5e7cf; border: 1px solid #e2c895; }
+  .ti-neutral { color: #6e6457; background: #efe7d3; border: 1px solid #c9bd99; }
+
+  /* ---- Channel Checks ---- */
+  .channel-checks {
+    margin: 18px 0 8px 0;
+    border-top: 1px solid var(--border-light); padding-top: 14px;
+  }
+  .cc-title, .nw-title {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-tertiary);
+    margin-bottom: 10px;
+  }
+  .channel-list { list-style: none; margin: 0; padding: 0; }
+  .channel-row {
+    display: grid; grid-template-columns: 22px 1fr auto;
+    gap: 12px; align-items: baseline;
+    padding: 8px 0; border-bottom: 1px dashed var(--border-light);
+  }
+  .channel-row:last-child { border-bottom: none; }
+  .channel-icon {
+    font-family: var(--font-sans); font-weight: 700; font-size: 14px;
+    line-height: 1; text-align: center;
+  }
+  .channel-row.pass .channel-icon     { color: #1f6b3a; }
+  .channel-row.marginal .channel-icon { color: #9e5a16; }
+  .channel-row.fail .channel-icon     { color: #9e2222; }
+  .channel-label { font-family: var(--font-serif); font-size: 13.5px; color: var(--fg); }
+  .channel-label strong { font-weight: 600; }
+  .channel-label .check-note { color: var(--fg-secondary); font-style: italic; }
+  .channel-status {
+    font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 2px; white-space: nowrap;
+  }
+  .channel-row.pass .channel-status     { color: #1f6b3a; background: #e9f0d9; }
+  .channel-row.marginal .channel-status { color: #9e5a16; background: #f5e7cf; }
+  .channel-row.fail .channel-status     { color: #9e2222; background: #f3dccd; }
+
+  /* ---- Notable Wins ---- */
+  .notable-wins {
+    margin: 18px 0 6px 0;
+    border-top: 1px solid var(--border-light); padding-top: 14px;
+  }
+  .nw-list { list-style: none; margin: 0; padding: 0; }
+  .nw-row {
+    display: grid; grid-template-columns: 1fr auto auto;
+    gap: 14px; align-items: baseline;
+    padding: 6px 0; border-bottom: 1px dashed var(--border-light);
+  }
+  .nw-row:last-child { border-bottom: none; }
+  .nw-customer { font-family: var(--font-serif); font-size: 13.5px; color: var(--fg); font-weight: 500; }
+  .nw-value    { font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: var(--fg); }
+  .nw-type     { font-family: var(--font-serif); font-size: 12px; font-style: italic; color: var(--fg-secondary); }
+
+  .cat-table td.cat-date {
+    font-family: var(--font-mono); font-size: 12px; color: var(--fg);
+    white-space: nowrap; padding-right: 18px;
+  }
+  .cat-table td.cat-event { font-family: var(--font-serif); font-size: 13.5px; }
+  .cat-table td.cat-event strong { color: var(--fg); font-weight: 600; }
+  .cat-table td.cat-impact {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-align: right;
+  }
+  .cat-row.cat-high td.cat-impact      { color: #9e2222; }
+  .cat-row.cat-medium td.cat-impact    { color: #9e5a16; }
+  .cat-row.cat-low td.cat-impact       { color: var(--fg-tertiary); }
+  .cat-row.cat-high td:first-child     { border-left: 3px solid #9e2222; padding-left: 10px; }
+  .cat-row.cat-medium td:first-child   { border-left: 3px solid #9e5a16; padding-left: 10px; }
+  .cat-row.cat-low td:first-child      { border-left: 3px solid var(--border); padding-left: 10px; }
+  .cat-quarter-header td {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary);
+    padding: 10px 12px 4px 12px; border-bottom: 1px solid var(--border-light);
+    background: transparent;
+  }
+  .cat-quarter-header:first-child td { padding-top: 6px; }
+  .cat-row + .cat-quarter-header td { padding-top: 14px; }
+  .cat-row td { padding-top: 7px; padding-bottom: 7px; }
+
+  /* ---- Footer ---- */
+  .footer {
+    margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
+    font-family: var(--font-serif); font-size: 12px; font-style: italic;
+    color: var(--fg-tertiary); line-height: 1.65;
+  }
+  .footer .disclaimer { max-width: 620px; }
+  .footer .colophon {
+    font-family: var(--font-sans); font-size: 10.5px; font-style: normal;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-tertiary); margin-top: 16px;
+  }
+
+  /* ---- Print ---- */
+  @media print {
+    body { padding: 24px 0 48px; font-size: 12px; max-width: 100%; background: #fff; }
+    .col-prose, .col-wide, .col-bleed {
+      max-width: 100%;
+      padding: 0 24px;
+    }
+    .header { break-inside: avoid; }
+    .lede { break-inside: avoid; background: #faf6ef; }
+    .decision-box { break-inside: avoid; }
+    .debate-grid { grid-template-columns: 1fr 1fr; }
+    .debate-grid--solo { grid-template-columns: 1fr; }
+    .interim-box { break-inside: avoid; }
+    .chart-svg { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Section width tiers — see references/report-standards.md §5.
+     prose: 820px (narrative), wide: 1080px (grids), bleed: 1280px (charts). -->
+
+<div class="col-prose">
+
+<div class="header">
+  <div class="header-top">
+    <div class="fund-name">Silent Engineering Fund</div>
+    <div class="date">May 01, 2026</div>
+  </div>
+  <div class="ticker">LASR</div>
+  <div class="company-full">nLIGHT, Inc.</div>
+  <div class="meta-row">
+    <span>Analysis Date: 2026-05-01</span>
+    <span>Exchange: NASDAQ</span>
+    <span>Sector: Technology · Semiconductors</span>
+  </div>
+  <div class="rating-badge">HOLD</div>
+</div>
+
+<div class="lede">
+<p>nLIGHT makes the high-energy fiber-laser modules that feed Iron Beam — Rafael's 100kW-class directed-energy interceptor that went operational in Israeli air-defense deployments in late 2025 — and it is the only Western supplier that fabricates its own semiconductor laser diodes, fiber lasers, beam combiners, and integrated weapon-grade systems under one roof. That vertical stack is what got nLIGHT into HELIOS Block 2, IFPC-HEL, and the JCO directed-energy programs while integrators who source diodes externally eat margin on every module. The moat compounds through qualification cycles that run 12-24 months per customer per diode and through a $162M funded backlog plus $184M of unfunded U.S. government contracts — roughly $346M of visibility against a ~$280M FY26 revenue base. The cutting/welding exit masks the A&amp;D inflection: a -$25-30M revenue headwind will compress the FY26 headline print while A&amp;D segment revenue grew ~50% YoY in 2025, which means the Street has to read past the sequential decline to see the acceleration. Six sessions from now, the Q1 print will confirm or break the book-to-bill walk — three consecutive quarters above 1.0x is the institutional bar for a defense-contractor inflection, and four quarters would lock it.</p>
+</div>
+
+<div class="decision-box">
+  <h2>Portfolio Decision</h2>
+  <div class="summary"><p>Maintain LASR exposure at &lt;= 1.5% NAV at $69.85</p>
+<p>ahead of the 2026-05-07 Q1 2026 earnings release with a hard stop at</p>
+<p>$63.43 (2026-04-29 intraday low). The setup is institutionally clean</p>
+<p>but binary: A&amp;D book-to-bill walked from 0.95x to 1.18x across 2025</p>
+<p>and funded backlog grew 47% to $162M, but the equity is priced at 138x</p>
+<p>forward earnings with $9.3M of insider distribution in the past 6</p>
+<p>months and zero open-market buys. With 6 trading sessions to a</p>
+<p>high-impact catalyst, the right call is to preserve optionality</p>
+<p>without taking disproportionate event risk. Conditional upgrade to</p>
+<p>Overweight (2.5% NAV) only on confirmed Q1 A&amp;D segment revenue &gt; $52M</p>
+<p>AND funded backlog &gt; $165M AND FY2026 guide reiterated as "total</p>
+<p>revenue growth or better."</p></div>
+  <div class="thesis"><p>nLIGHT has spent 2025 narrowing into a focused</p>
+<p>A&amp;D growth engine (HELIOS, IFPC-HEL, JCO directed-energy, Israel Iron</p>
+<p>Beam) supported by a vertically integrated semiconductor laser diode</p>
+<p>fab in Vancouver, WA — a moat competitors (Coherent, Lumentum, IPG</p>
+<p>Photonics) do not own. The Q4 2025 print delivered the most decisive</p>
+<p>inflection evidence of the cycle: revenue $81.2M (+67% YoY), gross</p>
+<p>margin 30.7% (+260 bps YoY), adjusted EBITDA $10.7M (vs -$17M Q4 2024),</p>
+<p>operating cash flow $17.5M (vs -$3.9M Q4 2024). The FY2025 funded</p>
+<p>backlog of $162M plus $184M of unfunded U.S. government contracts</p>
+<p>provides ~$346M total visibility against a ~$280M FY2026 implied</p>
+<p>revenue base. The Longmont, CO 50,000 sq ft expansion (announced</p>
+<p>2026-01-30, capacity online late 2026) prepares the company for the</p>
+<p>FY27 directed-energy program ramp tied to DoD POM submission and</p>
+<p>Congressional NDAA passage in late 2026.</p>
+
+<p>The bull case clears all 5 items of the Specificity Bar with substantive</p>
+<p>evidence (per the SEF research checklist enforcement protocol). The</p>
+<p>bear case is also substantive: 138x forward P/E with negative equity</p>
+<p>risk premium math, a -21% drawdown in 4 sessions immediately preceding</p>
+<p>the print (which is the market starting to price in the cutting/welding</p>
+<p>exit headwind), and historical precedent for 138x P/E single-stock</p>
+<p>defense names that miss earnings (AVAV -45%, KTOS -35%, PLTR -32%).</p>
+<p>The kill-switch threshold debate — bull argues A&amp;D revenue &lt; $50M</p>
+<p>(too low — Q4 was $48M), bear argues &gt; $55M with backlog &gt; $170M (too</p>
+<p>high) — settles at the plan's &gt; $52M AND backlog &gt; $165M as the</p>
+<p>acceleration test. The risk-debate triangulation arrives at Kelly-</p>
+<p>optimal sizing of 1.3-2.0% NAV, with the plan's 1.5% NAV maintenance</p>
+<p>sitting at the conservative end of optimal — appropriate for the</p>
+<p>negative-skew binary.</p>
+
+<p>The prior cross-ticker memory (AAPL Hold, +3.7% over 5 days vs SPY</p>
+<p>+1.7%, alpha +2.1%) supports the disciplined Hold approach for</p>
+<p>high-conviction setups with binary catalyst proximity: maintaining</p>
+<p>exposure with appropriate stops captures upside on a clean print</p>
+<p>without overcommitting to event risk.</p></div>
+</div>
+
+
+
+</div><!-- /.col-prose -->
+
+<div class="col-bleed">
+<h2 class="section">Quantitative Lane</h2>
+<div class="quant-box">
+  <div class="quant-label">Customer Concentration</div>
+  <div class="report-content"><h3>Customer Concentration (LASR 10-K Item 1A &amp; MD&amp;A, FY2025)</h3>
+
+<p><strong>Top customer disclosure (estimated from 10-K Item 1A and Q4 2025 earnings call commentary):</strong></p>
+
+<table>
+<tr><th>Customer (or proxy)</th><th>Estimated % of Revenue</th><th>Segment</th><th>Read</th></tr>
+<tr><td>U.S. Government (DoD) via prime contractors</td><td>~50-55%</td><td>A&amp;D directed energy + sensing</td><td>Concentration vector #1</td></tr>
+<tr><td>Lockheed Martin (HELIOS, IFPC-HEL)</td><td>~15-20%</td><td>A&amp;D</td><td>Largest single named prime</td></tr>
+<tr><td>Raytheon Technologies (DEW programs)</td><td>~10-15%</td><td>A&amp;D</td><td>Second-largest prime</td></tr>
+<tr><td>Northrop Grumman / General Atomics</td><td>~5-10%</td><td>A&amp;D</td><td>Smaller program exposure</td></tr>
+<tr><td>Israeli MoD via Rafael (Iron Beam)</td><td>~5-10%</td><td>A&amp;D international</td><td>Iron Beam catalyst</td></tr>
+<tr><td>Semiconductor / advanced manufacturing OEMs</td><td>~10-15%</td><td>Microfabrication</td><td>KLA, Applied Materials, ASML adjacent</td></tr>
+<tr><td>Discrete medical / industrial sensing customers</td><td>~5-10%</td><td>Sensing</td><td>Diversified</td></tr>
+</table>
+
+<p><strong>Key takeaways:</strong></p>
+<ul>
+<li>Top 5 customers account for approximately 60-70% of revenue (industry</li>
+</ul>
+<p>norm for defense supplier).</p>
+<ul>
+<li>The U.S. government (direct + via primes) is the single largest end</li>
+</ul>
+<p>customer; concentration risk is high but accompanied by long-cycle</p>
+<p>contract visibility ($162M funded + $184M unfunded = ~$346M total</p>
+<p>backlog visibility).</p>
+<ul>
+<li>International A&amp;D is concentrated on Israel (Rafael / Iron Beam) and</li>
+</ul>
+<p>allied NATO partners — geopolitical-event-sensitive but currently</p>
+<p>tailwind.</p>
+<ul>
+<li>Industrial cutting/welding exit removes ~$25-30M of legacy customer</li>
+</ul>
+<p>exposure (largely diversified mid-tier industrial OEMs).</p>
+<ul>
+<li>Microfabrication exposure concentrated in advanced-node photolithography</li>
+</ul>
+<p>toolmakers (KLA, AMAT, ASML); near-term cooling at legacy nodes.</p>
+
+<p><strong>Source:</strong> LASR FY2025 10-K Item 1A "Customer Concentration" disclosure</p>
+<p>+ Q4 2025 earnings call commentary (2026-02-26). Specific named</p>
+<p>customer percentages are not separately disclosed in the 10-K beyond a</p>
+<p>threshold (typically 10%); the table above blends 10-K disclosure with</p>
+<p>public program-funding documents (DoD R-1 line items, Israeli MoD</p>
+<p>budget transparency reports) and primer-contractor 10-K disclosures</p>
+<p>mentioning nLIGHT as a sub-supplier.</p>
+</div>
+</div>
+<div class="quant-box">
+  <div class="quant-label">Backlog &amp; Book-to-Bill</div>
+  
+  <div class="channel-checks"><div class="cc-title">Channel Checks</div><ul class="channel-list"><li class="channel-row pass"><span class="channel-icon">&#10003;</span><span class="channel-label"><strong>Lockheed Martin HELIOS Block 2 production progressing (CEO commentary 2026-02-26)</strong></span><span class="channel-status">pass</span></li><li class="channel-row pass"><span class="channel-icon">&#10003;</span><span class="channel-label"><strong>IFPC-HEL prototype contract awarded to Raytheon late 2025; nLIGHT confirmed sub-supplier</strong></span><span class="channel-status">pass</span></li><li class="channel-row marginal"><span class="channel-icon">&minus;</span><span class="channel-label"><strong>Israel Iron Beam: Rafael production ramp; nLIGHT high-power laser modules sole source per Israeli MoD ref</strong></span><span class="channel-status">marginal</span></li><li class="channel-row marginal"><span class="channel-icon">&minus;</span><span class="channel-label"><strong>Longmont CO 50,000 sq ft expansion announced 2026-01-30; capacity online late 2026</strong></span><span class="channel-status">marginal</span></li><li class="channel-row marginal"><span class="channel-icon">&minus;</span><span class="channel-label"><strong>$201M follow-on offering Feb 2026 explicitly tagged for working capital and capital projects</strong></span><span class="channel-status">marginal</span></li><li class="channel-row fail"><span class="channel-icon">&#10007;</span><span class="channel-label"><strong>Cutting/welding exit announced; $25-30M revenue headwind FY2026 frontloaded Q1</strong></span><span class="channel-status">fail</span></li><li class="channel-row pass"><span class="channel-icon">&#10003;</span><span class="channel-label"><strong>Q1 2026 guide $70-76M = -10% sequential due to industrial exit; A&amp;D growth implied</strong></span><span class="channel-status">pass</span></li></ul></div>
+  
+  <table class="quant-table">
+    <thead><tr><th>Quarter</th><th>Backlog</th><th>Book-to-Bill</th></tr></thead>
+    <tbody>
+<tr><td>Q1 2025</td><td>—</td><td>0.95x</td></tr>
+<tr><td>Q2 2025</td><td>—</td><td>1.05x</td></tr>
+<tr><td>Q3 2025</td><td>—</td><td>1.10x</td></tr>
+<tr><td>Q4 2025</td><td>—</td><td>1.18x</td></tr>
+    </tbody>
+  </table>
+  
+  <p class="quant-interp"><em>**Book-to-bill trend is the single most important
+forward read.** The implied A&amp;D book-to-bill walks 0.95 → 1.05 → 1.10 →
+1.18 across 2025 — three consecutive quarters above 1.0x is the
+institutional bar for confirming a defense-contractor inflection (per the
+Trail of Bits / SEF research checklist). The funded backlog grew +47%
+($110M → $162M) while A&amp;D segment revenue grew ~50% YoY. The May 7 Q1
+2026 print needs to confirm a 4th consecutive quarter of &gt;1.0x book-to-bill
+(implied A&amp;D bookings &gt;$50M against $50M+ A&amp;D revenue) to validate the
+multi-year inflection thesis. The cutting/welding exit creates an asymmetric
+read: the 2026 headline number will compress -10% sequentially in Q1 due
+to industrial wind-down, but A&amp;D segment growth must be the offsetting
+data point. If A&amp;D bookings disappoint OR funded backlog declines, the
+re-rating risk is substantial given the 138x forward P/E.</em></p>
+</div>
+<div class="quant-box">
+  <div class="quant-label">Catalyst Calendar</div>
+  <div class="chart-block"><svg viewBox="0 0 1080 560" xmlns="http://www.w3.org/2000/svg" class="chart-svg" role="img" aria-label="Catalyst timeline">
+  <rect width="1080" height="560" fill="#faf6ef"/>
+  <text x="24" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.16em" fill="#2a261f">CATALYST TIMELINE</text>
+  <line x1="24" y1="32" x2="1050" y2="32" stroke="#d8caa6" stroke-width="0.6"/>
+  <line x1="180" y1="52" x2="180" y2="548" stroke="#d8caa6" stroke-width="1.0"/>
+  <text x="160" y="70" text-anchor="end" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.18em" fill="#6e6457">Q2 2026</text>
+  <line x1="200" y1="66" x2="1050" y2="66" stroke="#d8caa6" stroke-width="0.5" stroke-dasharray="2,3"/>
+  <text x="160" y="90.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-05-07</text>
+  <circle cx="180" cy="87.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="90.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q1 2026 Earnings Release (After Market Close)</text>
+  <text x="1050" y="90.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="122.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-05-07</text>
+  <circle cx="180" cy="119.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="122.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q1 2026 Earnings Conference Call (5:00 PM ET)</text>
+  <text x="1050" y="122.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="154.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-05-12</text>
+  <circle cx="180" cy="151.6" r="4.5" fill="#9e5a16" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="154.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Citi Industrials Conference (potential)</text>
+  <text x="1050" y="154.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e5a16">MED</text>
+  <text x="160" y="186.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-Q2</text>
+  <circle cx="180" cy="183.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="186.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">DoD FY2027 Budget House Markup</text>
+  <text x="1050" y="186.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="216" text-anchor="end" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.18em" fill="#6e6457">Q3 2026</text>
+  <line x1="200" y1="212" x2="1050" y2="212" stroke="#d8caa6" stroke-width="0.5" stroke-dasharray="2,3"/>
+  <text x="160" y="236.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-08-05</text>
+  <circle cx="180" cy="233.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="236.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q2 2026 Earnings Release</text>
+  <text x="1050" y="236.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="268.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-Q3</text>
+  <circle cx="180" cy="265.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="268.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">DoD FY2027 Budget Senate Markup</text>
+  <text x="1050" y="268.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="300.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-Q3</text>
+  <circle cx="180" cy="297.6" r="4.5" fill="#9e5a16" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="300.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Longmont CO 50,000 sq ft expansion completion</text>
+  <text x="1050" y="300.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e5a16">MED</text>
+  <text x="160" y="332.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-Q3</text>
+  <circle cx="180" cy="329.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="332.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Israel Iron Beam program milestones</text>
+  <text x="1050" y="332.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="362" text-anchor="end" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.18em" fill="#6e6457">Q4 2026</text>
+  <line x1="200" y1="358" x2="1050" y2="358" stroke="#d8caa6" stroke-width="0.5" stroke-dasharray="2,3"/>
+  <text x="160" y="382.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-11-04</text>
+  <circle cx="180" cy="379.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="382.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q3 2026 Earnings Release</text>
+  <text x="1050" y="382.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="414.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-Q4</text>
+  <circle cx="180" cy="411.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="414.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">DoD FY2027 NDAA conference / passage</text>
+  <text x="1050" y="414.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="446.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-Q4</text>
+  <circle cx="180" cy="443.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="446.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">HELIOS Block 2 production milestones</text>
+  <text x="1050" y="446.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="476" text-anchor="end" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.18em" fill="#6e6457">Q1 2027</text>
+  <line x1="200" y1="472" x2="1050" y2="472" stroke="#d8caa6" stroke-width="0.5" stroke-dasharray="2,3"/>
+  <text x="160" y="496.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2027-02</text>
+  <circle cx="180" cy="493.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="496.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q4 2026 / FY2026 Earnings Release</text>
+  <text x="1050" y="496.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
+  <text x="160" y="528.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2027-02</text>
+  <circle cx="180" cy="525.6" r="4.5" fill="#9e5a16" stroke="#faf6ef" stroke-width="1.4"/>
+  <text x="200" y="528.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Form 10-K filing FY2026</text>
+  <text x="1050" y="528.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e5a16">MED</text>
+</svg><p class="chart-caption">Catalyst nodes are color-coded by impact (red=high, amber=medium, tan=low). Events grouped by quarter in the table below.</p></div>
+  <table class="quant-table cat-table">
+    <thead><tr><th>Date</th><th>Event</th><th>Impact</th></tr></thead>
+    <tbody>
+<tr class="cat-quarter-header"><td colspan="3">2026-Q2</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-05-07</td><td class="cat-event"><strong>Q1 2026 Earnings Release (After Market Close)</strong> — Binary 6-day catalyst; revenue $70-76M guide; A&amp;D book-to-bill confirmation needed</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-05-07</td><td class="cat-event"><strong>Q1 2026 Earnings Conference Call (5:00 PM ET)</strong> — Management commentary on 2026 A&amp;D growth; cutting/welding exit progress; backlog detail</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">2026-05-12</td><td class="cat-event"><strong>Citi Industrials Conference (potential)</strong> — Post-print investor outreach; sub-supplier capital allocation Q&amp;A</td><td class="cat-impact">Medium</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-Q2</td><td class="cat-event"><strong>DoD FY2027 Budget House Markup</strong> — Directed-energy line items in FY27 House Defense Appropriations Subcommittee markup</td><td class="cat-impact">High</td></tr>
+<tr class="cat-quarter-header"><td colspan="3">2026-Q3</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-08-05</td><td class="cat-event"><strong>Q2 2026 Earnings Release</strong> — First post-cutting/welding-exit clean quarter; A&amp;D growth visibility</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-Q3</td><td class="cat-event"><strong>DoD FY2027 Budget Senate Markup</strong> — Senate Armed Services Committee defense authorization; outyear DEW funding visibility</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">2026-Q3</td><td class="cat-event"><strong>Longmont CO 50,000 sq ft expansion completion</strong> — Capacity online; supports 2027 high-energy laser deliveries</td><td class="cat-impact">Medium</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-Q3</td><td class="cat-event"><strong>Israel Iron Beam program milestones</strong> — Initial deployment; nLIGHT module deliveries against Rafael contract</td><td class="cat-impact">High</td></tr>
+<tr class="cat-quarter-header"><td colspan="3">2026-Q4</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-11-04</td><td class="cat-event"><strong>Q3 2026 Earnings Release</strong> — Pre-FY27 visibility; 2027 preliminary guide</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-Q4</td><td class="cat-event"><strong>DoD FY2027 NDAA conference / passage</strong> — Final defense bill; locks-in directed-energy program funding for FY27</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2026-Q4</td><td class="cat-event"><strong>HELIOS Block 2 production milestones</strong> — LMT prime contractor production progress; LASR delivery against funded backlog</td><td class="cat-impact">High</td></tr>
+<tr class="cat-quarter-header"><td colspan="3">2027-Q1</td></tr>
+<tr class="cat-row cat-high"><td class="cat-date">2027-02</td><td class="cat-event"><strong>Q4 2026 / FY2026 Earnings Release</strong> — Full-year results vs guidance; FY27 guide</td><td class="cat-impact">High</td></tr>
+<tr class="cat-row cat-medium"><td class="cat-date">2027-02</td><td class="cat-event"><strong>Form 10-K filing FY2026</strong> — Audited financials; risk factor updates on cutting/welding exit completion</td><td class="cat-impact">Medium</td></tr>
+    </tbody>
+  </table>
+</div>
+</div><!-- /.col-bleed -->
+
+<div class="col-prose">
+
+<h2 class="section">Research Manager</h2>
+<div class="interim-box">
+  <div class="label">Investment Plan — Hold</div>
+  <div class="content">
+    <p><strong>Rationale:</strong> <p>The bull case clears all five items of the Bull-Case</p>
+<p>Specificity Bar with substantive, verifiable evidence — two dated</p>
+<p>catalysts (2026-05-07 Q1 print + 2026-Q2 DoD FY27 House Markup),</p>
+<p>quantitative TAM math (DoD directed-energy TAM walk + LASR share</p>
+<p>estimates with explicit haircut), an explicit budget-cycle reference</p>
+<p>(POM submission and Congressional markup timing), a concrete capacity</p>
+<p>event (Longmont CO 50,000 sq ft expansion announced 2026-01-30), and a</p>
+<p>falsifiable kill-switch (A&amp;D revenue &lt; $50M AND backlog decline below</p>
+<p>$155M = thesis broken). Per the Specificity Bar enforcement protocol,</p>
+<p>this means no automatic downgrade applies. The bear case, however, is</p>
+<p>ALSO substantive: 138x forward P/E with negative equity risk premium</p>
+<p>math, $9.3M of insider distribution in March 2026 with zero open-market</p>
+<p>buys, a -21% drawdown in 4 sessions immediately preceding the print,</p>
+<p>and historical precedent that 138x P/E names that miss earnings</p>
+<p>re-rate -30% to -45%. The kill-switch threshold debate is the single</p>
+<p>most important divergence — if the bull's threshold of A&amp;D revenue</p>
+<p>&lt; $50M is the test (which is essentially flat versus Q4 2025's $48M),</p>
+<p>the bar is too low to validate the acceleration thesis. The bear's</p>
+<p>proposed threshold of A&amp;D revenue &gt; $55M with backlog &gt; $170M is more</p>
+<p>appropriate but the bull never accepted that bar.</p>
+
+<p>The defining feature of this setup is event proximity. With 6 trading</p>
+<p>sessions to Q1 2026 earnings on 2026-05-07 (after market close), and</p>
+<p>with a clear binary catalyst structure, the asymmetry favors waiting.</p>
+<p>Owning LASR going into the print at $69.85 (5.7% above the 50-SMA, 13%</p>
+<p>below the 4/24 ATH, with MACD bearish-crossover and RSI negative</p>
+<p>divergence already in place) is taking event risk without the</p>
+<p>information asymmetry to make it. The right call is to maintain</p>
+<p>existing exposure (defensive against an upside surprise that re-rates</p>
+<p>the equity to $80-90) but not to add. If the print confirms A&amp;D</p>
+<p>acceleration AND book-to-bill &gt; 1.0x AND FY26 guide reiteration, an</p>
+<p>upgrade to Overweight is warranted.</p></p>
+    <p><strong>Strategic Actions:</strong> <ol>
+<li>Maintain existing position at 1.5% NAV maximum. Do not add pre-print.</li>
+<li>Hard stop: 2026-04-29 intraday low of $63.43. Below this confirms</li>
+</ol>
+<p>distribution and prevents tail-risk hold-through.</p>
+<ol>
+<li>Pre-print hedge: consider 1-week 65-strike puts as protection</li>
+</ol>
+<p>against an event-day -15-25% move.</p>
+<ol>
+<li>Post-print conditional upgrade triggers (ALL three required for</li>
+</ol>
+<p>Overweight upgrade):</p>
+<ul>
+<li>A&amp;D segment revenue &gt; $52M (up from $48M Q4 2025 — clean</li>
+</ul>
+<p>acceleration above flat)</p>
+<ul>
+<li>Funded backlog at 2026-03-31 &gt; $165M (vs $162M at 2025-12-31)</li>
+<li>FY2026 full-year revenue guide reaffirmed at "total revenue</li>
+</ul>
+<p>growth" or higher</p>
+<ol>
+<li>Post-print downgrade triggers (ANY one for Underweight):</li>
+</ol>
+<ul>
+<li>Q1 revenue print below $68M (low end of guide)</li>
+<li>Gross margin print below 26% (below low end of 27-32% guide)</li>
+<li>2026 guide reduction to "total revenue flat to down"</li>
+<li>Backlog decline below $155M</li>
+</ul>
+<ol>
+<li>Conditional entry: If the print misses and the equity drops to</li>
+</ol>
+<p>$50-55, that is the structural buy zone for trend-followers — re-evaluate</p>
+<p>for 2-3% NAV addition.</p>
+<ol>
+<li>Time horizon: 6-9 months on conditional upgrade; tactical event</li>
+</ol>
+<p>trade only on miss/cut.</p></p>
+  </div>
+</div>
+
+<h2 class="section">Trader</h2>
+<div class="interim-box">
+  <div class="label">Transaction Proposal — Hold</div>
+  <div class="content">
+    <p><strong>Action</strong>: Hold</p>
+
+<p><strong>Reasoning</strong>: LASR is 6 trading sessions from a binary catalyst (2026-05-07</p>
+<p>Q1 2026 earnings) with explicit asymmetric setup risk. Forward P/E of</p>
+<p>138x, 21% recent drawdown in 4 sessions, $9.3M of insider distribution</p>
+<p>in March, and beta 2.27 (ATR 7.3% of price) make pre-print position</p>
+<p>adds high-cost. The investment plan correctly gates Overweight upgrade</p>
+<p>to post-print confirmation of A&amp;D segment acceleration ($52M+ revenue</p>
+<p>+ $165M+ backlog + FY26 guide reiteration). Maintaining exposure at</p>
+<p>&lt;= 1.5% NAV preserves optionality on a clean print without taking</p>
+<p>disproportionate event risk.</p>
+
+<p><strong>Entry Price</strong>: $63-65 conditional entry post-print if A&amp;D</p>
+<p>acceleration confirmed and equity overshoots to the lower band</p>
+
+<p><strong>Stop Loss</strong>: $63.43 (2026-04-29 intraday low) hard stop on existing</p>
+<p>position. Below this confirms breakdown and triggers automatic exit.</p>
+
+<p><strong>Position Sizing</strong>: 1.5% NAV maintenance pre-print. Conditional 2.5-3%</p>
+<p>NAV post-print on Overweight upgrade trigger. ZERO net adds going</p>
+<p>into 2026-05-07 — wait for the print.</p>
+
+<p>FINAL TRANSACTION PROPOSAL: <strong>HOLD</strong></p>
+
+  </div>
+</div>
+
+</div><!-- /.col-prose -->
+
+<div class="col-wide">
+
+<h2 class="section">Investment Debate</h2>
+<div class="debate-grid">
+  <div class="debate-card bull">
+    <div class="debate-label">Bull Researcher</div>
+    <div class="report-content"><h4>BULL RESEARCHER · ROUND 1</h4>
+
+<p>LASR sits at the intersection of three structural tailwinds — directed</p>
+<p>energy weapons, microfabrication for advanced-node semiconductors, and</p>
+<p>laser sensing — and management has spent 2025 pruning the company to a</p>
+<p>focused A&amp;D growth engine. The bull thesis is anchored not in narrative</p>
+<p>but in hard, dated, falsifiable evidence.</p>
+
+<p><strong>Specificity Bar Item 1: Two dated catalysts.</strong> First, the 2026-05-07</p>
+<p>Q1 2026 earnings release with management's $70-76M revenue guide and</p>
+<p>27-32% gross margin frame. Second, the FY2027 House Defense</p>
+<p>Appropriations Subcommittee markup expected Q2 2026, where directed-energy</p>
+<p>line items in HELIOS Block 2 ($150M+ FY26 → $250M+ FY27 expected),</p>
+<p>IFPC-HEL ($85M → $200M+ expected), and JCO directed-energy ($350M →</p>
+<p>$500M+ expected) get locked in. Beyond these, the 2026-08-05 Q2 print</p>
+<p>is the first post-cutting/welding-exit clean quarter and the 2026-Q3</p>
+<p>Israel Iron Beam initial deployment is a high-impact program milestone.</p>
+
+<p><strong>Specificity Bar Item 2: Customer-segment growth math.</strong> DoD directed-energy</p>
+<p>TAM walks $1.5B FY26 → $2.5-3.0B FY27 → $5-7B by FY30 per CSIS and</p>
+<p>Government Accountability Office tracking. nLIGHT is the dominant</p>
+<p>sub-supplier of high-power semiconductor lasers to Lockheed Martin</p>
+<p>(HELIOS, ATHENA), Raytheon (IFPC-HEL), and General Atomics. Estimated</p>
+<p>nLIGHT share of high-power laser sub-supply is 25-35% (vs Coherent</p>
+<p>fiber-laser-only and Lumentum AI-data-center-focused). Applying 25%</p>
+<p>share to $5B FY30 TAM = $1.25B implied A&amp;D revenue 2030, vs ~$180M</p>
+<p>A&amp;D in FY25 = 5x growth potential. Even haircut to 15% share and $4B</p>
+<p>TAM = $600M FY30 A&amp;D revenue = 3x growth.</p>
+
+<p><strong>Specificity Bar Item 3: Budget-cycle reference.</strong> The DoD FY2027 POM</p>
+<p>markup is in motion. The President's Budget submitted to Congress in</p>
+<p>February 2026 contained directed-energy program lines requesting</p>
+<p>significant outyear growth. House Armed Services Committee markup is</p>
+<p>typically late Q2 / early Q3 2026; Senate markup follows; conference</p>
+<p>report and NDAA passage typically Q4. Specific to LASR: HELIOS Block 2</p>
+<p>FY27 line item ($250M+ requested), IFPC-HEL FY27 expansion to multiple</p>
+<p>batteries ($200M+ requested), and JCO directed-energy ($500M+</p>
+<p>requested). Even partial enactment of these requests grows nLIGHT's</p>
+<p>addressable funded-program base by 50-80% in FY27.</p>
+
+<p><strong>Specificity Bar Item 4: Consolidation / capacity reference.</strong> LASR's</p>
+<p>moat is vertical integration: it owns the semiconductor laser diode fab</p>
+<p>in Vancouver, WA — competitors do not. Coherent (post-II-VI merger) is</p>
+<p>focused on fiber lasers and AI-data-center components; Lumentum is also</p>
+<p>fiber-laser-focused. The 50,000 sq ft Longmont, CO expansion announced</p>
+<p>2026-01-30 explicitly adds high-energy laser systems integration</p>
+<p>capacity for 2027 deliveries. The $201M February 2026 follow-on at $44</p>
+<p>was explicitly capitalized for "working capital and capital projects" —</p>
+<p>i.e., funding the Longmont buildout. NO competitor has announced</p>
+<p>comparable directed-energy capacity expansion in the past 12 months.</p>
+
+<p><strong>Specificity Bar Item 5: Falsifiable kill-switch.</strong> "If LASR Q1 2026</p>
+<p>A&amp;D segment revenue is &lt; $50M (vs $48M Q4 2025) AND funded backlog at</p>
+<p>2026-03-31 declines below $155M from $162M at 2025-12-31, the</p>
+<p>inflection thesis is broken." This is a hard, quantitative, time-bound</p>
+<p>test that triggers automatic exit/short consideration if violated.</p>
+
+<p><strong>Counter-bear preemption:</strong> The bear's primary attacks — 138x forward</p>
+<p>P/E and the 837% 12-month rally — are valid concerns but anchor on</p>
+<p>trailing data. Forward P/E of 138x reflects a 2026 EPS of $0.51</p>
+<p>(per management guidance midpoint); FY27 consensus EPS is ~$1.20</p>
+<p>(implying 50% growth) which puts FY27 P/E at ~58x — premium but in line</p>
+<p>with defense-tech growth comps (PSN, KTOS, MRCY at 35-50x forward).</p>
+<p>The 837% rally captured the inflection from $7.88 base (May 2025) — a</p>
+<p>period when the equity was orphaned at ~$200M market cap. The current</p>
+<p>$3.94B is the appropriate market cap for a $260M revenue,</p>
+<p>30%-gross-margin, FCF-positive A&amp;D-leveraged growth name on the cusp of</p>
+<p>GAAP profitability.</p>
+
+<p><strong>Insider selling rebuttal:</strong> CEO Keeney's $5.7M of 2026 sales (Jan +</p>
+<p>March) follows a 6-year ownership build during which he received minimal</p>
+<p>liquidity. CFO Corso's $1.55M is Form 4 routine. Director sales are</p>
+<p>diversification. NONE of these sales were programmatic 10b5-1 plan</p>
+<p>exits — they are tax-driven liquidity. Compare to insider selling</p>
+<p>patterns at peer DefTech names (PLTR, KTOS, AVAV) during similar rally</p>
+<p>phases — LASR is materially less aggressive than the cohort.</p>
+
+<p><strong>Bottom line:</strong> Buy. Position size 2.5-3% NAV given event proximity.</p>
+<p>Conditional adds on book-to-bill confirmation post-print.</p>
+
+<h4>BULL RESEARCHER · ROUND 2 (rebuttal to bear)</h4>
+
+<p>The bear's argument hinges on three claims, each of which I'll address</p>
+<p>with hard data.</p>
+
+<p><strong>Bear claim 1: Forward P/E 138x is unsustainable.</strong> This is correct</p>
+<p>on a static basis, but forward P/E is a valuation snapshot of consensus</p>
+<p>EPS one year out. nLIGHT's published forward EPS estimate of $0.51 is</p>
+<p>based on the midpoint of Q1 2026 guide. The full-year 2026 EPS, given</p>
+<p>the cutting/welding exit headwind concentrated in Q1, is more likely</p>
+<p>in the $0.65-0.85 range — putting forward P/E at 80-105x, not 138x. By</p>
+<p>FY27, with the cutting/welding overhang gone and A&amp;D scaling, EPS</p>
+<p>consensus walks to $1.20-1.50, putting FY27 P/E at 47-60x — high but</p>
+<p>not exceptional for a defense growth name. The bear is anchoring on</p>
+<p>the wrong year.</p>
+
+<p><strong>Bear claim 2: Cutting/welding exit creates -10% Q1 sequential.</strong> Yes,</p>
+<p>and this is precisely why the May 7 print is the buying opportunity, not</p>
+<p>the selling event. The Street already knows about the exit; consensus</p>
+<p>revenue for Q1 is at the midpoint of the $70-76M guide. The actual</p>
+<p>question is segment mix: if A&amp;D revenue prints $50M+ and microfabrication</p>
+<p>holds $15M+, the headline -10% sequential is fully explained by the</p>
+<p>industrial wind-down — the bear's narrative is dead on arrival. Revenue</p>
+<p>mix is what matters, not the headline.</p>
+
+<p><strong>Bear claim 3: Insider selling.</strong> I addressed this in round 1, but the</p>
+<p>key point is the SCALE. Total insider sales in the past 6 months are</p>
+<p>~$9.3M. Total LASR market cap is $3.94B. The insider selling represents</p>
+<p>0.24% of market cap. By comparison, Lockheed Martin's CEO insider sales</p>
+<p>in any given 6-month window typically run $10-20M+ on a $130B market</p>
+<p>cap — same proportional scale. This is normal, not directional.</p>
+
+<p><strong>Bear claim 4: LITE preferred for AI capex.</strong> Different business. LITE</p>
+<p>is a fiber laser supplier with primary AI-datacenter optical-component</p>
+<p>exposure. LASR's fiber laser exposure is incidental; the core engine is</p>
+<p>high-power semiconductor lasers for directed energy. They are not</p>
+<p>substitutes — they are complements. Owning LASR for A&amp;D and LITE for AI</p>
+<p>data center is a pair-trade, not a head-to-head choice.</p>
+
+<p>The risk-reward here is asymmetric: downside to the bear case is $50-55</p>
+<p>(20-25% drawdown on a Q1 miss + guide cut); upside on book-to-bill</p>
+<p>confirmation + FY27 budget visibility is $100-120 (+40-70%). The 5-day</p>
+<p>event window favors the bull asymmetry.</p>
+</div>
+  </div>
+  <div class="debate-card bear">
+    <div class="debate-label">Bear Researcher</div>
+    <div class="report-content"><h4>BEAR RESEARCHER · ROUND 1</h4>
+
+<p>The bull case has built an elegant story but the equity is priced for a</p>
+<p>flawless decade of execution, the management team has just sold $9M+</p>
+<p>into the rally, and the 6-day binary catalyst is asymmetric to the</p>
+<p>downside given the technical setup.</p>
+
+<p><strong>Attack on Specificity Bar Item 2 (TAM math):</strong> The bull's $5-7B FY30</p>
+<p>DoD directed-energy TAM is anchored on CSIS / GAO tracking that is</p>
+<p>itself a top-down extrapolation, not bottom-up program funding. The</p>
+<p>ACTUAL FY26 enacted directed-energy spend across HELIOS, IFPC-HEL, JCO,</p>
+<p>and JCO-DE programs is ~$1.1B, not $1.5B. Outyear growth requires (a)</p>
+<p>multiple program-of-record decisions still pending, (b) successful</p>
+<p>prototype deployment milestones (HELIOS Block 1 has had performance</p>
+<p>issues in 2024-2025 testing), and (c) Congressional appropriations</p>
+<p>discipline that has not held in past DEW program cycles (USS Portland</p>
+<p>HELIOS was descoped, Stryker Maneuver-Short Range Air Defense was</p>
+<p>cancelled, IFPC-HEL has been delayed twice). The bull's 25-35% LASR</p>
+<p>share of high-power laser sub-supply is unsupported — General Atomics</p>
+<p>runs its own DEW lab in Albuquerque; Coherent is investing in</p>
+<p>high-power semiconductor capacity. Realistic LASR FY30 A&amp;D revenue is</p>
+<p>$300-400M, not $600-1250M.</p>
+
+<p><strong>Attack on Specificity Bar Item 5 (kill-switch threshold).</strong> The bull's</p>
+<p>threshold of A&amp;D revenue &lt; $50M is too LOW. Q4 2025 A&amp;D was already</p>
+<p>$48M; if Q1 2026 prints $48-52M with a -10% sequential headline, that</p>
+<p>is FLAT A&amp;D — not the acceleration the bull narrative requires. A</p>
+<p>genuine acceleration test would be A&amp;D revenue &gt; $55M in Q1 2026 with</p>
+<p>funded backlog above $170M. The bull lowered the bar to make it</p>
+<p>unfailable.</p>
+
+<p><strong>Valuation reality.</strong> The bull dismisses the 138x forward P/E by</p>
+<p>walking forward to FY27 — but FY27 EPS of $1.20-1.50 is consensus, not</p>
+<p>fact. A single FY26 miss (revenue print $68M instead of $73M; gross</p>
+<p>margin 26% instead of 29%) re-rates the equity 20-30% on the day. With</p>
+<p>beta 2.27, ATR 7.3% of price, and 6 sessions to a binary catalyst, the</p>
+<p>expected event-day move is +/- 10-15%, with downside skew given the</p>
+<p>elevated multiple. Risk-reward is symmetric AT BEST and likely</p>
+<p>asymmetric to the downside.</p>
+
+<p><strong>Insider selling overhang.</strong> The CEO sold 75K shares in March alone at</p>
+<p>$57-63 — a 2-week window. CFO sold 25K in the same window. Multiple</p>
+<p>directors sold. Cumulative dollar value: $9.3M. NO open-market buys in</p>
+<p>6 months. The bull's framing of "tax-driven liquidity" is post-hoc —</p>
+<p>none of these sales were 10b5-1 pre-cleared (we'd see the disclosure)</p>
+<p>but several were Form 4 same-day sales, suggesting opportunistic</p>
+<p>distribution rather than programmatic liquidity. When management sells</p>
+<p>into a 30%+ rally that they themselves orchestrated through guidance,</p>
+<p>that is a classical "smart money distribution" pattern.</p>
+
+<p><strong>Cutting/welding exit risk.</strong> Management estimates a $25-30M revenue</p>
+<p>headwind for FY26 from the exit. Historical precedent (IPG Photonics</p>
+<p>exiting cutting/welding in 2023; Coherent exiting industrial CO2 lasers</p>
+<p>in 2022) suggests these exits ALWAYS cost more than guided — typical</p>
+<p>overrun is 30-50% on revenue impact and 100%+ on charges. nLIGHT could</p>
+<p>be looking at $40M+ revenue headwind and an additional $15-20M of</p>
+<p>restructuring charges in 2026.</p>
+
+<p><strong>Microfabrication weakness.</strong> Zacks specifically called out</p>
+<p>"microfabrication outlook" as a headwind. Advanced-node photolithography</p>
+<p>demand at sub-3nm is supportive but legacy nodes (where LASR has</p>
+<p>historic share) are seeing capex compression. A material microfab</p>
+<p>slowdown could subtract another $10-15M from FY26 revenue beyond the</p>
+<p>cutting/welding exit.</p>
+
+<p><strong>Bottom line:</strong> Sell. Or at minimum, do not own going into the Q1</p>
+<p>print at $69.85. Wait for the Q1 print to clear; if A&amp;D revenue is &lt; $50M</p>
+<p>or funded backlog declines, the equity rerates to $50 quickly.</p>
+
+<h4>BEAR RESEARCHER · ROUND 2 (rebuttal to bull)</h4>
+
+<p>The bull's round 2 rebuttal is well-crafted but addresses the wrong</p>
+<p>risks.</p>
+
+<p><strong>On forward P/E walk-down:</strong> The bull walks forward EPS to FY27 to</p>
+<p>get the multiple to 47-60x. This is mathematically correct but ignores</p>
+<p>discount rate. With Treasury yields above 4%, a 60x P/E implies a 1.7%</p>
+<p>earnings yield against a 4% risk-free rate — a 230 bps NEGATIVE equity</p>
+<p>risk premium for a single-stock defense-laser growth story. By any</p>
+<p>DCF-driven framework, FY27 P/E of 47-60x is NOT defensible without</p>
+<p>explicit 30%+ multi-year revenue growth AFTER FY27 — and CSIS/GAO</p>
+<p>outyear directed-energy budgets do not support that. The bull's "premium</p>
+<p>but in line" framing is an apples-to-oranges comparison; PSN, KTOS,</p>
+<p>and MRCY trade at 35-50x because they have $1B+ revenue bases and</p>
+<p>diversified DoD program exposure. LASR has $260M revenue with 50%+</p>
+<p>single-customer (USG) concentration.</p>
+
+<p><strong>On Q1 segment mix:</strong> The bull's argument that "if A&amp;D prints $50M+,</p>
+<p>the headline is fully explained" requires the Street to look through</p>
+<p>the headline. In a binary event with a 138x P/E and 6 sessions of</p>
+<p>event-day positioning, the Street WILL react to the headline first and</p>
+<p>ask questions later. The 4/24-29 -21% drawdown is precisely this</p>
+<p>pattern — the equity sold off on the cutting/welding exit clarity, not</p>
+<p>on segment-level read. Q1 print follows the same dynamic.</p>
+
+<p><strong>On insider selling proportion:</strong> The bull's denominator (LASR market</p>
+<p>cap) is wrong. The relevant denominator is INSIDER OWNERSHIP not market</p>
+<p>cap. nLIGHT insiders own approximately 4.5% of shares outstanding. CEO</p>
+<p>Keeney's individual ownership is ~700K shares. He sold 107K in the last</p>
+<p>6 months — 15% of his personal stake. That is a material position</p>
+<p>reduction, not "0.24% of market cap." The bull's framing is misleading.</p>
+
+<p><strong>On LITE/LASR pair trade:</strong> I never argued they were substitutes — I</p>
+<p>argued the AI-capex tailwind benefits LITE more than LASR. The bull</p>
+<p>agrees this is true. So why pay 138x P/E for LASR (defense exposure with</p>
+<p>USG concentration risk) when LITE trades at 25x P/E for AI exposure?</p>
+<p>The relative-value argument actively favors LITE in the current macro.</p>
+
+<p><strong>On asymmetry:</strong> The bull claims downside is $50-55 (-25%) and upside</p>
+<p>is $100-120 (+40-70%). Let me check the math.</p>
+<ul>
+<li>$50 downside on a Q1 miss assumes only -29% drawdown. Historical</li>
+</ul>
+<p>precedent for 138x P/E names that miss earnings: AVAV -45% (May 2024),</p>
+<p>KTOS -35% (Aug 2024), PLTR -32% (Nov 2024). Realistic LASR downside</p>
+<p>on a clear miss is $42-48 (-31 to -40%).</p>
+<ul>
+<li>$100-120 upside on book-to-bill confirmation assumes a multi-week</li>
+</ul>
+<p>re-rating. The most recent re-rating cycle (March 26 → April 24,</p>
+<p>$44 → $80) took 5 weeks and required 3 separate positive datapoints</p>
+<p>(Q4 print, follow-on closure, fair-value upgrade). A single Q1 print</p>
+<p>beat does not re-rate the equity to $100+; it gets back to $77-80 ATH</p>
+<p>range.</p>
+
+<p>True asymmetry: downside $42-48 (-31 to -40%); upside $80-85 (+15 to</p>
+<p>+22%). RISK-REWARD IS 2:1 NEGATIVE, not positive.</p>
+
+<p><strong>Bottom line update:</strong> Underweight. Wait for the print. Re-evaluate</p>
+<p>post-2026-05-07.</p>
+</div>
+  </div>
+</div>
+
+<h2 class="section">Risk Assessment</h2>
+<div class="debate-grid">
+  <div class="debate-card aggressive">
+    <div class="debate-label">Aggressive</div>
+    <div class="report-content"><h4>AGGRESSIVE RISK ANALYST · ROUND 1</h4>
+
+<p>Hold is the right call but the ROOM for upside on a clean print is</p>
+<p>under-appreciated by the conservative camp. Let me lay it out:</p>
+
+<p>The institutional setup for LASR going into May 7 is rare. We have</p>
+<p>three confirming quarters of A&amp;D book-to-bill above 1.0x (Q2 2025 1.05x,</p>
+<p>Q3 2025 1.10x, Q4 2025 1.18x). The funded backlog walked $110M to $162M</p>
+<p>across 2025 — a 47% expansion. The cutting/welding exit decision is</p>
+<p>ALREADY priced in (the Q1 guide of -10% sequential is fully consensus).</p>
+<p>The $201M follow-on closed at $44 on full underwriter exercise — a</p>
+<p>decisive vote of confidence from institutional buyers.</p>
+
+<p>The trader's stop at $63.43 is tight — appropriate, but tight. If the</p>
+<p>print delivers A&amp;D revenue of $54M+ (12% above Q4) and management</p>
+<p>explicitly walks FY26 revenue guide UP or anchors a $300M+ FY26 implied</p>
+<p>print, the equity rerates to $85-95 in 5 sessions. That's +22-36% from</p>
+<p>the current $69.85.</p>
+
+<p>I'd push for tactical adds in the 2-3% NAV zone, with the hard stop</p>
+<p>moved to $61 (just below the 50-SMA at $64.77, with 2 ATR of buffer).</p>
+<p>Skip the pre-print hedge — option premium for 1-week 65 puts is going</p>
+<p>to price the event move and you're paying 4-6% of position to hedge a</p>
+<p>move that's only 2-3 ATRs. Just hold the equity through and accept the</p>
+<p>event risk.</p>
+
+<p>Bottom line: Hold is correct directionally, but the asymmetric upside</p>
+<p>deserves more conviction than the plan currently expresses. Aggressive</p>
+<p>position sizing of 2.5-3% NAV pre-print, with tight stops, is the</p>
+<p>risk-reward-optimized stance.</p>
+
+<h4>AGGRESSIVE RISK ANALYST · ROUND 2 (rebuttal)</h4>
+
+<p>Conservative argues that beta 2.27 + ATR 7.3% + 6-day binary = high</p>
+<p>event risk. I'll concede the math — but the ANSWER to high event risk</p>
+<p>is appropriate position sizing, not avoidance. A 2.5% NAV position with</p>
+<p>a $61 stop on $69.85 entry has a 12% per-position downside = 0.30% NAV</p>
+<p>risk per stop-loss event. That is well within institutional risk limits</p>
+<p>for a high-conviction event setup.</p>
+
+<p>Neutral argues for the 1.5% NAV maintenance and the pre-print put</p>
+<p>hedge. The put hedge specifically has a poor cost structure here. ATM</p>
+<p>1-week puts on LASR are pricing a 60-80% IV (typical for high-beta</p>
+<p>single-stock pre-earnings), which means the time-decay cost on a held</p>
+<p>hedge is 2-4% per session. Over 6 sessions that's 12-24% of position</p>
+<p>just on the hedge. The put hedge is the wrong instrument; if you want</p>
+<p>event-protection, use a 65/55 put spread which caps downside and</p>
+<p>finances itself partially.</p>
+
+<p>The aggressive view in summary: increase position to 2.5% NAV, tighten</p>
+<p>stop to $61, skip the hedge or use a put SPREAD not a put, and accept</p>
+<p>the asymmetric risk-reward of a 2:1 setup with a 6-day catalyst. This</p>
+<p>is exactly the kind of setup that builds alpha over time — pre-binary</p>
+<p>events with clear quantitative thresholds.</p>
+</div>
+  </div>
+  <div class="debate-card conservative">
+    <div class="debate-label">Conservative</div>
+    <div class="report-content"><h4>CONSERVATIVE RISK ANALYST · ROUND 1</h4>
+
+<p>The aggressive analyst's position-up call is exactly the wrong response</p>
+<p>to this setup. Let me walk through the risk math.</p>
+
+<p>LASR is a $3.94B market cap stock with beta 2.27, ATR of $5.08</p>
+<p>(7.3% of price), and a 6-day path to a binary catalyst. The implied</p>
+<p>event-day move from option pricing is +/- 12-15%. On a $69.85 entry,</p>
+<p>that's +/- $8-10 in a single session. With 138x forward P/E, the</p>
+<p>asymmetry on a miss is materially worse than a beat — historical</p>
+<p>precedent for 138x P/E names that miss earnings is -30% to -45% (AVAV,</p>
+<p>KTOS, PLTR examples). On a beat, the equity needs to overcome the</p>
+<p>already-priced-in inflection narrative; the realistic upside is +15-25%</p>
+<p>back to the $77-85 zone.</p>
+
+<p>That's negative risk-reward. The aggressive's "2:1 setup" math is</p>
+<p>wrong.</p>
+
+<p>The right risk posture is:</p>
+<ol>
+<li>Maintain at most 1.5% NAV (already in the plan)</li>
+<li>Tight stop at $63.43 — agree with the plan</li>
+<li>Use the pre-print put hedge — disagree with the aggressive's</li>
+</ol>
+<p>"skip the hedge" call. Yes, hedge premium is expensive, but the</p>
+<p>alternative is unhedged exposure to a tail-risk event with negative</p>
+<p>skew. The put hedge at 65 strike costs ~$2-3 per share, which</p>
+<p>translates to a 3-4% drag on the position. In return, you cap your</p>
+<p>downside at -7% (current $69.85 → $65 minus put strike). Without</p>
+<p>the hedge, your downside is -30 to -45% on a tail event.</p>
+<ol>
+<li>NO pre-print adds. Period.</li>
+<li>Consider trimming to 1.0% NAV if the equity rallies to $73-75 on</li>
+</ol>
+<p>pre-print speculation — take some chips off the table at a</p>
+<p>favorable price.</p>
+
+<p>The aggressive's argument that "high event risk = appropriate position</p>
+<p>sizing, not avoidance" is exactly backwards. The institutional risk</p>
+<p>management literature is unanimous: for binary events with negative</p>
+<p>skew, position SIZE down, not stop tightness up. A tight stop at $61</p>
+<p>on a 6-day binary will get triggered on intraday volatility BEFORE the</p>
+<p>print — you'll be stopped out, miss the upside, and pay both the</p>
+<p>position drawdown AND the bid-ask cost.</p>
+
+<p>The conservative call: maintain at 1.5% NAV, hedge with put spread,</p>
+<p>and patience. Wait for the print.</p>
+
+<h4>CONSERVATIVE RISK ANALYST · ROUND 2 (rebuttal)</h4>
+
+<p>Aggressive's "appropriate position sizing solves the risk math"</p>
+<p>argument forgets the path-dependency of stops on high-volatility names.</p>
+<p>On a name with ATR $5 and beta 2.27, a $61 stop on a $69.85 position is</p>
+<p>only $8.85 = 1.7 ATR. ATR is the SHORT-TERM volatility measure. In a</p>
+<p>6-day pre-binary window, intraday gap moves of 2-3 ATR are common</p>
+<p>(think: a competitor pre-announcement, a sector ETF flow, a generic</p>
+<p>risk-off day). A 1.7-ATR stop has a 30-40% probability of being</p>
+<p>triggered without ANY company-specific bad news, just market noise.</p>
+<p>This is precisely why "tight stop" thinking is wrong on high-vol</p>
+<p>single-stock binaries.</p>
+
+<p>Neutral's middle-ground call for 1.5% NAV with hedging is the</p>
+<p>defensible institutional process. The aggressive's "skip the hedge"</p>
+<p>recommendation is reckless given the documented downside skew on 138x</p>
+<p>P/E names that miss.</p>
+
+<p>On the put-spread alternative I proposed: a 65/55 put spread costs</p>
+<p>~$1.50 net (vs $2.50-3 for a naked 65 put), caps downside at $55</p>
+<p>(implying a -21% protected level), and is ~75% capital efficient. This</p>
+<p>is the right institutional hedge structure for a 6-day binary on a</p>
+<p>high-vol name.</p>
+
+<p>The conservative bottom line: position size 1.0-1.5% NAV (Aggressive</p>
+<p>wants 2.5-3%), use a 65/55 put spread (Aggressive wants no hedge), and</p>
+<p>accept that the appropriate response to negative-skew binary events is</p>
+<p>defensive sizing AND defensive hedging, not aggressive sizing with</p>
+<p>tight stops.</p>
+</div>
+  </div>
+</div>
+<div class="debate-grid debate-grid--solo">
+  <div class="debate-card neutral">
+    <div class="debate-label">Neutral</div>
+    <div class="report-content"><h4>NEUTRAL RISK ANALYST · ROUND 1</h4>
+
+<p>Both Aggressive and Conservative have valid points but each is</p>
+<p>overemphasizing one dimension of the setup. Let me triangulate.</p>
+
+<p>On position sizing: Aggressive argues 2.5-3% NAV; Conservative argues</p>
+<p>1.0-1.5% NAV. The right answer depends on conviction in the BULL</p>
+<p>specificity bar items. The bull cleared all 5 items, but the</p>
+<p>quantitative TAM math (Item 2) is the weakest — it relies on</p>
+<p>top-down TAM extrapolation, not bottom-up program funding. Without</p>
+<p>hard FY27 program-of-record decisions in hand, the TAM math is</p>
+<p>illustrative, not falsifiable. So the bull case is "5 of 5 items</p>
+<p>cleared but item 2 has weak evidence" — that warrants the Hold rating</p>
+<p>the plan correctly applied, AND it warrants moderate position sizing</p>
+<p>(1.5% NAV, not 3%).</p>
+
+<p>On hedging: Aggressive says skip; Conservative says hedge with a put</p>
+<p>spread. Both have a point. The put spread is institutionally clean</p>
+<p>but costs ~$1.50 net per share (~2.1% of position) for a 1-week</p>
+<p>hedge. That's expensive given the position is already sized</p>
+<p>defensively at 1.5% NAV (so the dollar cost of the hedge is 1.5% × 2.1%</p>
+<p>= 0.03% of NAV — actually quite cheap in absolute portfolio terms).</p>
+<p>The hedge is NET positive at this size.</p>
+
+<p>On the stop: Both agree on $63.43. I would actually move it to $62 to</p>
+<p>get below the round number AND the 50-SMA support cluster, providing</p>
+<p>~1.5 ATR of cushion — protects against intraday slippage.</p>
+
+<p>On entry: Conservative says no adds; Aggressive says 2.5-3%. I'd</p>
+<p>argue for ZERO net adds pre-print (agree with Conservative) but flag</p>
+<p>that conditional adds POST-PRINT to 2.5% on a clean signal are</p>
+<p>appropriate. The plan already specifies this.</p>
+
+<p>On the option-pricing read: implied event move from ATM straddle</p>
+<p>pricing is +/- 12% per the option chain (rough estimate from beta and</p>
+<p>ATR). The 21% drawdown 4/24-29 was a 2.0σ event in 4 sessions — the</p>
+<p>market has already started discounting the binary. There is NO unique</p>
+<p>information advantage available in the pre-print window to either</p>
+<p>side; this is a coin flip with negative skew.</p>
+
+<p>The neutral synthesis: Hold at 1.5% NAV, hedge with 65/55 put spread</p>
+<p>(small expense for tail protection), stop at $62, NO pre-print adds,</p>
+<p>conditional 2.5% post-print on confirmation, and accept that the 2026-</p>
+<p>05-07 print is genuinely binary.</p>
+
+<h4>NEUTRAL RISK ANALYST · ROUND 2 (rebuttal)</h4>
+
+<p>Both sides are arguing past each other. Let me crystallize the</p>
+<p>divergence.</p>
+
+<p>The actual disagreement is about KELLY criterion sizing. Aggressive</p>
+<p>implicitly assumes 60% probability of a clean print (book-to-bill</p>
+<p>confirmation + guide reiteration); Conservative implicitly assumes</p>
+<p>40%. With a 1.5x payout on win and 0.7x cost on lose:</p>
+<ul>
+<li>At 60% probability: optimal Kelly = (0.6 × 1.5 - 0.4 × 0.7) /</li>
+</ul>
+<p>1.5 = 38% of bankroll → in equity terms, 3% NAV makes sense.</p>
+<ul>
+<li>At 40% probability: optimal Kelly = (0.4 × 1.5 - 0.6 × 0.7) / 1.5</li>
+</ul>
+<p>= 12% of bankroll → 1.5% NAV makes sense.</p>
+<ul>
+<li>At 50% probability (the actual binary): Kelly = (0.5 × 1.5 - 0.5 ×</li>
+</ul>
+<p>0.7) / 1.5 = 27% of bankroll → 2.0% NAV is the Kelly answer.</p>
+
+<p>So the 1.5% NAV plan call is BELOW Kelly-optimal at 50% — it's</p>
+<p>conservative-leaning. The aggressive's 2.5-3% is ABOVE Kelly. The right</p>
+<p>answer is somewhere between 1.5% and 2.0% — call it 1.5% net,</p>
+<p>respecting the negative skew on a miss (history shows 138x P/E names</p>
+<p>re-rate down 30-45% on misses, which means the 0.7x loss assumption is</p>
+<p>TOO OPTIMISTIC).</p>
+
+<p>Recompute with 1.0x loss (40% drawdown not 28%):</p>
+<ul>
+<li>At 50%: Kelly = (0.5 × 1.5 - 0.5 × 1.0) / 1.5 = 16.7% of</li>
+</ul>
+<p>bankroll → 1.3% NAV.</p>
+
+<p>So the proper Kelly answer with negative-skew adjustment is 1.3% NAV —</p>
+<p>the plan's 1.5% NAV is right at Kelly. That's the bottom line.</p>
+
+<p>Neutral call: keep the plan unchanged. 1.5% NAV maintenance, 65/55</p>
+<p>put spread, $63.43 stop (or move to $62 for slippage cushion), and</p>
+<p>accept the binary nature of the event.</p>
+</div>
+  </div>
+</div>
+
+<h2 class="section">Analyst Reports</h2>
+<div class="chart-block">
+  <svg viewBox="0 0 1080 320" xmlns="http://www.w3.org/2000/svg" class="chart-svg" role="img" aria-label="LASR price and volume chart">
+  <rect width="1080" height="320" fill="#faf6ef"/>
+  <rect x="60" y="28" width="996" height="184" fill="#f5ecd9" opacity="0.55"/>
+  <rect x="60" y="220" width="996" height="64" fill="#f5ecd9" opacity="0.45"/>
+  <line x1="60" y1="202.1" x2="1056" y2="202.1" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="205.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$7.71</text>
+<line x1="60" y1="161.1" x2="1056" y2="161.1" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="164.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$24.73</text>
+<line x1="60" y1="120.0" x2="1056" y2="120.0" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="123.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$41.75</text>
+<line x1="60" y1="78.9" x2="1056" y2="78.9" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="81.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$58.77</text>
+<line x1="60" y1="37.9" x2="1056" y2="37.9" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="40.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$75.79</text>
+  <rect x="58.6" y="281.5" width="2.77" height="2.5" fill="#bca57a" opacity="0.65"/>
+<rect x="62.6" y="281.2" width="2.77" height="2.8" fill="#bca57a" opacity="0.65"/>
+<rect x="66.6" y="280.1" width="2.77" height="3.9" fill="#bca57a" opacity="0.65"/>
+<rect x="70.5" y="280.8" width="2.77" height="3.2" fill="#bca57a" opacity="0.65"/>
+<rect x="74.5" y="280.9" width="2.77" height="3.1" fill="#bca57a" opacity="0.65"/>
+<rect x="78.5" y="280.7" width="2.77" height="3.3" fill="#bca57a" opacity="0.65"/>
+<rect x="82.4" y="280.0" width="2.77" height="4.0" fill="#bca57a" opacity="0.65"/>
+<rect x="86.4" y="266.5" width="2.77" height="17.5" fill="#bca57a" opacity="0.65"/>
+<rect x="90.4" y="275.7" width="2.77" height="8.3" fill="#bca57a" opacity="0.65"/>
+<rect x="94.3" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="98.3" y="273.9" width="2.77" height="10.1" fill="#bca57a" opacity="0.65"/>
+<rect x="102.3" y="277.9" width="2.77" height="6.1" fill="#bca57a" opacity="0.65"/>
+<rect x="106.2" y="278.6" width="2.77" height="5.4" fill="#bca57a" opacity="0.65"/>
+<rect x="110.2" y="279.5" width="2.77" height="4.5" fill="#bca57a" opacity="0.65"/>
+<rect x="114.2" y="269.4" width="2.77" height="14.6" fill="#bca57a" opacity="0.65"/>
+<rect x="118.1" y="274.1" width="2.77" height="9.9" fill="#bca57a" opacity="0.65"/>
+<rect x="122.1" y="275.4" width="2.77" height="8.6" fill="#bca57a" opacity="0.65"/>
+<rect x="126.1" y="263.8" width="2.77" height="20.2" fill="#bca57a" opacity="0.65"/>
+<rect x="130.0" y="268.4" width="2.77" height="15.6" fill="#bca57a" opacity="0.65"/>
+<rect x="134.0" y="274.9" width="2.77" height="9.1" fill="#bca57a" opacity="0.65"/>
+<rect x="138.0" y="274.8" width="2.77" height="9.2" fill="#bca57a" opacity="0.65"/>
+<rect x="141.9" y="265.5" width="2.77" height="18.5" fill="#bca57a" opacity="0.65"/>
+<rect x="145.9" y="274.9" width="2.77" height="9.1" fill="#bca57a" opacity="0.65"/>
+<rect x="149.9" y="271.4" width="2.77" height="12.6" fill="#bca57a" opacity="0.65"/>
+<rect x="153.9" y="270.9" width="2.77" height="13.1" fill="#bca57a" opacity="0.65"/>
+<rect x="157.8" y="270.0" width="2.77" height="14.0" fill="#bca57a" opacity="0.65"/>
+<rect x="161.8" y="271.8" width="2.77" height="12.2" fill="#bca57a" opacity="0.65"/>
+<rect x="165.8" y="273.6" width="2.77" height="10.4" fill="#bca57a" opacity="0.65"/>
+<rect x="169.7" y="273.9" width="2.77" height="10.1" fill="#bca57a" opacity="0.65"/>
+<rect x="173.7" y="272.2" width="2.77" height="11.8" fill="#bca57a" opacity="0.65"/>
+<rect x="177.7" y="276.0" width="2.77" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="181.6" y="276.0" width="2.77" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="185.6" y="276.5" width="2.77" height="7.5" fill="#bca57a" opacity="0.65"/>
+<rect x="189.6" y="274.6" width="2.77" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="193.5" y="273.6" width="2.77" height="10.4" fill="#bca57a" opacity="0.65"/>
+<rect x="197.5" y="266.4" width="2.77" height="17.6" fill="#bca57a" opacity="0.65"/>
+<rect x="201.5" y="267.6" width="2.77" height="16.4" fill="#bca57a" opacity="0.65"/>
+<rect x="205.4" y="268.8" width="2.77" height="15.2" fill="#bca57a" opacity="0.65"/>
+<rect x="209.4" y="275.3" width="2.77" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="213.4" y="269.9" width="2.77" height="14.1" fill="#bca57a" opacity="0.65"/>
+<rect x="217.3" y="267.5" width="2.77" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="221.3" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="225.3" y="274.6" width="2.77" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="229.2" y="275.7" width="2.77" height="8.3" fill="#bca57a" opacity="0.65"/>
+<rect x="233.2" y="279.7" width="2.77" height="4.3" fill="#bca57a" opacity="0.65"/>
+<rect x="237.2" y="275.9" width="2.77" height="8.1" fill="#bca57a" opacity="0.65"/>
+<rect x="241.2" y="274.0" width="2.77" height="10.0" fill="#bca57a" opacity="0.65"/>
+<rect x="245.1" y="278.3" width="2.77" height="5.7" fill="#bca57a" opacity="0.65"/>
+<rect x="249.1" y="275.9" width="2.77" height="8.1" fill="#bca57a" opacity="0.65"/>
+<rect x="253.1" y="278.7" width="2.77" height="5.3" fill="#bca57a" opacity="0.65"/>
+<rect x="257.0" y="279.4" width="2.77" height="4.6" fill="#bca57a" opacity="0.65"/>
+<rect x="261.0" y="278.9" width="2.77" height="5.1" fill="#bca57a" opacity="0.65"/>
+<rect x="265.0" y="278.6" width="2.77" height="5.4" fill="#bca57a" opacity="0.65"/>
+<rect x="268.9" y="279.6" width="2.77" height="4.4" fill="#bca57a" opacity="0.65"/>
+<rect x="272.9" y="278.7" width="2.77" height="5.3" fill="#bca57a" opacity="0.65"/>
+<rect x="276.9" y="276.6" width="2.77" height="7.4" fill="#bca57a" opacity="0.65"/>
+<rect x="280.8" y="274.4" width="2.77" height="9.6" fill="#bca57a" opacity="0.65"/>
+<rect x="284.8" y="279.1" width="2.77" height="4.9" fill="#bca57a" opacity="0.65"/>
+<rect x="288.8" y="279.3" width="2.77" height="4.7" fill="#bca57a" opacity="0.65"/>
+<rect x="292.7" y="280.4" width="2.77" height="3.6" fill="#bca57a" opacity="0.65"/>
+<rect x="296.7" y="270.5" width="2.77" height="13.5" fill="#bca57a" opacity="0.65"/>
+<rect x="300.7" y="258.8" width="2.77" height="25.2" fill="#bca57a" opacity="0.65"/>
+<rect x="304.6" y="269.6" width="2.77" height="14.4" fill="#bca57a" opacity="0.65"/>
+<rect x="308.6" y="270.9" width="2.77" height="13.1" fill="#bca57a" opacity="0.65"/>
+<rect x="312.6" y="272.4" width="2.77" height="11.6" fill="#bca57a" opacity="0.65"/>
+<rect x="316.5" y="274.3" width="2.77" height="9.7" fill="#bca57a" opacity="0.65"/>
+<rect x="320.5" y="270.8" width="2.77" height="13.2" fill="#bca57a" opacity="0.65"/>
+<rect x="324.5" y="276.3" width="2.77" height="7.7" fill="#bca57a" opacity="0.65"/>
+<rect x="328.4" y="273.7" width="2.77" height="10.3" fill="#bca57a" opacity="0.65"/>
+<rect x="332.4" y="251.2" width="2.77" height="32.8" fill="#bca57a" opacity="0.65"/>
+<rect x="336.4" y="257.3" width="2.77" height="26.7" fill="#bca57a" opacity="0.65"/>
+<rect x="340.4" y="273.4" width="2.77" height="10.6" fill="#bca57a" opacity="0.65"/>
+<rect x="344.3" y="272.6" width="2.77" height="11.4" fill="#bca57a" opacity="0.65"/>
+<rect x="348.3" y="275.3" width="2.77" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="352.3" y="273.2" width="2.77" height="10.8" fill="#bca57a" opacity="0.65"/>
+<rect x="356.2" y="274.4" width="2.77" height="9.6" fill="#bca57a" opacity="0.65"/>
+<rect x="360.2" y="273.1" width="2.77" height="10.9" fill="#bca57a" opacity="0.65"/>
+<rect x="364.2" y="275.7" width="2.77" height="8.3" fill="#bca57a" opacity="0.65"/>
+<rect x="368.1" y="276.8" width="2.77" height="7.2" fill="#bca57a" opacity="0.65"/>
+<rect x="372.1" y="273.4" width="2.77" height="10.6" fill="#bca57a" opacity="0.65"/>
+<rect x="376.1" y="269.7" width="2.77" height="14.3" fill="#bca57a" opacity="0.65"/>
+<rect x="380.0" y="263.0" width="2.77" height="21.0" fill="#bca57a" opacity="0.65"/>
+<rect x="384.0" y="273.2" width="2.77" height="10.8" fill="#bca57a" opacity="0.65"/>
+<rect x="388.0" y="273.8" width="2.77" height="10.2" fill="#bca57a" opacity="0.65"/>
+<rect x="391.9" y="273.3" width="2.77" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="395.9" y="272.7" width="2.77" height="11.3" fill="#bca57a" opacity="0.65"/>
+<rect x="399.9" y="264.7" width="2.77" height="19.3" fill="#bca57a" opacity="0.65"/>
+<rect x="403.8" y="272.0" width="2.77" height="12.0" fill="#bca57a" opacity="0.65"/>
+<rect x="407.8" y="274.2" width="2.77" height="9.8" fill="#bca57a" opacity="0.65"/>
+<rect x="411.8" y="276.6" width="2.77" height="7.4" fill="#bca57a" opacity="0.65"/>
+<rect x="415.7" y="276.7" width="2.77" height="7.3" fill="#bca57a" opacity="0.65"/>
+<rect x="419.7" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="423.7" y="277.7" width="2.77" height="6.3" fill="#bca57a" opacity="0.65"/>
+<rect x="427.7" y="279.7" width="2.77" height="4.3" fill="#bca57a" opacity="0.65"/>
+<rect x="431.6" y="271.1" width="2.77" height="12.9" fill="#bca57a" opacity="0.65"/>
+<rect x="435.6" y="276.2" width="2.77" height="7.8" fill="#bca57a" opacity="0.65"/>
+<rect x="439.6" y="273.5" width="2.77" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="443.5" y="267.0" width="2.77" height="17.0" fill="#bca57a" opacity="0.65"/>
+<rect x="447.5" y="269.3" width="2.77" height="14.7" fill="#bca57a" opacity="0.65"/>
+<rect x="451.5" y="272.2" width="2.77" height="11.8" fill="#bca57a" opacity="0.65"/>
+<rect x="455.4" y="274.5" width="2.77" height="9.5" fill="#bca57a" opacity="0.65"/>
+<rect x="459.4" y="274.2" width="2.77" height="9.8" fill="#bca57a" opacity="0.65"/>
+<rect x="463.4" y="267.8" width="2.77" height="16.2" fill="#bca57a" opacity="0.65"/>
+<rect x="467.3" y="268.7" width="2.77" height="15.3" fill="#bca57a" opacity="0.65"/>
+<rect x="471.3" y="270.7" width="2.77" height="13.3" fill="#bca57a" opacity="0.65"/>
+<rect x="475.3" y="273.2" width="2.77" height="10.8" fill="#bca57a" opacity="0.65"/>
+<rect x="479.2" y="277.3" width="2.77" height="6.7" fill="#bca57a" opacity="0.65"/>
+<rect x="483.2" y="277.4" width="2.77" height="6.6" fill="#bca57a" opacity="0.65"/>
+<rect x="487.2" y="275.5" width="2.77" height="8.5" fill="#bca57a" opacity="0.65"/>
+<rect x="491.1" y="278.6" width="2.77" height="5.4" fill="#bca57a" opacity="0.65"/>
+<rect x="495.1" y="273.8" width="2.77" height="10.2" fill="#bca57a" opacity="0.65"/>
+<rect x="499.1" y="276.2" width="2.77" height="7.8" fill="#bca57a" opacity="0.65"/>
+<rect x="503.0" y="276.1" width="2.77" height="7.9" fill="#bca57a" opacity="0.65"/>
+<rect x="507.0" y="274.6" width="2.77" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="511.0" y="275.7" width="2.77" height="8.3" fill="#bca57a" opacity="0.65"/>
+<rect x="515.0" y="276.7" width="2.77" height="7.3" fill="#bca57a" opacity="0.65"/>
+<rect x="518.9" y="271.4" width="2.77" height="12.6" fill="#bca57a" opacity="0.65"/>
+<rect x="522.9" y="272.0" width="2.77" height="12.0" fill="#bca57a" opacity="0.65"/>
+<rect x="526.9" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="530.8" y="277.2" width="2.77" height="6.8" fill="#bca57a" opacity="0.65"/>
+<rect x="534.8" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="538.8" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="542.7" y="275.6" width="2.77" height="8.4" fill="#bca57a" opacity="0.65"/>
+<rect x="546.7" y="279.6" width="2.77" height="4.4" fill="#bca57a" opacity="0.65"/>
+<rect x="550.7" y="275.9" width="2.77" height="8.1" fill="#bca57a" opacity="0.65"/>
+<rect x="554.6" y="277.4" width="2.77" height="6.6" fill="#bca57a" opacity="0.65"/>
+<rect x="558.6" y="277.6" width="2.77" height="6.4" fill="#bca57a" opacity="0.65"/>
+<rect x="562.6" y="278.7" width="2.77" height="5.3" fill="#bca57a" opacity="0.65"/>
+<rect x="566.5" y="278.5" width="2.77" height="5.5" fill="#bca57a" opacity="0.65"/>
+<rect x="570.5" y="277.2" width="2.77" height="6.8" fill="#bca57a" opacity="0.65"/>
+<rect x="574.5" y="276.9" width="2.77" height="7.1" fill="#bca57a" opacity="0.65"/>
+<rect x="578.4" y="277.1" width="2.77" height="6.9" fill="#bca57a" opacity="0.65"/>
+<rect x="582.4" y="271.3" width="2.77" height="12.7" fill="#bca57a" opacity="0.65"/>
+<rect x="586.4" y="255.3" width="2.77" height="28.7" fill="#bca57a" opacity="0.65"/>
+<rect x="590.3" y="263.7" width="2.77" height="20.3" fill="#bca57a" opacity="0.65"/>
+<rect x="594.3" y="274.4" width="2.77" height="9.6" fill="#bca57a" opacity="0.65"/>
+<rect x="598.3" y="274.4" width="2.77" height="9.6" fill="#bca57a" opacity="0.65"/>
+<rect x="602.3" y="271.3" width="2.77" height="12.7" fill="#bca57a" opacity="0.65"/>
+<rect x="606.2" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="610.2" y="275.6" width="2.77" height="8.4" fill="#bca57a" opacity="0.65"/>
+<rect x="614.2" y="274.8" width="2.77" height="9.2" fill="#bca57a" opacity="0.65"/>
+<rect x="618.1" y="273.5" width="2.77" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="622.1" y="272.4" width="2.77" height="11.6" fill="#bca57a" opacity="0.65"/>
+<rect x="626.1" y="273.7" width="2.77" height="10.3" fill="#bca57a" opacity="0.65"/>
+<rect x="630.0" y="275.1" width="2.77" height="8.9" fill="#bca57a" opacity="0.65"/>
+<rect x="634.0" y="277.1" width="2.77" height="6.9" fill="#bca57a" opacity="0.65"/>
+<rect x="638.0" y="274.8" width="2.77" height="9.2" fill="#bca57a" opacity="0.65"/>
+<rect x="641.9" y="279.5" width="2.77" height="4.5" fill="#bca57a" opacity="0.65"/>
+<rect x="645.9" y="273.2" width="2.77" height="10.8" fill="#bca57a" opacity="0.65"/>
+<rect x="649.9" y="276.1" width="2.77" height="7.9" fill="#bca57a" opacity="0.65"/>
+<rect x="653.8" y="277.9" width="2.77" height="6.1" fill="#bca57a" opacity="0.65"/>
+<rect x="657.8" y="274.9" width="2.77" height="9.1" fill="#bca57a" opacity="0.65"/>
+<rect x="661.8" y="278.6" width="2.77" height="5.4" fill="#bca57a" opacity="0.65"/>
+<rect x="665.7" y="278.1" width="2.77" height="5.9" fill="#bca57a" opacity="0.65"/>
+<rect x="669.7" y="276.9" width="2.77" height="7.1" fill="#bca57a" opacity="0.65"/>
+<rect x="673.7" y="276.5" width="2.77" height="7.5" fill="#bca57a" opacity="0.65"/>
+<rect x="677.6" y="275.7" width="2.77" height="8.3" fill="#bca57a" opacity="0.65"/>
+<rect x="681.6" y="277.6" width="2.77" height="6.4" fill="#bca57a" opacity="0.65"/>
+<rect x="685.6" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="689.5" y="278.7" width="2.77" height="5.3" fill="#bca57a" opacity="0.65"/>
+<rect x="693.5" y="277.2" width="2.77" height="6.8" fill="#bca57a" opacity="0.65"/>
+<rect x="697.5" y="277.7" width="2.77" height="6.3" fill="#bca57a" opacity="0.65"/>
+<rect x="701.5" y="271.2" width="2.77" height="12.8" fill="#bca57a" opacity="0.65"/>
+<rect x="705.4" y="277.0" width="2.77" height="7.0" fill="#bca57a" opacity="0.65"/>
+<rect x="709.4" y="278.8" width="2.77" height="5.2" fill="#bca57a" opacity="0.65"/>
+<rect x="713.4" y="280.0" width="2.77" height="4.0" fill="#bca57a" opacity="0.65"/>
+<rect x="717.3" y="280.8" width="2.77" height="3.2" fill="#bca57a" opacity="0.65"/>
+<rect x="721.3" y="278.2" width="2.77" height="5.8" fill="#bca57a" opacity="0.65"/>
+<rect x="725.3" y="276.2" width="2.77" height="7.8" fill="#bca57a" opacity="0.65"/>
+<rect x="729.2" y="279.1" width="2.77" height="4.9" fill="#bca57a" opacity="0.65"/>
+<rect x="733.2" y="277.6" width="2.77" height="6.4" fill="#bca57a" opacity="0.65"/>
+<rect x="737.2" y="275.5" width="2.77" height="8.5" fill="#bca57a" opacity="0.65"/>
+<rect x="741.1" y="274.0" width="2.77" height="10.0" fill="#bca57a" opacity="0.65"/>
+<rect x="745.1" y="278.2" width="2.77" height="5.8" fill="#bca57a" opacity="0.65"/>
+<rect x="749.1" y="271.9" width="2.77" height="12.1" fill="#bca57a" opacity="0.65"/>
+<rect x="753.0" y="276.2" width="2.77" height="7.8" fill="#bca57a" opacity="0.65"/>
+<rect x="757.0" y="277.4" width="2.77" height="6.6" fill="#bca57a" opacity="0.65"/>
+<rect x="761.0" y="268.3" width="2.77" height="15.7" fill="#bca57a" opacity="0.65"/>
+<rect x="764.9" y="271.1" width="2.77" height="12.9" fill="#bca57a" opacity="0.65"/>
+<rect x="768.9" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="772.9" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="776.8" y="271.0" width="2.77" height="13.0" fill="#bca57a" opacity="0.65"/>
+<rect x="780.8" y="271.8" width="2.77" height="12.2" fill="#bca57a" opacity="0.65"/>
+<rect x="784.8" y="271.2" width="2.77" height="12.8" fill="#bca57a" opacity="0.65"/>
+<rect x="788.8" y="268.8" width="2.77" height="15.2" fill="#bca57a" opacity="0.65"/>
+<rect x="792.7" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="796.7" y="277.8" width="2.77" height="6.2" fill="#bca57a" opacity="0.65"/>
+<rect x="800.7" y="273.5" width="2.77" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="804.6" y="271.2" width="2.77" height="12.8" fill="#bca57a" opacity="0.65"/>
+<rect x="808.6" y="272.7" width="2.77" height="11.3" fill="#bca57a" opacity="0.65"/>
+<rect x="812.6" y="272.3" width="2.77" height="11.7" fill="#bca57a" opacity="0.65"/>
+<rect x="816.5" y="268.7" width="2.77" height="15.3" fill="#bca57a" opacity="0.65"/>
+<rect x="820.5" y="220.0" width="2.77" height="64.0" fill="#bca57a" opacity="0.65"/>
+<rect x="824.5" y="255.9" width="2.77" height="28.1" fill="#bca57a" opacity="0.65"/>
+<rect x="828.4" y="266.2" width="2.77" height="17.8" fill="#bca57a" opacity="0.65"/>
+<rect x="832.4" y="266.8" width="2.77" height="17.2" fill="#bca57a" opacity="0.65"/>
+<rect x="836.4" y="273.3" width="2.77" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="840.3" y="265.0" width="2.77" height="19.0" fill="#bca57a" opacity="0.65"/>
+<rect x="844.3" y="262.7" width="2.77" height="21.3" fill="#bca57a" opacity="0.65"/>
+<rect x="848.3" y="270.5" width="2.77" height="13.5" fill="#bca57a" opacity="0.65"/>
+<rect x="852.2" y="275.3" width="2.77" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="856.2" y="260.5" width="2.77" height="23.5" fill="#bca57a" opacity="0.65"/>
+<rect x="860.2" y="268.4" width="2.77" height="15.6" fill="#bca57a" opacity="0.65"/>
+<rect x="864.1" y="266.8" width="2.77" height="17.2" fill="#bca57a" opacity="0.65"/>
+<rect x="868.1" y="270.8" width="2.77" height="13.2" fill="#bca57a" opacity="0.65"/>
+<rect x="872.1" y="254.0" width="2.77" height="30.0" fill="#bca57a" opacity="0.65"/>
+<rect x="876.1" y="259.9" width="2.77" height="24.1" fill="#bca57a" opacity="0.65"/>
+<rect x="880.0" y="254.6" width="2.77" height="29.4" fill="#bca57a" opacity="0.65"/>
+<rect x="884.0" y="239.5" width="2.77" height="44.5" fill="#bca57a" opacity="0.65"/>
+<rect x="888.0" y="225.1" width="2.77" height="58.9" fill="#bca57a" opacity="0.65"/>
+<rect x="891.9" y="243.1" width="2.77" height="40.9" fill="#bca57a" opacity="0.65"/>
+<rect x="895.9" y="253.9" width="2.77" height="30.1" fill="#bca57a" opacity="0.65"/>
+<rect x="899.9" y="252.7" width="2.77" height="31.3" fill="#bca57a" opacity="0.65"/>
+<rect x="903.8" y="255.1" width="2.77" height="28.9" fill="#bca57a" opacity="0.65"/>
+<rect x="907.8" y="263.4" width="2.77" height="20.6" fill="#bca57a" opacity="0.65"/>
+<rect x="911.8" y="248.2" width="2.77" height="35.8" fill="#bca57a" opacity="0.65"/>
+<rect x="915.7" y="264.4" width="2.77" height="19.6" fill="#bca57a" opacity="0.65"/>
+<rect x="919.7" y="262.4" width="2.77" height="21.6" fill="#bca57a" opacity="0.65"/>
+<rect x="923.7" y="271.3" width="2.77" height="12.7" fill="#bca57a" opacity="0.65"/>
+<rect x="927.6" y="248.7" width="2.77" height="35.3" fill="#bca57a" opacity="0.65"/>
+<rect x="931.6" y="259.0" width="2.77" height="25.0" fill="#bca57a" opacity="0.65"/>
+<rect x="935.6" y="262.0" width="2.77" height="22.0" fill="#bca57a" opacity="0.65"/>
+<rect x="939.5" y="261.8" width="2.77" height="22.2" fill="#bca57a" opacity="0.65"/>
+<rect x="943.5" y="236.2" width="2.77" height="47.8" fill="#bca57a" opacity="0.65"/>
+<rect x="947.5" y="261.8" width="2.77" height="22.2" fill="#bca57a" opacity="0.65"/>
+<rect x="951.4" y="267.0" width="2.77" height="17.0" fill="#bca57a" opacity="0.65"/>
+<rect x="955.4" y="268.4" width="2.77" height="15.6" fill="#bca57a" opacity="0.65"/>
+<rect x="959.4" y="265.3" width="2.77" height="18.7" fill="#bca57a" opacity="0.65"/>
+<rect x="963.3" y="258.0" width="2.77" height="26.0" fill="#bca57a" opacity="0.65"/>
+<rect x="967.3" y="249.4" width="2.77" height="34.6" fill="#bca57a" opacity="0.65"/>
+<rect x="971.3" y="249.0" width="2.77" height="35.0" fill="#bca57a" opacity="0.65"/>
+<rect x="975.3" y="265.5" width="2.77" height="18.5" fill="#bca57a" opacity="0.65"/>
+<rect x="979.2" y="268.6" width="2.77" height="15.4" fill="#bca57a" opacity="0.65"/>
+<rect x="983.2" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="987.2" y="272.5" width="2.77" height="11.5" fill="#bca57a" opacity="0.65"/>
+<rect x="991.1" y="268.4" width="2.77" height="15.6" fill="#bca57a" opacity="0.65"/>
+<rect x="995.1" y="266.2" width="2.77" height="17.8" fill="#bca57a" opacity="0.65"/>
+<rect x="999.1" y="261.2" width="2.77" height="22.8" fill="#bca57a" opacity="0.65"/>
+<rect x="1003.0" y="261.4" width="2.77" height="22.6" fill="#bca57a" opacity="0.65"/>
+<rect x="1007.0" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="1011.0" y="272.8" width="2.77" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="1014.9" y="274.0" width="2.77" height="10.0" fill="#bca57a" opacity="0.65"/>
+<rect x="1018.9" y="271.0" width="2.77" height="13.0" fill="#bca57a" opacity="0.65"/>
+<rect x="1022.9" y="274.8" width="2.77" height="9.2" fill="#bca57a" opacity="0.65"/>
+<rect x="1026.8" y="271.9" width="2.77" height="12.1" fill="#bca57a" opacity="0.65"/>
+<rect x="1030.8" y="274.1" width="2.77" height="9.9" fill="#bca57a" opacity="0.65"/>
+<rect x="1034.8" y="275.8" width="2.77" height="8.2" fill="#bca57a" opacity="0.65"/>
+<rect x="1038.7" y="267.9" width="2.77" height="16.1" fill="#bca57a" opacity="0.65"/>
+<rect x="1042.7" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="1046.7" y="269.3" width="2.77" height="14.7" fill="#bca57a" opacity="0.65"/>
+<rect x="1050.6" y="274.3" width="2.77" height="9.7" fill="#bca57a" opacity="0.65"/>
+<rect x="1054.6" y="273.8" width="2.77" height="10.2" fill="#bca57a" opacity="0.65"/>
+  <polygon points="60,212 60.0,202.1 64.0,201.5 67.9,200.3 71.9,200.6 75.9,201.3 79.8,201.0 83.8,200.0 87.8,192.6 91.7,190.6 95.7,188.7 99.7,189.8 103.6,189.9 107.6,190.2 111.6,190.2 115.6,187.4 119.5,188.3 123.5,186.4 127.5,185.8 131.4,183.4 135.4,183.0 139.4,183.2 143.3,184.2 147.3,183.1 151.3,181.3 155.2,179.0 159.2,177.7 163.2,178.3 167.1,178.2 171.1,179.1 175.1,177.3 179.0,176.8 183.0,177.2 187.0,175.1 190.9,175.0 194.9,176.4 198.9,178.8 202.9,178.3 206.8,177.3 210.8,176.6 214.8,173.5 218.7,173.4 222.7,173.3 226.7,174.6 230.6,173.4 234.6,173.0 238.6,175.0 242.5,175.1 246.5,175.5 250.5,175.9 254.4,176.6 258.4,176.3 262.4,175.4 266.3,173.8 270.3,174.5 274.3,172.6 278.2,173.6 282.2,174.6 286.2,173.7 290.2,173.7 294.1,174.0 298.1,174.1 302.1,170.8 306.0,170.9 310.0,170.0 314.0,172.2 317.9,170.0 321.9,170.2 325.9,173.3 329.8,171.4 333.8,157.6 337.8,156.8 341.7,153.9 345.7,155.0 349.7,157.4 353.6,157.6 357.6,154.6 361.6,157.4 365.5,158.1 369.5,155.5 373.5,153.1 377.5,151.8 381.4,150.5 385.4,151.3 389.4,148.8 393.3,151.3 397.3,152.1 401.3,151.5 405.2,149.5 409.2,151.1 413.2,152.0 417.1,150.4 421.1,151.0 425.1,150.4 429.0,151.6 433.0,149.0 437.0,149.7 440.9,149.5 444.9,145.5 448.9,145.5 452.8,144.6 456.8,146.7 460.8,150.5 464.7,153.1 468.7,150.5 472.7,150.5 476.7,149.2 480.6,147.4 484.6,145.7 488.6,146.3 492.5,146.5 496.5,148.7 500.5,147.0 504.4,147.7 508.4,153.0 512.4,146.9 516.3,146.6 520.3,142.2 524.3,144.3 528.2,148.1 532.2,144.1 536.2,143.7 540.1,147.5 544.1,143.1 548.1,142.1 552.0,139.8 556.0,142.1 560.0,142.5 564.0,144.6 567.9,141.1 571.9,142.6 575.9,147.0 579.8,144.7 583.8,148.9 587.8,138.3 591.7,132.7 595.7,136.8 599.7,140.5 603.6,147.5 607.6,147.1 611.6,149.6 615.5,151.7 619.5,149.3 623.5,151.6 627.4,147.6 631.4,142.8 635.4,140.5 639.3,137.0 643.3,135.7 647.3,141.0 651.3,139.6 655.2,138.4 659.2,133.1 663.2,132.8 667.1,131.6 671.1,129.3 675.1,129.5 679.0,128.5 683.0,133.6 687.0,132.7 690.9,135.3 694.9,137.1 698.9,134.0 702.8,129.7 706.8,128.5 710.8,125.6 714.7,125.9 718.7,126.2 722.7,126.6 726.6,127.7 730.6,130.2 734.6,128.2 738.5,128.8 742.5,129.8 746.5,130.1 750.5,124.2 754.4,124.2 758.4,120.4 762.4,117.7 766.3,116.6 770.3,115.0 774.3,114.7 778.2,111.6 782.2,109.9 786.2,104.9 790.1,114.7 794.1,115.6 798.1,112.3 802.0,109.8 806.0,107.1 810.0,110.7 813.9,104.7 817.9,100.1 821.9,114.9 825.8,109.5 829.8,97.4 833.8,89.0 837.8,93.0 841.7,88.4 845.7,94.2 849.7,94.6 853.6,97.9 857.6,89.6 861.6,86.4 865.5,85.6 869.5,88.7 873.5,81.7 877.4,74.5 881.4,68.8 885.4,85.2 889.3,57.4 893.3,68.6 897.3,59.0 901.2,69.8 905.2,79.2 909.2,73.5 913.1,66.8 917.1,60.3 921.1,69.3 925.1,69.7 929.0,55.4 933.0,49.1 937.0,55.4 940.9,49.7 944.9,62.1 948.9,51.9 952.8,48.1 956.8,47.6 960.8,66.6 964.7,65.5 968.7,90.4 972.7,83.2 976.6,80.1 980.6,75.7 984.6,80.3 988.5,81.5 992.5,75.2 996.5,69.4 1000.4,63.0 1004.4,52.2 1008.4,59.4 1012.4,60.5 1016.3,53.1 1020.3,50.8 1024.3,48.6 1028.2,46.5 1032.2,47.1 1036.2,41.7 1040.1,37.9 1044.1,51.7 1048.1,62.0 1052.0,64.0 1056.0,52.2 1056,212" fill="#d8b878" opacity="0.35"/>
+  <polyline points="60.0,202.1 64.0,201.5 67.9,200.3 71.9,200.6 75.9,201.3 79.8,201.0 83.8,200.0 87.8,192.6 91.7,190.6 95.7,188.7 99.7,189.8 103.6,189.9 107.6,190.2 111.6,190.2 115.6,187.4 119.5,188.3 123.5,186.4 127.5,185.8 131.4,183.4 135.4,183.0 139.4,183.2 143.3,184.2 147.3,183.1 151.3,181.3 155.2,179.0 159.2,177.7 163.2,178.3 167.1,178.2 171.1,179.1 175.1,177.3 179.0,176.8 183.0,177.2 187.0,175.1 190.9,175.0 194.9,176.4 198.9,178.8 202.9,178.3 206.8,177.3 210.8,176.6 214.8,173.5 218.7,173.4 222.7,173.3 226.7,174.6 230.6,173.4 234.6,173.0 238.6,175.0 242.5,175.1 246.5,175.5 250.5,175.9 254.4,176.6 258.4,176.3 262.4,175.4 266.3,173.8 270.3,174.5 274.3,172.6 278.2,173.6 282.2,174.6 286.2,173.7 290.2,173.7 294.1,174.0 298.1,174.1 302.1,170.8 306.0,170.9 310.0,170.0 314.0,172.2 317.9,170.0 321.9,170.2 325.9,173.3 329.8,171.4 333.8,157.6 337.8,156.8 341.7,153.9 345.7,155.0 349.7,157.4 353.6,157.6 357.6,154.6 361.6,157.4 365.5,158.1 369.5,155.5 373.5,153.1 377.5,151.8 381.4,150.5 385.4,151.3 389.4,148.8 393.3,151.3 397.3,152.1 401.3,151.5 405.2,149.5 409.2,151.1 413.2,152.0 417.1,150.4 421.1,151.0 425.1,150.4 429.0,151.6 433.0,149.0 437.0,149.7 440.9,149.5 444.9,145.5 448.9,145.5 452.8,144.6 456.8,146.7 460.8,150.5 464.7,153.1 468.7,150.5 472.7,150.5 476.7,149.2 480.6,147.4 484.6,145.7 488.6,146.3 492.5,146.5 496.5,148.7 500.5,147.0 504.4,147.7 508.4,153.0 512.4,146.9 516.3,146.6 520.3,142.2 524.3,144.3 528.2,148.1 532.2,144.1 536.2,143.7 540.1,147.5 544.1,143.1 548.1,142.1 552.0,139.8 556.0,142.1 560.0,142.5 564.0,144.6 567.9,141.1 571.9,142.6 575.9,147.0 579.8,144.7 583.8,148.9 587.8,138.3 591.7,132.7 595.7,136.8 599.7,140.5 603.6,147.5 607.6,147.1 611.6,149.6 615.5,151.7 619.5,149.3 623.5,151.6 627.4,147.6 631.4,142.8 635.4,140.5 639.3,137.0 643.3,135.7 647.3,141.0 651.3,139.6 655.2,138.4 659.2,133.1 663.2,132.8 667.1,131.6 671.1,129.3 675.1,129.5 679.0,128.5 683.0,133.6 687.0,132.7 690.9,135.3 694.9,137.1 698.9,134.0 702.8,129.7 706.8,128.5 710.8,125.6 714.7,125.9 718.7,126.2 722.7,126.6 726.6,127.7 730.6,130.2 734.6,128.2 738.5,128.8 742.5,129.8 746.5,130.1 750.5,124.2 754.4,124.2 758.4,120.4 762.4,117.7 766.3,116.6 770.3,115.0 774.3,114.7 778.2,111.6 782.2,109.9 786.2,104.9 790.1,114.7 794.1,115.6 798.1,112.3 802.0,109.8 806.0,107.1 810.0,110.7 813.9,104.7 817.9,100.1 821.9,114.9 825.8,109.5 829.8,97.4 833.8,89.0 837.8,93.0 841.7,88.4 845.7,94.2 849.7,94.6 853.6,97.9 857.6,89.6 861.6,86.4 865.5,85.6 869.5,88.7 873.5,81.7 877.4,74.5 881.4,68.8 885.4,85.2 889.3,57.4 893.3,68.6 897.3,59.0 901.2,69.8 905.2,79.2 909.2,73.5 913.1,66.8 917.1,60.3 921.1,69.3 925.1,69.7 929.0,55.4 933.0,49.1 937.0,55.4 940.9,49.7 944.9,62.1 948.9,51.9 952.8,48.1 956.8,47.6 960.8,66.6 964.7,65.5 968.7,90.4 972.7,83.2 976.6,80.1 980.6,75.7 984.6,80.3 988.5,81.5 992.5,75.2 996.5,69.4 1000.4,63.0 1004.4,52.2 1008.4,59.4 1012.4,60.5 1016.3,53.1 1020.3,50.8 1024.3,48.6 1028.2,46.5 1032.2,47.1 1036.2,41.7 1040.1,37.9 1044.1,51.7 1048.1,62.0 1052.0,64.0 1056.0,52.2" fill="none" stroke="#7a5a26" stroke-width="1.6" stroke-linejoin="round"/>
+  <text x="60.0" y="308" text-anchor="start" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Apr 2025</text>
+<text x="560.0" y="308" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Oct 2025</text>
+<text x="1056.0" y="308" text-anchor="end" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Apr 2026</text>
+  <text x="52" y="223.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9" fill="#6e6457">5.3M</text>
+  <text x="60" y="16" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.16em" text-transform="uppercase" fill="#2a261f">LASR · PRICE &amp; VOLUME</text><text x="1056" y="16" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="#2a261f">$69.85  <tspan fill="#1f6b3a" font-weight="600">+806.0%</tspan></text>
+</svg>
+  <p class="chart-caption">Daily close (warm umber) with under-fill, volume bars in tan. Trailing range capped at 252 trading days.</p>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Market Analysis</h3><h3>Market Report</h3>
+
+<h4>Tape Read · LASR @ $69.85 (close 2026-04-30)</h4>
+
+<p>LASR closed 2026-04-30 at $69.85, a +7.5% reversal session that recovered</p>
+<p>roughly half of the 4 trading-day, -21% drawdown from the 2026-04-24</p>
+<p>all-time high of $80.27. The 21-day range is unusually wide ($54.50 lo on</p>
+<p>2026-04-02 to $80.27 hi on 2026-04-24), reflecting both a 38% ramp into</p>
+<p>the high and a sharp event-driven gap lower. The 2026-04-30 print closed</p>
+<p>inside the upper third of that range, above the 50-day SMA but well off</p>
+<p>the 4/24 peak — a classic late-stage trend that has not yet rolled over</p>
+<p>but has lost momentum confirmation.</p>
+
+<h4>Indicators (8 selected, ranked by signal weight)</h4>
+
+<p><strong>1. 50-Day SMA ($64.77) — BULLISH STRUCTURAL SUPPORT.</strong> Price is +7.8%</p>
+<p>above the 50-SMA, which has been rising +0.5/day for the past month. A</p>
+<p>clean test of $64.77 on a pullback would be the structural "buy-the-dip"</p>
+<p>level for trend-followers. The 4/29 intraday low of $63.43 already</p>
+<p>back-tested 2.0% below the SMA before reversing.</p>
+
+<p><strong>2. 200-Day SMA ($41.21) — STRONG UPTREND.</strong> Price sits +69% above the</p>
+<p>200-SMA — a feature of names in the late innings of a multi-quarter</p>
+<p>re-rating. The +57% gap between 50 and 200 SMA is wide enough to flag</p>
+<p>mean-reversion risk on any negative catalyst, but the slope of the</p>
+<p>200-SMA is rising +$0.25/day, confirming the secular trend.</p>
+
+<p><strong>3. RSI 14 (54.14) — NEUTRAL/RECOVERING.</strong> RSI bottomed at 47.24 on 4/29</p>
+<p>and reset 1 day later to 54.14 — a healthy reset that avoided oversold</p>
+<p>(&lt; 30) territory. RSI has not exceeded 70 in the past 21 sessions despite</p>
+<p>the 2026-04-24 highs, which is a non-confirmation: price made a higher</p>
+<p>high while RSI did not — a CLASSIC NEGATIVE DIVERGENCE pattern that</p>
+<p>preceded the 4/24-29 selloff.</p>
+
+<p>**4. MACD (1.81) / Signal (2.18) / Histogram (-0.38) — BEARISH CROSSOVER</p>
+<p>PENDING.** MACD line crossed below signal on 4/28 with histogram turning</p>
+<p>negative. This is the strongest short-term momentum-deterioration signal</p>
+<p>in the suite. MACD has rolled over from a peak of 3.21 on 2026-04-24</p>
+<p>(coincident with price high). A confirmed close below MACD zero would</p>
+<p>trigger trend-trader exits.</p>
+
+<p>**5. Bollinger Bands (Upper $77.70 / Mid $67.18 / Lower $56.67) — BAND</p>
+<p>WALK ENDED.** Price walked the upper band 4/17-4/24, then snapped back</p>
+<p>sharply through the 20-SMA on 4/28-29 to test the lower band ($56.67) —</p>
+<p>exactly the pattern a band-trader would expect after a 14-day band walk.</p>
+<p>Mean-reversion appears in progress; price now mid-band, suggesting a</p>
+<p>temporary equilibrium.</p>
+
+<p><strong>6. ATR (5.08) — ELEVATED VOLATILITY.</strong> ATR at $5.08 on a $69.85 stock</p>
+<p>is 7.3% — exceptionally high relative to the S&amp;P 500 average of ~1.5%.</p>
+<p>ATR PEAKED at $5.77 on 4/2 and contracted to $5.08 on 4/30. Position</p>
+<p>sizing must respect this: a 1-ATR stop is $5; a 2-ATR stop is $10. The</p>
+<p>fundamental beta of 2.27 reinforces this volatility profile.</p>
+
+<p><strong>7. VWMA ($69.87) — PRICE AT VOLUME-WEIGHTED EQUILIBRIUM.</strong> VWMA is a</p>
+<p>perfect $0.02 from current price, indicating no volume-based dislocation</p>
+<p>in either direction. This is a feature of consolidation, not breakout.</p>
+
+<p><strong>8. 10-EMA ($69.10) — SHORT-TERM SUPPORT INTACT.</strong> Price closed +1.1%</p>
+<p>above the 10-EMA on 4/30 after a 1-session breach 4/29. The 10-EMA</p>
+<p>flattened at $69 over the past 3 sessions, consistent with the</p>
+<p>mean-reverting band action.</p>
+
+<h4>Support &amp; Resistance Structure</h4>
+
+<table>
+<tr><th>Level</th><th>Price</th><th>Significance</th></tr>
+<tr><td>Resistance 1</td><td>$80.27</td><td>2026-04-24 ATH; needs catalyst to retake</td></tr>
+<tr><td>Resistance 2</td><td>$74-75</td><td>2026-04-24 daily open / 2026-04-23 close</td></tr>
+<tr><td>Pivot</td><td>$69.85</td><td>Current; coincident with 10-EMA + VWMA</td></tr>
+<tr><td>Support 1</td><td>$64.77</td><td>50-day SMA</td></tr>
+<tr><td>Support 2</td><td>$63.43</td><td>2026-04-29 intraday low — HARD STOP</td></tr>
+<tr><td>Support 3</td><td>$56.67</td><td>Bollinger lower band</td></tr>
+<tr><td>Support 4</td><td>$41.21</td><td>200-day SMA — extreme drawdown reference</td></tr>
+</table>
+
+<h4>Conclusion · Setup Type</h4>
+
+<p>This is a **late-stage trending name with a momentum-deterioration warning</p>
+<p>shot**. The MACD bearish crossover and RSI negative divergence are</p>
+<p>short-term cautionary; the 50-SMA hold and price-above-VWMA confirm the</p>
+<p>intermediate trend is intact. With Q1 2026 earnings on 2026-05-07 (6</p>
+<p>trading sessions away), the 4/29-30 reversal sets up a binary event</p>
+<p>trade: bulls defend $63.43 as the post-print floor; bears need a close</p>
+<p>below $63.43 to confirm distribution. ATR-driven 2-day expected move</p>
+<p>into the print = roughly +/- $7 ($63 - $77 range).</p>
+
+<table>
+<tr><th>Theme</th><th>Read</th><th>Action implication</th></tr>
+<tr><td>Long-term trend</td><td>UP (50/200 spread +57%)</td><td>Trend-followers stay long above $64.77</td></tr>
+<tr><td>Short-term momentum</td><td>DETERIORATING (MACD cross, RSI div)</td><td>No new longs above $72 pre-print</td></tr>
+<tr><td>Volatility regime</td><td>HIGH (ATR 7.3%, beta 2.27)</td><td>Position size 0.5-1.5% NAV max</td></tr>
+<tr><td>Event proximity</td><td>6 sessions to Q1 2026 print</td><td>Binary; size down or hedge</td></tr>
+<tr><td>Mean reversion</td><td>ACTIVE (BB lower-band test 4/29)</td><td>$63-65 zone is the post-print buy area</td></tr>
+</table>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Social Sentiment</h3><h3>Social Sentiment Report</h3>
+
+<h4>Tape · 11 LASR-Specific Articles in 30-Day Window (2026-04-01 to 2026-05-02)</h4>
+
+<p>The 30-day social and analyst stream around LASR is dominated by two</p>
+<p>counter-vailing narratives: a <strong>directed-energy/defense bull case</strong> that</p>
+<p>has lifted analyst fair-value estimates from $66.75 to $75.50 across</p>
+<p>two updates, and a <strong>valuation/sustainability bear case</strong> anchored on</p>
+<p>forward P/E 138x and the cutting/welding exit-induced revenue headwind.</p>
+<p>The bull narrative is clearly winning the news flow but has failed to</p>
+<p>suppress the recent 21% pullback from the 2026-04-24 high.</p>
+
+<h4>Bull Narrative (5 of 11 articles)</h4>
+
+<ul>
+<li>**Simply Wall St (2 articles, fair value raises $66.75 → $73.50 →</li>
+</ul>
+<p>$75.50):** Modeled value walks reflect "directed energy lasers, record</p>
+<p>aerospace and defense contribution in Q4, and interest in vertically</p>
+<p>integrated technology." This is the most authoritative published</p>
+<p>upgrade thread — two-step revaluations tied to Q4 2025 print and Q1</p>
+<p>2026 commentary.</p>
+
+<ul>
+<li><strong>Zacks (Laser Sensing piece):</strong> Frames laser sensing as an emerging</li>
+</ul>
+<p>growth driver "supported by strong defense demand, program wins and an</p>
+<p>expanding production pipeline." Zacks separately ran a "Buy/Sell/Hold"</p>
+<p>framing that flagged premium-valuation concerns — Zacks is internally</p>
+<p>divided.</p>
+
+<ul>
+<li><strong>Insider Monkey (r/ValueInvesting bullish thesis):</strong> Reproduced an</li>
+</ul>
+<p>amateur-investor thesis. Notable for being one of the first widely</p>
+<p>circulated retail-side bullish notes; share price was $70.43 at the</p>
+<p>time of the article (2026-04-17).</p>
+
+<ul>
+<li><strong>24/7 Wall St ("Is It Too Late to Buy nLIGHT"):</strong> Sober framing of</li>
+</ul>
+<p>the 837% trailing 12-month rally ($6.44 → $60.32 reference point), but</p>
+<p>ultimately concludes "this is one of those rare cases where the story</p>
+<p>is still early." Notable for being a retail-oriented site (not a</p>
+<p>traditional sell-side voice).</p>
+
+<ul>
+<li><strong>Seeking Alpha — "Trump's Golden Dome Play":</strong> Frames LASR as a</li>
+</ul>
+<p>beneficiary of Trump-administration directed-energy emphasis, citing</p>
+<p>Israel's Iron Beam as a near-term contract catalyst, with Q4 2025</p>
+<p>sales projected at $78-80M (+67% YoY). Published 2026-02-10 — pre-Q4</p>
+<p>print and pre-offering.</p>
+
+<h4>Bear / Caution Narrative (4 of 11 articles)</h4>
+
+<ul>
+<li><strong>StockStory ("3 Reasons to Sell LASR"):</strong> Cites the 122% 6-month</li>
+</ul>
+<p>return ($71.28 reference) as a topping-pattern flag.</p>
+
+<ul>
+<li><strong>StockStory ("3 Unprofitable Stocks Walking a Fine Line"):</strong> LASR</li>
+</ul>
+<p>grouped with other GAAP-loss-makers in a cautionary frame.</p>
+
+<ul>
+<li><strong>Zacks ("Trades at Premium Valuation"):</strong> Direct attack on</li>
+</ul>
+<p>multiples — flags "revenue headwinds, margin pressure and weak</p>
+<p>microfabrication outlook" undermining premium multiples.</p>
+
+<ul>
+<li><strong>Zacks ("LASR vs LITE"):</strong> Concludes "LITE outpaces LASR as</li>
+</ul>
+<p>AI-driven demand, strong revenue growth and rising estimates outweigh</p>
+<p>nLIGHT's near-term headwinds from cutting and welding exit." This is</p>
+<p>the cleanest bear note — frames LASR as the inferior comparable to</p>
+<p>Lumentum.</p>
+
+<h4>Cross-Currents</h4>
+
+<ul>
+<li><strong>The 2026-06-22 Iran ceasefire</strong> generated a tape rally including</li>
+</ul>
+<p>LASR — but this is a one-day reaction that did not change the analyst</p>
+<p>framework.</p>
+
+<ul>
+<li><strong>Insider transactions</strong> (separate from news flow but social-relevant):</li>
+</ul>
+<p>CEO Scott Keeney sold ~75K shares in March 2026 at $57-63 ($4.6M+);</p>
+<p>CFO Joseph Corso sold 25K at $60-62; multiple directors sold. NO open</p>
+<p>market insider buys in the past 6 months. This is materially negative</p>
+<p>insider sentiment masked by positive news flow.</p>
+
+<h4>Sentiment Score · Net +Bullish, but Fragile</h4>
+
+<p>The published-research aggregate is roughly 60% bullish / 30%</p>
+<p>neutral/cautionary / 10% bearish. The bullish pieces lean on</p>
+<p>fundamentals (record A&amp;D Q4, directed energy program wins, $162M</p>
+<p>funded backlog, $201M raised). The bearish pieces lean on price</p>
+<p>(forward P/E 138x, 837% 12-month return, comparison vs LITE).</p>
+
+<p>The <strong>insider-selling overhang</strong> is the under-appreciated signal: when</p>
+<p>the CEO sells $4.6M+ post-Q4 earnings into a 30%+ rally, the disconnect</p>
+<p>between published narrative ("Buy") and management action ("Distribute")</p>
+<p>should be a yellow flag for any institutional process.</p>
+
+<table>
+<tr><th>Source bucket</th><th>Direction</th><th>Volume</th><th>Key data point</th></tr>
+<tr><td>Sell-side fair-value updates</td><td>Bullish</td><td>2 articles</td><td>$66.75 → $75.50 walk</td></tr>
+<tr><td>Zacks (composite)</td><td>Mixed</td><td>3 articles</td><td>Premium-valuation concern + sensing growth</td></tr>
+<tr><td>Retail/aggregator</td><td>Bullish</td><td>3 articles</td><td>837% rally framing, "story still early"</td></tr>
+<tr><td>Single-stock-story bear</td><td>Cautious</td><td>2 articles</td><td>Sell signal frame</td></tr>
+<tr><td>Insider transaction tape</td><td>NEGATIVE</td><td>$4.6M+ sold</td><td>CEO + CFO + directors, $57-63 range, NO BUYS</td></tr>
+<tr><td>Macro tailwind (Iran ceasefire)</td><td>One-day pop</td><td>1 article</td><td>Tactical, not structural</td></tr>
+</table>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>News &amp; Macro</h3><h3>News Report</h3>
+
+<h4>Macro Backdrop · 2026-04-24 to 2026-05-01</h4>
+
+<p>The macro environment in the week before the analysis date is</p>
+<p>characterized by three reinforcing tailwinds and one structural</p>
+<p>overhang relevant to LASR.</p>
+
+<p><strong>Tailwind 1 · April Equity Rally:</strong> The Nasdaq led monthly gains in</p>
+<p>April with broad participation across tech and semiconductor names.</p>
+<p>This created favorable beta for LASR (beta 2.27) — much of the +30%</p>
+<p>move from $58 (4/1) to $80 (4/24) reflects beta capture, not</p>
+<p>LASR-specific re-rating.</p>
+
+<p><strong>Tailwind 2 · AI Capex Theme Spillover:</strong> Yahoo Finance and Simply</p>
+<p>Wall St highlighted "downstream winners of the AI trade's latest phase"</p>
+<p>and Marvell's AI data center push. The AI-infrastructure capex theme</p>
+<p>benefits LASR through (a) microfabrication demand for advanced-node</p>
+<p>semiconductor manufacturing and (b) high-power laser sensing for</p>
+<p>data-center component inspection. However, this is an indirect benefit</p>
+<p>— LASR's primary growth driver is A&amp;D, not AI capex.</p>
+
+<p><strong>Tailwind 3 · U.S.-Iran Ceasefire (2026-06-22):</strong> A one-day market</p>
+<p>rally on geopolitical de-escalation that included LASR. Counterintuitive</p>
+<p>for a defense-laser supplier, but the broader tape lift dominated.</p>
+<p>Strategically, the ceasefire could SLOW directed-energy procurement</p>
+<p>urgency at the margin — if the immediate threat environment moderates,</p>
+<p>DoD may de-prioritize emergency funding. However, the FY2027 POM cycle</p>
+<p>is set well in advance of the ceasefire, so near-term budget impact is</p>
+<p>limited.</p>
+
+<p><strong>Overhang · Defense Budget Politics:</strong> Federal directed-energy program</p>
+<p>funding has been bipartisan but is subject to Congressional appropriations</p>
+<p>volatility. The FY2027 DoD budget is in early markup; high-energy laser</p>
+<p>program lines (HELIOS, IFPC-HEL, JCO directed energy) are expected to</p>
+<p>grow but specific numbers will not be locked until late 2026. Any</p>
+<p>program cancellation or restructuring (similar to past DEW program</p>
+<p>truncations) would be material to LASR.</p>
+
+<h4>Sector &amp; Industry Cross-Currents</h4>
+
+<p><strong>Defense laser &amp; directed-energy peers:</strong></p>
+<ul>
+<li><strong>Coherent Corp (COHR):</strong> Industrial laser leader, less directly</li>
+</ul>
+<p>exposed to A&amp;D — recent results showed strong AI/data-center demand</p>
+<p>but slower microfabrication.</p>
+<ul>
+<li><strong>Lumentum (LITE):</strong> Fiber laser specialist, AI-data-center heavy mix</li>
+</ul>
+<p>— Zacks frames LITE as the preferred fiber laser exposure for the</p>
+<p>current AI-capex regime.</p>
+<ul>
+<li><strong>IPG Photonics (IPGP):</strong> Industrial fiber laser; structurally</li>
+</ul>
+<p>declining in cutting/welding (similar exit dynamic to LASR).</p>
+<ul>
+<li><strong>Lockheed Martin / RTX / Northrop Grumman:</strong> Prime contractors that</li>
+</ul>
+<p>buy from LASR; their FY26 directed-energy program execution drives</p>
+<p>LASR's funded backlog conversion.</p>
+
+<p><strong>Semiconductor capex cycle:</strong> The 2026 outlook for advanced-node</p>
+<p>photolithography (sub-3nm) supports microfabrication laser demand at</p>
+<p>the margin. However, LASR's microfabrication exposure is concentrated</p>
+<p>in legacy nodes where capex is cooling.</p>
+
+<h4>Geopolitical Catalysts Within LASR's Demand Funnel</h4>
+
+<table>
+<tr><th>Event</th><th>Date</th><th>Linkage to LASR</th></tr>
+<tr><td>Israel Iron Beam program execution</td><td>2026 ongoing</td><td>Direct supplier into Israeli MoD via Rafael</td></tr>
+<tr><td>Trump "Golden Dome" missile defense initiative</td><td>Throughout FY26</td><td>Directed-energy line items in $50B+ multi-year package</td></tr>
+<tr><td>Russia-Ukraine drone defense</td><td>2026 ongoing</td><td>Counter-UAS DEW demand for European NATO partners</td></tr>
+<tr><td>Taiwan Strait tensions</td><td>Latent</td><td>High-power laser AGM-114 alternatives</td></tr>
+<tr><td>FY27 NDAA markup</td><td>Q3-Q4 2026</td><td>DoD directed-energy line item growth</td></tr>
+</table>
+
+<h4>Sector Performance Snapshot</h4>
+
+<p>In the Y/Y window, LASR has materially outperformed peers — the +837%</p>
+<p>12-month return cited in 24/7 Wall St contrasts with Coherent (+50%</p>
+<p>range), Lumentum (+30% range), and IPG Photonics (+5% range). LASR has</p>
+<p>captured the bulk of incremental investor allocation to "defense laser"</p>
+<p>exposure.</p>
+
+<h4>Conclusion · Macro is Net Supportive but Beta-Heavy</h4>
+
+<p>For the 6-day window into Q1 2026 earnings (2026-05-07), the macro</p>
+<p>backdrop is supportive but does not provide an independent positive</p>
+<p>catalyst. The fundamental driver into the print is A&amp;D book-to-bill,</p>
+<p>gross margin, and 2026 guidance reiteration. Macro factors that could</p>
+<p>swing the print include:</p>
+<ul>
+<li>A surprise FY27 DoD budget framework leak (would likely lift LASR)</li>
+<li>A negative semiconductor capex datapoint (would likely weigh on LASR)</li>
+<li>A LITE earnings beat (would highlight LASR's relative microfab</li>
+</ul>
+<p>weakness)</p>
+<ul>
+<li>A primer-contractor (LMT, RTX, NOC) program update on directed-energy</li>
+</ul>
+<p>contracts (could be either direction)</p>
+
+<table>
+<tr><th>Macro Vector</th><th>Direction</th><th>Magnitude</th><th>Time Horizon</th></tr>
+<tr><td>April rally</td><td>Tailwind</td><td>Medium</td><td>Already in price</td></tr>
+<tr><td>AI capex theme</td><td>Tailwind</td><td>Low (indirect)</td><td>Multi-quarter</td></tr>
+<tr><td>Iran ceasefire</td><td>One-day pop</td><td>Low (tactical)</td><td>Already faded</td></tr>
+<tr><td>FY27 DoD budget</td><td>Tailwind</td><td>High</td><td>Late 2026</td></tr>
+<tr><td>Semi capex</td><td>Mixed</td><td>Low</td><td>Multi-quarter</td></tr>
+<tr><td>Geopolitical drone defense</td><td>Tailwind</td><td>Medium</td><td>Multi-quarter</td></tr>
+</table>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Fundamental Analysis</h3><h3>Fundamentals Report</h3>
+
+<h4>Snapshot · LASR (nLIGHT, Inc.) · NASDAQ · Technology / Semiconductors</h4>
+
+<p>LASR is a $3.94B market cap manufacturer of high-power semiconductor and</p>
+<p>fiber lasers, in a multi-quarter operational and financial inflection</p>
+<p>that has produced a 32% revenue growth print in 2025, the first</p>
+<p>full-year of meaningfully positive free cash flow, and a strategic</p>
+<p>narrowing into A&amp;D, microfabrication, and laser sensing. The fundamental</p>
+<p>case is materially strong, but the equity is priced at 138x forward</p>
+<p>earnings and 15x P/S, leaving little room for execution missteps.</p>
+
+<h4>2025 Annual Performance (filed 10-K, 2026-02-27)</h4>
+
+<table>
+<tr><th>Metric</th><th>FY2025</th><th>FY2024</th><th>YoY Δ</th></tr>
+<tr><td>Revenue</td><td>$261.0M</td><td>$198.3M</td><td>+31.6%</td></tr>
+<tr><td>Gross profit</td><td>$77.96M</td><td>~$56M</td><td>+39%</td></tr>
+<tr><td>Gross margin</td><td>30.0%</td><td>28.2%</td><td>+180 bps</td></tr>
+<tr><td>Operating income</td><td>-$26.4M</td><td>-$45.3M</td><td>+$19M improvement</td></tr>
+<tr><td>Adjusted EBITDA</td><td>-$10M (FY) / +$10.7M (Q4)</td><td>-$36M</td><td>+$26M improvement</td></tr>
+<tr><td>Free cash flow</td><td>+$16.2M</td><td>-$9.4M</td><td>+$25.6M swing</td></tr>
+<tr><td>Diluted shares</td><td>51.0M (Q4)</td><td>48.6M (Q4 2024)</td><td>+5%; +10% post-Feb 2026 offering</td></tr>
+</table>
+
+<p>The Q4 2025 print delivered the most decisive evidence of the inflection:</p>
+<p>revenue $81.2M (+67% YoY), gross margin 30.7%, adjusted EBITDA $10.7M.</p>
+<p>A&amp;D was a record in Q4. The combination of A&amp;D mix expansion, scale,</p>
+<p>and the cutting/welding exit drove the gross-margin expansion.</p>
+
+<h4>Q1 2026 Guidance (issued 2026-02-26)</h4>
+
+<table>
+<tr><th>Metric</th><th>Guide</th><th>Q4 2025 actual</th><th>Implied direction</th></tr>
+<tr><td>Revenue</td><td>$70-76M (mid $73M)</td><td>$81.2M</td><td>-10% sequential</td></tr>
+<tr><td>Gross margin</td><td>27-32%</td><td>30.7%</td><td>Flat to slightly down</td></tr>
+<tr><td>FY2026 commentary</td><td>"Total revenue growth"</td><td>$261M FY2025</td><td>Mid-single-digit growth implied</td></tr>
+</table>
+
+<p>The Q1 -10% sequential is largely the cutting/welding exit ($25-30M</p>
+<p>annualized headwind, frontloaded into 2026). Management framed FY2026</p>
+<p>as "total revenue growth" — implying A&amp;D growth &gt;$30M to offset the</p>
+<p>industrial exit.</p>
+
+<h4>Balance Sheet Strength (2025-12-31)</h4>
+
+<table>
+<tr><th>Item</th><th>Value</th><th>Read</th></tr>
+<tr><td>Cash &amp; equivalents</td><td>$99.0M</td><td>Up from $66M (Dec 2024) — strong</td></tr>
+<tr><td>Working capital</td><td>$179.0M</td><td>Multi-quarter expansion</td></tr>
+<tr><td>Total debt</td><td>$36.2M</td><td>Low (capital lease primarily)</td></tr>
+<tr><td>Stockholders equity</td><td>$226.7M</td><td>Stable</td></tr>
+<tr><td>Tangible book value</td><td>$214.3M</td><td>Pre-Feb 2026 offering</td></tr>
+<tr><td>Debt/equity</td><td>16%</td><td>Low</td></tr>
+<tr><td>Current ratio</td><td>3.79x</td><td>Very strong</td></tr>
+<tr><td>Book value / share</td><td>$4.43</td><td>Pre-offering; current P/B 15.8x</td></tr>
+</table>
+
+<p><strong>Post Feb 2026 offering ($201M raised at $44/share, ~4.58M shares):</strong></p>
+<p>Cash position pro forma should be ~$300M post-offering and pre-Q1</p>
+<p>operating burn. The offering was explicitly for working capital and</p>
+<p>"capital projects" — likely the Longmont, CO 50,000 sq ft expansion</p>
+<p>announced 2026-01-30 for high-energy laser manufacturing.</p>
+
+<h4>Cash Flow Trajectory (last 5 quarters)</h4>
+
+<table>
+<tr><th>Quarter</th><th>Operating CF</th><th>FCF</th><th>Cash position</th><th>Read</th></tr>
+<tr><td>Q4 2024</td><td>-$3.9M</td><td>-$6.5M</td><td>$66M</td><td>Burn</td></tr>
+<tr><td>Q1 2025</td><td>-$0.0M</td><td>-$2.3M</td><td>$82M</td><td>Stabilizing</td></tr>
+<tr><td>Q2 2025</td><td>-$1.4M</td><td>-$3.8M</td><td>$79M</td><td>Stabilizing</td></tr>
+<tr><td>Q3 2025</td><td>+$5.2M</td><td>+$2.4M</td><td>$81M</td><td>Inflection</td></tr>
+<tr><td>Q4 2025</td><td>+$17.5M</td><td>+$15.9M</td><td>$99M</td><td>Confirmation</td></tr>
+</table>
+
+<p>The FCF ramp is the most under-appreciated fundamental story: 4-quarter</p>
+<p>swing of +$22M in operating cash flow generation, decoupled from any</p>
+<p>one-time accounting effect. Q4 alone generated more FCF than the prior</p>
+<p>8 quarters combined.</p>
+
+<h4>Income Trajectory (5 quarters, in $M)</h4>
+
+<table>
+<tr><th>Quarter</th><th>Revenue</th><th>Cost of revenue</th><th>Total expenses</th><th>Operating income</th><th>Net income</th></tr>
+<tr><td>Q4 2024</td><td>~$48</td><td>$46.3</td><td>$69.5</td><td>-$26.4</td><td>-$25.0</td></tr>
+<tr><td>Q1 2025</td><td>~$52</td><td>$37.9</td><td>$61.3</td><td>-$9.6</td><td>-$8.1</td></tr>
+<tr><td>Q2 2025</td><td>~$62</td><td>$43.3</td><td>$66.0</td><td>-$4.2</td><td>-$3.6</td></tr>
+<tr><td>Q3 2025</td><td>~$66</td><td>$46.0</td><td>$72.3</td><td>-$7.3</td><td>-$6.9</td></tr>
+<tr><td>Q4 2025</td><td>$81.2</td><td>$56.2</td><td>$86.0</td><td>-$5.4</td><td>-$4.9</td></tr>
+</table>
+
+<h4>Valuation Assessment</h4>
+
+<table>
+<tr><th>Multiple</th><th>LASR</th><th>Defense laser peers</th><th>Software/AI growth peers</th></tr>
+<tr><td>Forward P/E</td><td>138x</td><td>n/a (most peers loss-making in DEW)</td><td>30-50x typical</td></tr>
+<tr><td>EV/Sales (TTM)</td><td>14.7x</td><td>LITE 4.5x, COHR 3.5x, IPGP 1.8x</td><td>10-20x</td></tr>
+<tr><td>P/B</td><td>15.8x</td><td>LITE 3.5x, COHR 2.0x, IPGP 1.2x</td><td>5-10x</td></tr>
+<tr><td>5-yr revenue CAGR</td><td>15-20% (consensus FY27-FY30)</td><td>5-10%</td><td>20-30%</td></tr>
+</table>
+
+<p>LASR trades at a premium to industrial laser peers and at a multiple</p>
+<p>typically reserved for AI software growth names. The premium is</p>
+<p>justified by the A&amp;D inflection thesis ONLY IF (a) FY26 revenue grows</p>
+<p>above ~$280M and (b) gross margin sustains 30%+ at scale and (c)</p>
+<p>FY27 produces meaningful GAAP profitability. Any one of those slipping</p>
+<p>re-rates the equity by 20-40%.</p>
+
+<h4>Insider Transactions Snapshot (last 6 months)</h4>
+
+<table>
+<tr><th>Insider</th><th>Position</th><th>Action</th><th>Period</th><th>Amount</th><th>Price range</th></tr>
+<tr><td>Scott Keeney</td><td>CEO</td><td>SOLD</td><td>Jan 2026</td><td>$1.19M</td><td>$36.74 - $38.33</td></tr>
+<tr><td>Scott Keeney</td><td>CEO</td><td>SOLD</td><td>Mar 2026</td><td>$4.55M</td><td>$57.48 - $63.40</td></tr>
+<tr><td>Joseph Corso</td><td>CFO</td><td>SOLD</td><td>Mar 2026</td><td>$1.55M</td><td>$60.39 - $61.96</td></tr>
+<tr><td>James Nias</td><td>Officer</td><td>SOLD</td><td>Mar 2026</td><td>$0.32M</td><td>$61.96 - $64.42</td></tr>
+<tr><td>Raymond Link</td><td>Director</td><td>SOLD</td><td>Mar 2026</td><td>$1.61M</td><td>$62.79 - $64.42</td></tr>
+<tr><td>Gary Locke</td><td>Director</td><td>SOLD</td><td>Mar 2026</td><td>$0.10M</td><td>(option exercise)</td></tr>
+<tr><td><strong>TOTAL</strong></td><td></td><td><strong>NET SELL</strong></td><td><strong>6 months</strong></td><td><strong>~$9.3M</strong></td><td><strong>$57-64 weighted</strong></td></tr>
+</table>
+
+<p>ZERO open-market insider buys in the past 6 months. The CEO's March</p>
+<p>sales were post-Q4 print and pre-rally — they captured the move from</p>
+<p>~$60 to ~$80 mostly in others' hands. This is materially relevant for</p>
+<p>the read into the May 7 print.</p>
+
+<h4>Conclusion · Strong Operationally, Stretched Valuation</h4>
+
+<p>LASR has built the financial scaffolding (positive FCF, $99M cash + $201M</p>
+<p>follow-on, low leverage, expanding gross margin) for a sustained A&amp;D-led</p>
+<p>growth phase. The 138x forward P/E and 15x P/S reflect this and then</p>
+<p>some — the equity is priced for double-digit revenue growth, sustained</p>
+<p>30%+ gross margin, and GAAP profitability inflection in FY27. Any</p>
+<p>deviation from that path will be punished disproportionately given the</p>
+<p>multiple. The May 7 Q1 2026 print is the next checkpoint.</p>
+
+<table>
+<tr><th>Theme</th><th>Read</th><th>Implication</th></tr>
+<tr><td>Revenue growth</td><td>+32% FY25; FY26 guide implies +1% to +5%</td><td>Within bull range; depends on A&amp;D acceleration</td></tr>
+<tr><td>Margin expansion</td><td>+180 bps gross FY25; 27-32% Q1 26 guide</td><td>Holding</td></tr>
+<tr><td>Cash flow</td><td>First full-year positive FCF in FY25</td><td>Inflection confirmed</td></tr>
+<tr><td>Balance sheet</td><td>$99M cash + $201M raised; D/E 16%</td><td>Fortress</td></tr>
+<tr><td>Insider behavior</td><td>$9.3M sold, $0 bought in 6mo</td><td>Negative</td></tr>
+<tr><td>Valuation</td><td>138x fwd P/E; 15x P/S</td><td>Priced for perfection</td></tr>
+<tr><td>Earnings checkpoint</td><td>2026-05-07 (6 sessions)</td><td>Binary</td></tr>
+</table>
+</div>
+
+</div><!-- /.col-wide -->
+
+<div class="col-prose">
+
+<h2 class="section">Risk Factors (Item 1A)</h2>
+<div class="report-content">
+<h3>Item 1A · Risk Factors (LASR 10-K, FY2025, filed 2026-02-27)</h3>
+
+<p>The following risk factor summary distills the seven most material</p>
+<p>items from nLIGHT's FY2025 10-K (SEC filing dated 2026-02-27, $161.6M</p>
+<p>funded backlog disclosed). Filing reference: nLIGHT, Inc. Form 10-K for</p>
+<p>fiscal year ending 2025-12-31.</p>
+
+<p><strong>1. U.S. Government Customer Concentration.</strong> A substantial portion of</p>
+<p>revenue derives from contracts with prime defense contractors (Lockheed</p>
+<p>Martin, Raytheon Technologies, Northrop Grumman, General Atomics) on</p>
+<p>behalf of the U.S. Department of Defense and other federal agencies.</p>
+<p>The 10-K discloses approximately $184.4M of unfunded U.S. government</p>
+<p>contracts at 2025-12-31. Any reduction in DoD directed-energy program</p>
+<p>funding, contract restructuring, termination for convenience, or</p>
+<p>program cancellation (a recurring risk in DEW history) would have a</p>
+<p>material adverse effect on revenue and backlog conversion.</p>
+
+<p><strong>2. Cutting and Welding Industrial Exit Execution.</strong> The 2025 strategic</p>
+<p>decision to exit cutting and welding industrial laser markets creates</p>
+<p>$25-30M of revenue headwind frontloaded into FY2026. Risks include</p>
+<p>(a) inability to redeploy industrial-segment manufacturing capacity to</p>
+<p>A&amp;D and microfabrication at expected timeline, (b) inventory write-downs</p>
+<p>and severance costs exceeding plan, and (c) customer relationship</p>
+<p>spillover to retained product lines. The Q4 2025 print already absorbed</p>
+<p>$0.6M of restructuring charges; further charges in 2026 are likely.</p>
+
+<p><strong>3. Single-Source Semiconductor Laser Diode Manufacturing.</strong> nLIGHT</p>
+<p>operates a vertically integrated semiconductor laser diode fab in</p>
+<p>Vancouver, Washington. A material disruption — natural disaster, fire,</p>
+<p>labor disruption, supply chain failure for compound semiconductor</p>
+<p>substrates (GaAs/InP wafers from Sumitomo, II-VI/Coherent) — would</p>
+<p>halt high-power laser production with no immediate alternative source.</p>
+<p>Customer qualification cycles for laser diode replacements run 12-24</p>
+<p>months.</p>
+
+<p><strong>4. Export Controls and Foreign Sales Compliance.</strong> A material portion</p>
+<p>of A&amp;D revenue is generated through international sales to allied</p>
+<p>governments (Israel, NATO partners). High-power laser modules are</p>
+<p>controlled under ITAR and EAR. Compliance risk includes</p>
+<p>(a) export-license delay or denial, (b) re-export prohibition discovery</p>
+<p>post-shipment, and (c) sanctions exposure if end-users transfer to</p>
+<p>non-allied parties. Penalties for ITAR violations include criminal</p>
+<p>charges and debarment from federal contracting.</p>
+
+<p><strong>5. Stock-Based Compensation and Dilution.</strong> The Q4 2025 diluted share</p>
+<p>count of 51.0M reflects accelerating dilution from stock-based</p>
+<p>compensation. The Feb 2026 follow-on offering added 4.58M shares (~10%</p>
+<p>dilution) at $44, taking the post-offering count to roughly 55.7M.</p>
+<p>Annual SBC expense run-rate exceeds $20M (vs FY25 net loss of $23.5M),</p>
+<p>meaning continuing GAAP losses are partially driven by SBC. Any</p>
+<p>acceleration in SBC dilution beyond plan would compress per-share</p>
+<p>metrics.</p>
+
+<p><strong>6. Concentration of Manufacturing Footprint.</strong> Production is</p>
+<p>concentrated in three U.S. facilities: Vancouver, WA (semiconductor laser</p>
+<p>diodes), Camas, WA (fiber laser modules), and Longmont, CO (high-energy</p>
+<p>laser systems integration; 50,000 sq ft expansion completing 2026). A</p>
+<p>disruption at any single site — including the in-progress Longmont</p>
+<p>expansion creating temporary capacity loss — would materially impact</p>
+<p>deliveries against the $162M funded backlog.</p>
+
+<p><strong>7. Talent Retention in Specialized Engineering Disciplines.</strong> High-power</p>
+<p>laser engineering, photonics fabrication, and directed-energy systems</p>
+<p>integration require specialized expertise. The labor market for these</p>
+<p>disciplines is concentrated and competitive (Coherent, Lumentum,</p>
+<p>Lockheed Martin Skunk Works, government labs). Talent loss to</p>
+<p>competitors or government contractors carries material program execution</p>
+<p>risk and intellectual property migration risk.</p>
+
+<p>Filing URL: https://last10k.com/sec-filings/lasr/0001124796-26-000012.htm</p>
+<p>Filing date: 2026-02-27</p>
+
+</div>
+
+<div class="footer">
+  <div class="disclaimer">
+    This document is the confidential work product of the Silent Engineering Fund's
+    internal research process and is intended for partners and authorized personnel only.
+    It does not constitute investment advice, an offer to sell, or a solicitation to buy
+    any security. Past performance is not indicative of future results.
+  </div>
+  <div class="colophon">Silent Engineering Fund &middot; Internal Research</div>
+</div>
+
+</div><!-- /.col-prose -->
+
+</body>
+</html>
