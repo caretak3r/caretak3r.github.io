@@ -1,0 +1,58 @@
+{{ define "main" }}
+<div class="shell">
+
+  <div class="page-head">
+    <h1>ENGINEERING</h1>
+    {{- $posts := where .Site.RegularPages "Section" "posts" -}}
+    {{- $projects := where .Site.RegularPages "Section" "projects" -}}
+    {{- $combined := union $posts $projects -}}
+    {{- $count := len $combined -}}
+    {{- $postCount := len $posts -}}
+    {{- $projectCount := len $projects -}}
+    <div class="index">COUNT {{ printf "%03d" $count }} · {{ $postCount }} WRITING + {{ $projectCount }} PROJECTS</div>
+  </div>
+
+  {{ with .Content }}<div class="lede">{{ . }}</div>{{ end }}
+
+  <div class="filter-row">
+    <button class="active">ALL</button>
+    <button>WRITING</button>
+    <button>PROJECT</button>
+    <button>DIAGRAM</button>
+    <span class="sort-label">SORT: DATE ▼</span>
+  </div>
+
+  <table class="ledger">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>DATE</th>
+        <th>TYPE</th>
+        <th>TITLE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{- $sorted := sort $combined "Date" "desc" -}}
+      {{- range $i, $page := $sorted -}}
+        {{- $id := printf "%03d" (sub $count $i) -}}
+        {{- $type := "WRITING" -}}
+        {{- if eq $page.Section "projects" -}}{{- $type = "PROJECT" -}}{{- end -}}
+        {{- with $page.Params.categories -}}
+          {{- range . -}}
+            {{- if eq (lower .) "diagram" -}}{{- $type = "DIAGRAM" -}}{{- end -}}
+          {{- end -}}
+        {{- end -}}
+      <tr onclick="window.location='{{ $page.Permalink }}'">
+        <td class="id">{{ $id }}</td>
+        <td class="date">{{ $page.Date.Format "2006-01-02" }}</td>
+        <td class="type">{{ $type }}</td>
+        <td class="title"><a href="{{ $page.Permalink }}">{{ $page.Title }}</a></td>
+        <td class="action"><a href="{{ $page.Permalink }}">▶</a></td>
+      </tr>
+      {{- end }}
+    </tbody>
+  </table>
+
+</div>
+{{ end }}

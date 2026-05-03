@@ -1,0 +1,104 @@
+{{ define "main" }}
+<div class="shell">
+
+  <div class="page-head">
+    <h1>{{ site.Params.author | upper | default "ROHIT GUDI" }}</h1>
+    <div class="index">~ / {{ site.Params.handle | upper | default "SILENT.ENGINEER" }}</div>
+  </div>
+
+  <p class="lede">
+    <em>9-year DevSecOps engineer.</em> Platform engineering, supply-chain
+    security, Kubernetes, identity, signing. I publish technical notes on
+    infrastructure and — sometimes — AI-augmented research on public equities.
+  </p>
+
+  {{- $posts := where .Site.RegularPages "Section" "posts" -}}
+  {{- $projects := where .Site.RegularPages "Section" "projects" -}}
+  {{- $research := where .Site.RegularPages "Section" "research" -}}
+  {{- $recentPosts := first 5 ($posts.ByDate.Reverse) -}}
+  {{- $recentResearch := first 5 ($research.ByDate.Reverse) -}}
+
+  <section class="split-grid">
+
+    <div class="split-col">
+      <div class="split-head">
+        <div class="label">ENGINEERING</div>
+        <div class="count">{{ len $posts }} NOTES</div>
+      </div>
+      <ul class="split-list">
+        {{- range $recentPosts }}
+        <li>
+          <time>{{ .Date.Format "2006-01-02" }}</time>
+          <div>
+            <span class="title"><a href="{{ .Permalink }}">{{ .Title | truncate 70 }}</a></span>
+            {{ with .Description }}<span class="meta">{{ . }}</span>{{ else }}{{ with .Summary }}<span class="meta">{{ . | truncate 90 | plainify }}</span>{{ end }}{{ end }}
+          </div>
+        </li>
+        {{- end }}
+      </ul>
+      <div class="split-cta"><a href="{{ "/engineering/" | relURL }}">All engineering</a></div>
+    </div>
+
+    <div class="split-col">
+      <div class="split-head">
+        <div class="label">RESEARCH</div>
+        <div class="count">{{ len $research }} NOTES · AI-AUGMENTED</div>
+      </div>
+      {{ if $recentResearch }}
+      <ul class="split-list">
+        {{- range $recentResearch }}
+        <li>
+          <time>{{ .Date.Format "2006-01-02" }}</time>
+          <div>
+            <span class="title">
+              <a href="{{ .Permalink }}">{{ .Params.ticker | default .Title }}</a>
+              {{- with .Params.rating }} <span class="rating {{ . | lower }}">{{ . | upper }}</span>{{ end }}
+            </span>
+            {{ with .Params.thesis_oneliner }}<span class="meta">{{ . | truncate 90 }}</span>{{ end }}
+          </div>
+        </li>
+        {{- end }}
+      </ul>
+      {{ else }}
+      <p style="font-family: var(--font-display); font-size: 11px; letter-spacing: 0.14em; color: var(--muted); padding: 8px 0;">
+        NO RESEARCH NOTES YET · INGESTION PIPELINE BUILDS IN PHASE 3
+      </p>
+      {{ end }}
+      <div class="split-cta"><a href="{{ "/research/" | relURL }}">All research</a></div>
+    </div>
+
+  </section>
+
+  {{ if $projects }}
+  <section class="projects-strip">
+    <div class="projects-strip-head">
+      <div class="label">PROJECTS</div>
+      <div style="font-family: var(--font-display); font-size: 10px; color: var(--muted); letter-spacing: 0.12em;">{{ len $projects }} ACTIVE</div>
+    </div>
+    <div class="projects-grid">
+      {{- range ($projects.ByDate.Reverse) }}
+      <div class="proj">
+        <span class="proj-name"><a href="{{ .Permalink }}" style="text-decoration: none; color: var(--ink);">{{ .Title | upper }}</a></span>
+        <span class="proj-desc">{{ with .Params.description }}{{ . }}{{ else }}{{ .Summary | truncate 80 | plainify }}{{ end }}</span>
+      </div>
+      {{- end }}
+    </div>
+  </section>
+  {{ end }}
+
+  <div class="bio-block">
+    <p>
+      I publish technical writeups under <code>/engineering/</code> and AI-augmented
+      equity research under <code>/research/</code>. The split is the message — engineering
+      content is technical; research notes are generated using my TradingAgents framework.
+    </p>
+    <p style="color: var(--muted); font-size: 14.5px;">
+      {{ with site.Params.github_url }}<a href="{{ . }}" style="color: var(--accent);">github</a> · {{ end }}
+      {{ with site.Params.linkedin_url }}<a href="{{ . }}" style="color: var(--accent);">linkedin</a> · {{ end }}
+      {{ with site.Params.x_url }}<a href="{{ . }}" style="color: var(--accent);">x</a> · {{ end }}
+      <a href="{{ "/index.xml" | relURL }}" style="color: var(--accent);">rss</a>
+    </p>
+  </div>
+
+</div>
+{{ end }}

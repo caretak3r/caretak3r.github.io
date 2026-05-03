@@ -1,10 +1,29 @@
 {{ define "main" }}
-<article class="post">
-    <header>
-        <h1 class="post-title">{{ .Title }}</h1>
-    </header>
-    
-    <!-- Render the content from individual project markdown files -->
+<div class="article-shell">
+
+  <div class="article-eyebrow">
+    <span>PROJECT · <a href="{{ "/engineering/" | relURL }}">↑ INDEX</a></span>
+    <span>{{ .Date.Format "2006-01-02" }}</span>
+  </div>
+
+  <h1 class="article-title">{{ .Title }}</h1>
+
+  <div class="article-meta">
+    <span>{{ site.Params.author | upper | default "ROHIT GUDI" }} · {{ .Date.Format "2006-01-02" }}</span>
+    {{ with .Params.description }}<span style="font-style: italic; font-family: var(--font-serif); text-transform: none; letter-spacing: 0;">{{ . }}</span>{{ end }}
+  </div>
+
+  <article class="article-content">
     {{ .Content }}
-</article>
+  </article>
+
+  <footer class="article-footer">
+    <div class="nav-row">
+      <a href="{{ "/engineering/" | relURL }}">← all engineering</a>
+      {{ with .Params.repo }}<a href="{{ . }}">view repo →</a>{{ end }}
+    </div>
+    <div>PROJECT · {{ .Date.Format "2006-01-02" }}</div>
+  </footer>
+
+</div>
 {{ end }}
