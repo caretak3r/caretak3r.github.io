@@ -1,0 +1,40 @@
+{{ define "main" }}
+<div class="article-shell">
+
+  <div class="article-eyebrow">
+    <span>WRITING · <a href="{{ "/engineering/" | relURL }}">↑ INDEX</a></span>
+    <span>{{ .Date.Format "2006-01-02" }}</span>
+  </div>
+
+  {{ with .Params.categories }}
+  <div class="article-categories">
+    {{ range . }}<span class="cat">{{ . | lower }}</span>{{ end }}
+  </div>
+  {{ end }}
+
+  <h1 class="article-title">{{ .Title }}</h1>
+
+  <div class="article-meta">
+    <span>POSTED {{ .Date.Format "2006-01-02" }} · {{ site.Params.author | upper | default "ROHIT GUDI" }}</span>
+    {{ with .ReadingTime }}<span>~{{ . }} MIN READ</span>{{ end }}
+  </div>
+
+  <article class="article-content">
+    {{ .Content }}
+  </article>
+
+  <footer class="article-footer">
+    <div class="nav-row">
+      {{ if .PrevInSection -}}
+        <a href="{{ .PrevInSection.Permalink }}">← {{ .PrevInSection.Title | truncate 40 }}</a>
+      {{- else -}}<span></span>{{- end }}
+      <a href="{{ "/engineering/" | relURL }}">all engineering</a>
+      {{ if .NextInSection -}}
+        <a href="{{ .NextInSection.Permalink }}">{{ .NextInSection.Title | truncate 40 }} →</a>
+      {{- else -}}<span></span>{{- end }}
+    </div>
+    <div>WRITING · {{ .Date.Format "2006-01-02" }}{{ with .Params.categories }} · {{ range $i, $c := . }}{{ if $i }} · {{ end }}# {{ $c | upper }}{{ end }}{{ end }}</div>
+  </footer>
+
+</div>
+{{ end }}

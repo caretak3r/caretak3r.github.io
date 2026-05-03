@@ -1,5 +1,19 @@
-{{ define "main" -}}
-<div class="post full-width-post">
-  {{ partial "post-main.html" . }}
+{{ define "main" }}
+<div class="article-shell">
+  <div class="article-eyebrow">
+    <span>{{ upper .Section }} · <a href="{{ "/" | relURL }}">↑ HOME</a></span>
+    <span>{{ .Date.Format "2006-01-02" }}</span>
+  </div>
+
+  <h1 class="article-title">{{ .Title }}</h1>
+
+  <div class="article-meta">
+    <span>POSTED {{ .Date.Format "2006-01-02" }}</span>
+    {{ with .ReadingTime }}<span>~{{ . }} MIN READ</span>{{ end }}
+  </div>
+
+  <article class="article-content">
+    {{ .Content }}
+  </article>
 </div>
-{{- end }}
+{{ end }}

@@ -1,0 +1,31 @@
+{{ define "main" }}
+<div class="shell">
+  <div class="page-head">
+    <h1>{{ .Title | upper }}</h1>
+    <div class="index">{{ len .Pages }} ITEMS</div>
+  </div>
+
+  {{ with .Content }}
+    <div class="lede">{{ . }}</div>
+  {{ end }}
+
+  <table class="ledger">
+    <thead>
+      <tr>
+        <th>DATE</th>
+        <th>TITLE</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ range (.Pages.ByDate.Reverse) }}
+      <tr>
+        <td class="date">{{ .Date.Format "2006-01-02" }}</td>
+        <td class="title"><a href="{{ .Permalink }}">{{ .Title }}</a></td>
+        <td class="action"><a href="{{ .Permalink }}">▶</a></td>
+      </tr>
+      {{ end }}
+    </tbody>
+  </table>
+</div>
+{{ end }}

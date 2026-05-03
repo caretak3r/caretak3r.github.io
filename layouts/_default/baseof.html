@@ -1,13 +1,40 @@
-{{ partial "head/head.html" . }}
-    <body class="{{if .Site.Params.layoutReverse}}layout-reverse {{end}}{{if .Site.Params.dark_mode}}dark-theme{{end}}">
-        <div class="wrapper">
-            {{ partial "sidebar/sidebar.html" . }}
-            <main class="content container">
-                {{ block "main" . -}}{{- end }}
-            </main>
-            {{ if not (eq .Type "posts") }}
-                {{ block "sidebar" . }}{{ end }}
-            {{ end }}
-        </div>
-    </body>
+<!DOCTYPE html>
+<html lang="{{ site.Language.Lang | default "en" }}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.description }}{{ end }}">
+<meta name="author" content="{{ site.Params.author }}">
+
+{{ $css := resources.Get "css/style.css" | resources.Minify | resources.Fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+
+{{ if eq .Section "research" }}
+{{ $rcss := resources.Get "css/research-report.css" | resources.Minify | resources.Fingerprint }}
+<link rel="stylesheet" href="{{ $rcss.RelPermalink }}" integrity="{{ $rcss.Data.Integrity }}">
+{{ end }}
+
+<link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ "/index.xml" | relURL }}">
+
+<script>
+  // Set theme before render to avoid flash
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'dark') document.documentElement.dataset.theme = 'dark';
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body{{ with .Section }} data-section="{{ . }}"{{ end }}>
+
+{{ partial "topbar.html" . }}
+
+{{ block "main" . }}{{ end }}
+
+{{ partial "footer.html" . }}
+{{ partial "mermaid-loader.html" . }}
+
+</body>
 </html>

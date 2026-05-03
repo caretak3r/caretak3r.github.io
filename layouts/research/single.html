@@ -1,0 +1,25 @@
+{{ define "main" }}
+<div class="report-shell">
+
+  <div class="report-eyebrow">
+    <span>{{ .Params.ticker }} / RESEARCH · <a href="{{ "/research/" | relURL }}">↑ INDEX</a></span>
+    <span>{{ .Date.Format "2006-01-02" }}</span>
+  </div>
+
+  {{ .Content | safeHTML }}
+
+  <footer class="article-footer" style="margin-top: 32px;">
+    <div class="nav-row">
+      {{ if .PrevInSection -}}
+        <a href="{{ .PrevInSection.Permalink }}">← {{ .PrevInSection.Params.ticker | default (.PrevInSection.Title | truncate 30) }}</a>
+      {{- else -}}<span></span>{{- end }}
+      <a href="{{ "/research/" | relURL }}">all research</a>
+      {{ if .NextInSection -}}
+        <a href="{{ .NextInSection.Permalink }}">{{ .NextInSection.Params.ticker | default (.NextInSection.Title | truncate 30) }} →</a>
+      {{- else -}}<span></span>{{- end }}
+    </div>
+    <div>{{ .Params.ticker }} · {{ .Date.Format "2006-01-02" }} · {{ .Params.rating | upper }}{{ with .Params.sector }} · {{ . }}{{ end }}</div>
+  </footer>
+
+</div>
+{{ end }}

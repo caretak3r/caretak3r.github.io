@@ -1,0 +1,429 @@
+/* ============================================================
+   research-report.css — themes ingested SEF reports to match the
+   site's tan-ledger aesthetic. Targets the SEF semantic classes
+   (.ticker, .lede, .decision-box, .debate-grid, etc.) so reports
+   render in the same visual language as the rest of the site.
+
+   Loaded only on /research/<slug>/ pages via baseof.html.
+   Site design tokens come from style.css :root and dark-mode block.
+   ============================================================ */
+
+/* Scope: everything inside .report-shell — keeps the report's
+   layout decisions from leaking into topbar/footer. */
+
+.report-shell {
+  font-family: var(--font-serif);
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--ink);
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px 28px 64px;
+}
+
+.report-shell *, .report-shell *::before, .report-shell *::after {
+  box-sizing: border-box;
+}
+
+.report-shell p { margin: 10px 0; }
+.report-shell strong { font-weight: 600; color: var(--ink); }
+.report-shell em { font-style: italic; }
+.report-shell a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.report-shell a:hover { color: var(--ink); background: var(--accent-bg); }
+
+/* ---- Width tiers — SEF reports use these to vary rhythm ---- */
+.report-shell .col-prose,
+.report-shell .col-wide,
+.report-shell .col-bleed {
+  margin: 0 auto;
+  padding: 0 8px;
+}
+.report-shell .col-prose { max-width: 720px; }
+.report-shell .col-wide  { max-width: 980px; }
+.report-shell .col-bleed { max-width: 1080px; }
+
+/* ---- Header block ---- */
+.report-shell .header {
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 16px;
+  margin-bottom: 28px;
+}
+.report-shell .header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+.report-shell .fund-name {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.report-shell .date {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+.report-shell .ticker {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--ink);
+}
+.report-shell .company-full {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.report-shell .meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 12px;
+  letter-spacing: 0.04em;
+}
+
+/* ---- Rating badge ---- */
+.report-shell .rating-badge {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  padding: 6px 14px;
+  border-radius: 2px;
+  margin-top: 12px;
+  text-transform: uppercase;
+  border: 1px solid currentColor;
+}
+.report-shell .rating-badge.overweight { color: var(--success); background: rgba(90, 123, 31, 0.10); }
+.report-shell .rating-badge.hold       { color: var(--warn);    background: rgba(184, 134, 43, 0.10); }
+.report-shell .rating-badge.underweight{ color: var(--danger);  background: rgba(160, 58, 42, 0.10); }
+
+/* SEF reports may not put rating modifier as a class — fall back to text-content matching via [class*=]. */
+
+/* ---- Lede ---- */
+.report-shell .lede {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.7;
+  margin: 22px 0 28px;
+  padding-left: 18px;
+  border-left: 3px solid var(--accent);
+  color: var(--ink);
+}
+.report-shell .lede p { margin: 0 0 8px; }
+.report-shell .lede strong { color: var(--ink); }
+
+.report-shell .lede-provenance {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line);
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.report-shell .lede-provenance strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.report-shell .lede-provenance ul {
+  margin: 6px 0 0 18px;
+  padding: 0;
+  list-style: square;
+}
+.report-shell .lede-provenance li { margin: 2px 0; }
+
+/* ---- Decision box ---- */
+.report-shell .decision-box {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  padding: 22px 26px;
+  margin: 28px 0;
+}
+.report-shell .decision-box h2 {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.report-shell .decision-box .summary {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ink);
+}
+.report-shell .decision-box .thesis {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.75;
+  margin-top: 18px;
+  color: var(--ink);
+}
+.report-shell .decision-box .thesis p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-size: 3.2em;
+  font-weight: 600;
+  float: left;
+  line-height: 0.9;
+  margin: 4px 8px -4px 0;
+  color: var(--accent);
+}
+
+/* ---- Sections ---- */
+.report-shell .section {
+  margin: 36px 0;
+  counter-increment: section;
+}
+.report-shell .section > h2,
+.report-shell .section-title,
+.report-shell h2.label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 8px;
+  margin-bottom: 18px;
+}
+.report-shell .label {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---- Report content (main prose body) ---- */
+.report-shell .report-content,
+.report-shell .content {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--ink);
+}
+.report-shell .report-content h3,
+.report-shell .content h3 {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 22px 0 10px;
+}
+.report-shell .report-content h4,
+.report-shell .content h4 {
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 16px 0 6px;
+}
+.report-shell .report-content ul,
+.report-shell .report-content ol,
+.report-shell .content ul,
+.report-shell .content ol { margin: 10px 0 10px 22px; }
+.report-shell .report-content li,
+.report-shell .content li { margin: 5px 0; }
+
+/* Tables */
+.report-shell table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 18px 0;
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--ink);
+}
+.report-shell th {
+  text-align: left;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 10.5px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--ink);
+  padding: 8px 10px;
+}
+.report-shell td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--line);
+}
+.report-shell tr:last-child td { border-bottom: none; }
+
+/* ---- Debate grid (bull/bear/aggressive/conservative/neutral) ---- */
+.report-shell .debate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 22px 0;
+}
+.report-shell .debate-grid--solo {
+  grid-template-columns: 1fr;
+  margin-top: 0;
+}
+.report-shell .debate-card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 18px 20px;
+}
+.report-shell .debate-label {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+.report-shell .debate-card.bull,
+.report-shell .debate-card.aggressive { border-left: 3px solid var(--success); }
+.report-shell .debate-card.bull .debate-label,
+.report-shell .debate-card.aggressive .debate-label { color: var(--success); }
+.report-shell .debate-card.bear,
+.report-shell .debate-card.conservative { border-left: 3px solid var(--danger); }
+.report-shell .debate-card.bear .debate-label,
+.report-shell .debate-card.conservative .debate-label { color: var(--danger); }
+.report-shell .debate-card.neutral { border-left: 3px solid var(--muted); }
+.report-shell .debate-card.neutral .debate-label { color: var(--muted); }
+
+/* ---- Quant box / quant-label ---- */
+.report-shell .quant-box {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 14px 18px;
+  margin: 18px 0;
+}
+.report-shell .quant-label {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ---- Interim box ---- */
+.report-shell .interim-box {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--warn);
+  background: var(--surface);
+  padding: 18px 22px;
+  margin: 22px 0;
+}
+.report-shell .interim-box .content p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-size: 2.6rem;
+  font-weight: 600;
+  float: left;
+  line-height: 0.9;
+  margin: 4px 8px -4px 0;
+  color: var(--warn);
+}
+
+/* ---- Charts ---- */
+.report-shell .chart-block { margin: 28px 0; }
+.report-shell .chart-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.report-shell .chart-caption {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* ---- Colophon / footer / disclaimer ---- */
+.report-shell .colophon,
+.report-shell .footer,
+.report-shell .disclaimer {
+  margin-top: 36px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+}
+.report-shell .colophon strong,
+.report-shell .footer strong,
+.report-shell .disclaimer strong { color: var(--ink); }
+
+/* ---- SVG chart recoloring — map SEF source palette to site tokens ---- */
+/* SEF source colors → site tokens (warm tan ledger) */
+.report-shell svg [fill="#1f6b3a"]  { fill: var(--success); }
+.report-shell svg [stroke="#1f6b3a"]{ stroke: var(--success); }
+.report-shell svg [fill="#9e2222"]  { fill: var(--danger); }
+.report-shell svg [stroke="#9e2222"]{ stroke: var(--danger); }
+.report-shell svg [fill="#9e5a16"]  { fill: var(--warn); }
+.report-shell svg [stroke="#9e5a16"]{ stroke: var(--warn); }
+.report-shell svg [fill="#2a261f"]  { fill: var(--ink); }
+.report-shell svg [stroke="#2a261f"]{ stroke: var(--ink); }
+.report-shell svg [fill="#6e6457"]  { fill: var(--muted); }
+.report-shell svg [stroke="#6e6457"]{ stroke: var(--muted); }
+.report-shell svg [fill="#bca57a"]  { fill: var(--accent); }
+.report-shell svg [stroke="#bca57a"]{ stroke: var(--accent); }
+.report-shell svg [fill="#d8b878"]  { fill: var(--accent); opacity: 0.65; }
+.report-shell svg [stroke="#d8b878"]{ stroke: var(--accent); }
+.report-shell svg [fill="#7a5a26"]  { fill: var(--ink); }
+.report-shell svg [stroke="#7a5a26"]{ stroke: var(--ink); }
+.report-shell svg [fill="#d8caa6"]  { fill: var(--line); }
+.report-shell svg [stroke="#d8caa6"]{ stroke: var(--line); }
+.report-shell svg [fill="#f5ecd9"]  { fill: var(--surface); }
+.report-shell svg [stroke="#f5ecd9"]{ stroke: var(--surface); }
+.report-shell svg [fill="#faf6ef"]  { fill: var(--bg); }
+.report-shell svg [stroke="#faf6ef"]{ stroke: var(--bg); }
+
+/* SVG text inherits reasonable defaults — force display font on chart labels */
+.report-shell svg text {
+  font-family: var(--font-display);
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 720px) {
+  .report-shell {
+    padding: 20px 16px 48px;
+    font-size: 14.5px;
+  }
+  .report-shell .ticker { font-size: 30px; }
+  .report-shell .header-top { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .report-shell .meta-row { gap: 14px; }
+  .report-shell .debate-grid { grid-template-columns: 1fr; }
+  .report-shell .col-prose,
+  .report-shell .col-wide,
+  .report-shell .col-bleed { padding: 0; }
+  .report-shell table { font-size: 11.5px; }
+  .report-shell .decision-box,
+  .report-shell .interim-box,
+  .report-shell .debate-card,
+  .report-shell .quant-box { padding: 14px 16px; }
+}

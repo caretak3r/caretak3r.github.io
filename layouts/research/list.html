@@ -1,0 +1,54 @@
+{{ define "main" }}
+<div class="shell">
+
+  <div class="page-head">
+    <h1>RESEARCH</h1>
+    {{- $count := len .Pages -}}
+    <div class="index">COUNT {{ printf "%03d" $count }}</div>
+  </div>
+
+  {{ with .Content }}<div class="lede">{{ . }}</div>{{ end }}
+
+  {{- $sorted := .Pages.ByDate.Reverse -}}
+  {{- $over := where $sorted "Params.rating" "overweight" -}}
+  {{- $hold := where $sorted "Params.rating" "hold" -}}
+  {{- $under := where $sorted "Params.rating" "underweight" -}}
+
+  <div class="filter-row">
+    <button class="active">ALL ({{ $count }})</button>
+    <button>OVERWEIGHT ({{ len $over }})</button>
+    <button>HOLD ({{ len $hold }})</button>
+    <button>UNDERWEIGHT ({{ len $under }})</button>
+    <span class="sort-label">SORT: DATE ▼</span>
+  </div>
+
+  <table class="ledger">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>DATE</th>
+        <th>TICKER</th>
+        <th>RATING</th>
+        <th>SECTOR</th>
+        <th>THESIS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{- range $i, $p := $sorted -}}
+        {{- $id := printf "%03d" (sub $count $i) -}}
+      <tr onclick="window.location='{{ $p.Permalink }}'">
+        <td class="id">{{ $id }}</td>
+        <td class="date">{{ $p.Date.Format "2006-01-02" }}</td>
+        <td class="ticker">{{ $p.Params.ticker }}</td>
+        <td class="rating {{ $p.Params.rating }}">{{ $p.Params.rating | upper }}</td>
+        <td>{{ with $p.Params.sector }}{{ . | truncate 40 }}{{ end }}</td>
+        <td>{{ with $p.Params.thesis_oneliner }}{{ . | truncate 80 }}{{ end }}</td>
+        <td class="action"><a href="{{ $p.Permalink }}">▶</a></td>
+      </tr>
+      {{- end }}
+    </tbody>
+  </table>
+
+</div>
+{{ end }}

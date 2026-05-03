@@ -1,0 +1,8 @@
+<footer class="foot" style="max-width: 1180px; margin: 0 auto; padding: 24px 32px 56px;">
+  <span>© {{ site.Params.author | default "Rohit Gudi" }} {{ now.Year }}</span>
+  <span>BUILT WITH HUGO</span>
+  {{ with site.Params.github_url }}<a href="{{ . }}">GH</a>{{ end }}
+  {{ with site.Params.linkedin_url }}<a href="{{ . }}">LI</a>{{ end }}
+  {{ with site.Params.x_url }}<a href="{{ . }}">X</a>{{ end }}
+  <a href="{{ "/index.xml" | relURL }}">RSS</a>
+</footer>
