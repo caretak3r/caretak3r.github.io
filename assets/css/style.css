@@ -308,12 +308,15 @@ a:hover { color: var(--accent); }
 }
 .ledger th {
   font-family: var(--font-display);
-  font-size: 10px;
+  font-size: 11px;
   letter-spacing: 0.18em;
-  font-weight: 400;
+  font-weight: 600;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--ink);
-  color: var(--muted);
+  border-bottom: 2px solid var(--ink);
+  /* Ink (not muted) for legibility — at 11px display caps with letter-spacing,
+     muted brown on warm-sand bg drops below WCAG AA contrast in light mode.
+     Ink reads cleanly in both themes via the design tokens. */
+  color: var(--ink);
 }
 .ledger td.id { font-family: var(--font-display); color: var(--muted); width: 60px; }
 .ledger td.date { font-family: var(--font-display); width: 110px; }
@@ -778,6 +781,10 @@ a:hover { color: var(--accent); }
   margin: 24px 0;
   font-size: 14px;
   font-family: var(--font-body);
+  /* Force columns to share available space evenly so prose-heavy tables
+     don't push past the article-shell. Combined with overflow-wrap on
+     cells, even 9-column comparison tables fit without horizontal scroll. */
+  table-layout: fixed;
 }
 .article-content th,
 .article-content td {
@@ -786,17 +793,35 @@ a:hover { color: var(--accent); }
   border: 1px solid var(--ink);
   vertical-align: top;
   line-height: 1.5;
+  /* Allow long URLs, footnote refs, and unbreakable strings to wrap so the
+     table never demands horizontal scrolling. */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 .article-content th {
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--ink) !important;
+  color: var(--bg) !important;
   font-family: var(--font-display);
   font-size: 11px;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  font-weight: 400;
+  font-weight: 600;
 }
 .article-content tr:nth-child(even) td { background: var(--surface); }
+
+/* Wide tables (≥6 columns or content-heavy) get breathing room on desktop
+   by escaping the 760px article-shell up to ~1100px. The negative margins
+   pull the table outward symmetrically; viewport-clamped width keeps it
+   from overflowing on edge cases. Mobile keeps the standard width. */
+@media (min-width: 1100px) {
+  .article-content table {
+    width: min(1100px, calc(100vw - 64px));
+    margin-left: 50%;
+    transform: translateX(-50%);
+    position: relative;
+  }
+}
 
 .article-content img {
   max-width: 100%;
