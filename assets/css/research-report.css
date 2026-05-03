@@ -16,7 +16,7 @@
   font-size: 15.5px;
   line-height: 1.7;
   color: var(--ink);
-  max-width: 1080px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 28px 28px 64px;
 }
@@ -38,9 +38,9 @@
   margin: 0 auto;
   padding: 0 8px;
 }
-.report-shell .col-prose { max-width: 720px; }
-.report-shell .col-wide  { max-width: 980px; }
-.report-shell .col-bleed { max-width: 1080px; }
+.report-shell .col-prose { max-width: 820px; }
+.report-shell .col-wide  { max-width: 1080px; }
+.report-shell .col-bleed { max-width: 1280px; }
 
 /* ---- Header block ---- */
 .report-shell .header {
@@ -125,6 +125,18 @@
 }
 .report-shell .lede p { margin: 0 0 8px; }
 .report-shell .lede strong { color: var(--ink); }
+
+/* Lede drop cap — anchors the opening note. Sized below the decision-box
+   thesis (3.2em) so the rating remains the visual gravity center. */
+.report-shell .lede p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-size: 3.6em;
+  font-weight: 600;
+  float: left;
+  line-height: 0.9;
+  margin: 4px 8px -4px 0;
+  color: var(--accent);
+}
 
 .report-shell .lede-provenance {
   margin-top: 18px;
@@ -273,6 +285,31 @@
 }
 .report-shell tr:last-child td { border-bottom: none; }
 
+/* Key-levels table — tighter than default, monospace numerals */
+.report-shell table.levels-table th,
+.report-shell table.levels-table td {
+  padding: 5px 9px;
+  font-size: 11.5px;
+}
+.report-shell table.levels-table td { font-variant-numeric: tabular-nums; }
+
+/* ---- Technical-indicator signal badges ---- */
+/* Inline pills that wrap "**INDICATOR — BULLISH/BEARISH**" runs in the
+   market analysis prose. Styled to read as live signal dots, not headings. */
+.report-shell .ti-signal {
+  display: inline;
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-family: var(--font-display);
+  font-size: 0.92em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.report-shell .ti-signal.ti-bullish { color: var(--success); background: rgba(90, 123, 31, 0.10); }
+.report-shell .ti-signal.ti-bearish { color: var(--danger);  background: rgba(160, 58, 42, 0.10); }
+.report-shell .ti-signal.ti-warning { color: var(--warn);    background: rgba(184, 134, 43, 0.10); }
+.report-shell .ti-signal.ti-neutral { color: var(--muted); }
+
 /* ---- Debate grid (bull/bear/aggressive/conservative/neutral) ---- */
 .report-shell .debate-grid {
   display: grid;
@@ -344,6 +381,264 @@
   margin: 4px 8px -4px 0;
   color: var(--warn);
 }
+
+/* ============================================================
+   Quantitative Lane — ported from the SEF renderer's render_css()
+   so the structural HTML the report ships keeps its full visual
+   treatment after the embedded <style> is stripped on ingest.
+
+   SEF token → site token mapping:
+     --fg / --fg-secondary / --fg-tertiary → --ink / --muted / --muted
+     --paper → --surface
+     --border / --border-light → --line
+     --font-sans / --font-mono → --font-display (site uses one mono face)
+   ============================================================ */
+
+.report-shell .quant-summary {
+  font-family: var(--font-serif);
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.report-shell .quant-interp {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: 12px;
+}
+.report-shell .quant-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-family: var(--font-display);
+  font-size: 12.5px;
+}
+.report-shell .quant-table th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 12px;
+  border-bottom: 1.5px solid var(--rule);
+}
+.report-shell .quant-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+.report-shell .quant-table tr:last-child td { border-bottom: none; }
+
+/* Customer concentration */
+.report-shell .cc-customer { color: var(--ink); font-weight: 500; }
+.report-shell .cc-pct {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--ink);
+}
+.report-shell .cc-type {
+  color: var(--muted);
+  font-style: italic;
+  font-family: var(--font-serif);
+  font-size: 12.5px;
+}
+.report-shell .cc-asof {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 10px;
+}
+.report-shell .cc-title,
+.report-shell .nw-title {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+/* Backlog metrics — KPI card grid */
+.report-shell .bm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 12px 0 18px 0;
+}
+.report-shell .bm-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.report-shell .bm-key {
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.report-shell .bm-val {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.report-shell .bm-sub {
+  font-family: var(--font-serif);
+  font-size: 11.5px;
+  font-style: italic;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.report-shell .bm-status {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.report-shell .bm-status.pass     { color: var(--success); background: rgba(90, 123, 31, 0.10); border: 1px solid rgba(90, 123, 31, 0.25); }
+.report-shell .bm-status.marginal { color: var(--warn);    background: rgba(184, 134, 43, 0.10); border: 1px solid rgba(184, 134, 43, 0.25); }
+.report-shell .bm-status.fail     { color: var(--danger);  background: rgba(160, 58, 42, 0.10); border: 1px solid rgba(160, 58, 42, 0.25); }
+
+/* Channel checks */
+.report-shell .channel-checks {
+  margin: 18px 0 8px 0;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.report-shell .channel-list { list-style: none; margin: 0; padding: 0; }
+.report-shell .channel-row {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  gap: 12px;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.report-shell .channel-row:last-child { border-bottom: none; }
+.report-shell .channel-icon {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+}
+.report-shell .channel-row.pass     .channel-icon { color: var(--success); }
+.report-shell .channel-row.marginal .channel-icon { color: var(--warn); }
+.report-shell .channel-row.fail     .channel-icon { color: var(--danger); }
+.report-shell .channel-label { font-family: var(--font-serif); font-size: 13.5px; color: var(--ink); }
+.report-shell .channel-label strong { font-weight: 600; }
+.report-shell .channel-label .check-note { color: var(--muted); font-style: italic; }
+.report-shell .channel-status {
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.report-shell .channel-row.pass     .channel-status { color: var(--success); background: rgba(90, 123, 31, 0.10); }
+.report-shell .channel-row.marginal .channel-status { color: var(--warn);    background: rgba(184, 134, 43, 0.10); }
+.report-shell .channel-row.fail     .channel-status { color: var(--danger);  background: rgba(160, 58, 42, 0.10); }
+
+/* Notable wins */
+.report-shell .notable-wins {
+  margin: 18px 0 6px 0;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.report-shell .nw-list { list-style: none; margin: 0; padding: 0; }
+.report-shell .nw-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 14px;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--line);
+}
+.report-shell .nw-row:last-child { border-bottom: none; }
+.report-shell .nw-customer {
+  font-family: var(--font-serif);
+  font-size: 13.5px;
+  color: var(--ink);
+  font-weight: 500;
+}
+.report-shell .nw-value {
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.report-shell .nw-type {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* Catalyst calendar table */
+.report-shell .cat-table td.cat-date {
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--ink);
+  white-space: nowrap;
+  padding-right: 18px;
+}
+.report-shell .cat-table td.cat-event { font-family: var(--font-serif); font-size: 13.5px; }
+.report-shell .cat-table td.cat-event strong { color: var(--ink); font-weight: 600; }
+.report-shell .cat-table td.cat-impact {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: right;
+}
+.report-shell .cat-row.cat-high        td.cat-impact { color: var(--danger); }
+.report-shell .cat-row.cat-medium      td.cat-impact { color: var(--warn); }
+.report-shell .cat-row.cat-medium-high td.cat-impact { color: var(--danger); }
+.report-shell .cat-row.cat-low-medium  td.cat-impact { color: var(--warn); }
+.report-shell .cat-row.cat-low         td.cat-impact { color: var(--muted); }
+.report-shell .cat-row.cat-very        td.cat-impact { color: var(--danger); font-weight: 700; }
+.report-shell .cat-row.cat-high        td:first-child,
+.report-shell .cat-row.cat-medium-high td:first-child,
+.report-shell .cat-row.cat-very        td:first-child { border-left: 3px solid var(--danger); padding-left: 10px; }
+.report-shell .cat-row.cat-medium      td:first-child,
+.report-shell .cat-row.cat-low-medium  td:first-child { border-left: 3px solid var(--warn); padding-left: 10px; }
+.report-shell .cat-row.cat-low         td:first-child { border-left: 3px solid var(--line); padding-left: 10px; }
+.report-shell .cat-quarter-header td {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 12px 4px 12px;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+}
+.report-shell .cat-quarter-header:first-child td { padding-top: 6px; }
+.report-shell .cat-row + .cat-quarter-header td { padding-top: 14px; }
+.report-shell .cat-row td { padding-top: 7px; padding-bottom: 7px; }
 
 /* ---- Charts ---- */
 .report-shell .chart-block { margin: 28px 0; }
@@ -426,4 +721,7 @@
   .report-shell .interim-box,
   .report-shell .debate-card,
   .report-shell .quant-box { padding: 14px 16px; }
+  /* Charts use 11-12px text in a 1080px viewBox; at ~360px effective width
+     that collapses unreadable. Lift it back into reach. */
+  .report-shell svg text { font-size: 13px; }
 }
