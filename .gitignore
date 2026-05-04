@@ -71,5 +71,11 @@ Temporary Items
 .history
 .ionide
 
+### Node / Playwright (tests/) ###
+tests/node_modules/
+tests/test-results/
+tests/playwright-report/
+tests/.cache/
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,hugo,homebrew__pycache__/
 *.pyc

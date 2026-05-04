@@ -1,0 +1,109 @@
+name: PR checks (purity + smoke)
+
+on:
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  purity:
+    name: Content purity (banned phrases)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ripgrep
+        run: sudo apt-get update && sudo apt-get install -y ripgrep
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run purity check
+        working-directory: tests
+        run: node purity.mjs
+
+  smoke:
+    name: Behavioral + mobile-overflow smoke
+    runs-on: ubuntu-latest
+    env:
+      HUGO_VERSION: 0.161.1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Hugo CLI
+        run: |
+          wget -O ${{ runner.temp }}/hugo.deb \
+            https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb
+          sudo dpkg -i ${{ runner.temp }}/hugo.deb
+
+      - name: Install Dart Sass
+        run: sudo snap install dart-sass
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: tests/package.json
+
+      - name: Install test deps
+        working-directory: tests
+        run: npm install --no-audit --no-fund
+
+      - name: Install Playwright (Chromium only)
+        working-directory: tests
+        run: npx playwright install --with-deps chromium
+
+      - name: Build site (production-style minified output)
+        env:
+          HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
+          HUGO_ENVIRONMENT: production
+        run: hugo --gc --minify
+
+      - name: Start hugo server (background)
+        run: |
+          # --disableFastRender keeps the rendered HTML stable between probes.
+          # nohup detaches; we keep PID for graceful kill at end.
+          nohup hugo server -D --port 1313 --bind 127.0.0.1 --disableFastRender \
+            > "${{ runner.temp }}/hugo.log" 2>&1 &
+          echo $! > "${{ runner.temp }}/hugo.pid"
+
+      - name: Wait for server to be ready
+        run: |
+          for i in {1..40}; do
+            if curl -sSf http://127.0.0.1:1313/ > /dev/null; then
+              echo "ready after ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::hugo server did not come up"
+          tail -50 "${{ runner.temp }}/hugo.log" || true
+          exit 1
+
+      - name: Run smoke tests
+        working-directory: tests
+        env:
+          BASE_URL: http://127.0.0.1:1313
+        run: node smoke.mjs
+
+      - name: Stop hugo server
+        if: always()
+        run: |
+          if [ -f "${{ runner.temp }}/hugo.pid" ]; then
+            kill "$(cat ${{ runner.temp }}/hugo.pid)" || true
+          fi
+
+      - name: Upload hugo log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hugo-server-log
+          path: ${{ runner.temp }}/hugo.log
+          if-no-files-found: ignore

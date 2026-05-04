@@ -43,7 +43,7 @@
             {{- if eq (lower .) "diagram" -}}{{- $type = "DIAGRAM" -}}{{- end -}}
           {{- end -}}
         {{- end -}}
-      <tr onclick="window.location='{{ $page.Permalink }}'">
+      <tr data-type="{{ $type }}" data-date="{{ $page.Date.Format "2006-01-02" }}" onclick="window.location='{{ $page.Permalink }}'">
         <td class="id">{{ $id }}</td>
         <td class="date">{{ $page.Date.Format "2006-01-02" }}</td>
         <td class="type">{{ $type }}</td>

@@ -3,6 +3,11 @@
   Detection: render-codeblock-mermaid.html sets .Page.Store "hasMermaid" = true.
 */ -}}
 {{- if .Store.Get "hasMermaid" -}}
+<dialog id="mermaid-lightbox" aria-label="Enlarged diagram">
+  <button class="mermaid-lightbox-close" aria-label="Close">×</button>
+  <div class="mermaid-lightbox-body"></div>
+</dialog>
+
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
 
@@ -28,7 +33,65 @@
       sequence:  { useMaxWidth: true },
       gantt:     { useMaxWidth: true }
     });
-    mermaid.run({ querySelector: '.mermaid' });
+    mermaid.run({ querySelector: '.mermaid' }).then(fixSvgsAndWireZoom);
+  }
+
+  function fixSvgsAndWireZoom() {
+    // Force every rendered SVG to fit container width and keep aspect ratio.
+    document.querySelectorAll('.mermaid-container svg').forEach(function (svg) {
+      svg.style.maxWidth = '100%';
+      svg.style.height = 'auto';
+      // Some mermaid versions emit width="100%" but no viewBox-friendly height; recover.
+      if (!svg.getAttribute('viewBox')) {
+        var bbox = svg.getBBox && svg.getBBox();
+        if (bbox && bbox.width && bbox.height) {
+          svg.setAttribute('viewBox', '0 0 ' + bbox.width + ' ' + bbox.height);
+        }
+      }
+    });
+
+    var dialog = document.getElementById('mermaid-lightbox');
+    if (!dialog) return;
+    var body = dialog.querySelector('.mermaid-lightbox-body');
+    var closeBtn = dialog.querySelector('.mermaid-lightbox-close');
+
+    function open(svg) {
+      body.innerHTML = '';
+      var clone = svg.cloneNode(true);
+      clone.removeAttribute('style');
+      clone.style.maxWidth = '100%';
+      clone.style.maxHeight = '85vh';
+      clone.style.height = 'auto';
+      clone.style.width = 'auto';
+      body.appendChild(clone);
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+      else dialog.setAttribute('open', '');
+    }
+    function close() {
+      if (typeof dialog.close === 'function') dialog.close();
+      else dialog.removeAttribute('open');
+      body.innerHTML = '';
+    }
+
+    document.querySelectorAll('.mermaid-zoomable').forEach(function (fig) {
+      fig.addEventListener('click', function () {
+        var svg = fig.querySelector('svg');
+        if (svg) open(svg);
+      });
+      fig.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          var svg = fig.querySelector('svg');
+          if (svg) open(svg);
+        }
+      });
+    });
+
+    closeBtn.addEventListener('click', close);
+    dialog.addEventListener('click', function (e) {
+      // Close on backdrop click (target is the dialog itself, not its body)
+      if (e.target === dialog) close();
+    });
   }
 
   init();

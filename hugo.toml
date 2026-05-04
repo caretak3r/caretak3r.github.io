@@ -9,7 +9,7 @@ ignoreLogs = ['warning-goldmark-raw-html']
 [params]
   brand = "R.GUDI"
   handle = "silent.engineer"
-  description = "9-year DevSecOps engineer. Engineering and AI-augmented research notes."
+  description = "10-year platform / infrastructure engineer. Engineering notes and equity research."
   author = "Rohit Gudi"
 
   # Socials surfaced in footer + bio block
@@ -25,13 +25,21 @@ ignoreLogs = ['warning-goldmark-raw-html']
     url    = "/"
     weight = 10
   [[menu.main]]
-    name   = "RESEARCH"
-    url    = "/research/"
-    weight = 20
-  [[menu.main]]
     name   = "ENGINEERING"
     url    = "/engineering/"
+    weight = 20
+  [[menu.main]]
+    name   = "PROJECTS"
+    url    = "/projects/"
+    weight = 25
+  [[menu.main]]
+    name   = "RESEARCH"
+    url    = "/research/"
     weight = 30
+  [[menu.main]]
+    name   = "FINANCIALS"
+    url    = "/financials/"
+    weight = 35
 
 # ---- Markdown render config ----
 [markup]

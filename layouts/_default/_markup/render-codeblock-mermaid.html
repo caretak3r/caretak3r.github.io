@@ -1,6 +1,7 @@
-<div class="mermaid-container">
+<figure class="mermaid-container mermaid-zoomable" tabindex="0" role="button" aria-label="Diagram, click to enlarge">
   <pre class="mermaid">
 {{- .Inner | safeHTML -}}
   </pre>
-</div>
+  <figcaption class="mermaid-caption">CLICK TO ENLARGE</figcaption>
+</figure>
 {{ .Page.Store.Set "hasMermaid" true }}
