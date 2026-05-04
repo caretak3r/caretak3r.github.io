@@ -35,6 +35,7 @@
 
 {{ partial "footer.html" . }}
 {{ partial "mermaid-loader.html" . }}
+{{ if or .IsSection .IsHome }}{{ partial "listing-script.html" . }}{{ end }}
 
 </body>
 </html>

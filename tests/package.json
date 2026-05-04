@@ -1,0 +1,14 @@
+{
+  "name": "silent-engineer-tests",
+  "private": true,
+  "version": "0.0.0",
+  "description": "PR-time aesthetic + behavioral smoke tests for the silent.engineer Hugo site.",
+  "type": "module",
+  "scripts": {
+    "smoke": "node smoke.mjs",
+    "purity": "node purity.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.59.1"
+  }
+}

@@ -1,0 +1,6 @@
+{{- /*
+  Loads listing.js for filter + sort behavior on engineering/research/projects list pages.
+  Included from baseof.html only when the page is a section.
+*/ -}}
+{{ $js := resources.Get "js/listing.js" | resources.Minify | resources.Fingerprint }}
+<script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>

@@ -62,12 +62,28 @@ a:hover { color: var(--accent); }
 /* ---- Topbar nav (the 'view switcher' — 3 primary sections + brand + toggle) ---- */
 .topbar {
   display: grid;
-  grid-template-columns: 1.4fr repeat(3, 1fr) 50px;
+  grid-template-columns: 1.4fr repeat(5, 1fr) 50px;
   border-bottom: 1px solid var(--ink);
   position: sticky;
   top: 0;
   background: var(--bg);
   z-index: 50;
+}
+@media (max-width: 760px) {
+  .topbar {
+    grid-template-columns: 1.4fr repeat(5, 1fr) 50px;
+    font-size: 9.5px;
+  }
+  .topbar a, .topbar .cell { padding: 12px 8px; letter-spacing: 0.10em; }
+}
+@media (max-width: 540px) {
+  .topbar {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .topbar a, .topbar .cell { flex: 1 0 33%; border-bottom: 1px solid var(--line); }
+  .topbar .brand { flex: 1 0 100%; }
+  .topbar .toggle { flex: 0 0 50px; }
 }
 .topbar a, .topbar .cell {
   padding: 14px 18px;
@@ -132,6 +148,22 @@ a:hover { color: var(--accent); }
 }
 .lede em { font-family: var(--font-serif); font-style: italic; font-size: 16.5px; }
 .lede a { color: var(--accent); }
+
+.lede-meta {
+  margin: -16px 0 32px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+.resume-link {
+  display: inline-block;
+  padding: 8px 14px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.resume-link:hover { background: var(--ink); color: var(--bg); }
 
 /* ---- HOME: B's split-card concept in C's ledger aesthetic ---- */
 .split-grid {
@@ -297,14 +329,19 @@ a:hover { color: var(--accent); }
 /* ---- Ledger table (engineering + research) ---- */
 .ledger {
   width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
   border-collapse: collapse;
-  font-size: 13.5px;
+  table-layout: auto;
+  font-size: 13px;
 }
 .ledger th, .ledger td {
   text-align: left;
-  padding: 10px 14px;
+  padding: 9px 11px;
   border-bottom: 1px solid var(--line);
   vertical-align: baseline;
+  word-break: break-word;
+  white-space: normal;
 }
 .ledger th {
   font-family: var(--font-display);
@@ -313,22 +350,24 @@ a:hover { color: var(--accent); }
   font-weight: 600;
   text-transform: uppercase;
   border-bottom: 2px solid var(--ink);
-  /* Ink (not muted) for legibility — at 11px display caps with letter-spacing,
-     muted brown on warm-sand bg drops below WCAG AA contrast in light mode.
-     Ink reads cleanly in both themes via the design tokens. */
+  background: var(--surface);
   color: var(--ink);
 }
-.ledger td.id { font-family: var(--font-display); color: var(--muted); width: 60px; }
-.ledger td.date { font-family: var(--font-display); width: 110px; }
+html[data-theme="dark"] .ledger th {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+.ledger td.id { font-family: var(--font-display); color: var(--muted); min-width: 48px; }
+.ledger td.date { font-family: var(--font-display); min-width: 92px; white-space: nowrap; }
 .ledger td.type {
   font-family: var(--font-display);
   font-size: 11px;
   letter-spacing: 0.14em;
-  width: 110px;
+  min-width: 86px;
 }
 .ledger td.title { font-weight: 500; }
 .ledger td.title a { text-decoration: none; color: var(--ink); }
-.ledger td.action { width: 50px; text-align: right; font-family: var(--font-display); }
+.ledger td.action { min-width: 36px; text-align: right; font-family: var(--font-display); }
 .ledger td.action a { text-decoration: none; color: var(--ink); }
 .ledger tbody tr { cursor: pointer; }
 .ledger tbody tr:hover { background: var(--ink); color: var(--bg); }
@@ -336,13 +375,125 @@ a:hover { color: var(--accent); }
 .ledger tbody tr:hover a { color: var(--bg); }
 
 /* Research-specific ledger columns */
-.ledger td.ticker { font-family: var(--font-display); font-weight: 600; width: 80px; letter-spacing: 0.04em; }
+.ledger td.ticker { font-family: var(--font-display); font-weight: 600; min-width: 64px; letter-spacing: 0.04em; }
 .ledger td.rating {
   font-family: var(--font-display);
   font-size: 10.5px;
   letter-spacing: 0.16em;
-  width: 130px;
+  min-width: 96px;
+  white-space: nowrap;
 }
+
+/* Tables in long-form post / article content (markdown-rendered) —
+   fit, center, no horizontal scroll. */
+.article-content table,
+.article-shell table,
+.report-shell table {
+  width: 100%;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: auto;
+}
+.article-content th,
+.article-content td,
+.article-shell th,
+.article-shell td,
+.report-shell th,
+.report-shell td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  word-break: break-word;
+  white-space: normal;
+  text-align: left;
+}
+.article-content th,
+.article-shell th,
+.report-shell th {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: var(--surface);
+  color: var(--ink);
+  border-bottom: 2px solid var(--ink);
+}
+html[data-theme="dark"] .article-content th,
+html[data-theme="dark"] .article-shell th,
+html[data-theme="dark"] .report-shell th {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+@media (max-width: 600px) {
+  .ledger { font-size: 12px; }
+  .ledger th, .ledger td { padding: 7px 8px; }
+  .ledger td.id { min-width: 36px; }
+  .ledger td.date { min-width: 80px; font-size: 10.5px; }
+  .ledger td.type { min-width: 70px; font-size: 10px; }
+  .article-content table,
+  .article-shell table,
+  .report-shell table { font-size: 12px; }
+  .article-content th, .article-content td,
+  .article-shell th, .article-shell td,
+  .report-shell th, .report-shell td { padding: 6px 7px; }
+  .filter-row { font-size: 10px; }
+  .filter-row button { padding: 6px 10px; }
+  .filter-row .sort-label { width: 100%; margin-left: 0; }
+  .shell { padding: 32px 18px 64px; }
+}
+
+/* ---- Mermaid diagram lightbox + caption ---- */
+.mermaid-zoomable { cursor: zoom-in; }
+.mermaid-zoomable:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.mermaid-caption {
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  letter-spacing: 0.20em;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 6px;
+  text-transform: uppercase;
+}
+#mermaid-lightbox {
+  max-width: 95vw;
+  max-height: 95vh;
+  width: auto;
+  height: auto;
+  border: 1px solid var(--ink);
+  background: var(--bg);
+  color: var(--ink);
+  padding: 24px;
+  overflow: auto;
+}
+#mermaid-lightbox::backdrop { background: rgba(0, 0, 0, 0.7); }
+#mermaid-lightbox .mermaid-lightbox-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+#mermaid-lightbox .mermaid-lightbox-body svg {
+  max-width: 100%;
+  max-height: 85vh;
+  height: auto;
+  width: auto;
+}
+.mermaid-lightbox-close {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 10px;
+  font-family: var(--font-display);
+}
+.mermaid-lightbox-close:hover { color: var(--accent); }
 .ledger .rating.over,
 .ledger .rating.overweight  { color: var(--success); }
 .ledger .rating.hold        { color: var(--warn); }
@@ -357,6 +508,7 @@ a:hover { color: var(--accent); }
 
 .filter-row {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 24px;
   font-family: var(--font-display);

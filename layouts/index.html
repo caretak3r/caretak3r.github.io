@@ -7,9 +7,13 @@
   </div>
 
   <p class="lede">
-    <em>9-year DevSecOps engineer.</em> Platform engineering, supply-chain
-    security, Kubernetes, identity, signing. I publish technical notes on
-    infrastructure and — sometimes — AI-augmented research on public equities.
+    <em>10-year platform / infrastructure engineer.</em> Supply-chain
+    security, Kubernetes, identity, signing. I publish technical notes
+    on infrastructure and — sometimes — equity research.
+  </p>
+
+  <p class="lede-meta">
+    <a class="resume-link" href="/Rohit%20Gudi.pdf">DOWNLOAD RESUME (PDF)</a>
   </p>
 
   {{- $posts := where .Site.RegularPages "Section" "posts" -}}
@@ -42,7 +46,7 @@
     <div class="split-col">
       <div class="split-head">
         <div class="label">RESEARCH</div>
-        <div class="count">{{ len $research }} NOTES · AI-AUGMENTED</div>
+        <div class="count">{{ len $research }} NOTES</div>
       </div>
       {{ if $recentResearch }}
       <ul class="split-list">
@@ -70,13 +74,16 @@
   </section>
 
   {{ if $projects }}
+  {{- $featured := first 3 ($projects.ByDate.Reverse) -}}
   <section class="projects-strip">
     <div class="projects-strip-head">
       <div class="label">PROJECTS</div>
-      <div style="font-family: var(--font-display); font-size: 10px; color: var(--muted); letter-spacing: 0.12em;">{{ len $projects }} ACTIVE</div>
+      <div style="font-family: var(--font-display); font-size: 10px; color: var(--muted); letter-spacing: 0.12em;">
+        MOST ACTIVE · <a href="{{ "/projects/" | relURL }}" style="color: var(--accent); text-decoration: none;">SEE ALL ({{ len $projects }})</a>
+      </div>
     </div>
     <div class="projects-grid">
-      {{- range ($projects.ByDate.Reverse) }}
+      {{- range $featured }}
       <div class="proj">
         <span class="proj-name"><a href="{{ .Permalink }}" style="text-decoration: none; color: var(--ink);">{{ .Title | upper }}</a></span>
         <span class="proj-desc">{{ with .Params.description }}{{ . }}{{ else }}{{ .Summary | truncate 80 | plainify }}{{ end }}</span>
@@ -88,9 +95,10 @@
 
   <div class="bio-block">
     <p>
-      I publish technical writeups under <code>/engineering/</code> and AI-augmented
-      equity research under <code>/research/</code>. The split is the message — engineering
-      content is technical; research notes are generated using my TradingAgents framework.
+      I publish technical writeups under <code>/engineering/</code> and equity
+      research under <code>/research/</code>. The split is the message —
+      engineering content is technical; research notes are exploratory and are
+      not investment advice.
     </p>
     <p style="color: var(--muted); font-size: 14.5px;">
       {{ with site.Params.github_url }}<a href="{{ . }}" style="color: var(--accent);">github</a> · {{ end }}

@@ -37,7 +37,7 @@
     <tbody>
       {{- range $i, $p := $sorted -}}
         {{- $id := printf "%03d" (sub $count $i) -}}
-      <tr onclick="window.location='{{ $p.Permalink }}'">
+      <tr data-type="{{ $p.Params.rating | upper }}" data-date="{{ $p.Date.Format "2006-01-02" }}" onclick="window.location='{{ $p.Permalink }}'">
         <td class="id">{{ $id }}</td>
         <td class="date">{{ $p.Date.Format "2006-01-02" }}</td>
         <td class="ticker">{{ $p.Params.ticker }}</td>

@@ -1,13 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="refresh" content="0; url={{ "/engineering/" | absURL }}">
-<link rel="canonical" href="{{ "/engineering/" | absURL }}">
-<title>Redirecting to /engineering/</title>
-</head>
-<body>
-<p>Projects are listed under <a href="{{ "/engineering/" | relURL }}">/engineering/</a>.</p>
-<script>window.location.replace({{ "/engineering/" | absURL | jsonify }});</script>
-</body>
-</html>
+{{ define "main" }}
+<div class="shell">
+
+  <div class="page-head">
+    <h1>PROJECTS</h1>
+    {{- $projects := where .Site.RegularPages "Section" "projects" -}}
+    <div class="index">COUNT {{ printf "%03d" (len $projects) }}</div>
+  </div>
+
+  {{ with .Content }}<div class="lede">{{ . }}</div>{{ end }}
+
+  <div class="projects-grid" style="margin-top: 24px;">
+    {{- range ($projects.ByDate.Reverse) }}
+    <div class="proj">
+      <span class="proj-name">
+        <a href="{{ .Permalink }}" style="text-decoration: none; color: var(--ink);">{{ .Title | upper }}</a>
+      </span>
+      <span class="proj-desc">
+        {{ with .Params.description }}{{ . }}{{ else }}{{ .Summary | truncate 120 | plainify }}{{ end }}
+      </span>
+    </div>
+    {{- end }}
+  </div>
+
+</div>
+{{ end }}
