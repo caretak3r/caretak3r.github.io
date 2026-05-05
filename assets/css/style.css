@@ -352,6 +352,7 @@ a:hover { color: var(--accent); }
   border-bottom: 2px solid var(--ink);
   background: var(--surface);
   color: var(--ink);
+  white-space: nowrap;
 }
 html[data-theme="dark"] .ledger th {
   background: var(--surface-2);
@@ -375,7 +376,7 @@ html[data-theme="dark"] .ledger th {
 .ledger tbody tr:hover a { color: var(--bg); }
 
 /* Research-specific ledger columns */
-.ledger td.ticker { font-family: var(--font-display); font-weight: 600; min-width: 64px; letter-spacing: 0.04em; }
+.ledger td.ticker { font-family: var(--font-display); font-weight: 600; min-width: 84px; letter-spacing: 0.04em; white-space: nowrap; }
 .ledger td.rating {
   font-family: var(--font-display);
   font-size: 10.5px;
