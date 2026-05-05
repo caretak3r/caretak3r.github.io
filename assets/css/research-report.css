@@ -371,6 +371,33 @@
   margin-bottom: 6px;
 }
 
+/* Collapsed "not applicable" variant — title + reason only. Mirrors the
+   inline rules the SEF renderer emits in TER reports so we can strip the
+   embedded <style> on ingest without losing the visual treatment.
+   SEF token → site token: --fg-secondary → --muted, --border → --line. */
+.report-shell .quant-box.quant-na {
+  padding: 14px 22px;
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--line);
+}
+.report-shell .quant-box.quant-na .quant-label { margin-bottom: 6px; }
+.report-shell .quant-na-tag {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--muted);
+  font-size: 10.5px;
+}
+.report-shell .quant-na-reason {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0;
+}
+
 /* ---- Interim box ---- */
 .report-shell .interim-box {
   border: 1px solid var(--line);
