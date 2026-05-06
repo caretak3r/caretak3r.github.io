@@ -928,26 +928,33 @@ html[data-theme="dark"] .report-shell th {
 }
 .article-content a:hover { background: var(--accent); color: var(--bg); }
 
+/* Wide tables (e.g. 9-column comparison grids) escape the article-shell
+   on desktop and fit the entire table without horizontal scroll. Equal
+   column distribution via `table-layout: fixed` + aggressive word breaking
+   on cells lets even prose-heavy comparison grids fit on screen. */
+.article-content .table-wrap {
+  margin: 24px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--ink);
+}
+.article-content .table-wrap table { margin: 0; border: 0; width: 100%; }
+
 .article-content table {
   width: 100%;
   border-collapse: collapse;
   margin: 24px 0;
-  font-size: 14px;
+  font-size: 13px;
   font-family: var(--font-body);
-  /* Force columns to share available space evenly so prose-heavy tables
-     don't push past the article-shell. Combined with overflow-wrap on
-     cells, even 9-column comparison tables fit without horizontal scroll. */
   table-layout: fixed;
 }
 .article-content th,
 .article-content td {
   text-align: left;
-  padding: 12px 16px;
+  padding: 8px 10px;
   border: 1px solid var(--ink);
   vertical-align: top;
-  line-height: 1.5;
-  /* Allow long URLs, footnote refs, and unbreakable strings to wrap so the
-     table never demands horizontal scrolling. */
+  line-height: 1.45;
   overflow-wrap: anywhere;
   word-break: break-word;
   hyphens: auto;
@@ -963,17 +970,29 @@ html[data-theme="dark"] .report-shell th {
 }
 .article-content tr:nth-child(even) td { background: var(--surface); }
 
-/* Wide tables (≥6 columns or content-heavy) get breathing room on desktop
-   by escaping the 760px article-shell up to ~1100px. The negative margins
-   pull the table outward symmetrically; viewport-clamped width keeps it
-   from overflowing on edge cases. Mobile keeps the standard width. */
-@media (min-width: 1100px) {
-  .article-content table {
-    width: min(1100px, calc(100vw - 64px));
+/* Wide tables escape the 760px article-shell and use the full viewport width
+   so the entire table is visible without horizontal scroll. Wrapper is
+   centered via 50%/translate -50% so it stays aligned with the article column
+   on narrower viewports. */
+@media (min-width: 900px) {
+  .article-content .table-wrap {
+    width: calc(100vw - 48px);
+    max-width: 1600px;
     margin-left: 50%;
     transform: translateX(-50%);
     position: relative;
   }
+  .article-content .table-wrap table { font-size: 12px; }
+  .article-content .table-wrap th,
+  .article-content .table-wrap td { padding: 7px 9px; line-height: 1.4; }
+}
+
+/* Tighten headers further on very wide content tables so column titles wrap
+   gracefully instead of forcing extra column width. */
+.article-content .table-wrap th {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 8px 8px;
 }
 
 .article-content img {
