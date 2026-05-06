@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Silent Engineering Fund Research — LDOS | 2026-05-03</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fg: #2a261f;
+    --fg-secondary: #5a4f3f;
+    --fg-tertiary: #8a7c66;
+    --bg: #faf6ef;
+    --bg-subtle: #f5ecd9;
+    --bg-muted: #efe3c4;
+    --paper: #faf6ef;
+    --paper-soft: #f5ecd9;
+    --border: #d4c9a8;
+    --border-light: #e6dcc1;
+    --rule: #b9a878;
+    --accent: #2c7a3f;
+    --accent-bg: #ecf2db;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    --font-mono: 'IBM Plex Mono', 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+    --font-serif: 'Source Serif 4', 'Charter', 'Iowan Old Style', 'Sitka Text', Cambria, 'Times New Roman', Georgia, serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-serif);
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "onum" 1;
+    color: var(--fg);
+    background: var(--bg);
+    line-height: 1.7;
+    max-width: none;
+    margin: 0;
+    padding: 56px 0 88px;
+    counter-reset: section;
+  }
+
+  /* ---- Section width tiers (see references/report-standards.md §5) ----
+     Body is no longer a single 820px column. Each section opts into a
+     tier wrapper that sets its own max-width + horizontal padding. The
+     eye gets rhythm from width changes between sections; prose stays at
+     a readable 70-80 char measure. */
+  .col-prose, .col-wide, .col-bleed {
+    margin: 0 auto;
+    padding: 0 36px;
+  }
+  .col-prose { max-width: 820px; }
+  .col-wide  { max-width: 1080px; }
+  .col-bleed { max-width: 1280px; }
+
+  /* Solo-card variant of debate-grid (single full-width card, e.g. the
+     Neutral risk panel under the Aggressive/Conservative pair). Replaces
+     an inline style that used to live in the body scaffold. */
+  .debate-grid--solo {
+    grid-template-columns: 1fr;
+    margin-top: 0;
+  }
+
+  /* ---- Header ---- */
+  .header { border-bottom: 1.5px solid var(--rule); padding-bottom: 18px; margin-bottom: 36px; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 12px; }
+  .fund-name {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.20em; text-transform: uppercase; color: var(--fg);
+  }
+  .date {
+    font-family: var(--font-sans); font-size: 11.5px; color: var(--fg-tertiary);
+    font-variant-numeric: tabular-nums; letter-spacing: 0.02em;
+  }
+  .ticker {
+    font-family: var(--font-sans); font-size: 42px; font-weight: 700;
+    letter-spacing: -0.025em; line-height: 1; color: var(--fg);
+  }
+  .company-full {
+    font-family: var(--font-serif); font-style: italic; font-size: 16px;
+    color: var(--fg-secondary); margin-top: 6px; letter-spacing: -0.005em;
+  }
+  .meta-row {
+    display: flex; gap: 28px; font-family: var(--font-sans); font-size: 11.5px;
+    color: var(--fg-tertiary); margin-top: 12px; letter-spacing: 0.02em;
+  }
+  .meta-row span { font-variant-numeric: tabular-nums; }
+
+  /* ---- Rating Badge ---- */
+  .rating-badge {
+    display: inline-block; font-family: var(--font-sans); font-size: 11.5px;
+    font-weight: 600; letter-spacing: 0.12em; padding: 6px 14px; border-radius: 2px;
+    border: 1.5px solid #2c7a3f; color: #2c7a3f; background: #ecf2db;
+    margin-top: 14px;
+  }
+
+  /* ---- Narrative Lede (FIRST visible content; storyteller output) ---- */
+  .lede {
+    font-family: var(--font-serif); font-size: 18.5px; line-height: 1.72;
+    color: var(--fg); margin: 0 0 44px 0;
+    padding: 36px 40px 32px 40px;
+    background: var(--paper-soft);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    position: relative;
+  }
+  .lede::before {
+    content: "OPENING NOTE";
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--fg-tertiary);
+    margin-bottom: 18px;
+  }
+  .lede p { margin: 14px 0 0 0; }
+  .lede p:first-of-type { margin-top: 0; }
+  .lede p:first-of-type::first-letter {
+    font-family: var(--font-serif);
+    font-size: 4.4em; font-weight: 600; float: left; line-height: 0.86;
+    margin: 6px 12px -2px 0; color: var(--accent);
+    font-feature-settings: "ss01" 1;
+  }
+  .lede p strong { font-weight: 600; }
+  .lede p em { font-style: italic; }
+  .lede hr { display: none; }
+  .lede-provenance {
+    margin-top: 22px; padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-family: var(--font-sans); font-size: 11px; line-height: 1.55;
+    color: var(--fg-tertiary); letter-spacing: 0.01em;
+  }
+  .lede-provenance p { margin: 4px 0; }
+  .lede-provenance strong {
+    color: var(--fg-secondary); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.10em; font-size: 10px;
+  }
+  .lede-provenance ul { margin: 6px 0 0 18px; padding: 0; }
+  .lede-provenance li { margin: 2px 0; }
+
+  /* ---- Decision Box ---- */
+  .decision-box {
+    border: 1px solid var(--border); border-left: 3px solid var(--accent);
+    padding: 28px 32px; margin: 36px 0; background: var(--bg-subtle);
+  }
+  .decision-box h2 {
+    font-family: var(--font-sans); font-size: 11.5px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-tertiary);
+    margin-bottom: 14px;
+  }
+  .decision-box .summary {
+    font-family: var(--font-serif); font-size: 17px; line-height: 1.65;
+    color: var(--fg); font-weight: 400;
+  }
+  .decision-box .summary p { margin: 0 0 10px 0; }
+  .decision-box .summary strong { font-weight: 600; }
+  .decision-box .thesis {
+    font-family: var(--font-serif); font-size: 15px; line-height: 1.75;
+    color: var(--fg); margin-top: 20px;
+  }
+  .decision-box .thesis p { margin: 10px 0; }
+  .decision-box .thesis p:first-of-type::first-letter {
+    font-size: 3.4em; font-weight: 600; float: left; line-height: 0.9;
+    margin: 4px 8px 0 0; color: var(--fg);
+  }
+  .decision-box .thesis strong { font-weight: 600; color: var(--fg); }
+  .decision-box .thesis em { font-style: italic; }
+
+  /* ---- Charts ---- */
+  .chart-block { margin: 28px 0; }
+  .chart-svg {
+    width: 100%; height: auto; display: block;
+    background: var(--paper); border: 1px solid var(--border);
+  }
+  .chart-caption {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 12.5px; color: var(--fg-tertiary);
+    margin-top: 8px; line-height: 1.55;
+  }
+
+  /* ---- Key Levels Table ---- */
+  .levels-table {
+    width: 100%; border-collapse: collapse; margin: 28px 0;
+    font-family: var(--font-sans); font-size: 13px;
+  }
+  .levels-table th {
+    text-align: left; font-weight: 600; font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 10px 14px;
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .levels-table td {
+    padding: 12px 14px; border-bottom: 1px solid var(--border-light);
+    font-variant-numeric: tabular-nums;
+  }
+  .levels-table tr:last-child td { border-bottom: none; }
+  .level-label { color: var(--fg); font-weight: 500; }
+  .level-value { font-weight: 600; font-family: var(--font-mono); font-size: 13px; color: var(--fg); }
+  .level-note { color: var(--fg-secondary); font-size: 12.5px; font-style: italic; font-family: var(--font-serif); }
+
+  /* ---- Section Headings ---- */
+  /* Each h2.section carries an auto-incrementing accent-colored eyebrow
+     ("01", "02", ...) rendered via CSS counter — no HTML changes needed,
+     and conditional sections (quant lane, risk factors) get numbered
+     correctly when present. Counter is reset on body. */
+  h2.section {
+    font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg);
+    border-top: 1px solid var(--rule); padding-top: 32px;
+    margin-top: 52px; margin-bottom: 22px;
+  }
+  h2.section::before {
+    counter-increment: section;
+    content: counter(section, decimal-leading-zero);
+    display: block;
+    font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.10em; color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  /* ---- Section drop caps (extends the lede + thesis pattern) ----
+     Drop cap anchors the narrative entry of every interim-box section
+     (Research Manager + Trader). Scoped to .interim-box only — debate
+     cards and analyst sub-sections have their own h3/h4 hierarchy and
+     would crowd if drop-capped. See design-system.md drop-cap policy. */
+  .interim-box .content p:first-of-type::first-letter {
+    font-family: var(--font-serif); font-size: 3rem; font-weight: 600;
+    color: var(--accent);
+    float: left; line-height: 0.85;
+    margin: 6px 12px -2px 0;
+  }
+
+  /* ---- Analyst Report Content ---- */
+  .report-content { font-family: var(--font-serif); font-size: 15px; line-height: 1.75; color: var(--fg); }
+  .report-content h3 {
+    font-family: var(--font-sans); font-size: 14px; font-weight: 600;
+    letter-spacing: -0.005em; margin: 24px 0 10px; color: var(--fg);
+  }
+  .report-content h4 {
+    font-family: var(--font-sans); font-size: 13px; font-weight: 600;
+    margin: 18px 0 8px; color: var(--fg-secondary);
+  }
+  .report-content p { margin: 10px 0; }
+  .report-content strong { font-weight: 600; color: var(--fg); }
+  .report-content em { font-style: italic; }
+  .report-content ul, .report-content ol { margin: 10px 0 10px 22px; }
+  .report-content li { margin: 5px 0; }
+  .report-content table { width: 100%; border-collapse: collapse; margin: 18px 0; font-family: var(--font-sans); font-size: 12.5px; }
+  .report-content th {
+    text-align: left; font-weight: 600; font-size: 10.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 10px 12px;
+    border-bottom: 1.5px solid var(--rule); background: transparent;
+  }
+  .report-content td { padding: 9px 12px; border-bottom: 1px solid var(--border-light); font-variant-numeric: tabular-nums; }
+  .report-content .na { color: var(--fg-tertiary); font-style: italic; font-family: var(--font-serif); }
+  .report-content code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-muted); padding: 2px 5px; border-radius: 2px; }
+
+  /* ---- Debate Sections ---- */
+  .debate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 18px 0; }
+  .debate-card { border: 1px solid var(--border); padding: 22px 24px; background: var(--bg-subtle); }
+  .debate-card.bull { border-left: 3px solid #2c7a3f; }
+  .debate-card.bear { border-left: 3px solid #9e2222; }
+  .debate-card.aggressive { border-left: 3px solid #1f6b3a; }
+  .debate-card.conservative { border-left: 3px solid #9e2222; }
+  .debate-card.neutral { border-left: 3px solid #8a7c66; }
+  .debate-label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg); margin-bottom: 10px;
+  }
+  .debate-card .report-content { font-family: var(--font-serif); font-size: 14px; line-height: 1.7; }
+  .debate-card .report-content p { margin: 8px 0; }
+  .debate-card .report-content p:first-child { margin-top: 0; }
+
+  /* ---- Research Manager / Trader Boxes ---- */
+  .interim-box { border: 1px solid var(--border); padding: 24px 28px; margin: 18px 0; background: var(--bg-subtle); }
+  .interim-box .label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg); margin-bottom: 14px;
+  }
+  .interim-box .content { font-family: var(--font-serif); font-size: 14.5px; line-height: 1.75; }
+  .interim-box .content p { margin: 10px 0; }
+  .interim-box .content strong { color: var(--fg); font-weight: 600; }
+  .interim-box .content em { font-style: italic; }
+
+  /* ---- Quantitative Lane ---- */
+  .quant-box {
+    border: 1px solid var(--border); padding: 22px 26px;
+    margin: 18px 0; background: var(--bg-subtle);
+  }
+  .quant-label {
+    font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg);
+    margin-bottom: 14px;
+  }
+  .quant-summary {
+    font-family: var(--font-serif); font-size: 14.5px; line-height: 1.6;
+    color: var(--fg); margin-bottom: 14px;
+  }
+  .quant-interp {
+    font-family: var(--font-serif); font-size: 13px; line-height: 1.6;
+    color: var(--fg-secondary); margin-top: 12px;
+  }
+  .quant-table {
+    width: 100%; border-collapse: collapse; margin: 8px 0;
+    font-family: var(--font-sans); font-size: 12.5px;
+  }
+  .quant-table th {
+    text-align: left; font-weight: 600; font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--fg-tertiary); padding: 8px 12px;
+    border-bottom: 1.5px solid var(--rule);
+  }
+  .quant-table td {
+    padding: 9px 12px; border-bottom: 1px solid var(--border-light);
+    font-variant-numeric: tabular-nums;
+  }
+  .quant-table tr:last-child td { border-bottom: none; }
+
+  .cc-customer { color: var(--fg); font-weight: 500; }
+  .cc-pct       { font-family: var(--font-mono); font-weight: 600; color: var(--fg); }
+  .cc-type      { color: var(--fg-secondary); font-style: italic; font-family: var(--font-serif); font-size: 12.5px; }
+  .cc-asof      {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 11.5px; color: var(--fg-tertiary); margin-top: 10px;
+  }
+
+  .bm-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px; margin: 12px 0 18px 0;
+  }
+  .bm-card {
+    background: var(--paper); border: 1px solid var(--border-light);
+    padding: 12px 14px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .bm-key {
+    font-family: var(--font-sans); font-size: 9.5px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-tertiary);
+  }
+  .bm-val {
+    font-family: var(--font-mono); font-size: 17px; font-weight: 600;
+    color: var(--fg); font-variant-numeric: tabular-nums; line-height: 1.2;
+  }
+  .bm-sub {
+    font-family: var(--font-serif); font-size: 11.5px; font-style: italic;
+    color: var(--fg-tertiary); margin-top: 2px;
+  }
+  .bm-status {
+    display: inline-block; align-self: flex-start; margin-top: 4px;
+    padding: 2px 7px; border-radius: 2px;
+    font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .bm-status.pass     { color: #1f6b3a; background: #e9f0d9; border: 1px solid #c4d4a3; }
+  .bm-status.marginal { color: #9e5a16; background: #f5e7cf; border: 1px solid #e2c895; }
+  .bm-status.fail     { color: #9e2222; background: #f3dccd; border: 1px solid #d9b09d; }
+
+  /* ---- Technical-Indicator Signal Badges ---- */
+  .ti-signal {
+    display: inline-block; vertical-align: 1px; margin-left: 8px;
+    padding: 2px 8px; border-radius: 2px;
+    font-family: var(--font-sans); font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; white-space: nowrap;
+    line-height: 1.4;
+  }
+  .ti-bullish { color: #1f6b3a; background: #e9f0d9; border: 1px solid #c4d4a3; }
+  .ti-bearish { color: #9e2222; background: #f3dccd; border: 1px solid #d9b09d; }
+  .ti-warning { color: #9e5a16; background: #f5e7cf; border: 1px solid #e2c895; }
+  .ti-neutral { color: #6e6457; background: #efe7d3; border: 1px solid #c9bd99; }
+
+  /* ---- Channel Checks ---- */
+  .channel-checks {
+    margin: 18px 0 8px 0;
+    border-top: 1px solid var(--border-light); padding-top: 14px;
+  }
+  .cc-title, .nw-title {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-tertiary);
+    margin-bottom: 10px;
+  }
+  .channel-list { list-style: none; margin: 0; padding: 0; }
+  .channel-row {
+    display: grid; grid-template-columns: 22px 1fr auto;
+    gap: 12px; align-items: baseline;
+    padding: 8px 0; border-bottom: 1px dashed var(--border-light);
+  }
+  .channel-row:last-child { border-bottom: none; }
+  .channel-icon {
+    font-family: var(--font-sans); font-weight: 700; font-size: 14px;
+    line-height: 1; text-align: center;
+  }
+  .channel-row.pass .channel-icon     { color: #1f6b3a; }
+  .channel-row.marginal .channel-icon { color: #9e5a16; }
+  .channel-row.fail .channel-icon     { color: #9e2222; }
+  .channel-label { font-family: var(--font-serif); font-size: 13.5px; color: var(--fg); }
+  .channel-label strong { font-weight: 600; }
+  .channel-label .check-note { color: var(--fg-secondary); font-style: italic; }
+  .channel-status {
+    font-family: var(--font-sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 2px; white-space: nowrap;
+  }
+  .channel-row.pass .channel-status     { color: #1f6b3a; background: #e9f0d9; }
+  .channel-row.marginal .channel-status { color: #9e5a16; background: #f5e7cf; }
+  .channel-row.fail .channel-status     { color: #9e2222; background: #f3dccd; }
+
+  /* ---- Notable Wins ---- */
+  .notable-wins {
+    margin: 18px 0 6px 0;
+    border-top: 1px solid var(--border-light); padding-top: 14px;
+  }
+  .nw-list { list-style: none; margin: 0; padding: 0; }
+  .nw-row {
+    display: grid; grid-template-columns: 1fr auto auto;
+    gap: 14px; align-items: baseline;
+    padding: 6px 0; border-bottom: 1px dashed var(--border-light);
+  }
+  .nw-row:last-child { border-bottom: none; }
+  .nw-customer { font-family: var(--font-serif); font-size: 13.5px; color: var(--fg); font-weight: 500; }
+  .nw-value    { font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: var(--fg); }
+  .nw-type     { font-family: var(--font-serif); font-size: 12px; font-style: italic; color: var(--fg-secondary); }
+
+  .cat-table td.cat-date {
+    font-family: var(--font-mono); font-size: 12px; color: var(--fg);
+    white-space: nowrap; padding-right: 18px;
+  }
+  .cat-table td.cat-event { font-family: var(--font-serif); font-size: 13.5px; }
+  .cat-table td.cat-event strong { color: var(--fg); font-weight: 600; }
+  .cat-table td.cat-impact {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase; text-align: right;
+  }
+  .cat-row.cat-high td.cat-impact      { color: #9e2222; }
+  .cat-row.cat-medium td.cat-impact    { color: #9e5a16; }
+  .cat-row.cat-low td.cat-impact       { color: var(--fg-tertiary); }
+  .cat-row.cat-high td:first-child     { border-left: 3px solid #9e2222; padding-left: 10px; }
+  .cat-row.cat-medium td:first-child   { border-left: 3px solid #9e5a16; padding-left: 10px; }
+  .cat-row.cat-low td:first-child      { border-left: 3px solid var(--border); padding-left: 10px; }
+  .cat-quarter-header td {
+    font-family: var(--font-sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-tertiary);
+    padding: 10px 12px 4px 12px; border-bottom: 1px solid var(--border-light);
+    background: transparent;
+  }
+  .cat-quarter-header:first-child td { padding-top: 6px; }
+  .cat-row + .cat-quarter-header td { padding-top: 14px; }
+  .cat-row td { padding-top: 7px; padding-bottom: 7px; }
+
+  /* ---- Footer ---- */
+  .footer {
+    margin-top: 72px; padding-top: 22px; border-top: 1px solid var(--rule);
+    font-family: var(--font-serif); font-size: 12px; font-style: italic;
+    color: var(--fg-tertiary); line-height: 1.65;
+  }
+  .footer .disclaimer { max-width: 620px; }
+  .footer .colophon {
+    font-family: var(--font-sans); font-size: 10.5px; font-style: normal;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-tertiary); margin-top: 16px;
+  }
+
+  /* ---- Print ---- */
+  @media print {
+    body { padding: 24px 0 48px; font-size: 12px; max-width: 100%; background: #fff; }
+    .col-prose, .col-wide, .col-bleed {
+      max-width: 100%;
+      padding: 0 24px;
+    }
+    .header { break-inside: avoid; }
+    .lede { break-inside: avoid; background: #faf6ef; }
+    .decision-box { break-inside: avoid; }
+    .debate-grid { grid-template-columns: 1fr 1fr; }
+    .debate-grid--solo { grid-template-columns: 1fr; }
+    .interim-box { break-inside: avoid; }
+    .chart-svg { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Section width tiers — see references/report-standards.md §5.
+     prose: 820px (narrative), wide: 1080px (grids), bleed: 1280px (charts). -->
+
+<div class="col-prose">
+
+<div class="header">
+  <div class="header-top">
+    <div class="fund-name">Silent Engineering Fund</div>
+    <div class="date">May 03, 2026</div>
+  </div>
+  <div class="ticker">LDOS</div>
+  
+  <div class="meta-row">
+    <span>Analysis Date: 2026-05-03</span>
+  </div>
+  <div class="rating-badge">OVERWEIGHT</div>
+</div>
+
+<div class="lede">
+<p>Leidos didn't start as a defense-IT prime. It started in 1969 as Science Applications Inc., a La Jolla physics shop J. Robert Beyster bootstrapped with stock he sold from General Atomics, structured employee-owned because Beyster wanted scientists who'd act like principals. The Leidos that trades today is the legal successor to that company — the larger half of SAIC's September 2013 split, keeping the pre-2013 stock history while the smaller carve-out walked off with the original name. That's the origin most sell-side decks skip. The inflections are louder. August 2016: a $4.6B Reverse Morris Trust folds in Lockheed's IS&amp;GS — the deal that made LDOS a top-three federal IT prime overnight, with Lockheed shareholders ending up holding ~50.5% of the combined company. 2020: $1.65B for Dynetics — a Huntsville hardware shop nobody underwriting a services multiple wanted on the books. May 2020: $1B cash for L3Harris's airport-screening unit — 24,000 systems across 120 countries. The asymmetry the market keeps mispricing sits inside Dynetics: IFPC Inc. 2, a mobile launcher that defeats cruise missiles, drones, and rockets/artillery/mortars from a single chassis. April 2026 added $617M, taking cumulative awards past $1.2B with up to 317 launchers under the production OTA. The Street still models LDOS as services. The hardware ramp is already in the contract file.</p>
+<div class="lede-provenance">
+<p><strong>Sources</strong>: <code>fundamentals_report</code>, <code>news_report</code>, <code>sentiment_report</code>, <code>backlog_metrics</code>, <code>investment_debate_state.bull_history</code>, <code>final_trade_decision</code>, <code>catalyst_calendar</code>, plus narrative WebSearches on SAIC 1969 founding under Beyster and the September 2013 split, the August 2016 Lockheed IS&amp;GS Reverse Morris Trust, the 2020 Dynetics acquisition and IFPC Inc. 2 OTA, and the May 2020 $1B L3Harris Security Detection &amp; Automation deal.</p>
+
+<p><strong>Confidence</strong>: 6 facts | 1 inference | 0 speculative</p>
+
+<p><strong>Gaps</strong>: None — all required fields present in upstream JSON; founding history and inflection details supplied via narrative WebSearches.</p>
+</div>
+</div>
+
+<div class="decision-box">
+  <h2>Portfolio Decision</h2>
+  <div class="summary"><p>Build a 3% position in LDOS at $149.23 ahead of the May 5 Q1 2026 earnings print, with 0.5% reserved for post-print response. Hard stop at $135, trim mechanically above $172, target $172-$185 over 6-12 months (forward P/E 14-15x on FY 2026 EPS midpoint $12.25). Clean beat + guide held = upgrade to Buy with 1% size add; in-line + guide unchanged = hold Overweight; miss or guide trim = downgrade to Hold and trim 50%. Time horizon: 6-12 months for the core thesis, with the May 5 print as the immediate gate.</p></div>
+  <div class="thesis"><p>LDOS at $149.23 is a value setup compressed into a binary earnings event with structurally improving fundamentals: $49B backlog covering 2.85x revenue, Q3-Q4 2025 book-to-bill of 1.3x signaling demand re-acceleration, segment exposure (NS&amp;D 44% + Defense Systems 13% = 57%) aligned to the fastest-growing DoD line items (missile defense + homeland security at +8-10% in the FY27 POM cycle), and a forward P/E of 11.3x at a 30-40% discount to peer BAH (19x) and modest discount to SAIC (14x). The MDA SHIELD IDIQ position ($151B 10-year ceiling) and DMEA ATSP V ($24.5B) are structural option-value adds not in consensus models. FY 2025 capital return of $1.155B = 71% of FCF demonstrates management confidence at compressed multiples. Recent contract blitz — IFPC Inc. 2 cumulative $1.2B with 100+ launchers committed, Military OneSource $456M, AF Air Base Air Defense $2.2B 5-year, Analogic JV in security screening — reinforces the demand thesis qualitatively even if quantitative bookings re-acceleration is still pending confirmation.</p>
+
+<p>The bear case is real and bounded: FY 2026 guide of $17.5-17.9B (+1.7-4%) and mid-13% Adj EBITDA margin (-80bps vs FY 2025) is a defensive holding pattern, not a growth story; the 87% US Government revenue concentration creates recurring shutdown risk with the September 30, 2026 fiscal year-end as the next test window (Q4 2025 6-week shutdown cost ~2pp of FY revenue growth); the death-cross technical setup (50 SMA $162 below 200 SMA $178) creates a difficult rally path requiring +9% then +19% climbs against active sellers; and the -28pp YTD underperformance vs ITA suggests name-specific concerns the market has not yet articulated. Historical base rate of similar -25pp+ sector divergences resolving within 9 months is only 2 of 5.</p>
+
+<p>The Overweight rating reflects three judgment calls. First, the bull's specificity bar was cleared on 4 of 5 items cleanly with 1 partial miss on consolidation reference (Analogic JV is 24-36 month forward-looking, not realized) — single full-equivalent miss downgrades from Buy to Overweight per checklist rule. Second, the entry is constructively positioned: 7% above 52-week low, RSI bouncing from 27.5 oversold, MACD histogram crossing positive May 1, suggesting technical capitulation phase complete. Third, the AAPL +3.7% prior cross-ticker lesson reinforces patient-sizing of quality value names with binary catalysts.</p>
+
+<p>The kill-switches are clear: (1) if Q1 2026 trailing book-to-bill prints below 1.10x AND guide is unchanged or trimmed on May 5, downgrade to Hold and trim 50%; (2) if a Q3-Q4 2026 government shutdown materializes for &gt;4 weeks, the FY 2026 low-end guide breaks and position is trimmed 25%; (3) if SHIELD or SHIELD-like task-order conversion shows zero progress by Q3 2026 print (late October), structural-option value evaporates and position cap drops to 2%; (4) if stock breaks $135 (below 52-week low) on any catalyst, position is closed and re-evaluated.</p></div>
+</div>
+
+
+
+</div><!-- /.col-prose -->
+
+<div class="col-bleed">
+<h2 class="section">Quantitative Lane</h2>
+<div class="quant-box">
+  <div class="quant-label">Customer Concentration</div>
+  <div class="report-content"><p>Customer concentration (FY 2025, from 10-K Item 1A):</p>
+
+<table>
+<tr><th>Customer Type</th><th>% of FY 2025 Revenue</th><th>Notes</th></tr>
+<tr><td>U.S. Government (total)</td><td>87%</td><td>Dominant single-event risk</td></tr>
+<tr><td>International</td><td>~8%</td><td>UK, Australia, NATO</td></tr>
+<tr><td>Commercial</td><td>~5%</td><td>Health, financial services</td></tr>
+</table>
+
+<p>By segment exposure (implies agency mix):</p>
+
+<table>
+<tr><th>Segment</th><th>% of Revenue</th><th>Primary Customers</th></tr>
+<tr><td>National Security &amp; Digital</td><td>44%</td><td>DoD, Intelligence Community</td></tr>
+<tr><td>Health &amp; Civil</td><td>30%</td><td>VA, FAA, NSF, DoE, DHS</td></tr>
+<tr><td>Defense Systems</td><td>13%</td><td>Army, Navy, Air Force, MDA</td></tr>
+<tr><td>Commercial &amp; International</td><td>13%</td><td>UK MOD, Australia DoD, commercial</td></tr>
+</table>
+
+<p>Implied agency concentration: DoD/IC ~57% (NS&amp;D + Defense Systems), Civilian agencies ~30% (Health &amp; Civil), International + Commercial ~13%.</p>
+
+<p>Customer concentration interpretation:</p>
+<ul>
+<li>87% federal revenue concentration is the dominant single-event risk</li>
+<li>Recent contract wins (SHIELD IDIQ $151B ceiling, IFPC Inc. 2 $1.2B cumulative, Military OneSource $456M, AF Air Base Air Defense $2.2B 5-year) reinforce DoD concentration</li>
+<li>Cleared workforce (~25,000 employees) creates structural switching cost moat for federal customers</li>
+<li>Specific top-customer disclosures by agency are not provided in 10-K</li>
+<li>LDOS' 87% federal concentration is actually the LEAST concentrated among pure-play comps (BAH 95%, SAIC 95%+, CACI 95%+)</li>
+</ul></div>
+</div>
+<div class="quant-box">
+  <div class="quant-label">Backlog &amp; Book-to-Bill</div>
+  <div class="report-content"><p>Backlog and book-to-bill (FY 2025, from Q4 2025 earnings release Feb 17, 2026):</p>
+
+<table>
+<tr><th>Period</th><th>Revenue ($M)</th><th>Net Bookings ($M)</th><th>Book-to-Bill</th></tr>
+<tr><td>Q1 2025</td><td>4,245</td><td>~3,900</td><td>0.92x</td></tr>
+<tr><td>Q2 2025</td><td>4,253</td><td>~3,200</td><td>0.75x</td></tr>
+<tr><td>Q3 2025</td><td>4,469</td><td>~5,800</td><td>1.30x</td></tr>
+<tr><td>Q4 2025</td><td>4,207</td><td>5,600</td><td>1.33x</td></tr>
+<tr><td>FY 2025</td><td>17,174</td><td>17,500</td><td>1.02x</td></tr>
+<tr><td>FY 2024</td><td>16,664</td><td>~17,800</td><td>1.07x</td></tr>
+</table>
+
+<p>End of FY 2025 backlog: $49.0B total, $9.7B funded.</p>
+<p>End of FY 2024 backlog: $43.6B total.</p>
+<p>Funded backlog growth: +15% YoY.</p>
+<p>Total backlog growth: +12.4% YoY.</p>
+
+<p>Pending awards (per Q4 2025 call): ~$20B.</p>
+<p>Slipped from Q4 2025 to Q1 2026: ~$7B of awards.</p>
+
+<p>Key qualitative observations:</p>
+<ul>
+<li>1.0x annual book-to-bill is below peer 1.05-1.10x</li>
+<li>Back-half-loaded pattern (1.3x Q3 + Q4 2025) signals re-acceleration</li>
+<li>$7B of slipped awards into Q1 2026 will boost the trailing book-to-bill if they convert</li>
+<li>$49B / $17.2B = 2.85x revenue coverage = ~3 years booked</li>
+<li>Q1 2026 trailing 4-quarter book-to-bill expected to print 1.10-1.15x if Q4 momentum continues</li>
+</ul>
+
+<p>IDIQ ceiling vehicles (NOT in backlog until task orders awarded):</p>
+<ul>
+<li>MDA SHIELD ($151B 10-year ceiling, "Golden Dome")</li>
+<li>DMEA ATSP V ($24.5B)</li>
+<li>These represent structural option-value not in consensus models</li>
+</ul></div>
+</div>
+
+</div><!-- /.col-bleed -->
+
+<div class="col-prose">
+
+<h2 class="section">Research Manager</h2>
+<div class="interim-box">
+  <div class="label">Investment Plan — Overweight</div>
+  <div class="content">
+    <p><strong>Rationale:</strong> <p>The bull case is anchored in a defensible value setup: forward P/E 11.3x at a 30-40% discount to peer BAH (19x), backlog $49B = 2.85x revenue coverage, Q3-Q4 2025 book-to-bill of 1.3x signaling demand re-acceleration, FY 2025 capital return of $1.155B = 71% of FCF, and segment exposure (NS&amp;D + Defense Systems = 57%) skewed to fast-growing DoD line items growing +8-10%. The bear case is also defensible: FY 2026 guide of +1.7-4% revenue and mid-13% Adj EBITDA margin (-80bps) is a defensive holding pattern, the 87% federal revenue concentration creates exposure to recurring shutdown risk, and the death-cross technical setup creates a difficult rally path.</p>
+
+<p>The fight is won and lost on the May 5 earnings print. With 2 trading days to print and stock 7% above 52-week low, risk-reward is asymmetric: ~6-13% downside vs ~24-34% upside. The Analogic JV's forward-looking nature warrants the 1-tier downgrade from Buy.</p></p>
+    <p><strong>Strategic Actions:</strong> <ol>
+<li>Build core position before May 5 print: 50% of intended size at $149.23 spot.</li>
+<li>Reserve 30% for post-print confirmation, 20% for further weakness.</li>
+<li>Trim aggressively: above $172 trim 25%, above $185 trim additional 25%, exit above $200.</li>
+<li>Hard stop: $135 (below 52-week low + buffer).</li>
+<li>Position sizing: 3-4% of portfolio. Tier 2.</li>
+<li>Re-rating: clean beat + raise = upgrade Buy + add 1%; in-line + guide held = hold Overweight; miss = downgrade Hold + trim 50%.</li>
+</ol></p>
+  </div>
+</div>
+
+<h2 class="section">Trader</h2>
+<div class="interim-box">
+  <div class="label">Transaction Proposal — Buy</div>
+  <div class="content">
+    <p><strong>Action</strong>: Buy</p>
+
+<p><strong>Reasoning</strong>: LDOS at $149.23 trades at 11.3x forward EPS midpoint $12.25, a 30-40% discount to defense IT peers despite $49B backlog (2.85x revenue), Q3-Q4 2025 book-to-bill 1.3x, and segment exposure (NS&amp;D + Defense Systems = 57%) aligned to +8-10% growing missile defense / homeland security DoD categories. The Q1 2026 print on May 5 is the asymmetric catalyst: ~6-13% downside vs ~24-34% upside, with Zacks ESP +0.41%. Technical setup oversold (RSI bouncing from 27.5, MACD histogram positive May 1).</p>
+
+<p><strong>Entry Price</strong>: 50% at $149.23 (current pre-print), 30% reserved for post-print add (above $155 confirmation OR toward $142 weakness), 20% reserved for further weakness toward $140.</p>
+
+<p><strong>Stop Loss</strong>: $135.00 (below 52-week low $139.69 with 3% buffer).</p>
+
+<p><strong>Position Sizing</strong>: 3-4% of portfolio. Tier 2 capped due to 87% USG revenue concentration, recurring shutdown risk, D/E 107.7 leverage.</p>
+
+<p>FINAL TRANSACTION PROPOSAL: <strong>BUY</strong></p>
+  </div>
+</div>
+
+</div><!-- /.col-prose -->
+
+<div class="col-wide">
+
+<h2 class="section">Investment Debate</h2>
+<div class="debate-grid">
+  <div class="debate-card bull">
+    <div class="debate-label">Bull Researcher</div>
+    <div class="report-content"><p>LDOS at $149.23 is value setup compressed into Q1 2026 earnings (May 5).</p>
+
+<p>Specificity bar items:</p>
+<ol>
+<li>Dated catalysts: 2026-05-05 Q1 earnings + Q2-Q3 2026 first Golden Dome/SHIELD task orders.</li>
+<li>Customer-segment math: IFPC $1.2B (1.5% of total rev), SHIELD 1% capture = $150M, Military OneSource $91M annual = $400-600M incremental high-confidence revenue (already conservatively in the $17.5-17.9B guide).</li>
+<li>Budget cycle: DoD FY27 POM in HASC/SASC markup, NDAA Q4 2026, topline $895B (+2%), missile defense/homeland security +8-10%. LDOS NS&amp;D + Defense Systems = 57% in fast-growing categories.</li>
+<li>Consolidation: Analogic JV positions LDOS in $4-6B/year homeland security screening market dominated by 2 incumbents. Aligns with Trump admin homeland security spend.</li>
+<li>Kill-switch (tightened R2): If Q1 2026 trailing 4-quarter book-to-bill prints below 1.10x AND FY 2026 guide unchanged or trimmed in May 5 release, thesis broken.</li>
+</ol>
+
+<p>Numbers: FY 2025 revenue $17.2B (+3%, normalized +5%), Adj EBITDA $2.42B (14.1% margin), backlog $49.0B (2.85x revenue), FCF $1.625B, ROE 31%, capital return $1.155B (71% of FCF). Forward P/E 11.3x is 30-40% discount to BAH (19x) and modest discount to SAIC (14x). EBITDA multiple 7.8x vs peers 9-12x.</p>
+
+<p>Round 2 conceded: IFPC ramp pricing back-half-loaded, Analogic JV is 24-36 month build, kill-switch needed tightening.</p>
+
+<p>Rebuttals: shutdown is known (priced in 27% drawdown); margin compression is D&amp;A-driven (cash margin intact); sector divergence reverses on earnings catalyst; death cross resolves on fundamentals.</p>
+
+<p>Recommendation: Buy. Target $185-$200 (forward P/E 14-15x on FY 2026 EPS midpoint $12.25). Time horizon 6-12 months.</p></div>
+  </div>
+  <div class="debate-card bear">
+    <div class="debate-label">Bear Researcher</div>
+    <div class="report-content"><p>The bull cleared 4 of 5 specificity items but glossed structural challenges.</p>
+
+<p>Issues with bull's case:</p>
+<ol>
+<li>May 5 earnings is coin flip; Q4 2025 beat EPS but stock dipped on guidance.</li>
+<li>SHIELD task orders Y1 likely $50-150M not $150-300M (front-loaded years are tech development).</li>
+<li>IFPC $1.2B already in backlog/guide; year 1-2 ramp is $100-150M (lower than bull's $250M average).</li>
+<li>DoD topline +2% means missile defense growth ~$1.4-1.8B over 5-yr FYDP at 2% capture = 2% revenue lift, not multi-billion.</li>
+<li>Analogic JV is 24-36 months out, not realized consolidation.</li>
+</ol>
+
+<p>What bull skipped:</p>
+<ol>
+<li>Government shutdown structural risk: Q4 2025 -2pp; Sept 30 2026 next window.</li>
+<li>Margin compression mid-13% Adj EBITDA = -80bps structural mix shift, multi-year not one-quarter.</li>
+<li>D/E 107.7 highest among peers; refinancing in higher-for-longer rates compounds.</li>
+<li>Death cross (50 SMA below 200 SMA) = 3-6 month repair.</li>
+<li>Sector divergence: ITA +6% YTD vs LDOS -22% YTD = -28pp, lasts 2-3 quarters historically.</li>
+</ol>
+
+<p>Round 2 rebuttals:</p>
+<ul>
+<li>Shutdown EV: 0.35 × 2.5pp = 87.5bps = $160M revenue at risk, 1% of FY 2026 — material.</li>
+<li>Margin: investors price off Adj EBITDA, not EBIT; quality-of-earnings concern.</li>
+<li>Sector divergence: 5 historical episodes show only 2/5 reverse within 9 months.</li>
+<li>Death cross: technical resistance at $162 + $178 SMAs is real; +9% then +19% from spot against active sellers.</li>
+</ul>
+
+<p>Recommendation: Underweight. Target $130-$140 (forward P/E 10-11x on conservative EPS $11.80-$12.00). Time horizon 6-12 months.</p></div>
+  </div>
+</div>
+
+<h2 class="section">Risk Assessment</h2>
+<div class="debate-grid">
+  <div class="debate-card aggressive">
+    <div class="debate-label">Aggressive</div>
+    <div class="report-content"><p>Round 1: 5-6% portfolio weight. Asymmetry ~$10 down vs ~$50 up = 1:5 reward-to-risk. 87% federal concentration is category-level not name-specific. SHIELD IDIQ $151B ceiling, 3-5% capture over 10yr = $4.5-7.5B incremental cumulative revenue. Buyback $944M/year on $19B cap = 5% annualized share count reduction = structural EPS tailwind even on flat revenue.</p>
+
+<p>Round 2: Shutdown EV math: 0.35 × 1.5pp = 50bps = $90M = 0.5% of revenue, fully offset by buyback. Pre-print 4% sizing captures the asymmetric upside; sitting out the highest-asymmetry event of the year is risk aversion to the point of inefficiency. Move pre-print to 4% with 1% post-print add capacity.</p></div>
+  </div>
+  <div class="debate-card conservative">
+    <div class="debate-label">Conservative</div>
+    <div class="report-content"><p>Round 1: 1.5-2.5% portfolio weight. Q4 2025 BEAT EPS but stock dipped — beat-the-quarter models don't protect from guidance reactions. -27% drawdown in a sector +6% = name-specific issue, may not yet be known. Shutdown base rate is non-zero, FY 2026 low-end guide breaks if repeats. D/E 107.7 + $200M annual interest in higher-for-longer rates compounds 100-150bps EBIT margin headwind 3-5 years.</p>
+
+<p>Round 2: Conceded shutdown EV but using 2.5pp average impact (60/40 weighted) gets 87.5bps = $160M = 1% FY 2026 revenue at risk = material. Asymmetric setup only works at right entry; $149.23 is 7% above 52-week low, marginal gain from 4% vs 2% pre-print is small if positive but larger loss if negative. Move to 2% pre-print + 1.5% reserved = 3.5% max.</p></div>
+  </div>
+</div>
+<div class="debate-grid debate-grid--solo">
+  <div class="debate-card neutral">
+    <div class="debate-label">Neutral</div>
+    <div class="report-content"><p>Round 1: 3% pre-print at $149.23 with 1-2% reserved post-print response = total 3-4%. SHIELD math is unproven 12-month catalyst, sizing on it today is sizing on forward unconfirmed = tier-2 (3-4%) appropriate not tier-1 (5-6%). Shutdown is priced into 27% drawdown, adding margin of safety beyond is double-counting.</p>
+
+<p>Round 2 final: 2% pre-print at $149.23, 1.5% reserved (1% added on confirmation, 0.5% kept for weakness toward $140). Total max 3.5%. Hard stop $135. Trim 25% above $172, additional 25% above $185, exit above $200. Aggressive 5-6% too much for binary event with shutdown risk; conservative 1.5-2.5% misses asymmetric upside. 3% with capacity to grow to 3.5% is right blend.</p></div>
+  </div>
+</div>
+
+<h2 class="section">Analyst Reports</h2>
+<div class="chart-block">
+  <svg viewBox="0 0 1080 320" xmlns="http://www.w3.org/2000/svg" class="chart-svg" role="img" aria-label="LDOS price and volume chart">
+  <rect width="1080" height="320" fill="#faf6ef"/>
+  <rect x="60" y="28" width="996" height="184" fill="#f5ecd9" opacity="0.55"/>
+  <rect x="60" y="220" width="996" height="64" fill="#f5ecd9" opacity="0.45"/>
+  <line x1="60" y1="202.1" x2="1056" y2="202.1" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="205.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$140.3</text>
+<line x1="60" y1="161.1" x2="1056" y2="161.1" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="164.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$154.9</text>
+<line x1="60" y1="120.0" x2="1056" y2="120.0" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="123.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$169.5</text>
+<line x1="60" y1="78.9" x2="1056" y2="78.9" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="81.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$184.0</text>
+<line x1="60" y1="37.9" x2="1056" y2="37.9" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="40.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$198.6</text>
+  <rect x="58.6" y="269.3" width="2.77" height="14.7" fill="#bca57a" opacity="0.65"/>
+<rect x="62.6" y="262.6" width="2.77" height="21.4" fill="#bca57a" opacity="0.65"/>
+<rect x="66.6" y="258.0" width="2.77" height="26.0" fill="#bca57a" opacity="0.65"/>
+<rect x="70.5" y="246.3" width="2.77" height="37.7" fill="#bca57a" opacity="0.65"/>
+<rect x="74.5" y="260.9" width="2.77" height="23.1" fill="#bca57a" opacity="0.65"/>
+<rect x="78.5" y="267.1" width="2.77" height="16.9" fill="#bca57a" opacity="0.65"/>
+<rect x="82.4" y="265.3" width="2.77" height="18.7" fill="#bca57a" opacity="0.65"/>
+<rect x="86.4" y="261.8" width="2.77" height="22.2" fill="#bca57a" opacity="0.65"/>
+<rect x="90.4" y="270.3" width="2.77" height="13.7" fill="#bca57a" opacity="0.65"/>
+<rect x="94.3" y="265.7" width="2.77" height="18.3" fill="#bca57a" opacity="0.65"/>
+<rect x="98.3" y="267.2" width="2.77" height="16.8" fill="#bca57a" opacity="0.65"/>
+<rect x="102.3" y="269.6" width="2.77" height="14.4" fill="#bca57a" opacity="0.65"/>
+<rect x="106.2" y="270.9" width="2.77" height="13.1" fill="#bca57a" opacity="0.65"/>
+<rect x="110.2" y="272.1" width="2.77" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="114.2" y="265.6" width="2.77" height="18.4" fill="#bca57a" opacity="0.65"/>
+<rect x="118.1" y="268.6" width="2.77" height="15.4" fill="#bca57a" opacity="0.65"/>
+<rect x="122.1" y="261.5" width="2.77" height="22.5" fill="#bca57a" opacity="0.65"/>
+<rect x="126.1" y="260.8" width="2.77" height="23.2" fill="#bca57a" opacity="0.65"/>
+<rect x="130.0" y="253.0" width="2.77" height="31.0" fill="#bca57a" opacity="0.65"/>
+<rect x="134.0" y="257.9" width="2.77" height="26.1" fill="#bca57a" opacity="0.65"/>
+<rect x="138.0" y="251.2" width="2.77" height="32.8" fill="#bca57a" opacity="0.65"/>
+<rect x="141.9" y="251.6" width="2.77" height="32.4" fill="#bca57a" opacity="0.65"/>
+<rect x="145.9" y="257.2" width="2.77" height="26.8" fill="#bca57a" opacity="0.65"/>
+<rect x="149.9" y="268.6" width="2.77" height="15.4" fill="#bca57a" opacity="0.65"/>
+<rect x="153.9" y="269.8" width="2.77" height="14.2" fill="#bca57a" opacity="0.65"/>
+<rect x="157.8" y="270.8" width="2.77" height="13.2" fill="#bca57a" opacity="0.65"/>
+<rect x="161.8" y="271.5" width="2.77" height="12.5" fill="#bca57a" opacity="0.65"/>
+<rect x="165.8" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="169.7" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="173.7" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="177.7" y="268.1" width="2.77" height="15.9" fill="#bca57a" opacity="0.65"/>
+<rect x="181.6" y="268.6" width="2.77" height="15.4" fill="#bca57a" opacity="0.65"/>
+<rect x="185.6" y="266.8" width="2.77" height="17.2" fill="#bca57a" opacity="0.65"/>
+<rect x="189.6" y="273.1" width="2.77" height="10.9" fill="#bca57a" opacity="0.65"/>
+<rect x="193.5" y="240.9" width="2.77" height="43.1" fill="#bca57a" opacity="0.65"/>
+<rect x="197.5" y="267.0" width="2.77" height="17.0" fill="#bca57a" opacity="0.65"/>
+<rect x="201.5" y="266.5" width="2.77" height="17.5" fill="#bca57a" opacity="0.65"/>
+<rect x="205.4" y="268.0" width="2.77" height="16.0" fill="#bca57a" opacity="0.65"/>
+<rect x="209.4" y="266.0" width="2.77" height="18.0" fill="#bca57a" opacity="0.65"/>
+<rect x="213.4" y="267.6" width="2.77" height="16.4" fill="#bca57a" opacity="0.65"/>
+<rect x="217.3" y="269.9" width="2.77" height="14.1" fill="#bca57a" opacity="0.65"/>
+<rect x="221.3" y="267.5" width="2.77" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="225.3" y="265.1" width="2.77" height="18.9" fill="#bca57a" opacity="0.65"/>
+<rect x="229.2" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="233.2" y="265.6" width="2.77" height="18.4" fill="#bca57a" opacity="0.65"/>
+<rect x="237.2" y="268.9" width="2.77" height="15.1" fill="#bca57a" opacity="0.65"/>
+<rect x="241.2" y="273.2" width="2.77" height="10.8" fill="#bca57a" opacity="0.65"/>
+<rect x="245.1" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="249.1" y="274.0" width="2.77" height="10.0" fill="#bca57a" opacity="0.65"/>
+<rect x="253.1" y="274.3" width="2.77" height="9.7" fill="#bca57a" opacity="0.65"/>
+<rect x="257.0" y="273.9" width="2.77" height="10.1" fill="#bca57a" opacity="0.65"/>
+<rect x="261.0" y="274.5" width="2.77" height="9.5" fill="#bca57a" opacity="0.65"/>
+<rect x="265.0" y="275.9" width="2.77" height="8.1" fill="#bca57a" opacity="0.65"/>
+<rect x="268.9" y="277.3" width="2.77" height="6.7" fill="#bca57a" opacity="0.65"/>
+<rect x="272.9" y="276.8" width="2.77" height="7.2" fill="#bca57a" opacity="0.65"/>
+<rect x="276.9" y="271.3" width="2.77" height="12.7" fill="#bca57a" opacity="0.65"/>
+<rect x="280.8" y="275.3" width="2.77" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="284.8" y="274.6" width="2.77" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="288.8" y="273.9" width="2.77" height="10.1" fill="#bca57a" opacity="0.65"/>
+<rect x="292.7" y="270.2" width="2.77" height="13.8" fill="#bca57a" opacity="0.65"/>
+<rect x="296.7" y="276.2" width="2.77" height="7.8" fill="#bca57a" opacity="0.65"/>
+<rect x="300.7" y="276.1" width="2.77" height="7.9" fill="#bca57a" opacity="0.65"/>
+<rect x="304.6" y="271.5" width="2.77" height="12.5" fill="#bca57a" opacity="0.65"/>
+<rect x="308.6" y="272.8" width="2.77" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="312.6" y="265.3" width="2.77" height="18.7" fill="#bca57a" opacity="0.65"/>
+<rect x="316.5" y="252.2" width="2.77" height="31.8" fill="#bca57a" opacity="0.65"/>
+<rect x="320.5" y="258.9" width="2.77" height="25.1" fill="#bca57a" opacity="0.65"/>
+<rect x="324.5" y="267.7" width="2.77" height="16.3" fill="#bca57a" opacity="0.65"/>
+<rect x="328.4" y="272.2" width="2.77" height="11.8" fill="#bca57a" opacity="0.65"/>
+<rect x="332.4" y="271.0" width="2.77" height="13.0" fill="#bca57a" opacity="0.65"/>
+<rect x="336.4" y="272.2" width="2.77" height="11.8" fill="#bca57a" opacity="0.65"/>
+<rect x="340.4" y="271.1" width="2.77" height="12.9" fill="#bca57a" opacity="0.65"/>
+<rect x="344.3" y="271.4" width="2.77" height="12.6" fill="#bca57a" opacity="0.65"/>
+<rect x="348.3" y="271.8" width="2.77" height="12.2" fill="#bca57a" opacity="0.65"/>
+<rect x="352.3" y="275.9" width="2.77" height="8.1" fill="#bca57a" opacity="0.65"/>
+<rect x="356.2" y="273.7" width="2.77" height="10.3" fill="#bca57a" opacity="0.65"/>
+<rect x="360.2" y="272.7" width="2.77" height="11.3" fill="#bca57a" opacity="0.65"/>
+<rect x="364.2" y="276.0" width="2.77" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="368.1" y="275.3" width="2.77" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="372.1" y="277.2" width="2.77" height="6.8" fill="#bca57a" opacity="0.65"/>
+<rect x="376.1" y="274.2" width="2.77" height="9.8" fill="#bca57a" opacity="0.65"/>
+<rect x="380.0" y="276.2" width="2.77" height="7.8" fill="#bca57a" opacity="0.65"/>
+<rect x="384.0" y="275.5" width="2.77" height="8.5" fill="#bca57a" opacity="0.65"/>
+<rect x="388.0" y="274.4" width="2.77" height="9.6" fill="#bca57a" opacity="0.65"/>
+<rect x="391.9" y="275.5" width="2.77" height="8.5" fill="#bca57a" opacity="0.65"/>
+<rect x="395.9" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="399.9" y="268.7" width="2.77" height="15.3" fill="#bca57a" opacity="0.65"/>
+<rect x="403.8" y="274.0" width="2.77" height="10.0" fill="#bca57a" opacity="0.65"/>
+<rect x="407.8" y="274.8" width="2.77" height="9.2" fill="#bca57a" opacity="0.65"/>
+<rect x="411.8" y="273.2" width="2.77" height="10.8" fill="#bca57a" opacity="0.65"/>
+<rect x="415.7" y="276.5" width="2.77" height="7.5" fill="#bca57a" opacity="0.65"/>
+<rect x="419.7" y="271.8" width="2.77" height="12.2" fill="#bca57a" opacity="0.65"/>
+<rect x="423.7" y="276.2" width="2.77" height="7.8" fill="#bca57a" opacity="0.65"/>
+<rect x="427.7" y="273.3" width="2.77" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="431.6" y="271.0" width="2.77" height="13.0" fill="#bca57a" opacity="0.65"/>
+<rect x="435.6" y="273.8" width="2.77" height="10.2" fill="#bca57a" opacity="0.65"/>
+<rect x="439.6" y="272.1" width="2.77" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="443.5" y="239.1" width="2.77" height="44.9" fill="#bca57a" opacity="0.65"/>
+<rect x="447.5" y="273.2" width="2.77" height="10.8" fill="#bca57a" opacity="0.65"/>
+<rect x="451.5" y="272.8" width="2.77" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="455.4" y="273.6" width="2.77" height="10.4" fill="#bca57a" opacity="0.65"/>
+<rect x="459.4" y="269.1" width="2.77" height="14.9" fill="#bca57a" opacity="0.65"/>
+<rect x="463.4" y="272.0" width="2.77" height="12.0" fill="#bca57a" opacity="0.65"/>
+<rect x="467.3" y="271.9" width="2.77" height="12.1" fill="#bca57a" opacity="0.65"/>
+<rect x="471.3" y="271.9" width="2.77" height="12.1" fill="#bca57a" opacity="0.65"/>
+<rect x="475.3" y="270.3" width="2.77" height="13.7" fill="#bca57a" opacity="0.65"/>
+<rect x="479.2" y="273.3" width="2.77" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="483.2" y="271.6" width="2.77" height="12.4" fill="#bca57a" opacity="0.65"/>
+<rect x="487.2" y="271.3" width="2.77" height="12.7" fill="#bca57a" opacity="0.65"/>
+<rect x="491.1" y="274.4" width="2.77" height="9.6" fill="#bca57a" opacity="0.65"/>
+<rect x="495.1" y="272.8" width="2.77" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="499.1" y="274.3" width="2.77" height="9.7" fill="#bca57a" opacity="0.65"/>
+<rect x="503.0" y="273.1" width="2.77" height="10.9" fill="#bca57a" opacity="0.65"/>
+<rect x="507.0" y="272.8" width="2.77" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="511.0" y="276.6" width="2.77" height="7.4" fill="#bca57a" opacity="0.65"/>
+<rect x="515.0" y="276.9" width="2.77" height="7.1" fill="#bca57a" opacity="0.65"/>
+<rect x="518.9" y="275.0" width="2.77" height="9.0" fill="#bca57a" opacity="0.65"/>
+<rect x="522.9" y="272.9" width="2.77" height="11.1" fill="#bca57a" opacity="0.65"/>
+<rect x="526.9" y="276.3" width="2.77" height="7.7" fill="#bca57a" opacity="0.65"/>
+<rect x="530.8" y="271.7" width="2.77" height="12.3" fill="#bca57a" opacity="0.65"/>
+<rect x="534.8" y="272.1" width="2.77" height="11.9" fill="#bca57a" opacity="0.65"/>
+<rect x="538.8" y="272.3" width="2.77" height="11.7" fill="#bca57a" opacity="0.65"/>
+<rect x="542.7" y="272.8" width="2.77" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="546.7" y="275.6" width="2.77" height="8.4" fill="#bca57a" opacity="0.65"/>
+<rect x="550.7" y="275.7" width="2.77" height="8.3" fill="#bca57a" opacity="0.65"/>
+<rect x="554.6" y="276.4" width="2.77" height="7.6" fill="#bca57a" opacity="0.65"/>
+<rect x="558.6" y="272.0" width="2.77" height="12.0" fill="#bca57a" opacity="0.65"/>
+<rect x="562.6" y="273.3" width="2.77" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="566.5" y="260.5" width="2.77" height="23.5" fill="#bca57a" opacity="0.65"/>
+<rect x="570.5" y="262.4" width="2.77" height="21.6" fill="#bca57a" opacity="0.65"/>
+<rect x="574.5" y="269.4" width="2.77" height="14.6" fill="#bca57a" opacity="0.65"/>
+<rect x="578.4" y="274.2" width="2.77" height="9.8" fill="#bca57a" opacity="0.65"/>
+<rect x="582.4" y="275.3" width="2.77" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="586.4" y="275.8" width="2.77" height="8.2" fill="#bca57a" opacity="0.65"/>
+<rect x="590.3" y="275.5" width="2.77" height="8.5" fill="#bca57a" opacity="0.65"/>
+<rect x="594.3" y="271.4" width="2.77" height="12.6" fill="#bca57a" opacity="0.65"/>
+<rect x="598.3" y="272.7" width="2.77" height="11.3" fill="#bca57a" opacity="0.65"/>
+<rect x="602.3" y="272.2" width="2.77" height="11.8" fill="#bca57a" opacity="0.65"/>
+<rect x="606.2" y="275.4" width="2.77" height="8.6" fill="#bca57a" opacity="0.65"/>
+<rect x="610.2" y="274.3" width="2.77" height="9.7" fill="#bca57a" opacity="0.65"/>
+<rect x="614.2" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="618.1" y="272.4" width="2.77" height="11.6" fill="#bca57a" opacity="0.65"/>
+<rect x="622.1" y="269.3" width="2.77" height="14.7" fill="#bca57a" opacity="0.65"/>
+<rect x="626.1" y="265.8" width="2.77" height="18.2" fill="#bca57a" opacity="0.65"/>
+<rect x="630.0" y="271.5" width="2.77" height="12.5" fill="#bca57a" opacity="0.65"/>
+<rect x="634.0" y="273.1" width="2.77" height="10.9" fill="#bca57a" opacity="0.65"/>
+<rect x="638.0" y="278.6" width="2.77" height="5.4" fill="#bca57a" opacity="0.65"/>
+<rect x="641.9" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="645.9" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="649.9" y="275.6" width="2.77" height="8.4" fill="#bca57a" opacity="0.65"/>
+<rect x="653.8" y="272.8" width="2.77" height="11.2" fill="#bca57a" opacity="0.65"/>
+<rect x="657.8" y="270.9" width="2.77" height="13.1" fill="#bca57a" opacity="0.65"/>
+<rect x="661.8" y="271.3" width="2.77" height="12.7" fill="#bca57a" opacity="0.65"/>
+<rect x="665.7" y="271.5" width="2.77" height="12.5" fill="#bca57a" opacity="0.65"/>
+<rect x="669.7" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="673.7" y="274.5" width="2.77" height="9.5" fill="#bca57a" opacity="0.65"/>
+<rect x="677.6" y="267.5" width="2.77" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="681.6" y="270.3" width="2.77" height="13.7" fill="#bca57a" opacity="0.65"/>
+<rect x="685.6" y="271.4" width="2.77" height="12.6" fill="#bca57a" opacity="0.65"/>
+<rect x="689.5" y="271.8" width="2.77" height="12.2" fill="#bca57a" opacity="0.65"/>
+<rect x="693.5" y="271.3" width="2.77" height="12.7" fill="#bca57a" opacity="0.65"/>
+<rect x="697.5" y="249.3" width="2.77" height="34.7" fill="#bca57a" opacity="0.65"/>
+<rect x="701.5" y="274.0" width="2.77" height="10.0" fill="#bca57a" opacity="0.65"/>
+<rect x="705.4" y="276.1" width="2.77" height="7.9" fill="#bca57a" opacity="0.65"/>
+<rect x="709.4" y="280.1" width="2.77" height="3.9" fill="#bca57a" opacity="0.65"/>
+<rect x="713.4" y="280.0" width="2.77" height="4.0" fill="#bca57a" opacity="0.65"/>
+<rect x="717.3" y="279.5" width="2.77" height="4.5" fill="#bca57a" opacity="0.65"/>
+<rect x="721.3" y="274.6" width="2.77" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="725.3" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="729.2" y="274.6" width="2.77" height="9.4" fill="#bca57a" opacity="0.65"/>
+<rect x="733.2" y="266.8" width="2.77" height="17.2" fill="#bca57a" opacity="0.65"/>
+<rect x="737.2" y="273.3" width="2.77" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="741.1" y="267.5" width="2.77" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="745.1" y="258.7" width="2.77" height="25.3" fill="#bca57a" opacity="0.65"/>
+<rect x="749.1" y="269.7" width="2.77" height="14.3" fill="#bca57a" opacity="0.65"/>
+<rect x="753.0" y="270.2" width="2.77" height="13.8" fill="#bca57a" opacity="0.65"/>
+<rect x="757.0" y="270.0" width="2.77" height="14.0" fill="#bca57a" opacity="0.65"/>
+<rect x="761.0" y="265.1" width="2.77" height="18.9" fill="#bca57a" opacity="0.65"/>
+<rect x="764.9" y="268.3" width="2.77" height="15.7" fill="#bca57a" opacity="0.65"/>
+<rect x="768.9" y="271.3" width="2.77" height="12.7" fill="#bca57a" opacity="0.65"/>
+<rect x="772.9" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="776.8" y="270.8" width="2.77" height="13.2" fill="#bca57a" opacity="0.65"/>
+<rect x="780.8" y="271.7" width="2.77" height="12.3" fill="#bca57a" opacity="0.65"/>
+<rect x="784.8" y="274.5" width="2.77" height="9.5" fill="#bca57a" opacity="0.65"/>
+<rect x="788.8" y="271.9" width="2.77" height="12.1" fill="#bca57a" opacity="0.65"/>
+<rect x="792.7" y="272.5" width="2.77" height="11.5" fill="#bca57a" opacity="0.65"/>
+<rect x="796.7" y="275.4" width="2.77" height="8.6" fill="#bca57a" opacity="0.65"/>
+<rect x="800.7" y="275.6" width="2.77" height="8.4" fill="#bca57a" opacity="0.65"/>
+<rect x="804.6" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="808.6" y="274.0" width="2.77" height="10.0" fill="#bca57a" opacity="0.65"/>
+<rect x="812.6" y="271.6" width="2.77" height="12.4" fill="#bca57a" opacity="0.65"/>
+<rect x="816.5" y="271.4" width="2.77" height="12.6" fill="#bca57a" opacity="0.65"/>
+<rect x="820.5" y="269.4" width="2.77" height="14.6" fill="#bca57a" opacity="0.65"/>
+<rect x="824.5" y="273.4" width="2.77" height="10.6" fill="#bca57a" opacity="0.65"/>
+<rect x="828.4" y="274.5" width="2.77" height="9.5" fill="#bca57a" opacity="0.65"/>
+<rect x="832.4" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="836.4" y="262.1" width="2.77" height="21.9" fill="#bca57a" opacity="0.65"/>
+<rect x="840.3" y="262.8" width="2.77" height="21.2" fill="#bca57a" opacity="0.65"/>
+<rect x="844.3" y="266.0" width="2.77" height="18.0" fill="#bca57a" opacity="0.65"/>
+<rect x="848.3" y="246.8" width="2.77" height="37.2" fill="#bca57a" opacity="0.65"/>
+<rect x="852.2" y="254.0" width="2.77" height="30.0" fill="#bca57a" opacity="0.65"/>
+<rect x="856.2" y="264.4" width="2.77" height="19.6" fill="#bca57a" opacity="0.65"/>
+<rect x="860.2" y="270.6" width="2.77" height="13.4" fill="#bca57a" opacity="0.65"/>
+<rect x="864.1" y="268.0" width="2.77" height="16.0" fill="#bca57a" opacity="0.65"/>
+<rect x="868.1" y="262.3" width="2.77" height="21.7" fill="#bca57a" opacity="0.65"/>
+<rect x="872.1" y="262.7" width="2.77" height="21.3" fill="#bca57a" opacity="0.65"/>
+<rect x="876.1" y="264.3" width="2.77" height="19.7" fill="#bca57a" opacity="0.65"/>
+<rect x="880.0" y="261.8" width="2.77" height="22.2" fill="#bca57a" opacity="0.65"/>
+<rect x="884.0" y="261.4" width="2.77" height="22.6" fill="#bca57a" opacity="0.65"/>
+<rect x="888.0" y="258.1" width="2.77" height="25.9" fill="#bca57a" opacity="0.65"/>
+<rect x="891.9" y="265.5" width="2.77" height="18.5" fill="#bca57a" opacity="0.65"/>
+<rect x="895.9" y="269.0" width="2.77" height="15.0" fill="#bca57a" opacity="0.65"/>
+<rect x="899.9" y="270.0" width="2.77" height="14.0" fill="#bca57a" opacity="0.65"/>
+<rect x="903.8" y="270.7" width="2.77" height="13.3" fill="#bca57a" opacity="0.65"/>
+<rect x="907.8" y="265.2" width="2.77" height="18.8" fill="#bca57a" opacity="0.65"/>
+<rect x="911.8" y="270.6" width="2.77" height="13.4" fill="#bca57a" opacity="0.65"/>
+<rect x="915.7" y="267.5" width="2.77" height="16.5" fill="#bca57a" opacity="0.65"/>
+<rect x="919.7" y="272.7" width="2.77" height="11.3" fill="#bca57a" opacity="0.65"/>
+<rect x="923.7" y="264.8" width="2.77" height="19.2" fill="#bca57a" opacity="0.65"/>
+<rect x="927.6" y="268.8" width="2.77" height="15.2" fill="#bca57a" opacity="0.65"/>
+<rect x="931.6" y="270.4" width="2.77" height="13.6" fill="#bca57a" opacity="0.65"/>
+<rect x="935.6" y="269.8" width="2.77" height="14.2" fill="#bca57a" opacity="0.65"/>
+<rect x="939.5" y="220.0" width="2.77" height="64.0" fill="#bca57a" opacity="0.65"/>
+<rect x="943.5" y="265.5" width="2.77" height="18.5" fill="#bca57a" opacity="0.65"/>
+<rect x="947.5" y="267.4" width="2.77" height="16.6" fill="#bca57a" opacity="0.65"/>
+<rect x="951.4" y="273.8" width="2.77" height="10.2" fill="#bca57a" opacity="0.65"/>
+<rect x="955.4" y="275.2" width="2.77" height="8.8" fill="#bca57a" opacity="0.65"/>
+<rect x="959.4" y="274.3" width="2.77" height="9.7" fill="#bca57a" opacity="0.65"/>
+<rect x="963.3" y="269.3" width="2.77" height="14.7" fill="#bca57a" opacity="0.65"/>
+<rect x="967.3" y="269.7" width="2.77" height="14.3" fill="#bca57a" opacity="0.65"/>
+<rect x="971.3" y="271.8" width="2.77" height="12.2" fill="#bca57a" opacity="0.65"/>
+<rect x="975.3" y="274.1" width="2.77" height="9.9" fill="#bca57a" opacity="0.65"/>
+<rect x="979.2" y="274.7" width="2.77" height="9.3" fill="#bca57a" opacity="0.65"/>
+<rect x="983.2" y="274.9" width="2.77" height="9.1" fill="#bca57a" opacity="0.65"/>
+<rect x="987.2" y="272.7" width="2.77" height="11.3" fill="#bca57a" opacity="0.65"/>
+<rect x="991.1" y="274.8" width="2.77" height="9.2" fill="#bca57a" opacity="0.65"/>
+<rect x="995.1" y="272.5" width="2.77" height="11.5" fill="#bca57a" opacity="0.65"/>
+<rect x="999.1" y="266.5" width="2.77" height="17.5" fill="#bca57a" opacity="0.65"/>
+<rect x="1003.0" y="271.6" width="2.77" height="12.4" fill="#bca57a" opacity="0.65"/>
+<rect x="1007.0" y="272.3" width="2.77" height="11.7" fill="#bca57a" opacity="0.65"/>
+<rect x="1011.0" y="273.0" width="2.77" height="11.0" fill="#bca57a" opacity="0.65"/>
+<rect x="1014.9" y="269.0" width="2.77" height="15.0" fill="#bca57a" opacity="0.65"/>
+<rect x="1018.9" y="275.3" width="2.77" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="1022.9" y="274.0" width="2.77" height="10.0" fill="#bca57a" opacity="0.65"/>
+<rect x="1026.8" y="271.4" width="2.77" height="12.6" fill="#bca57a" opacity="0.65"/>
+<rect x="1030.8" y="269.0" width="2.77" height="15.0" fill="#bca57a" opacity="0.65"/>
+<rect x="1034.8" y="272.6" width="2.77" height="11.4" fill="#bca57a" opacity="0.65"/>
+<rect x="1038.7" y="275.0" width="2.77" height="9.0" fill="#bca57a" opacity="0.65"/>
+<rect x="1042.7" y="271.5" width="2.77" height="12.5" fill="#bca57a" opacity="0.65"/>
+<rect x="1046.7" y="272.7" width="2.77" height="11.3" fill="#bca57a" opacity="0.65"/>
+<rect x="1050.6" y="271.8" width="2.77" height="12.2" fill="#bca57a" opacity="0.65"/>
+<rect x="1054.6" y="267.3" width="2.77" height="16.7" fill="#bca57a" opacity="0.65"/>
+  <polygon points="60,212 60.0,188.3 64.0,182.2 67.9,184.6 71.9,165.6 75.9,165.7 79.8,165.7 83.8,162.9 87.8,161.8 91.7,163.7 95.7,170.3 99.7,160.0 103.6,153.7 107.6,152.2 111.6,150.1 115.6,153.9 119.5,155.7 123.5,171.9 127.5,171.7 131.4,180.6 135.4,185.8 139.4,183.0 143.3,202.1 147.3,194.2 151.3,194.4 155.2,191.8 159.2,184.0 163.2,189.1 167.1,191.1 171.1,190.2 175.1,184.4 179.0,181.2 183.0,182.6 187.0,179.4 190.9,182.3 194.9,182.1 198.9,175.8 202.9,171.5 206.8,166.6 210.8,161.8 214.8,161.8 218.7,156.0 222.7,147.1 226.7,142.4 230.6,137.0 234.6,137.3 238.6,143.9 242.5,143.6 246.5,141.3 250.5,144.0 254.4,139.5 258.4,149.1 262.4,146.8 266.3,142.2 270.3,142.6 274.3,147.7 278.2,146.2 282.2,138.8 286.2,140.6 290.2,140.6 294.1,148.8 298.1,145.5 302.1,146.8 306.0,150.7 310.0,152.0 314.0,147.1 317.9,113.5 321.9,109.2 325.9,107.0 329.8,103.6 333.8,101.8 337.8,99.3 341.7,88.3 345.7,98.1 349.7,100.4 353.6,99.0 357.6,97.3 361.6,93.3 365.5,92.5 369.5,88.9 373.5,89.3 377.5,87.2 381.4,84.3 385.4,90.0 389.4,91.2 393.3,91.3 397.3,100.2 401.3,97.7 405.2,96.6 409.2,98.2 413.2,96.5 417.1,92.7 421.1,79.4 425.1,83.0 429.0,85.0 433.0,85.4 437.0,82.0 440.9,72.6 444.9,71.8 448.9,70.6 452.8,72.7 456.8,71.9 460.8,86.1 464.7,78.9 468.7,76.9 472.7,67.6 476.7,60.1 480.6,56.5 484.6,49.0 488.6,42.1 492.5,45.0 496.5,41.6 500.5,53.3 504.4,70.2 508.4,76.0 512.4,72.3 516.3,74.3 520.3,80.3 524.3,80.0 528.2,63.3 532.2,55.8 536.2,68.9 540.1,60.7 544.1,64.7 548.1,67.1 552.0,70.8 556.0,69.8 560.0,62.1 564.0,63.3 567.9,56.1 571.9,37.9 575.9,50.4 579.8,51.3 583.8,45.1 587.8,45.4 591.7,41.5 595.7,56.2 599.7,60.9 603.6,60.7 607.6,68.0 611.6,67.1 615.5,66.9 619.5,76.8 623.5,74.5 627.4,73.6 631.4,60.4 635.4,63.6 639.3,61.6 643.3,69.1 647.3,72.9 651.3,69.0 655.2,57.9 659.2,73.6 663.2,76.9 667.1,78.8 671.1,69.4 675.1,63.2 679.0,65.4 683.0,74.8 687.0,85.5 690.9,87.7 694.9,88.2 698.9,78.4 702.8,74.6 706.8,73.8 710.8,72.9 714.7,75.1 718.7,76.1 722.7,82.1 726.6,90.4 730.6,81.8 734.6,48.0 738.5,42.3 742.5,44.8 746.5,48.8 750.5,40.0 754.4,47.7 758.4,46.7 762.4,61.1 766.3,54.0 770.3,50.2 774.3,60.8 778.2,57.5 782.2,53.7 786.2,60.0 790.1,64.8 794.1,71.4 798.1,69.7 802.0,71.3 806.0,68.3 810.0,68.9 813.9,64.0 817.9,67.8 821.9,74.4 825.8,55.0 829.8,50.6 833.8,50.2 837.8,111.2 841.7,115.6 845.7,101.9 849.7,143.4 853.6,115.3 857.6,102.0 861.6,109.8 865.5,114.0 869.5,108.0 873.5,119.9 877.4,103.2 881.4,105.3 885.4,93.2 889.3,89.7 893.3,100.8 897.3,103.7 901.2,97.5 905.2,92.8 909.2,112.6 913.1,110.2 917.1,108.9 921.1,108.8 925.1,125.6 929.0,121.3 933.0,127.6 937.0,129.9 940.9,130.1 944.9,139.5 948.9,149.5 952.8,149.8 956.8,153.4 960.8,159.2 964.7,163.0 968.7,159.2 972.7,157.9 976.6,150.0 980.6,148.1 984.6,149.8 988.5,144.8 992.5,158.9 996.5,166.7 1000.4,153.4 1004.4,157.4 1008.4,149.3 1012.4,156.6 1016.3,160.2 1020.3,161.2 1024.3,165.8 1028.2,172.8 1032.2,181.6 1036.2,185.9 1040.1,191.0 1044.1,185.6 1048.1,186.3 1052.0,177.0 1056.0,177.0 1056,212" fill="#d8b878" opacity="0.35"/>
+  <polyline points="60.0,188.3 64.0,182.2 67.9,184.6 71.9,165.6 75.9,165.7 79.8,165.7 83.8,162.9 87.8,161.8 91.7,163.7 95.7,170.3 99.7,160.0 103.6,153.7 107.6,152.2 111.6,150.1 115.6,153.9 119.5,155.7 123.5,171.9 127.5,171.7 131.4,180.6 135.4,185.8 139.4,183.0 143.3,202.1 147.3,194.2 151.3,194.4 155.2,191.8 159.2,184.0 163.2,189.1 167.1,191.1 171.1,190.2 175.1,184.4 179.0,181.2 183.0,182.6 187.0,179.4 190.9,182.3 194.9,182.1 198.9,175.8 202.9,171.5 206.8,166.6 210.8,161.8 214.8,161.8 218.7,156.0 222.7,147.1 226.7,142.4 230.6,137.0 234.6,137.3 238.6,143.9 242.5,143.6 246.5,141.3 250.5,144.0 254.4,139.5 258.4,149.1 262.4,146.8 266.3,142.2 270.3,142.6 274.3,147.7 278.2,146.2 282.2,138.8 286.2,140.6 290.2,140.6 294.1,148.8 298.1,145.5 302.1,146.8 306.0,150.7 310.0,152.0 314.0,147.1 317.9,113.5 321.9,109.2 325.9,107.0 329.8,103.6 333.8,101.8 337.8,99.3 341.7,88.3 345.7,98.1 349.7,100.4 353.6,99.0 357.6,97.3 361.6,93.3 365.5,92.5 369.5,88.9 373.5,89.3 377.5,87.2 381.4,84.3 385.4,90.0 389.4,91.2 393.3,91.3 397.3,100.2 401.3,97.7 405.2,96.6 409.2,98.2 413.2,96.5 417.1,92.7 421.1,79.4 425.1,83.0 429.0,85.0 433.0,85.4 437.0,82.0 440.9,72.6 444.9,71.8 448.9,70.6 452.8,72.7 456.8,71.9 460.8,86.1 464.7,78.9 468.7,76.9 472.7,67.6 476.7,60.1 480.6,56.5 484.6,49.0 488.6,42.1 492.5,45.0 496.5,41.6 500.5,53.3 504.4,70.2 508.4,76.0 512.4,72.3 516.3,74.3 520.3,80.3 524.3,80.0 528.2,63.3 532.2,55.8 536.2,68.9 540.1,60.7 544.1,64.7 548.1,67.1 552.0,70.8 556.0,69.8 560.0,62.1 564.0,63.3 567.9,56.1 571.9,37.9 575.9,50.4 579.8,51.3 583.8,45.1 587.8,45.4 591.7,41.5 595.7,56.2 599.7,60.9 603.6,60.7 607.6,68.0 611.6,67.1 615.5,66.9 619.5,76.8 623.5,74.5 627.4,73.6 631.4,60.4 635.4,63.6 639.3,61.6 643.3,69.1 647.3,72.9 651.3,69.0 655.2,57.9 659.2,73.6 663.2,76.9 667.1,78.8 671.1,69.4 675.1,63.2 679.0,65.4 683.0,74.8 687.0,85.5 690.9,87.7 694.9,88.2 698.9,78.4 702.8,74.6 706.8,73.8 710.8,72.9 714.7,75.1 718.7,76.1 722.7,82.1 726.6,90.4 730.6,81.8 734.6,48.0 738.5,42.3 742.5,44.8 746.5,48.8 750.5,40.0 754.4,47.7 758.4,46.7 762.4,61.1 766.3,54.0 770.3,50.2 774.3,60.8 778.2,57.5 782.2,53.7 786.2,60.0 790.1,64.8 794.1,71.4 798.1,69.7 802.0,71.3 806.0,68.3 810.0,68.9 813.9,64.0 817.9,67.8 821.9,74.4 825.8,55.0 829.8,50.6 833.8,50.2 837.8,111.2 841.7,115.6 845.7,101.9 849.7,143.4 853.6,115.3 857.6,102.0 861.6,109.8 865.5,114.0 869.5,108.0 873.5,119.9 877.4,103.2 881.4,105.3 885.4,93.2 889.3,89.7 893.3,100.8 897.3,103.7 901.2,97.5 905.2,92.8 909.2,112.6 913.1,110.2 917.1,108.9 921.1,108.8 925.1,125.6 929.0,121.3 933.0,127.6 937.0,129.9 940.9,130.1 944.9,139.5 948.9,149.5 952.8,149.8 956.8,153.4 960.8,159.2 964.7,163.0 968.7,159.2 972.7,157.9 976.6,150.0 980.6,148.1 984.6,149.8 988.5,144.8 992.5,158.9 996.5,166.7 1000.4,153.4 1004.4,157.4 1008.4,149.3 1012.4,156.6 1016.3,160.2 1020.3,161.2 1024.3,165.8 1028.2,172.8 1032.2,181.6 1036.2,185.9 1040.1,191.0 1044.1,185.6 1048.1,186.3 1052.0,177.0 1056.0,177.0" fill="none" stroke="#7a5a26" stroke-width="1.6" stroke-linejoin="round"/>
+  <text x="60.0" y="308" text-anchor="start" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">May 2025</text>
+<text x="560.0" y="308" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Oct 2025</text>
+<text x="1056.0" y="308" text-anchor="end" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">May 2026</text>
+  <text x="52" y="223.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9" fill="#6e6457">4.5M</text>
+  <text x="60" y="16" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.16em" text-transform="uppercase" fill="#2a261f">LDOS · PRICE &amp; VOLUME</text><text x="1056" y="16" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="#2a261f">$149.2  <tspan fill="#1f6b3a" font-weight="600">+2.8%</tspan></text>
+</svg>
+  <p class="chart-caption">Daily close (warm umber) with under-fill, volume bars in tan. Trailing range capped at 252 trading days.</p>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Market Analysis</h3><h3>Market Report</h3>
+
+<p>LDOS closed at $149.23 on May 1, 2026, just 7% above its 52-week low of $139.69 and a brutal 27.5% below its 52-week high of $205.77. Stock decisively in a downtrend on every framework: price below 50-day SMA ($162.18) by 8.0%, below 200-day SMA ($178.34) by 16.3%, and recently formed a death cross (50 SMA crossing below 200 SMA, in motion since early April).</p>
+
+<p><strong>Trend structure.</strong> Three-act drawdown: (1) early-April held the $158-$160 zone with brief test of $162; (2) sharp leg-down between April 16 and April 24 from $156 to $144 (-7.4% in 6 sessions); (3) bounce from the $144 oversold zone to $149.23 over the last 4 sessions on rising volume (May 1 = 1.16M, highest single-day in the period).</p>
+
+<p><strong>Momentum signals — early reversal.</strong> MACD line at -4.37 vs. signal -4.49, <strong>histogram +0.12</strong> — crossed positive on May 1 for the first time. Textbook bullish histogram divergence. RSI at 39.6 has rallied off a 27.5 oversold low set on April 27, the most extreme reading in the dataset.</p>
+
+<p><strong>Volatility regime.</strong> Bollinger middle band $152.95, upper $163.36, lower $142.55 — band width compressed 30% from early April, often precedes directional moves.</p>
+
+<p><strong>Earnings setup.</strong> LDOS reports Q1 2026 on May 5 BMO. Consensus: Revenue $4.27B (-0.5% YoY), EPS $2.88 (-3% YoY). Zacks Earnings ESP +0.41% with Strong Buy / Buy / Hold rank suggests positive surprise model. A clean print resolves to 50-day SMA at $162 (+8.5%); a miss takes the stock to $139.69 (-6.4%).</p>
+
+<p><strong>Key technical levels:</strong></p>
+
+<table>
+<tr><th>Level</th><th>Price</th><th>Significance</th></tr>
+<tr><td>Resistance 1</td><td>$162-$163</td><td>50-day SMA / Bollinger upper</td></tr>
+<tr><td>Resistance 2</td><td>$178</td><td>200-day SMA — must reclaim for trend repair</td></tr>
+<tr><td>Pivot</td><td>$149.23</td><td>Spot / 10 EMA confluence</td></tr>
+<tr><td>Support 1</td><td>$144</td><td>Recent April 27 low</td></tr>
+<tr><td>Support 2</td><td>$142</td><td>Bollinger lower / 2-sigma</td></tr>
+<tr><td>Critical</td><td>$139.69</td><td>52-week low</td></tr>
+</table>
+
+<p><strong>Verdict.</strong> Tactically oversold with early MACD/RSI confirmation, structurally broken on every moving-average framework. Setup is binary into May 5: beat-and-raise resolves to $162-$170 (+8-14%); in-line-or-miss takes to $140-$145 (-3 to -7%).</p>
+
+<table>
+<tr><th>Indicator</th><th>Reading</th><th>Signal</th></tr>
+<tr><td>Price vs 50 SMA</td><td>-8.0%</td><td>Strong bearish</td></tr>
+<tr><td>Price vs 200 SMA</td><td>-16.3%</td><td>Strong bearish (death cross)</td></tr>
+<tr><td>MACD vs Signal</td><td>+0.12 (histogram)</td><td>Early bullish reversal</td></tr>
+<tr><td>RSI(14)</td><td>39.6 (off 27.5 low)</td><td>Recovering from oversold</td></tr>
+<tr><td>Bollinger position</td><td>Below middle, above lower</td><td>Mean-reversion buy zone</td></tr>
+<tr><td>10 EMA vs Price</td><td>$149.24 ≈ $149.23</td><td>Flat — pivot point</td></tr>
+<tr><td>52W High proximity</td><td>-27.5%</td><td>Deep drawdown</td></tr>
+<tr><td>52W Low proximity</td><td>+6.8%</td><td>Just above floor</td></tr>
+</table>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Social Sentiment</h3><h3>Social Sentiment Report</h3>
+
+<p>LDOS enters May 2026 in a sentiment vacuum unusual for a $19B mid-cap with this newsflow. Bifurcated: headline-level analyst tone is positive (Zacks "expected to beat earnings"), but the stock action says nobody believes it (down 27% from peak even as bookings momentum accelerates).</p>
+
+<p><strong>Bull narrative — strongest threads:</strong></p>
+
+<ol>
+<li><strong>IFPC Inc. 2 contract blitz.</strong> April 2026: $617M U.S. Army award, cumulative $1.2B, 100+ launchers committed for delivery, R&amp;D funded through 2029.</li>
+<li><strong>MDA SHIELD IDIQ position ($151B ceiling).</strong> 10-year vehicle for "Golden Dome" homeland missile defense. Plus DMEA ATSP V $24.5B and AF Air Base Air Defense $2.2B 5-year award. Q4 2025 booking package qualitatively the strongest in years.</li>
+<li><strong>Military OneSource win ($456M).</strong> Health &amp; Civil segment story for 4.7M+ eligible service members.</li>
+<li><strong>Analogic JV for security screening.</strong> Aligns with 2030 growth strategy and Trump administration homeland security priorities.</li>
+</ol>
+
+<p><strong>Bear narrative — strongest threads:</strong></p>
+
+<ol>
+<li><strong>Stock down 27% from peak says something is wrong.</strong> Defense-IT sector ETFs (ITA, XAR) +6% YTD vs LDOS -22% YTD = -28pp divergence.</li>
+<li><strong>Q4 2025 was -4% YoY revenue.</strong> EPS $2.53 down from Q3's $2.82 and Q2's $3.01. Sequential decline.</li>
+<li><strong>FY 2026 guide is +1.7% to +4% revenue.</strong> Defensive holding pattern. Adj EBITDA margin guide "mid-13%" vs FY 2025 14.1% — explicit 80bps compression.</li>
+<li><strong>$7B of awards "slipped" from Q4 into Q1.</strong> Either timing (which works out) or optimistic forecasting.</li>
+<li><strong>Government shutdown drama recurring.</strong> 3 shutdowns in 4 years; FY27 budget negotiations ahead.</li>
+</ol>
+
+<p><strong>Insider transactions:</strong> Mixed signals from cache. Net neutral.</p>
+
+<table>
+<tr><th>Sentiment lane</th><th>Read</th><th>Direction</th></tr>
+<tr><td>Recent contract awards</td><td>$617M IFPC, $456M Military OneSource, SHIELD IDIQ</td><td>Bullish</td></tr>
+<tr><td>Sell-side pre-print stance</td><td>Beat-the-quarter model triggered</td><td>Mild bullish</td></tr>
+<tr><td>Stock price action</td><td>-27% from peak, sector outperformed</td><td>Bearish</td></tr>
+<tr><td>Q4 2025 earnings reaction</td><td>"Beats EPS, stock dips"</td><td>Mixed</td></tr>
+<tr><td>FY 2026 guide reception</td><td>Margin compression, low growth</td><td>Bearish</td></tr>
+<tr><td>Defense budget tape</td><td>European rearmament, Golden Dome</td><td>Bullish (macro)</td></tr>
+<tr><td>Government shutdown overhang</td><td>6-week Q4 2025 disruption</td><td>Bearish (recurring)</td></tr>
+<tr><td>Insider activity</td><td>No strong signal</td><td>Neutral</td></tr>
+</table>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>News &amp; Macro</h3><h3>News Report</h3>
+
+<p>April-May 2026 macro tape dominated by three forces: (1) Trump administration's homeland security and missile defense build-out (Golden Dome), (2) European rearmament creating exportable demand, (3) recurring federal budget process risk producing 3 shutdowns in 4 years.</p>
+
+<p><strong>Trump-era defense priorities — the Golden Dome thesis.</strong> MDA's SHIELD IDIQ ($151B 10-year ceiling) is the operational vehicle for integrated homeland missile defense. Leidos won a position in Q4 2025. First task orders should hit Q2-Q3 2026. Even modest 1-2% share capture implies $1.5B+ of incremental annual revenue at steady-state vs current $17.2B base.</p>
+
+<p><strong>European rearmament — the export tailwind.</strong> EU defense spending projected at €420B for 2026 (+18% vs 2025). US defense IT primes positioned for 15-20% via FMS channels. IFPC Inc. 2 system Leidos is building is exactly the integrated air-defense platform European NATO members are requisitioning.</p>
+
+<p><strong>Federal budget risk — the recurring tail.</strong> 6-week government shutdown in Q4 2025 hit Leidos -4% YoY. Another shutdown event before FY27 budget enacted is non-trivial risk. September 30 FY-end creates predictable disruption windows.</p>
+
+<p><strong>DoD POM cycle.</strong> FY27 POM in HASC/SASC markup, NDAA expected Q4 2026. Topline DoD request $895B (+2%), but missile defense / homeland security line items growing +8-10%. Leidos NS&amp;D (44%) + Defense Systems (13%) = 57% in fast-growing categories.</p>
+
+<p><strong>FAA / civilian government.</strong> Health &amp; Civil (30% of revenue) covers VA, FAA, NSF, DoE. Administration priorities of FAA modernization, VA modernization, Energy nuclear modernization all flow to Leidos.</p>
+
+<p><strong>Macroeconomic backdrop.</strong> Fed funds 3.75-4.00%, dollar mildly weaker. Long-end rates stabilized 4.20-4.50% 10Y, removing 2024-2025 multiple-compression headwind.</p>
+
+<p><strong>Sector tape.</strong> ITA +6% YTD vs LDOS -22% YTD = -28pp divergence. Either uniquely broken or uniquely cheap.</p>
+
+<table>
+<tr><th>Macro lane</th><th>2026 reading</th><th>Net for LDOS</th></tr>
+<tr><td>Trump homeland security priority</td><td>Golden Dome / SHIELD IDIQ</td><td>Bullish</td></tr>
+<tr><td>European rearmament</td><td>EU 2026 defense +18%</td><td>Bullish (FMS exposure)</td></tr>
+<tr><td>DoD FY27 POM cycle</td><td>$895B request, +8-10% missile defense</td><td>Bullish (segment skew)</td></tr>
+<tr><td>Government shutdown risk</td><td>6-week Q4 2025 hit; September 30 FY-end</td><td>Bearish (recurring)</td></tr>
+<tr><td>FAA/VA/civilian agency</td><td>Modernization priorities</td><td>Mild bullish</td></tr>
+<tr><td>FFP contract exposure</td><td>Margin risk on cost overruns</td><td>Bearish (mix)</td></tr>
+<tr><td>Federal interest rates</td><td>Stabilizing, mild dollar weakness</td><td>Mild bullish</td></tr>
+<tr><td>Sector relative performance</td><td>LDOS -22% YTD vs ITA +6%</td><td>Bearish (divergence)</td></tr>
+</table>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Fundamental Analysis</h3><h3>Fundamentals Report</h3>
+
+<p>LDOS is a defense IT services prime deriving 87% of revenue from US government contracts. High-quality, low-multiple, cash-generative compounder running into challenging mid-cycle revenue trough.</p>
+
+<p><strong>Top line — modest growth, segment skew matters.</strong></p>
+
+<table>
+<tr><th>Year</th><th>Revenue ($B)</th><th>YoY Growth</th></tr>
+<tr><td>2023</td><td>15.4</td><td>+7%</td></tr>
+<tr><td>2024</td><td>16.7</td><td>+8.4%</td></tr>
+<tr><td>2025</td><td>17.2</td><td>+3%</td></tr>
+<tr><td>2026E</td><td>17.5-17.9</td><td>+1.7% to +4%</td></tr>
+</table>
+
+<p>Deceleration from +8% to +3% is real but normalized for 53rd week (FY24) and 6-week shutdown (Q4 2025) underlying organic growth is closer to +5%.</p>
+
+<p><strong>Quarterly revenue trend (FY 2025):</strong></p>
+<ul>
+<li>Q1 2025: $4.245B</li>
+<li>Q2 2025: $4.253B</li>
+<li>Q3 2025: $4.469B</li>
+<li>Q4 2025: $4.207B (govt shutdown hit)</li>
+</ul>
+
+<p>Q1 2026 consensus $4.27B suggests sequential normalization.</p>
+
+<p><strong>Profitability — improving, with one caveat.</strong></p>
+<ul>
+<li>FY 2025 GM: ~18.0%</li>
+<li>FY 2025 OM: ~12.3% (vs ~10.5% FY 2024 — material expansion)</li>
+<li>FY 2025 Adj EBITDA: $2.42B (14.1% margin)</li>
+<li>ROE: 31.0% (buyback-amplified)</li>
+</ul>
+
+<p>FY 2026 guide of "mid-13%" Adj EBITDA margin is ~80bps below FY 2025.</p>
+
+<p><strong>EPS trend:</strong></p>
+<ul>
+<li>FY 2025 sum: $11.13 (matches TTM EPS)</li>
+<li>FY 2026 guide: $12.05-$12.45 (+8% to +12% YoY)</li>
+</ul>
+
+<p>EPS growth +8-12% on revenue +1.7-4% implies aggressive buyback execution + interest expense reduction doing most of the work.</p>
+
+<p><strong>Balance sheet — manageable leverage.</strong></p>
+<ul>
+<li>Cash (Q4 2025): $1.108B</li>
+<li>Total debt: ~$5.0B</li>
+<li>D/E ratio: 107.7 (highest among peers)</li>
+<li>Current ratio: 1.70x</li>
+</ul>
+
+<p><strong>Cash flow — robust and growing.</strong></p>
+<ul>
+<li>FY 2025 OCF: ~$1.75B</li>
+<li>FY 2025 FCF: $1.625B (TTM)</li>
+<li>FY 2025 capex: $125M</li>
+<li>FCF margin: 9.5%</li>
+</ul>
+
+<p><strong>Capital return.</strong></p>
+<ul>
+<li>FY 2025 buybacks: $944M</li>
+<li>FY 2025 dividends: $211M</li>
+<li>Combined: $1.155B (71% of FCF)</li>
+</ul>
+
+<p><strong>Backlog and book-to-bill — defense-IT critical metric.</strong></p>
+<ul>
+<li>FY 2025 backlog: $49.0B (vs $43.6B FY 2024 = +12.4%)</li>
+<li>Funded backlog: $9.7B (+15% YoY)</li>
+<li>Q4 2025 net bookings: $5.6B (book-to-bill 1.3x)</li>
+<li>Q3 2025 book-to-bill: 1.3x</li>
+<li>FY 2025 book-to-bill: 1.0x</li>
+<li>Pending awards: $20B</li>
+<li>Revenue/Backlog coverage: 2.85x</li>
+</ul>
+
+<p><strong>Customer concentration (10-K Item 1A):</strong></p>
+<ul>
+<li>US Government: 87% of FY 2025 revenue</li>
+<li>International: ~8%</li>
+<li>Commercial: ~5%</li>
+</ul>
+
+<p><strong>Segment mix (FY 2025):</strong></p>
+
+<table>
+<tr><th>Segment</th><th>% of Revenue</th></tr>
+<tr><td>National Security &amp; Digital</td><td>44%</td></tr>
+<tr><td>Health &amp; Civil</td><td>30%</td></tr>
+<tr><td>Commercial &amp; International</td><td>13%</td></tr>
+<tr><td>Defense Systems</td><td>13%</td></tr>
+</table>
+
+<p><strong>Workforce:</strong> 47,000 globally (41,900 US); ~25,000 hold US security clearances (multi-billion replacement cost moat).</p>
+
+<p><strong>Risk factor inventory (10-K Item 1A, filed Feb 17, 2026):</strong> Top 7: (1) US Govt budget dependence 87%, (2) FFP contract exposure, (3) Cybersecurity, (4) Regulatory/CMMC compliance, (5) Security clearance dependency 53%, (6) Capital structure D/E 107.7, (7) Talent retention.</p>
+
+<table>
+<tr><th>Metric</th><th>Value</th><th>Note</th></tr>
+<tr><td>Revenue (TTM)</td><td>$17.17B</td><td>+3% YoY (FY 2025)</td></tr>
+<tr><td>Net Income (TTM)</td><td>$1.45B</td><td>Strong YoY</td></tr>
+<tr><td>EBITDA Margin (FY 2025)</td><td>14.1%</td><td>Mid-13% guided FY 2026 (-80bps)</td></tr>
+<tr><td>Operating Margin (FY 2025)</td><td>11.2%</td><td>Improving</td></tr>
+<tr><td>ROE</td><td>31.0%</td><td>Buyback-amplified</td></tr>
+<tr><td>Forward P/E</td><td>11.3x</td><td>Cheap vs sector peers (BAH 19x, SAIC 14x)</td></tr>
+<tr><td>PEG</td><td>2.46</td><td>High due to slowing growth</td></tr>
+<tr><td>Backlog (FY 2025)</td><td>$49.0B</td><td>2.85x revenue coverage</td></tr>
+<tr><td>Funded backlog</td><td>$9.7B</td><td>+15% YoY</td></tr>
+<tr><td>FY 2025 book-to-bill</td><td>1.0x</td><td>Below peer 1.05-1.10x</td></tr>
+<tr><td>Q4 2025 book-to-bill</td><td>1.3x</td><td>Re-acceleration</td></tr>
+<tr><td>FY 2026 guide</td><td>$17.5-$17.9B</td><td>+1.7% to +4% growth</td></tr>
+<tr><td>US Gov % of revenue</td><td>87%</td><td>High concentration</td></tr>
+<tr><td>Net debt</td><td>~$3.9B</td><td>D/E 107.7 (highest among peers)</td></tr>
+</table>
+</div>
+
+</div><!-- /.col-wide -->
+
+<div class="col-prose">
+
+<h2 class="section">Risk Factors (Item 1A)</h2>
+<div class="report-content">
+<p>Source: Leidos Holdings Inc. Form 10-K, filed Feb 17, 2026, for fiscal year ended Jan 2, 2026. Filing URL: https://www.sec.gov/Archives/edgar/data/1336920/000133692025000006/ldos-20250103.htm</p>
+
+<p>Top 7 most material risk factors:</p>
+
+<ol>
+<li><strong>U.S. Government budget dependence</strong> — 87% of FY 2025 revenue from U.S. government contracts. Risks include budget reductions, sequestration, procurement delays, and continuing-resolution disruption. The Q4 2025 6-week government shutdown directly cost ~2pp of FY revenue growth.</li>
+</ol>
+
+<ol>
+<li><strong>Firm-fixed-price contract exposure</strong> — FFP contracts increase risk of cost overruns; fixed-price incentive arrangements subject company to cost-sharing affecting profitability. Defense Systems segment ramp programs (IFPC Inc. 2) are predominantly FFP.</li>
+</ol>
+
+<ol>
+<li><strong>Cybersecurity &amp; data security threats</strong> — Public reference to "cybersecurity, data security or other security threats, system failures or other disruptions." For a 47,000-employee defense IT prime with classified work, this is dominant operational risk.</li>
+</ol>
+
+<ol>
+<li><strong>Regulatory &amp; compliance</strong> — FAR, DFARS, CAS, ITAR, and CMMC cybersecurity standards phasing through November 2028. CMMC implementation costs are recurring opex headwind.</li>
+</ol>
+
+<ol>
+<li><strong>Security clearance dependency</strong> — ~53% of 47,000-employee workforce holds U.S. security clearances (~25,000 cleared). Inability to obtain or maintain clearances poses operational risk; talent competition for cleared engineers is intense.</li>
+</ol>
+
+<ol>
+<li><strong>Capital structure &amp; debt</strong> — Multiple debt instruments maturing through 2040. D/E 107.7 (highest among peer set), interest expense $200M+ annual = 1.6% of revenue, refinancing risk in higher-for-longer rate environment.</li>
+</ol>
+
+<ol>
+<li><strong>Talent acquisition &amp; retention</strong> — Competition for skilled technical talent, especially those with security clearances and specialized expertise (cyber, AI/ML, hypersonic). Cleared engineer replacement takes 12-18 months.</li>
+</ol>
+
+</div>
+
+<div class="footer">
+  <div class="disclaimer">
+    This document is the confidential work product of the Silent Engineering Fund's
+    internal research process and is intended for partners and authorized personnel only.
+    It does not constitute investment advice, an offer to sell, or a solicitation to buy
+    any security. Past performance is not indicative of future results.
+  </div>
+  <div class="colophon">Silent Engineering Fund &middot; Internal Research</div>
+</div>
+
+</div><!-- /.col-prose -->
+
+</body>
+</html>

@@ -42,30 +42,9 @@
     color: var(--fg);
     background: var(--bg);
     line-height: 1.7;
-    max-width: none;
-    margin: 0;
-    padding: 56px 0 88px;
-    counter-reset: section;
-  }
-
-  /* ---- Single-shell width (see references/report-standards.md §5) ----
-     All sections render at the full body width. The OMEX rhythm: every
-     section, table, debate-grid, chart-block hits the same left/right
-     edge, top to bottom. */
-  body > * {
-    max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 36px;
-    padding-right: 36px;
-  }
-
-  /* Solo-card variant of debate-grid (single full-width card, e.g. the
-     Neutral risk panel under the Aggressive/Conservative pair). Replaces
-     an inline style that used to live in the body scaffold. */
-  .debate-grid--solo {
-    grid-template-columns: 1fr;
-    margin-top: 0;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 56px 36px 88px;
   }
 
   /* ---- Header ---- */
@@ -104,8 +83,8 @@
   /* ---- Narrative Lede (FIRST visible content; storyteller output) ---- */
   .lede {
     font-family: var(--font-serif); font-size: 18.5px; line-height: 1.72;
-    color: var(--fg); margin-bottom: 44px;
-    padding: 36px 36px 32px 36px;
+    color: var(--fg); margin: 0 0 44px 0;
+    padding: 36px 40px 32px 40px;
     background: var(--paper-soft);
     border: 1px solid var(--border);
     border-left: 3px solid var(--accent);
@@ -149,7 +128,7 @@
   /* ---- Decision Box ---- */
   .decision-box {
     border: 1px solid var(--border); border-left: 3px solid var(--accent);
-    padding: 28px 36px; margin-top: 36px; margin-bottom: 36px; background: var(--bg-subtle);
+    padding: 28px 32px; margin: 36px 0; background: var(--bg-subtle);
   }
   .decision-box h2 {
     font-family: var(--font-sans); font-size: 11.5px; font-weight: 600;
@@ -175,7 +154,7 @@
   .decision-box .thesis em { font-style: italic; }
 
   /* ---- Charts ---- */
-  .chart-block { margin-top: 28px; margin-bottom: 28px; padding-left: 0; padding-right: 0; }
+  .chart-block { margin: 28px 0; }
   .chart-svg {
     width: 100%; height: auto; display: block;
     background: var(--paper); border: 1px solid var(--border);
@@ -184,25 +163,6 @@
     font-family: var(--font-serif); font-style: italic;
     font-size: 12.5px; color: var(--fg-tertiary);
     margin-top: 8px; line-height: 1.55;
-    padding-left: 36px; padding-right: 36px;
-  }
-
-  /* ---- Decision Row (decision-box + side-rail Key Levels) ---- */
-  .decision-row {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 24px; align-items: start; margin-top: 36px; margin-bottom: 36px;
-    padding-left: 0; padding-right: 0;
-  }
-  .decision-row .decision-box { margin: 0; }
-  .decision-row .levels-table {
-    margin: 0; background: var(--bg-subtle);
-    border: 1px solid var(--border); border-left: 3px solid var(--accent);
-  }
-  .decision-row .levels-table th,
-  .decision-row .levels-table td { padding: 10px 14px; }
-  @media (max-width: 1024px) {
-    .decision-row { grid-template-columns: 1fr; }
   }
 
   /* ---- Key Levels Table ---- */
@@ -220,43 +180,16 @@
     font-variant-numeric: tabular-nums;
   }
   .levels-table tr:last-child td { border-bottom: none; }
-  .levels-table tr.level-support .level-label { color: #2c7a3f; }
-  .levels-table tr.level-resistance .level-label { color: #9e2222; }
-  .levels-table tr.level-neutral .level-label { color: var(--fg-secondary); }
   .level-label { color: var(--fg); font-weight: 500; }
   .level-value { font-weight: 600; font-family: var(--font-mono); font-size: 13px; color: var(--fg); }
   .level-note { color: var(--fg-secondary); font-size: 12.5px; font-style: italic; font-family: var(--font-serif); }
 
   /* ---- Section Headings ---- */
-  /* Each h2.section carries an auto-incrementing accent-colored eyebrow
-     ("01", "02", ...) rendered via CSS counter — no HTML changes needed,
-     and conditional sections (quant lane, risk factors) get numbered
-     correctly when present. Counter is reset on body. */
   h2.section {
-    font-family: var(--font-sans); font-size: 13px; font-weight: 600;
-    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg);
+    font-family: var(--font-sans); font-size: 11.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg);
     border-top: 1px solid var(--rule); padding-top: 32px;
     margin-top: 52px; margin-bottom: 22px;
-  }
-  h2.section::before {
-    counter-increment: section;
-    content: counter(section, decimal-leading-zero);
-    display: block;
-    font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
-    letter-spacing: 0.10em; color: var(--accent);
-    margin-bottom: 6px;
-  }
-
-  /* ---- Section drop caps (extends the lede + thesis pattern) ----
-     Drop cap anchors the narrative entry of every interim-box section
-     (Research Manager + Trader). Scoped to .interim-box only — debate
-     cards and analyst sub-sections have their own h3/h4 hierarchy and
-     would crowd if drop-capped. See design-system.md drop-cap policy. */
-  .interim-box .content p:first-of-type::first-letter {
-    font-family: var(--font-serif); font-size: 3rem; font-weight: 600;
-    color: var(--accent);
-    float: left; line-height: 0.85;
-    margin: 6px 12px -2px 0;
   }
 
   /* ---- Analyst Report Content ---- */
@@ -283,20 +216,10 @@
   .report-content td { padding: 9px 12px; border-bottom: 1px solid var(--border-light); font-variant-numeric: tabular-nums; }
   .report-content .na { color: var(--fg-tertiary); font-style: italic; font-family: var(--font-serif); }
   .report-content code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-muted); padding: 2px 5px; border-radius: 2px; }
-  .report-content pre {
-    font-family: var(--font-mono); font-size: 12px; line-height: 1.55;
-    background: var(--bg-muted); border: 1px solid var(--border-light);
-    padding: 12px 14px; margin: 14px 0; overflow-x: auto;
-    color: var(--fg-secondary); white-space: pre;
-  }
-  .report-content pre code {
-    background: transparent; padding: 0; border-radius: 0;
-    font-size: inherit; color: inherit;
-  }
 
   /* ---- Debate Sections ---- */
-  .debate-grid { display: grid; grid-template-columns: 1fr; gap: 22px; margin-top: 18px; margin-bottom: 18px; padding-left: 0; padding-right: 0; }
-  .debate-card { border: 1px solid var(--border); padding: 22px 36px; background: var(--bg-subtle); }
+  .debate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin: 18px 0; }
+  .debate-card { border: 1px solid var(--border); padding: 22px 24px; background: var(--bg-subtle); }
   .debate-card.bull { border-left: 3px solid #2c7a3f; }
   .debate-card.bear { border-left: 3px solid #9e2222; }
   .debate-card.aggressive { border-left: 3px solid #1f6b3a; }
@@ -311,7 +234,7 @@
   .debate-card .report-content p:first-child { margin-top: 0; }
 
   /* ---- Research Manager / Trader Boxes ---- */
-  .interim-box { border: 1px solid var(--border); padding: 24px 36px; margin-top: 18px; margin-bottom: 18px; background: var(--bg-subtle); }
+  .interim-box { border: 1px solid var(--border); padding: 24px 28px; margin: 18px 0; background: var(--bg-subtle); }
   .interim-box .label {
     font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
     letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg); margin-bottom: 14px;
@@ -323,27 +246,13 @@
 
   /* ---- Quantitative Lane ---- */
   .quant-box {
-    border: 1px solid var(--border); padding: 22px 36px;
-    margin-top: 18px; margin-bottom: 18px; background: var(--bg-subtle);
+    border: 1px solid var(--border); padding: 22px 26px;
+    margin: 18px 0; background: var(--bg-subtle);
   }
   .quant-label {
     font-family: var(--font-sans); font-size: 10.5px; font-weight: 600;
     letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg);
     margin-bottom: 14px;
-  }
-  /* Collapsed "not applicable" variant — title + reason only */
-  .quant-box.quant-na {
-    padding: 14px 22px; background: transparent;
-    border-style: dashed; border-color: var(--border);
-  }
-  .quant-box.quant-na .quant-label { margin-bottom: 6px; }
-  .quant-na-tag {
-    font-weight: 400; letter-spacing: 0.04em; text-transform: none;
-    color: var(--fg-secondary); font-size: 10.5px;
-  }
-  .quant-na-reason {
-    font-family: var(--font-serif); font-size: 13px; line-height: 1.55;
-    color: var(--fg-secondary); margin: 0;
   }
   .quant-summary {
     font-family: var(--font-serif); font-size: 14.5px; line-height: 1.6;
@@ -418,52 +327,6 @@
   .ti-bearish { color: #9e2222; background: #f3dccd; border: 1px solid #d9b09d; }
   .ti-warning { color: #9e5a16; background: #f5e7cf; border: 1px solid #e2c895; }
   .ti-neutral { color: #6e6457; background: #efe7d3; border: 1px solid #c9bd99; }
-
-  /* ---- Indicator Snapshot card (Editor's Cut Technical Read) ---- */
-  .signal-card {
-    margin-top: 14px;
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    background: var(--paper-soft);
-    padding: 22px 36px 20px;
-  }
-  .signal-card-eyebrow {
-    font-family: var(--font-sans); font-size: 10px; font-weight: 700;
-    letter-spacing: 0.20em; text-transform: uppercase;
-    color: var(--fg-tertiary); margin-bottom: 14px;
-  }
-  .signal-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-  }
-  .signal-tile {
-    background: var(--paper); border: 1px solid var(--border-light);
-    padding: 12px 14px 10px; display: flex; flex-direction: column; gap: 6px;
-  }
-  .signal-key {
-    font-family: var(--font-sans); font-size: 9.5px; font-weight: 600;
-    letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-tertiary);
-  }
-  .signal-value {
-    font-family: var(--font-mono); font-size: 18px; font-weight: 600;
-    color: var(--fg); font-variant-numeric: tabular-nums; line-height: 1.1;
-  }
-  .signal-spark { min-height: 32px; }
-  .signal-spark svg { width: 100%; height: 32px; display: block; }
-  .signal-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-  /* Override .ti-signal inline-only spacing when used inside the dashboard tiles */
-  .signal-tile .ti-signal { margin-left: 0; vertical-align: 0; }
-  .signal-sub {
-    font-family: var(--font-serif); font-style: italic;
-    font-size: 11.5px; color: var(--fg-secondary);
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
-  .signal-summary {
-    font-family: var(--font-serif); font-size: 14px; line-height: 1.65;
-    color: var(--fg); margin-top: 16px; padding-top: 14px;
-    border-top: 1px dashed var(--border-light);
-  }
 
   /* ---- Channel Checks ---- */
   .channel-checks {
@@ -558,17 +421,10 @@
   /* ---- Print ---- */
   @media print {
     body { padding: 24px 0 48px; font-size: 12px; max-width: 100%; background: #fff; }
-    body > * {
-      max-width: 100%;
-      padding-left: 24px;
-      padding-right: 24px;
-    }
     .header { break-inside: avoid; }
     .lede { break-inside: avoid; background: #faf6ef; }
     .decision-box { break-inside: avoid; }
-    .decision-row { grid-template-columns: 1fr; }
     .debate-grid { grid-template-columns: 1fr 1fr; }
-    .debate-grid--solo { grid-template-columns: 1fr; }
     .interim-box { break-inside: avoid; }
     .chart-svg { break-inside: avoid; }
   }
@@ -586,7 +442,7 @@
   <div class="meta-row">
     <span>Analysis Date: 2026-05-01</span>
   </div>
-  <div class="rating-badge hold">HOLD</div>
+  <div class="rating-badge">HOLD</div>
 </div>
 
 <div class="lede">
@@ -600,65 +456,24 @@
 </div>
 </div>
 
-<div class="decision-row">
-  <div class="decision-box">
-    <h2>Portfolio Decision</h2>
-    <div class="summary"><p>Maintain existing RGAKF positions; do not initiate new exposure at $17.56. The Onto Innovation alliance is strategically significant but the current valuation (54x P/E on 4% revenue growth, declining margins, near-zero FCF) already prices in substantial optionality. Wait for the May 13 Q1 FY2026 earnings as the decision gate — if semiconductor segment revenue exceeds ¥22B and management provides quantitative Onto pipeline commentary, upgrade to Overweight with a half-position add at $15-16 on a pullback. Stop-loss at $13.50 for existing positions.</p></div>
-    <div class="thesis"><p>Rigaku Holdings occupies a differentiated niche in X-ray analytical and metrology technologies, with a particularly attractive positioning in semiconductor process control for advanced nodes (GAA, 3D NAND, HBM). The Onto Innovation 27% equity investment and strategic alliance (April 20, 2026) is the most significant corporate event since the October 2024 IPO, validating Rigaku's X-ray technology stack and providing access to Onto's global sales channel and AI-driven analytics software. The semiconductor capex upcycle (TSMC $36-40B capex, Samsung GAA ramp, HBM capacity buildout) creates a multi-year demand tailwind for Rigaku's metrology tools. However, the investment case at current prices is undermined by four factors: (1) Valuation — 54x P/E on declining earnings with zero FCF provides no margin of safety; (2) The bull thesis fails 2 of 5 items on the Specificity Bar (catalysts lack quantitative thresholds, $300M TAM is self-claimed), capping the rating at Hold; (3) Carlyle/Atom Investment remains a significant shareholder with potential selling pressure; (4) OTC liquidity (avg. &lt;10K shares/day) makes position management difficult for institutional allocators.</p></div>
-  </div>
-  <table class="levels-table">
-  <thead><tr><th>Level</th><th>Price</th><th>Basis</th></tr></thead>
-  <tbody>
-<tr class="level-row level-support"><td class="level-label">Stop Loss</td><td class="level-value">$13.50 (below 200-day SMA and Bollinger lower band, invalidating the uptrend)</td><td class="level-note">Trader-defined risk floor</td></tr>
-<tr class="level-row level-support"><td class="level-label">Entry</td><td class="level-value">$14.50-$15.50 (50-day SMA / prior consolidation zone — only if Q1 earnings confirm growth acceleration)</td><td class="level-note">Trader-defined entry zone</td></tr>
-<tr class="level-row level-resistance"><td class="level-label">Price Target</td><td class="level-value">$15.50 (base case) to $22.00 (upside case if Onto alliance generates quantifiable pipeline growth)</td><td class="level-note">PM 12-month target</td></tr>
-<tr class="level-row level-neutral"><td class="level-label">Current Price</td><td class="level-value">$18.06</td><td class="level-note">Last close from OHLCV</td></tr>
-  </tbody>
-</table>
+<div class="decision-box">
+  <h2>Portfolio Decision</h2>
+  <div class="summary"><p>Maintain existing RGAKF positions; do not initiate new exposure at $17.56. The Onto Innovation alliance is strategically significant but the current valuation (54x P/E on 4% revenue growth, declining margins, near-zero FCF) already prices in substantial optionality. Wait for the May 13 Q1 FY2026 earnings as the decision gate — if semiconductor segment revenue exceeds ¥22B and management provides quantitative Onto pipeline commentary, upgrade to Overweight with a half-position add at $15-16 on a pullback. Stop-loss at $13.50 for existing positions.</p></div>
+  <div class="thesis"><p>Rigaku Holdings occupies a differentiated niche in X-ray analytical and metrology technologies, with a particularly attractive positioning in semiconductor process control for advanced nodes (GAA, 3D NAND, HBM). The Onto Innovation 27% equity investment and strategic alliance (April 20, 2026) is the most significant corporate event since the October 2024 IPO, validating Rigaku's X-ray technology stack and providing access to Onto's global sales channel and AI-driven analytics software. The semiconductor capex upcycle (TSMC $36-40B capex, Samsung GAA ramp, HBM capacity buildout) creates a multi-year demand tailwind for Rigaku's metrology tools. However, the investment case at current prices is undermined by four factors: (1) Valuation — 54x P/E on declining earnings with zero FCF provides no margin of safety; (2) The bull thesis fails 2 of 5 items on the Specificity Bar (catalysts lack quantitative thresholds, $300M TAM is self-claimed), capping the rating at Hold; (3) Carlyle/Atom Investment remains a significant shareholder with potential selling pressure; (4) OTC liquidity (avg. &lt;10K shares/day) makes position management difficult for institutional allocators.</p></div>
 </div>
 
+
+
 <h2 class="section">Quantitative Lane</h2>
-<div class="quant-box quant-na">
-  <div class="quant-label">Customer Concentration <span class="quant-na-tag">— Not applicable</span></div>
-  <p class="quant-na-reason"><em>Rigaku does not publicly disclose customer-level revenue breakdowns in English-language filings</em></p>
-</div>
-<div class="quant-box quant-na">
-  <div class="quant-label">Backlog &amp; Book-to-Bill <span class="quant-na-tag">— Not applicable</span></div>
-  <p class="quant-na-reason"><em>Rigaku does not publicly disclose quarterly backlog or book-to-bill metrics in its English-language IR materials</em></p>
+<div class="quant-box">
+  <div class="quant-label">Customer Concentration</div>
+  <div class="report-content"><p>Rigaku does not publicly disclose customer-level revenue breakdowns in English-language filings. The semiconductor segment serves major global foundries and IDMs — Samsung, TSMC, SK Hynix, Micron, and Kioxia are the primary customer base for X-ray metrology tools. The Onto Innovation alliance press release references 'global customer reach' via Onto's network, implicitly confirming that Rigaku's current semiconductor customer base is narrower than Onto's. Estimate: top 5 semiconductor customers likely represent 40-50% of the semiconductor segment revenue. The General Analytical segment is more diversified across academia, life science, and industrial customers across 136 countries.</p></div>
 </div>
 <div class="quant-box">
-  <div class="quant-label">Catalyst Calendar</div>
-  <div class="chart-block"><svg viewBox="0 0 1080 254" xmlns="http://www.w3.org/2000/svg" class="chart-svg" role="img" aria-label="Catalyst timeline">
-  <rect width="1080" height="254" fill="#faf6ef"/>
-  <text x="24" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.16em" fill="#2a261f">CATALYST TIMELINE</text>
-  <line x1="24" y1="32" x2="1050" y2="32" stroke="#d8caa6" stroke-width="0.6"/>
-  <line x1="180" y1="52" x2="180" y2="242" stroke="#d8caa6" stroke-width="1.0"/>
-  <text x="160" y="70" text-anchor="end" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.18em" fill="#6e6457">Q2 2026</text>
-  <line x1="200" y1="66" x2="1050" y2="66" stroke="#d8caa6" stroke-width="0.5" stroke-dasharray="2,3"/>
-  <text x="160" y="90.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-05-13</text>
-  <circle cx="180" cy="87.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
-  <text x="200" y="90.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q1 FY2026 Earnings Announcement</text>
-  <text x="1050" y="90.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
-  <text x="160" y="122.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-06-29</text>
-  <circle cx="180" cy="119.6" r="4.5" fill="#a89878" stroke="#faf6ef" stroke-width="1.4"/>
-  <text x="200" y="122.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Ex-Dividend Date</text>
-  <text x="1050" y="122.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#a89878">LOW</text>
-  <text x="160" y="152" text-anchor="end" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.18em" fill="#6e6457">Q3 2026</text>
-  <line x1="200" y1="148" x2="1050" y2="148" stroke="#d8caa6" stroke-width="0.5" stroke-dasharray="2,3"/>
-  <text x="160" y="172.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-08-15</text>
-  <circle cx="180" cy="169.6" r="4.5" fill="#9e2222" stroke="#faf6ef" stroke-width="1.4"/>
-  <text x="200" y="172.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q2 FY2026 Earnings (estimated mid-August)</text>
-  <text x="1050" y="172.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e2222">HIGH</text>
-  <text x="160" y="202" text-anchor="end" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" letter-spacing="0.18em" fill="#6e6457">Q4 2026</text>
-  <line x1="200" y1="198" x2="1050" y2="198" stroke="#d8caa6" stroke-width="0.5" stroke-dasharray="2,3"/>
-  <text x="160" y="222.6" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#6e6457">2026-11-15</text>
-  <circle cx="180" cy="219.6" r="4.5" fill="#9e5a16" stroke="#faf6ef" stroke-width="1.4"/>
-  <text x="200" y="222.6" text-anchor="start" font-family="Inter, sans-serif" font-size="12.5" font-weight="500" fill="#2a261f">Q3 FY2026 Earnings (estimated mid-November)</text>
-  <text x="1050" y="222.6" text-anchor="end" font-family="Inter, sans-serif" font-size="9" font-weight="600" letter-spacing="0.14em" fill="#9e5a16">MED</text>
-</svg>
-    <p class="chart-caption">Catalyst nodes are color-coded by impact (red=high, amber=medium, tan=low). Events grouped by quarter.</p>
-  </div>
+  <div class="quant-label">Backlog &amp; Book-to-Bill</div>
+  <div class="report-content"><p>Rigaku does not publicly disclose quarterly backlog or book-to-bill metrics in its English-language IR materials. The Q4 FY2025 revenue surge to ¥34.7B (vs ¥18.7B in Q3) suggests strong back-half bookings/deliveries. The company's expansion of production capacity at Takatsuki (announced May 2025) implies management expects sustained order flow. FY2025 H1 operating profit decline (Q2 OP ¥5.7B vs ¥8.7B YoY) may indicate order timing shifts rather than structural margin compression. Without explicit book-to-bill disclosure, the forward order trajectory remains opaque.</p></div>
 </div>
+
 
 <h2 class="section">Research Manager</h2>
 <div class="interim-box">
@@ -714,7 +529,7 @@
 <p>Round 2: 'Positioning before confirmation' is speculation. Semiconductor equipment history is littered with failed narrative stocks (Ultratech, Nanometrics). Net debt is ¥14.4B (not a fortress balance sheet). Let the data speak on May 13.</p></div>
   </div>
 </div>
-<div class="debate-grid debate-grid--solo">
+<div class="debate-grid" style="grid-template-columns: 1fr; margin-top: 0;">
   <div class="debate-card neutral">
     <div class="debate-label">Neutral</div>
     <div class="report-content"><p>Round 1: Both sides overstate their cases. Onto alliance is strategically significant with real product collaboration (CD-SAXS + analytics software). But valuation leaves no margin of safety — any disappointment will be punished. Balanced position: Hold with conditional upgrade framework. Watch May 13 for: (1) Q1 semiconductor revenue &gt; ¥22B, (2) Onto pipeline quantification, (3) operating margin &gt;18%. If 2 of 3 met, upgrade to Overweight. Position sizing: 2% max reflecting OTC liquidity.</p>
@@ -722,135 +537,89 @@
   </div>
 </div>
 
-<h2 class="section">Technical Read</h2><div class="chart-block"><svg viewBox="0 0 1080 360" xmlns="http://www.w3.org/2000/svg" class="chart-svg" role="img" aria-label="RGAKF technical chart with levels rail"><rect width="1080" height="360" fill="#faf6ef"/>
-<rect x="60" y="36" width="728" height="224" fill="#f5ecd9" opacity="0.55"/>
-<rect x="60" y="268" width="728" height="56" fill="#f5ecd9" opacity="0.45"/>
-<line x1="60" y1="249.8" x2="788" y2="249.8" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="252.8" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$2.77</text>
-<line x1="60" y1="198.9" x2="788" y2="198.9" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="201.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$6.72</text>
-<line x1="60" y1="148.0" x2="788" y2="148.0" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="151.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$10.66</text>
-<line x1="60" y1="97.1" x2="788" y2="97.1" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="100.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$14.60</text>
-<line x1="60" y1="46.2" x2="788" y2="46.2" stroke="#d8caa6" stroke-width="0.5"/><text x="52" y="49.2" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$18.55</text>
-<polygon points="294.4,88.3 306.8,87.4 319.1,85.0 331.5,83.8 343.8,83.7 356.1,84.9 368.5,88.3 380.8,94.2 393.2,102.6 405.5,110.2 417.8,115.9 430.2,116.7 442.5,115.6 454.8,114.5 467.2,114.6 479.5,112.6 491.9,108.1 504.2,103.9 516.5,102.5 528.9,102.3 541.2,99.8 553.6,96.9 565.9,93.2 578.2,90.0 590.6,83.9 602.9,78.7 615.3,71.1 627.6,68.0 639.9,64.9 652.3,65.2 664.6,67.0 676.9,67.0 689.3,67.6 701.6,59.4 714.0,57.0 726.3,56.2 738.6,56.0 751.0,50.9 763.3,49.8 775.7,49.0 788.0,46.2 788.0,109.9 775.7,112.2 763.3,116.8 751.0,120.5 738.6,120.2 726.3,121.7 714.0,123.7 701.6,127.6 689.3,126.4 676.9,129.2 664.6,132.2 652.3,138.1 639.9,142.7 627.6,144.5 615.3,147.2 602.9,145.8 590.6,145.2 578.2,143.6 565.9,143.8 553.6,142.8 541.2,143.7 528.9,143.8 516.5,146.3 504.2,146.8 491.9,145.3 479.5,142.8 467.2,141.5 454.8,141.5 442.5,141.6 430.2,142.0 417.8,145.5 405.5,154.3 393.2,167.0 380.8,183.4 368.5,196.5 356.1,208.4 343.8,218.3 331.5,226.9 319.1,234.2 306.8,241.6 294.4,249.8" fill="#bca57a" opacity="0.18"/>
-<rect x="55.8" y="323.4" width="8.49" height="0.6" fill="#bca57a" opacity="0.6"/>
-<rect x="68.1" y="323.0" width="8.49" height="1.0" fill="#bca57a" opacity="0.6"/>
-<rect x="80.4" y="323.4" width="8.49" height="0.6" fill="#bca57a" opacity="0.6"/>
-<rect x="92.8" y="323.4" width="8.49" height="0.6" fill="#bca57a" opacity="0.6"/>
-<rect x="105.1" y="323.9" width="8.49" height="0.1" fill="#bca57a" opacity="0.6"/>
-<rect x="117.4" y="323.8" width="8.49" height="0.2" fill="#bca57a" opacity="0.6"/>
-<rect x="129.8" y="323.9" width="8.49" height="0.1" fill="#bca57a" opacity="0.6"/>
-<rect x="142.1" y="323.9" width="8.49" height="0.1" fill="#bca57a" opacity="0.6"/>
-<rect x="154.5" y="323.8" width="8.49" height="0.2" fill="#bca57a" opacity="0.6"/>
-<rect x="166.8" y="321.9" width="8.49" height="2.1" fill="#bca57a" opacity="0.6"/>
-<rect x="179.1" y="316.9" width="8.49" height="7.1" fill="#bca57a" opacity="0.6"/>
-<rect x="191.5" y="322.3" width="8.49" height="1.7" fill="#bca57a" opacity="0.6"/>
-<rect x="203.8" y="318.8" width="8.49" height="5.2" fill="#bca57a" opacity="0.6"/>
-<rect x="216.2" y="269.0" width="8.49" height="55.0" fill="#bca57a" opacity="0.6"/>
-<rect x="228.5" y="268.0" width="8.49" height="56.0" fill="#bca57a" opacity="0.6"/>
-<rect x="240.8" y="309.5" width="8.49" height="14.5" fill="#bca57a" opacity="0.6"/>
-<rect x="253.2" y="311.8" width="8.49" height="12.2" fill="#bca57a" opacity="0.6"/>
-<rect x="265.5" y="318.5" width="8.49" height="5.5" fill="#bca57a" opacity="0.6"/>
-<rect x="277.9" y="310.0" width="8.49" height="14.0" fill="#bca57a" opacity="0.6"/>
-<rect x="290.2" y="307.8" width="8.49" height="16.2" fill="#bca57a" opacity="0.6"/>
-<rect x="302.5" y="314.8" width="8.49" height="9.2" fill="#bca57a" opacity="0.6"/>
-<rect x="314.9" y="310.1" width="8.49" height="13.9" fill="#bca57a" opacity="0.6"/>
-<rect x="327.2" y="306.5" width="8.49" height="17.5" fill="#bca57a" opacity="0.6"/>
-<rect x="339.5" y="319.2" width="8.49" height="4.8" fill="#bca57a" opacity="0.6"/>
-<rect x="351.9" y="309.8" width="8.49" height="14.2" fill="#bca57a" opacity="0.6"/>
-<rect x="364.2" y="321.0" width="8.49" height="3.0" fill="#bca57a" opacity="0.6"/>
-<rect x="376.6" y="320.3" width="8.49" height="3.7" fill="#bca57a" opacity="0.6"/>
-<rect x="388.9" y="317.0" width="8.49" height="7.0" fill="#bca57a" opacity="0.6"/>
-<rect x="401.2" y="319.7" width="8.49" height="4.3" fill="#bca57a" opacity="0.6"/>
-<rect x="413.6" y="322.7" width="8.49" height="1.3" fill="#bca57a" opacity="0.6"/>
-<rect x="425.9" y="318.2" width="8.49" height="5.8" fill="#bca57a" opacity="0.6"/>
-<rect x="438.3" y="320.2" width="8.49" height="3.8" fill="#bca57a" opacity="0.6"/>
-<rect x="450.6" y="316.8" width="8.49" height="7.2" fill="#bca57a" opacity="0.6"/>
-<rect x="462.9" y="323.2" width="8.49" height="0.8" fill="#bca57a" opacity="0.6"/>
-<rect x="475.3" y="303.7" width="8.49" height="20.3" fill="#bca57a" opacity="0.6"/>
-<rect x="487.6" y="313.7" width="8.49" height="10.3" fill="#bca57a" opacity="0.6"/>
-<rect x="500.0" y="322.2" width="8.49" height="1.8" fill="#bca57a" opacity="0.6"/>
-<rect x="512.3" y="314.6" width="8.49" height="9.4" fill="#bca57a" opacity="0.6"/>
-<rect x="524.6" y="316.4" width="8.49" height="7.6" fill="#bca57a" opacity="0.6"/>
-<rect x="537.0" y="323.8" width="8.49" height="0.2" fill="#bca57a" opacity="0.6"/>
-<rect x="549.3" y="321.4" width="8.49" height="2.6" fill="#bca57a" opacity="0.6"/>
-<rect x="561.7" y="318.0" width="8.49" height="6.0" fill="#bca57a" opacity="0.6"/>
-<rect x="574.0" y="322.0" width="8.49" height="2.0" fill="#bca57a" opacity="0.6"/>
-<rect x="586.3" y="315.3" width="8.49" height="8.7" fill="#bca57a" opacity="0.6"/>
-<rect x="598.7" y="322.6" width="8.49" height="1.4" fill="#bca57a" opacity="0.6"/>
-<rect x="611.0" y="308.3" width="8.49" height="15.7" fill="#bca57a" opacity="0.6"/>
-<rect x="623.3" y="317.5" width="8.49" height="6.5" fill="#bca57a" opacity="0.6"/>
-<rect x="635.7" y="306.4" width="8.49" height="17.6" fill="#bca57a" opacity="0.6"/>
-<rect x="648.0" y="322.4" width="8.49" height="1.6" fill="#bca57a" opacity="0.6"/>
-<rect x="660.4" y="318.9" width="8.49" height="5.1" fill="#bca57a" opacity="0.6"/>
-<rect x="672.7" y="316.8" width="8.49" height="7.2" fill="#bca57a" opacity="0.6"/>
-<rect x="685.0" y="321.0" width="8.49" height="3.0" fill="#bca57a" opacity="0.6"/>
-<rect x="697.4" y="312.0" width="8.49" height="12.0" fill="#bca57a" opacity="0.6"/>
-<rect x="709.7" y="293.3" width="8.49" height="30.7" fill="#bca57a" opacity="0.6"/>
-<rect x="722.1" y="322.1" width="8.49" height="1.9" fill="#bca57a" opacity="0.6"/>
-<rect x="734.4" y="319.1" width="8.49" height="4.9" fill="#bca57a" opacity="0.6"/>
-<rect x="746.7" y="313.2" width="8.49" height="10.8" fill="#bca57a" opacity="0.6"/>
-<rect x="759.1" y="323.7" width="8.49" height="0.3" fill="#bca57a" opacity="0.6"/>
-<rect x="771.4" y="321.7" width="8.49" height="2.3" fill="#bca57a" opacity="0.6"/>
-<rect x="783.8" y="285.3" width="8.49" height="38.7" fill="#bca57a" opacity="0.6"/>
-<polygon points="60,260 60.0,228.3 72.3,220.4 84.7,213.2 97.0,213.7 109.4,212.9 121.7,212.9 134.0,209.2 146.4,206.5 158.7,186.2 171.1,168.4 183.4,148.8 195.7,135.4 208.1,130.7 220.4,124.3 232.7,114.4 245.1,123.0 257.4,128.6 269.8,132.0 282.1,141.7 294.4,130.7 306.8,136.5 319.1,123.0 331.5,128.2 343.8,126.8 356.1,125.6 368.5,128.8 380.8,136.1 393.2,126.8 405.5,135.1 417.8,137.2 430.2,122.1 442.5,120.0 454.8,119.4 467.2,124.9 479.5,107.6 491.9,102.7 504.2,101.7 516.5,113.3 528.9,114.5 541.2,104.6 553.6,98.8 565.9,95.2 578.2,95.2 590.6,80.6 602.9,80.4 615.3,66.7 627.6,78.1 639.9,77.9 652.3,92.0 664.6,96.6 676.9,92.0 689.3,97.2 701.6,49.8 714.0,62.9 726.3,78.7 738.6,86.1 751.0,53.4 763.3,65.3 775.7,61.0 788.0,52.5 788,260" fill="#d8b878" opacity="0.32"/>
-<polyline points="664.6,133.6 676.9,130.8 689.3,128.4 701.6,125.1 714.0,122.1 726.3,119.4 738.6,116.9 751.0,113.7 763.3,110.9 775.7,108.4 788.0,106.1" fill="none" stroke="#9e5a16" stroke-width="1.4" opacity="0.85"/>
-<polyline points="60.0,228.3 72.3,220.4 84.7,213.2 97.0,213.7 109.4,212.9 121.7,212.9 134.0,209.2 146.4,206.5 158.7,186.2 171.1,168.4 183.4,148.8 195.7,135.4 208.1,130.7 220.4,124.3 232.7,114.4 245.1,123.0 257.4,128.6 269.8,132.0 282.1,141.7 294.4,130.7 306.8,136.5 319.1,123.0 331.5,128.2 343.8,126.8 356.1,125.6 368.5,128.8 380.8,136.1 393.2,126.8 405.5,135.1 417.8,137.2 430.2,122.1 442.5,120.0 454.8,119.4 467.2,124.9 479.5,107.6 491.9,102.7 504.2,101.7 516.5,113.3 528.9,114.5 541.2,104.6 553.6,98.8 565.9,95.2 578.2,95.2 590.6,80.6 602.9,80.4 615.3,66.7 627.6,78.1 639.9,77.9 652.3,92.0 664.6,96.6 676.9,92.0 689.3,97.2 701.6,49.8 714.0,62.9 726.3,78.7 738.6,86.1 751.0,53.4 763.3,65.3 775.7,61.0 788.0,52.5" fill="none" stroke="#7a5a26" stroke-width="1.7" stroke-linejoin="round"/>
-<line x1="60" y1="48.0" x2="788" y2="48.0" stroke="#9e2222" stroke-width="1.1" opacity="0.85"/>
-<line x1="60" y1="101.5" x2="788" y2="101.5" stroke="#1f6b3a" stroke-width="1.1" opacity="0.85"/>
-<line x1="60" y1="106.1" x2="788" y2="106.1" stroke="#6e6457" stroke-width="1.1" opacity="0.85"/>
-<line x1="60" y1="109.8" x2="788" y2="109.8" stroke="#1f6b3a" stroke-width="0.9" opacity="0.6" stroke-dasharray="5 4"/>
-<line x1="60" y1="228.3" x2="788" y2="228.3" stroke="#1f6b3a" stroke-width="0.9" opacity="0.6" stroke-dasharray="5 4"/>
-<line x1="800" y1="36" x2="800" y2="260" stroke="#d8caa6" stroke-width="1"/>
-<text x="812" y="22" font-family="Inter, sans-serif" font-size="10.5" font-weight="600" letter-spacing="0.18em" text-transform="uppercase" fill="#2a261f">Key Levels</text>
-<line x1="788" y1="48.0" x2="808" y2="48.0" stroke="#9e2222" stroke-width="0.9" opacity="0.7"/>
-<text x="812" y="51.0" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="#9e2222">$18.41</text>
-<text x="880" y="51.0" font-family="Source Serif 4, serif" font-style="italic" font-size="11.5" fill="#2a261f">20-day swing high</text>
-<rect x="1004" y="42.0" width="60" height="13" fill="#9e2222" opacity="0.12" stroke="#9e2222" stroke-width="0.7" rx="2"/>
-<text x="1034" y="51.0" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="700" letter-spacing="0.16em" fill="#9e2222">BEARISH</text>
-<line x1="788" y1="101.5" x2="808" y2="101.5" stroke="#1f6b3a" stroke-width="0.9" opacity="0.7"/>
-<text x="812" y="104.5" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="#1f6b3a">$14.26</text>
-<text x="880" y="104.5" font-family="Source Serif 4, serif" font-style="italic" font-size="11.5" fill="#2a261f">20-day swing low</text>
-<rect x="1004" y="95.5" width="60" height="13" fill="#1f6b3a" opacity="0.12" stroke="#1f6b3a" stroke-width="0.7" rx="2"/>
-<text x="1034" y="104.5" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="700" letter-spacing="0.16em" fill="#1f6b3a">BULLISH</text>
-<line x1="788" y1="106.1" x2="808" y2="117.5" stroke="#6e6457" stroke-width="0.9" opacity="0.7"/>
-<text x="812" y="120.5" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="#6e6457">$13.91</text>
-<text x="880" y="120.5" font-family="Source Serif 4, serif" font-style="italic" font-size="11.5" fill="#2a261f">50 SMA</text>
-<rect x="1004" y="111.5" width="60" height="13" fill="#6e6457" opacity="0.12" stroke="#6e6457" stroke-width="0.7" rx="2"/>
-<text x="1034" y="120.5" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="700" letter-spacing="0.16em" fill="#6e6457">NEUTRAL</text>
-<line x1="788" y1="109.8" x2="808" y2="133.5" stroke="#1f6b3a" stroke-width="0.9" opacity="0.7"/>
-<text x="812" y="136.5" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="#1f6b3a">$13.62</text>
-<text x="880" y="136.5" font-family="Source Serif 4, serif" font-style="italic" font-size="11.5" fill="#2a261f">Bollinger lower(20·2σ)</text>
-<rect x="1004" y="127.5" width="60" height="13" fill="#1f6b3a" opacity="0.12" stroke="#1f6b3a" stroke-width="0.7" rx="2"/>
-<text x="1034" y="136.5" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="700" letter-spacing="0.16em" fill="#1f6b3a">BULLISH</text>
-<line x1="788" y1="228.3" x2="808" y2="228.3" stroke="#1f6b3a" stroke-width="0.9" opacity="0.7"/>
-<text x="812" y="231.3" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" fill="#1f6b3a">$4.44</text>
-<text x="880" y="231.3" font-family="Source Serif 4, serif" font-style="italic" font-size="11.5" fill="#2a261f">60-day swing low</text>
-<rect x="1004" y="222.3" width="60" height="13" fill="#1f6b3a" opacity="0.12" stroke="#1f6b3a" stroke-width="0.7" rx="2"/>
-<text x="1034" y="231.3" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="700" letter-spacing="0.16em" fill="#1f6b3a">BULLISH</text>
-<text x="60" y="22" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.16em" text-transform="uppercase" fill="#2a261f">RGAKF · PRICE · MA50 · MA200 · BB(20·2)</text>
-<text x="788" y="22" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="#2a261f">$18.06  <tspan fill="#1f6b3a" font-weight="600">+306.8%</tspan></text>
-<text x="60.0" y="348" text-anchor="start" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Apr 2025</text>
-<text x="430.2" y="348" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Mar 2026</text>
-<text x="788.0" y="348" text-anchor="end" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Apr 2026</text></svg><p class="chart-caption">Price · 50/200 SMA · Bollinger 20·2 envelope. Levels rail at right is colour-coded — green = support, red = resistance, taupe = neutral. Levels auto-derived from recent price action; supply <code>technical_levels</code> in state JSON for editorial control.</p></div><div class="signal-card">
-<div class="signal-card-eyebrow">Indicator Snapshot</div>
-<div class="signal-grid">
-<div class="signal-tile"><div class="signal-key">RSI(14)</div><div class="signal-value">62.3</div><div class="signal-spark"><svg viewBox="0 0 140 32" xmlns="http://www.w3.org/2000/svg" width="140" height="32"><rect width="140" height="32" fill="#faf6ef"/><polygon points="4.0,28 4.0,6.3 6.9,9.2 9.9,11.0 12.8,12.1 15.7,15.0 18.7,14.1 21.6,15.8 24.5,14.6 27.5,16.1 30.4,15.9 33.3,15.8 36.3,16.8 39.2,18.9 42.1,17.7 45.1,20.0 48.0,20.6 50.9,18.5 53.9,18.2 56.8,18.1 59.7,19.8 62.7,17.4 65.6,16.9 68.5,16.8 71.5,20.1 74.4,20.5 77.3,19.0 80.3,18.2 83.2,17.7 86.1,17.7 89.1,15.9 92.0,15.9 94.9,14.5 97.9,18.0 100.8,18.0 103.7,21.8 106.7,22.9 109.6,22.1 112.5,23.4 115.5,17.3 118.4,20.0 121.3,22.7 124.3,23.9 127.2,20.4 130.1,22.2 133.1,21.7 136.0,20.9 136.0,28" fill="#d8b878" opacity="0.25"/>
-<line x1="4" y1="25.7" x2="136" y2="25.7" stroke="#6e6457" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.6"/>
-<polyline points="4.0,6.3 6.9,9.2 9.9,11.0 12.8,12.1 15.7,15.0 18.7,14.1 21.6,15.8 24.5,14.6 27.5,16.1 30.4,15.9 33.3,15.8 36.3,16.8 39.2,18.9 42.1,17.7 45.1,20.0 48.0,20.6 50.9,18.5 53.9,18.2 56.8,18.1 59.7,19.8 62.7,17.4 65.6,16.9 68.5,16.8 71.5,20.1 74.4,20.5 77.3,19.0 80.3,18.2 83.2,17.7 86.1,17.7 89.1,15.9 92.0,15.9 94.9,14.5 97.9,18.0 100.8,18.0 103.7,21.8 106.7,22.9 109.6,22.1 112.5,23.4 115.5,17.3 118.4,20.0 121.3,22.7 124.3,23.9 127.2,20.4 130.1,22.2 133.1,21.7 136.0,20.9" fill="none" stroke="#7a5a26" stroke-width="1.4" stroke-linejoin="round"/></svg></div><div class="signal-row"><span class="ti-signal ti-warning">WARNING</span><span class="signal-sub">Approaching overbought</span></div></div>
-<div class="signal-tile"><div class="signal-key">MACD(12·26·9)</div><div class="signal-value">+1.19</div><div class="signal-spark"><svg viewBox="0 0 140 32" xmlns="http://www.w3.org/2000/svg" width="140" height="32"><rect width="140" height="32" fill="#faf6ef"/><polygon points="4.0,28 4.0,25.7 9.1,21.7 14.2,18.2 19.2,16.1 24.3,18.2 29.4,20.1 34.5,19.1 39.5,17.3 44.6,15.7 49.7,15.1 54.8,11.6 59.8,10.0 64.9,6.3 70.0,7.8 75.1,9.6 80.2,14.9 85.2,19.9 90.3,22.1 95.4,24.9 100.5,14.9 105.5,12.3 110.6,15.1 115.7,19.1 120.8,13.8 125.8,13.8 130.9,13.3 136.0,11.3 136.0,28" fill="#d8b878" opacity="0.25"/>
-<line x1="4" y1="12.7" x2="136" y2="12.7" stroke="#6e6457" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.6"/>
-<polyline points="4.0,25.7 9.1,21.7 14.2,18.2 19.2,16.1 24.3,18.2 29.4,20.1 34.5,19.1 39.5,17.3 44.6,15.7 49.7,15.1 54.8,11.6 59.8,10.0 64.9,6.3 70.0,7.8 75.1,9.6 80.2,14.9 85.2,19.9 90.3,22.1 95.4,24.9 100.5,14.9 105.5,12.3 110.6,15.1 115.7,19.1 120.8,13.8 125.8,13.8 130.9,13.3 136.0,11.3" fill="none" stroke="#7a5a26" stroke-width="1.4" stroke-linejoin="round"/></svg></div><div class="signal-row"><span class="ti-signal ti-bullish">BULLISH</span><span class="signal-sub">Above signal</span></div></div>
-<div class="signal-tile"><div class="signal-key">Volume</div><div class="signal-value">1.04x</div><div class="signal-spark"><svg viewBox="0 0 140 32" xmlns="http://www.w3.org/2000/svg" width="140" height="32"><rect width="140" height="32" fill="#faf6ef"/><polygon points="4.0,28 4.0,15.4 7.3,14.4 10.6,12.8 13.9,10.8 17.2,10.3 20.5,8.6 23.8,8.3 27.1,7.9 30.4,7.0 33.7,6.6 37.0,6.6 40.3,6.8 43.6,6.6 46.9,6.3 50.2,12.8 53.5,17.1 56.8,17.6 60.1,18.8 63.4,18.3 66.7,19.1 70.0,21.0 73.3,21.8 76.6,22.8 79.9,24.6 83.2,24.1 86.5,25.7 89.8,24.2 93.1,23.8 96.4,22.6 99.7,22.9 103.0,22.4 106.3,22.3 109.6,22.4 112.9,21.8 116.2,18.2 119.5,20.4 122.8,21.1 126.1,20.0 129.4,21.1 132.7,21.7 136.0,17.1 136.0,28" fill="#d8b878" opacity="0.25"/>
-<polyline points="4.0,15.4 7.3,14.4 10.6,12.8 13.9,10.8 17.2,10.3 20.5,8.6 23.8,8.3 27.1,7.9 30.4,7.0 33.7,6.6 37.0,6.6 40.3,6.8 43.6,6.6 46.9,6.3 50.2,12.8 53.5,17.1 56.8,17.6 60.1,18.8 63.4,18.3 66.7,19.1 70.0,21.0 73.3,21.8 76.6,22.8 79.9,24.6 83.2,24.1 86.5,25.7 89.8,24.2 93.1,23.8 96.4,22.6 99.7,22.9 103.0,22.4 106.3,22.3 109.6,22.4 112.9,21.8 116.2,18.2 119.5,20.4 122.8,21.1 126.1,20.0 129.4,21.1 132.7,21.7 136.0,17.1" fill="none" stroke="#7a5a26" stroke-width="1.4" stroke-linejoin="round"/></svg></div><div class="signal-row"><span class="ti-signal ti-neutral">NEUTRAL</span><span class="signal-sub">Normal range</span></div></div>
-<div class="signal-tile"><div class="signal-key">Realized vol</div><div class="signal-value">115%</div><div class="signal-spark"><svg viewBox="0 0 140 32" xmlns="http://www.w3.org/2000/svg" width="140" height="32"><rect width="140" height="32" fill="#faf6ef"/><polygon points="4.0,28 4.0,6.8 7.4,7.4 10.8,7.2 14.2,7.3 17.5,7.3 20.9,7.1 24.3,6.4 27.7,6.3 31.1,10.0 34.5,12.7 37.8,14.7 41.2,15.8 44.6,15.9 48.0,16.0 51.4,14.9 54.8,15.3 58.2,15.6 61.5,14.9 64.9,15.7 68.3,16.0 71.7,16.3 75.1,17.3 78.5,17.6 81.8,16.9 85.2,16.9 88.6,16.7 92.0,16.5 95.4,16.9 98.8,16.4 102.2,16.3 105.5,17.6 108.9,17.4 112.3,10.8 115.7,10.4 119.1,10.5 122.5,10.3 125.8,7.9 129.2,8.1 132.6,8.2 136.0,8.3 136.0,28" fill="#d8b878" opacity="0.25"/>
-<line x1="4" y1="25.7" x2="136" y2="25.7" stroke="#6e6457" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.6"/>
-<polyline points="4.0,6.8 7.4,7.4 10.8,7.2 14.2,7.3 17.5,7.3 20.9,7.1 24.3,6.4 27.7,6.3 31.1,10.0 34.5,12.7 37.8,14.7 41.2,15.8 44.6,15.9 48.0,16.0 51.4,14.9 54.8,15.3 58.2,15.6 61.5,14.9 64.9,15.7 68.3,16.0 71.7,16.3 75.1,17.3 78.5,17.6 81.8,16.9 85.2,16.9 88.6,16.7 92.0,16.5 95.4,16.9 98.8,16.4 102.2,16.3 105.5,17.6 108.9,17.4 112.3,10.8 115.7,10.4 119.1,10.5 122.5,10.3 125.8,7.9 129.2,8.1 132.6,8.2 136.0,8.3" fill="none" stroke="#7a5a26" stroke-width="1.4" stroke-linejoin="round"/></svg></div><div class="signal-row"><span class="ti-signal ti-bearish">BEARISH</span><span class="signal-sub">Very elevated</span></div></div>
-<div class="signal-tile"><div class="signal-key">Bollinger %B</div><div class="signal-value">90%</div><div class="signal-spark"><svg viewBox="0 0 140 32" xmlns="http://www.w3.org/2000/svg" width="140" height="32"><rect width="140" height="32" fill="#faf6ef"/><polygon points="4.0,28 4.0,15.7 7.3,16.9 10.6,15.5 13.9,16.7 17.2,16.9 20.5,17.1 23.8,18.1 27.1,20.2 30.4,18.2 33.7,22.3 37.0,25.7 40.3,14.6 43.6,13.6 46.9,13.9 50.2,18.3 53.5,6.3 56.8,6.7 60.1,8.8 63.4,15.3 66.7,16.4 70.0,12.3 73.3,10.8 76.6,10.8 79.9,12.0 83.2,8.8 86.5,10.5 89.8,8.7 93.1,12.8 96.4,13.6 99.7,18.0 103.0,19.9 106.3,18.7 109.6,20.9 112.9,6.8 116.2,11.9 119.5,17.5 122.8,20.2 126.1,10.7 129.4,15.0 132.7,14.1 136.0,12.1 136.0,28" fill="#d8b878" opacity="0.25"/>
-<line x1="4" y1="20.9" x2="136" y2="20.9" stroke="#6e6457" stroke-width="0.6" stroke-dasharray="2 3" opacity="0.6"/>
-<polyline points="4.0,15.7 7.3,16.9 10.6,15.5 13.9,16.7 17.2,16.9 20.5,17.1 23.8,18.1 27.1,20.2 30.4,18.2 33.7,22.3 37.0,25.7 40.3,14.6 43.6,13.6 46.9,13.9 50.2,18.3 53.5,6.3 56.8,6.7 60.1,8.8 63.4,15.3 66.7,16.4 70.0,12.3 73.3,10.8 76.6,10.8 79.9,12.0 83.2,8.8 86.5,10.5 89.8,8.7 93.1,12.8 96.4,13.6 99.7,18.0 103.0,19.9 106.3,18.7 109.6,20.9 112.9,6.8 116.2,11.9 119.5,17.5 122.8,20.2 126.1,10.7 129.4,15.0 132.7,14.1 136.0,12.1" fill="none" stroke="#7a5a26" stroke-width="1.4" stroke-linejoin="round"/></svg></div><div class="signal-row"><span class="ti-signal ti-warning">WARNING</span><span class="signal-sub">Upper third</span></div></div>
-</div></div><p class="signal-summary"><em>Price $18.06 sits between $14.26 support and $18.41 resistance; MACD above signal.</em></p>
-
 <h2 class="section">Analyst Reports</h2>
-<div class="report-content" style="margin-bottom: 32px;"><h3>Market Analysis</h3>
+<div class="chart-block">
+  <svg viewBox="0 0 720 320" xmlns="http://www.w3.org/2000/svg" class="chart-svg" role="img" aria-label="RGAKF price and volume chart">
+  <rect width="720" height="320" fill="#faf6ef"/>
+  <rect x="56" y="28" width="648" height="184" fill="#f5ecd9" opacity="0.55"/>
+  <rect x="56" y="220" width="648" height="64" fill="#f5ecd9" opacity="0.45"/>
+  <line x1="56" y1="202.1" x2="704" y2="202.1" stroke="#d8caa6" stroke-width="0.5"/><text x="48" y="205.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$4.44</text>
+<line x1="56" y1="161.1" x2="704" y2="161.1" stroke="#d8caa6" stroke-width="0.5"/><text x="48" y="164.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$7.90</text>
+<line x1="56" y1="120.0" x2="704" y2="120.0" stroke="#d8caa6" stroke-width="0.5"/><text x="48" y="123.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$11.36</text>
+<line x1="56" y1="78.9" x2="704" y2="78.9" stroke="#d8caa6" stroke-width="0.5"/><text x="48" y="81.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$14.81</text>
+<line x1="56" y1="37.9" x2="704" y2="37.9" stroke="#d8caa6" stroke-width="0.5"/><text x="48" y="40.9" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#6e6457">$18.27</text>
+  <rect x="52.2" y="283.3" width="7.56" height="0.7" fill="#bca57a" opacity="0.65"/>
+<rect x="63.2" y="282.9" width="7.56" height="1.1" fill="#bca57a" opacity="0.65"/>
+<rect x="74.2" y="283.3" width="7.56" height="0.7" fill="#bca57a" opacity="0.65"/>
+<rect x="85.2" y="283.3" width="7.56" height="0.7" fill="#bca57a" opacity="0.65"/>
+<rect x="96.2" y="283.9" width="7.56" height="0.1" fill="#bca57a" opacity="0.65"/>
+<rect x="107.1" y="283.8" width="7.56" height="0.2" fill="#bca57a" opacity="0.65"/>
+<rect x="118.1" y="283.9" width="7.56" height="0.1" fill="#bca57a" opacity="0.65"/>
+<rect x="129.1" y="283.9" width="7.56" height="0.1" fill="#bca57a" opacity="0.65"/>
+<rect x="140.1" y="283.8" width="7.56" height="0.2" fill="#bca57a" opacity="0.65"/>
+<rect x="151.1" y="281.6" width="7.56" height="2.4" fill="#bca57a" opacity="0.65"/>
+<rect x="162.1" y="275.8" width="7.56" height="8.2" fill="#bca57a" opacity="0.65"/>
+<rect x="173.0" y="282.1" width="7.56" height="1.9" fill="#bca57a" opacity="0.65"/>
+<rect x="184.0" y="278.0" width="7.56" height="6.0" fill="#bca57a" opacity="0.65"/>
+<rect x="195.0" y="221.1" width="7.56" height="62.9" fill="#bca57a" opacity="0.65"/>
+<rect x="206.0" y="220.0" width="7.56" height="64.0" fill="#bca57a" opacity="0.65"/>
+<rect x="217.0" y="267.4" width="7.56" height="16.6" fill="#bca57a" opacity="0.65"/>
+<rect x="227.9" y="270.0" width="7.56" height="14.0" fill="#bca57a" opacity="0.65"/>
+<rect x="238.9" y="277.7" width="7.56" height="6.3" fill="#bca57a" opacity="0.65"/>
+<rect x="249.9" y="268.0" width="7.56" height="16.0" fill="#bca57a" opacity="0.65"/>
+<rect x="260.9" y="265.5" width="7.56" height="18.5" fill="#bca57a" opacity="0.65"/>
+<rect x="271.9" y="273.5" width="7.56" height="10.5" fill="#bca57a" opacity="0.65"/>
+<rect x="282.9" y="268.1" width="7.56" height="15.9" fill="#bca57a" opacity="0.65"/>
+<rect x="293.8" y="264.0" width="7.56" height="20.0" fill="#bca57a" opacity="0.65"/>
+<rect x="304.8" y="278.5" width="7.56" height="5.5" fill="#bca57a" opacity="0.65"/>
+<rect x="315.8" y="267.8" width="7.56" height="16.2" fill="#bca57a" opacity="0.65"/>
+<rect x="326.8" y="280.6" width="7.56" height="3.4" fill="#bca57a" opacity="0.65"/>
+<rect x="337.8" y="279.8" width="7.56" height="4.2" fill="#bca57a" opacity="0.65"/>
+<rect x="348.8" y="276.0" width="7.56" height="8.0" fill="#bca57a" opacity="0.65"/>
+<rect x="359.7" y="279.1" width="7.56" height="4.9" fill="#bca57a" opacity="0.65"/>
+<rect x="370.7" y="282.5" width="7.56" height="1.5" fill="#bca57a" opacity="0.65"/>
+<rect x="381.7" y="277.4" width="7.56" height="6.6" fill="#bca57a" opacity="0.65"/>
+<rect x="392.7" y="279.6" width="7.56" height="4.4" fill="#bca57a" opacity="0.65"/>
+<rect x="403.7" y="275.8" width="7.56" height="8.2" fill="#bca57a" opacity="0.65"/>
+<rect x="414.7" y="283.0" width="7.56" height="1.0" fill="#bca57a" opacity="0.65"/>
+<rect x="425.6" y="260.8" width="7.56" height="23.2" fill="#bca57a" opacity="0.65"/>
+<rect x="436.6" y="272.2" width="7.56" height="11.8" fill="#bca57a" opacity="0.65"/>
+<rect x="447.6" y="281.9" width="7.56" height="2.1" fill="#bca57a" opacity="0.65"/>
+<rect x="458.6" y="273.3" width="7.56" height="10.7" fill="#bca57a" opacity="0.65"/>
+<rect x="469.6" y="275.3" width="7.56" height="8.7" fill="#bca57a" opacity="0.65"/>
+<rect x="480.6" y="283.8" width="7.56" height="0.2" fill="#bca57a" opacity="0.65"/>
+<rect x="491.5" y="281.0" width="7.56" height="3.0" fill="#bca57a" opacity="0.65"/>
+<rect x="502.5" y="277.2" width="7.56" height="6.8" fill="#bca57a" opacity="0.65"/>
+<rect x="513.5" y="281.7" width="7.56" height="2.3" fill="#bca57a" opacity="0.65"/>
+<rect x="524.5" y="274.1" width="7.56" height="9.9" fill="#bca57a" opacity="0.65"/>
+<rect x="535.5" y="282.5" width="7.56" height="1.5" fill="#bca57a" opacity="0.65"/>
+<rect x="546.5" y="266.0" width="7.56" height="18.0" fill="#bca57a" opacity="0.65"/>
+<rect x="557.4" y="276.6" width="7.56" height="7.4" fill="#bca57a" opacity="0.65"/>
+<rect x="568.4" y="263.9" width="7.56" height="20.1" fill="#bca57a" opacity="0.65"/>
+<rect x="579.4" y="282.2" width="7.56" height="1.8" fill="#bca57a" opacity="0.65"/>
+<rect x="590.4" y="278.2" width="7.56" height="5.8" fill="#bca57a" opacity="0.65"/>
+<rect x="601.4" y="275.8" width="7.56" height="8.2" fill="#bca57a" opacity="0.65"/>
+<rect x="612.4" y="280.5" width="7.56" height="3.5" fill="#bca57a" opacity="0.65"/>
+<rect x="623.3" y="270.3" width="7.56" height="13.7" fill="#bca57a" opacity="0.65"/>
+<rect x="634.3" y="248.9" width="7.56" height="35.1" fill="#bca57a" opacity="0.65"/>
+<rect x="645.3" y="281.8" width="7.56" height="2.2" fill="#bca57a" opacity="0.65"/>
+<rect x="656.3" y="278.4" width="7.56" height="5.6" fill="#bca57a" opacity="0.65"/>
+<rect x="667.3" y="271.7" width="7.56" height="12.3" fill="#bca57a" opacity="0.65"/>
+<rect x="678.3" y="283.6" width="7.56" height="0.4" fill="#bca57a" opacity="0.65"/>
+<rect x="689.2" y="281.4" width="7.56" height="2.6" fill="#bca57a" opacity="0.65"/>
+<rect x="700.2" y="239.8" width="7.56" height="44.2" fill="#bca57a" opacity="0.65"/>
+  <polygon points="56,212 56.0,202.1 67.0,194.9 78.0,188.2 88.9,188.7 99.9,188.0 110.9,188.0 121.9,184.6 132.9,182.1 143.9,163.4 154.8,147.0 165.8,129.0 176.8,116.7 187.8,112.3 198.8,106.4 209.8,97.4 220.7,105.2 231.7,110.4 242.7,113.5 253.7,122.4 264.7,112.3 275.7,117.7 286.6,105.2 297.6,110.0 308.6,108.8 319.6,107.6 330.6,110.6 341.6,117.3 352.5,108.8 363.5,116.4 374.5,118.3 385.5,104.4 396.5,102.5 407.5,102.0 418.4,107.0 429.4,91.1 440.4,86.6 451.4,85.6 462.4,96.3 473.4,97.4 484.3,88.4 495.3,83.0 506.3,79.7 517.3,79.7 528.3,66.2 539.3,66.0 550.2,53.4 561.2,63.9 572.2,63.8 583.2,76.7 594.2,81.0 605.2,76.7 616.1,81.5 627.1,37.9 638.1,50.0 649.1,64.5 660.1,71.3 671.1,41.2 682.0,52.1 693.0,48.2 704.0,40.4 704,212" fill="#d8b878" opacity="0.35"/>
+  <polyline points="56.0,202.1 67.0,194.9 78.0,188.2 88.9,188.7 99.9,188.0 110.9,188.0 121.9,184.6 132.9,182.1 143.9,163.4 154.8,147.0 165.8,129.0 176.8,116.7 187.8,112.3 198.8,106.4 209.8,97.4 220.7,105.2 231.7,110.4 242.7,113.5 253.7,122.4 264.7,112.3 275.7,117.7 286.6,105.2 297.6,110.0 308.6,108.8 319.6,107.6 330.6,110.6 341.6,117.3 352.5,108.8 363.5,116.4 374.5,118.3 385.5,104.4 396.5,102.5 407.5,102.0 418.4,107.0 429.4,91.1 440.4,86.6 451.4,85.6 462.4,96.3 473.4,97.4 484.3,88.4 495.3,83.0 506.3,79.7 517.3,79.7 528.3,66.2 539.3,66.0 550.2,53.4 561.2,63.9 572.2,63.8 583.2,76.7 594.2,81.0 605.2,76.7 616.1,81.5 627.1,37.9 638.1,50.0 649.1,64.5 660.1,71.3 671.1,41.2 682.0,52.1 693.0,48.2 704.0,40.4" fill="none" stroke="#7a5a26" stroke-width="1.6" stroke-linejoin="round"/>
+  <text x="56.0" y="308" text-anchor="start" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Apr 2025</text>
+<text x="385.5" y="308" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Mar 2026</text>
+<text x="704.0" y="308" text-anchor="end" font-family="Inter, sans-serif" font-size="10" fill="#6e6457">Apr 2026</text>
+  <text x="48" y="223.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9" fill="#6e6457">57K</text>
+  <text x="56" y="16" font-family="Inter, sans-serif" font-size="11" font-weight="600" letter-spacing="0.16em" text-transform="uppercase" fill="#2a261f">RGAKF · PRICE &amp; VOLUME</text><text x="704" y="16" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="11" fill="#2a261f">$18.06  <tspan fill="#1f6b3a" font-weight="600">+306.8%</tspan></text>
+</svg>
+  <p class="chart-caption">Daily close (warm umber) with under-fill, volume bars in tan. Trailing range capped at 252 trading days.</p>
+</div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Market Analysis</h3><h3>Market Report</h3>
+
 <p><strong>RGAKF (Rigaku Holdings Corporation) — Technical Analysis</strong></p>
 
 <p><strong>Price Action Summary</strong>: RGAKF closed at $17.56 on April 30, 2026 (last trading day data), representing a dramatic +25% gain over the April trading month (from $14.02 open on April 1). The stock experienced extreme volatility, with a 52-week range of $5.05-$18.41, and the current price sits near the upper boundary. Volume spiked materially on April 21 (12,155 shares) and April 22 (31,132 shares), coinciding with the Onto Innovation alliance announcement on April 20.</p>
@@ -893,9 +662,9 @@
 <tr><td>Bollinger Position</td><td>Above upper band</td><td>Overextended / breakout</td></tr>
 <tr><td>VWMA</td><td>$16.91</td><td>Volume confirms recent rally</td></tr>
 <tr><td>10-day EMA</td><td>$16.85</td><td>Short-term trend support</td></tr>
-</table>
-</div>
-<div class="report-content" style="margin-bottom: 32px;"><h3>Social Sentiment</h3>
+</table></div>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Social Sentiment</h3><h3>Social Sentiment Report</h3>
+
 <p><strong>RGAKF — Social Media &amp; Company-Specific News Analysis</strong></p>
 
 <p><strong>Onto Innovation Alliance — Dominant Narrative</strong>: The single most significant event shaping social sentiment is the April 20, 2026 announcement of Rigaku's capital and business alliance with Onto Innovation (NYSE:ONTO). Onto Innovation is acquiring 61.1M shares (27% of outstanding) from Carlyle-backed Atom Investment, L.P.</p>
@@ -919,7 +688,8 @@
 <tr><td>OTC liquidity / accessibility</td><td>Negative</td><td>Low</td></tr>
 <tr><td>New product launches (ONYX 3200, XTRAIA)</td><td>Positive</td><td>Medium</td></tr>
 </table></div>
-<div class="report-content" style="margin-bottom: 32px;"><h3>News &amp; Macro</h3>
+<div class="report-content" style="margin-bottom: 32px;"><h3>News &amp; Macro</h3><h3>News Report</h3>
+
 <p><strong>RGAKF — Global News &amp; Macroeconomic Context</strong></p>
 
 <p><strong>Sector Tailwinds — Semiconductor Equipment</strong>:</p>
@@ -951,7 +721,8 @@
 <tr><td>New product launches</td><td>Medium</td><td>Positive</td></tr>
 <tr><td>OTC listing / liquidity</td><td>Low</td><td>Negative</td></tr>
 </table></div>
-<div class="report-content" style="margin-bottom: 32px;"><h3>Fundamental Analysis</h3>
+<div class="report-content" style="margin-bottom: 32px;"><h3>Fundamental Analysis</h3><h3>Fundamentals Report</h3>
+
 <p><strong>RGAKF (Rigaku Holdings Corporation) — Fundamental Analysis</strong></p>
 
 <p><strong>Company Overview</strong>: Rigaku Holdings Corporation (TSE: 268A, OTC: RGAKF) is a global leader in X-ray analytical and measurement technologies, founded in 1951, headquartered in Akishima, Tokyo, ~2,000 employees, market presence in 136 countries, ~70% overseas sales ratio.</p>
