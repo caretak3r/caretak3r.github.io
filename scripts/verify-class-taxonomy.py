@@ -6,7 +6,7 @@
 """verify-class-taxonomy.py — Guard against SEF↔Hugo CSS class drift.
 
 Reads:
-  data/reports/SEF_*.html   — extract every CSS class actually used
+  sef-input/SEF_*.html   — extract every CSS class actually used
   assets/css/research-report.css — extract every class targeted by a rule
 
 Reports any class used in a report that the site CSS does not target. Optionally
@@ -34,7 +34,7 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_REPORTS = REPO_ROOT / "data" / "reports"
+DEFAULT_REPORTS = REPO_ROOT / "sef-input"
 DEFAULT_CSS = REPO_ROOT / "assets" / "css" / "research-report.css"
 
 # Classes the renderer emits structurally but the site doesn't visually
@@ -55,6 +55,20 @@ ALLOWED_UNSTYLED: dict[str, str] = {
     # catalyst rows; the visual treatment comes from .cat-very, so the
     # bare modifier is decorative and intentionally unstyled.
     "high": "redundant modifier on .cat-very catalyst rows",
+    # Levels-table row modifiers — semantic markers on <tr> elements.
+    # Source-side reports use them to color the label cell, but our
+    # site CSS keeps the levels table visually uniform; the classes
+    # remain on the markup as semantic hooks for future treatment.
+    "level-row": "semantic <tr> wrapper inside .levels-table",
+    "level-support": "row modifier on .levels-table (semantic only — kept uniform on site)",
+    "level-resistance": "row modifier on .levels-table (semantic only — kept uniform on site)",
+    "level-neutral": "row modifier on .levels-table (semantic only — kept uniform on site)",
+    # `.na` marks 'not applicable / not included' filler paragraphs;
+    # inherits parent typography by design.
+    "na": "filler 'not included in this analysis' paragraphs — inherit parent typography",
+    # Chroma fence-language wrapper class (e.g., <code class="lang-json">).
+    # Visual rules apply to the inner Chroma token classes, not the wrapper.
+    "lang-json": "Chroma fence-language wrapper; styles attach to inner token classes",
 }
 
 # HTML class extraction — `class="a b c"` and `class='a b c'`

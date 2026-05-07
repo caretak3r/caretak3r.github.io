@@ -58,9 +58,9 @@ jobs:
           enable-cache: true
           cache-dependency-glob: "scripts/sync-research.py"
       - name: Verify SEF ↔ Hugo class taxonomy is in sync
-        run: uv run scripts/verify-class-taxonomy.py
-      - name: Regenerate research content from data/reports/
-        run: uv run scripts/sync-research.py
+        run: uv run scripts/verify-class-taxonomy.py --reports sef-input
+      - name: Regenerate research content from sef-input/
+        run: uv run scripts/sync-research.py --input sef-input
       - name: Verify ingestion is idempotent (no diff)
         run: |
           if ! git diff --quiet content/research/; then
