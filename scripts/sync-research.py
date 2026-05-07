@@ -6,7 +6,7 @@
 """
 sync-research.py — Ingest SEF research HTML reports into Hugo content.
 
-Reads:   data/reports/SEF_<TICKER>_<YYYY-MM-DD>.html
+Reads:   sef-input/SEF_<TICKER>_<YYYY-MM-DD>.html
 Writes:  content/research/<ticker-lower>-<YYYY-MM-DD>/index.html
 
 Each output file gets Hugo front-matter (ticker, date, rating, company, sector,
@@ -36,10 +36,10 @@ from pathlib import Path
 from bs4 import BeautifulSoup, Comment, Tag
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_INPUT = REPO_ROOT / "data" / "reports"
+DEFAULT_INPUT = REPO_ROOT / "sef-input"
 DEFAULT_OUTPUT = REPO_ROOT / "content" / "research"
 
-VALID_RATINGS = {"OVERWEIGHT", "HOLD", "UNDERWEIGHT"}
+VALID_RATINGS = {"BUY", "OVERWEIGHT", "HOLD", "UNDERWEIGHT", "SELL"}
 SLUG_RE = re.compile(r"^SEF_([A-Z0-9.]+)_(\d{4}-\d{2}-\d{2})\.html$")
 
 

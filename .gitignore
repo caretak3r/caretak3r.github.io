@@ -79,3 +79,4 @@ tests/.cache/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,hugo,homebrew__pycache__/
 *.pyc
+autoresearch*

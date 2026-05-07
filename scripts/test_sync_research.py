@@ -10,7 +10,7 @@ Run via:
     uv run scripts/test_sync_research.py
 
 The tests exercise pure helpers with synthetic HTML, and run an end-to-end
-ingest against a real SEF fixture from data/reports/ if one is present.
+ingest against a real SEF fixture from sef-input/ if one is present.
 """
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ from bs4 import BeautifulSoup
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCRIPT_PATH = REPO_ROOT / "scripts" / "sync-research.py"
-FIXTURES = REPO_ROOT / "data" / "reports"
+FIXTURES = REPO_ROOT / "sef-input"
 
 
 def _load_module():
@@ -80,16 +80,18 @@ class TestParseDate:
 
 class TestParseRating:
     @pytest.mark.parametrize("text,expected", [
+        ("BUY", "buy"),
         ("OVERWEIGHT", "overweight"),
         ("Hold", "hold"),
         ("  underweight  ", "underweight"),
+        ("SELL", "sell"),
     ])
     def test_valid(self, text, expected):
         assert sr.parse_rating(text, Path("x.html")) == expected
 
     def test_rejects_invalid(self):
         with pytest.raises(sr.ExtractError):
-            sr.parse_rating("BUY", Path("x.html"))
+            sr.parse_rating("STRONG BUY", Path("x.html"))
 
 
 class TestEscapeYaml:

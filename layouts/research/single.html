@@ -1,4 +1,5 @@
 {{ define "main" }}
+{{ partial "report-nav.html" . }}
 <div class="report-shell">
 
   <div class="report-eyebrow">
@@ -22,4 +23,5 @@
   </footer>
 
 </div>
+<script src="{{ "js/report-nav.js" | relURL }}" defer></script>
 {{ end }}

@@ -1,0 +1,155 @@
+{{- /* ================================================================
+     RPG Stamp Design System — wax-seal aesthetic
+     ================================================================
+
+     This partial dispatches a project slug to a hand-drawn SVG seal.
+     Invocation:
+         {{ partial "proj-stamp.html" "grand-line-exchange" }}
+
+     ── HOW TO ADD A NEW STAMP ─────────────────────────────────────
+     1. Add the project to data/projects.yaml with: slug, title, short,
+        url, description, status.
+     2. Add a `{{- else if eq $slug "your-slug" -}}` branch below.
+     3. Build your stamp following the recipe in this comment block.
+     4. Verify in light AND dark mode via the topbar ◐ toggle.
+
+     ── HARD FORMAT RULES ──────────────────────────────────────────
+     - <svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+     - viewBox is ALWAYS 0 0 96 96. Center at (48,48). Outer radius 44.
+     - aria-hidden="true" — the stamp is decorative; the project title
+       carries the accessible label.
+     - All strokes/fills use `currentColor` or `var(--bg)` — never hex.
+       That's how the stamp inherits theme + hover state from
+       .proj-card .proj-stamp (var(--ink) at rest, var(--accent) on hover,
+       and flips automatically across light/dark via the data-theme attr).
+
+     ── WAX-SEAL FRAME (every stamp opens with these two rings) ────
+       <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+       <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+     The solid outer + dashed inner is the visual signature of the
+     system. Don't omit them — they're how the seal reads as a seal.
+
+     ── CENTRAL MOTIF (this is where each project differentiates) ──
+     - One dominant emblem. No clutter, no secondary symbols.
+     - Symbolic, not literal. No brand-mark lifts, no logos.
+     - Sized to ~60–70% of the inner-ring diameter (≈ 50–60 px wide).
+     - Layered for embossed depth:
+         outline (stroke 1.4–1.6, currentColor)
+         + tinted fill (currentColor, opacity 0.10–0.18)
+     - Solid `currentColor` for emphasis details (pupils, studs, points).
+     - `var(--bg)` for inversion punch-throughs (eye glint, hollow studs,
+       knockouts) so the detail reads against the inked motif.
+
+     ── OPTIONAL FLOURISHES (one per stamp, max) ───────────────────
+     - Cardinal ticks at N/S/E/W rim — directional / compass-y motifs
+     - Radial rays around the rim — divine / aura / "always-on" motifs
+     - Internal sub-frames (shield, banner) — defensive / heraldic motifs
+     - Hand-ruled lines (text / codex) — written / chronicled motifs
+
+     ── EXISTING STAMPS (semantic reference) ───────────────────────
+     grand-line-exchange  → compass-star + skull-with-straw-hat (TCG / pirate)
+     rtf-llm              → shield + crossed daggers + hex core   (red team / offense)
+     vision               → almond eye + iris + radial rays       (sight / always-on)
+     other-projects       → open codex + bookmark ribbon          (catalog / chronicle)
+
+     ── BEFORE COMMITTING A NEW STAMP ──────────────────────────────
+     1. `hugo --gc --minify` must exit 0 with zero ERROR lines.
+     2. Visually QA both themes — the motif must read at 88px and 64px
+        (the desktop and mobile sizes set in style.css .proj-card).
+     3. The hover state should rotate-or-tint, not break composition.
+     ================================================================ */ -}}
+{{- /* SVG stamp dispatcher — pass a project slug as the context. */ -}}
+{{- $slug := . -}}
+{{- if eq $slug "grand-line-exchange" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  <g stroke="currentColor" stroke-width="1.2" fill="none">
+    <line x1="48" y1="6" x2="48" y2="12"/>
+    <line x1="48" y1="84" x2="48" y2="90"/>
+    <line x1="6" y1="48" x2="12" y2="48"/>
+    <line x1="84" y1="48" x2="90" y2="48"/>
+  </g>
+  <path d="M48 16 L52 44 L80 48 L52 52 L48 80 L44 52 L16 48 L44 44 Z" fill="currentColor" opacity="0.18"/>
+  <path d="M48 16 L52 44 L80 48 L52 52 L48 80 L44 52 L16 48 L44 44 Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <g transform="translate(48 48)">
+    <path d="M-8 -2 a8 8 0 1 1 16 0 v6 a3 3 0 0 1 -3 3 h-1 v-3 h-2 v3 h-2 v-3 h-2 v3 h-1 a3 3 0 0 1 -3 -3 z" fill="currentColor"/>
+    <circle cx="-3" cy="-2" r="1.4" fill="var(--bg)"/>
+    <circle cx="3" cy="-2" r="1.4" fill="var(--bg)"/>
+    <rect x="-4" y="1" width="1.5" height="2" fill="var(--bg)"/>
+    <rect x="-1.25" y="1" width="1.5" height="2" fill="var(--bg)"/>
+    <rect x="1.5" y="1" width="1.5" height="2" fill="var(--bg)"/>
+    <path d="M-12 -8 q12 -4 24 0 v-2 q-12 -4 -24 0 z" fill="currentColor"/>
+  </g>
+</svg>
+{{- else if eq $slug "rtf-llm" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  <path d="M48 18 L70 26 L70 48 Q70 64 48 76 Q26 64 26 48 L26 26 Z" fill="currentColor" opacity="0.10"/>
+  <path d="M48 18 L70 26 L70 48 Q70 64 48 76 Q26 64 26 48 L26 26 Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+  <g stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+    <line x1="34" y1="34" x2="62" y2="62"/>
+    <line x1="62" y1="34" x2="34" y2="62"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="34" cy="34" r="2.4"/>
+    <circle cx="62" cy="34" r="2.4"/>
+    <circle cx="34" cy="62" r="2.4"/>
+    <circle cx="62" cy="62" r="2.4"/>
+  </g>
+  <polygon points="48,40 54,44 54,52 48,56 42,52 42,44" fill="currentColor"/>
+  <polygon points="48,43 51,45 51,51 48,53 45,51 45,45" fill="var(--bg)"/>
+  <circle cx="48" cy="48" r="1.6" fill="currentColor"/>
+</svg>
+{{- else if eq $slug "vision" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Eight radial rays around the eye — divine-vision aesthetic */}}
+  <g stroke="currentColor" stroke-width="1" stroke-linecap="round">
+    <line x1="48" y1="14" x2="48" y2="22"/>
+    <line x1="48" y1="74" x2="48" y2="82"/>
+    <line x1="14" y1="48" x2="22" y2="48"/>
+    <line x1="74" y1="48" x2="82" y2="48"/>
+    <line x1="24" y1="24" x2="29" y2="29"/>
+    <line x1="67" y1="67" x2="72" y2="72"/>
+    <line x1="24" y1="72" x2="29" y2="67"/>
+    <line x1="67" y1="29" x2="72" y2="24"/>
+  </g>
+  {{/* Almond eye outline (lid + lash arc) */}}
+  <path d="M22 48 Q48 30 74 48 Q48 66 22 48 Z" fill="currentColor" opacity="0.10"/>
+  <path d="M22 48 Q48 30 74 48 Q48 66 22 48 Z" fill="none" stroke="currentColor" stroke-width="1.6"/>
+  {{/* Iris with subtle radial shading + pupil + glint */}}
+  <circle cx="48" cy="48" r="11" fill="currentColor" opacity="0.55"/>
+  <circle cx="48" cy="48" r="11" fill="none" stroke="currentColor" stroke-width="1"/>
+  <circle cx="48" cy="48" r="4.5" fill="currentColor"/>
+  <circle cx="51" cy="45" r="1.6" fill="var(--bg)"/>
+</svg>
+{{- else if eq $slug "other-projects" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Open codex — two pages meeting at central spine */}}
+  <path d="M22 32 L46 38 L46 70 L22 64 Z" fill="currentColor" opacity="0.10"/>
+  <path d="M22 32 L46 38 L46 70 L22 64 Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <path d="M50 38 L74 32 L74 64 L50 70 Z" fill="currentColor" opacity="0.10"/>
+  <path d="M50 38 L74 32 L74 64 L50 70 Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  {{/* Central spine */}}
+  <line x1="48" y1="38" x2="48" y2="70" stroke="currentColor" stroke-width="1.4"/>
+  {{/* Hand-ruled text lines, left page (slope down) */}}
+  <g stroke="currentColor" stroke-width="0.9" opacity="0.65" stroke-linecap="round">
+    <line x1="26" y1="44" x2="42" y2="48"/>
+    <line x1="26" y1="50" x2="42" y2="54"/>
+    <line x1="26" y1="56" x2="38" y2="59"/>
+  </g>
+  {{/* Right page (slope up) */}}
+  <g stroke="currentColor" stroke-width="0.9" opacity="0.65" stroke-linecap="round">
+    <line x1="54" y1="48" x2="70" y2="44"/>
+    <line x1="54" y1="54" x2="70" y2="50"/>
+    <line x1="54" y1="60" x2="66" y2="57"/>
+  </g>
+  {{/* Bookmark ribbon hanging from top */}}
+  <path d="M57 32 L63 31 L60 41 Z" fill="currentColor"/>
+</svg>
+{{- end -}}

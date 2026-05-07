@@ -17,7 +17,7 @@
   </p>
 
   {{- $posts := where .Site.RegularPages "Section" "posts" -}}
-  {{- $projects := where .Site.RegularPages "Section" "projects" -}}
+  {{- $projects := index hugo.Data "projects" -}}
   {{- $research := where .Site.RegularPages "Section" "research" -}}
   {{- $recentPosts := first 5 ($posts.ByDate.Reverse) -}}
   {{- $recentResearch := first 5 ($research.ByDate.Reverse) -}}
@@ -74,20 +74,23 @@
   </section>
 
   {{ if $projects }}
-  {{- $featured := first 3 ($projects.ByDate.Reverse) -}}
   <section class="projects-strip">
     <div class="projects-strip-head">
       <div class="label">PROJECTS</div>
       <div style="font-family: var(--font-display); font-size: 10px; color: var(--muted); letter-spacing: 0.12em;">
-        MOST ACTIVE · <a href="{{ "/projects/" | relURL }}" style="color: var(--accent); text-decoration: none;">SEE ALL ({{ len $projects }})</a>
+        ACTIVE · <a href="{{ "/projects/" | relURL }}" style="color: var(--accent); text-decoration: none;">SEE ALL ({{ len $projects }})</a>
       </div>
     </div>
-    <div class="projects-grid">
-      {{- range $featured }}
-      <div class="proj">
-        <span class="proj-name"><a href="{{ .Permalink }}" style="text-decoration: none; color: var(--ink);">{{ .Title | upper }}</a></span>
-        <span class="proj-desc">{{ with .Params.description }}{{ . }}{{ else }}{{ .Summary | truncate 80 | plainify }}{{ end }}</span>
-      </div>
+    <div class="proj-strip">
+      {{- range $projects }}
+      <a class="proj-card" href="{{ .url }}" target="_blank" rel="noopener">
+        <span class="proj-stamp">{{ partial "proj-stamp.html" .slug }}</span>
+        <div class="proj-text">
+          <span class="proj-name">{{ .title }}</span>
+          <span class="proj-desc">{{ .description }}</span>
+          <span class="proj-link">{{ replace .url "https://" "" }} →</span>
+        </div>
+      </a>
       {{- end }}
     </div>
   </section>

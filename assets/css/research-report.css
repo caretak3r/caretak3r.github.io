@@ -31,16 +31,19 @@
 .report-shell a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 .report-shell a:hover { color: var(--ink); background: var(--accent-bg); }
 
-/* ---- Width tiers — SEF reports use these to vary rhythm ---- */
+/* ---- Width tiers — unified to a single full-shell width.
+   Historical SEF reports emit .col-prose / .col-wide / .col-bleed wrappers.
+   We collapse all three to inherit .report-shell's max-width so every
+   section hits the same left/right edge (the OMEX rhythm). New reports
+   from the renderer emit no wrappers; these rules keep older HTML
+   visually identical without re-ingesting source files. ---- */
 .report-shell .col-prose,
 .report-shell .col-wide,
 .report-shell .col-bleed {
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 8px;
+  padding: 0;
 }
-.report-shell .col-prose { max-width: 820px; }
-.report-shell .col-wide  { max-width: 1080px; }
-.report-shell .col-bleed { max-width: 1280px; }
 
 /* ---- Header block ---- */
 .report-shell .header {
@@ -107,11 +110,11 @@
   text-transform: uppercase;
   border: 1px solid currentColor;
 }
-.report-shell .rating-badge.overweight { color: var(--success); background: rgba(90, 123, 31, 0.10); }
-.report-shell .rating-badge.hold       { color: var(--warn);    background: rgba(184, 134, 43, 0.10); }
-.report-shell .rating-badge.underweight{ color: var(--danger);  background: rgba(160, 58, 42, 0.10); }
-
-/* SEF reports may not put rating modifier as a class — fall back to text-content matching via [class*=]. */
+.report-shell .rating-badge.buy        { color: var(--success); background: rgba(90, 123, 31, 0.18); }
+.report-shell .rating-badge.overweight { color: var(--success); background: rgba(90, 123, 31, 0.12); }
+.report-shell .rating-badge.hold       { color: var(--warn);    background: rgba(184, 134, 43, 0.12); }
+.report-shell .rating-badge.underweight{ color: var(--danger);  background: rgba(160, 58, 42, 0.12); }
+.report-shell .rating-badge.sell       { color: var(--danger);  background: rgba(160, 58, 42, 0.18); }
 
 /* ---- Lede ---- */
 .report-shell .lede {
@@ -157,6 +160,23 @@
   list-style: square;
 }
 .report-shell .lede-provenance li { margin: 2px 0; }
+
+/* ---- Decision row ----
+   SEF source emits a .decision-row wrapper around .decision-box +
+   .levels-table. Without an explicit rule the browser falls back to
+   block stacking (which works) but doesn't enforce the rhythm. Make
+   the grid explicit so the gap between box and levels-table is one
+   value, not the sum of their adjacent margins. */
+.report-shell .decision-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s-5);
+  margin: var(--s-6) 0;
+}
+.report-shell .decision-row > .decision-box,
+.report-shell .decision-row > .levels-table {
+  margin: 0;
+}
 
 /* ---- Decision box ---- */
 .report-shell .decision-box {
@@ -292,13 +312,64 @@
 }
 .report-shell tr:last-child td { border-bottom: none; }
 
-/* Key-levels table — tighter than default, monospace numerals */
+/* Key-levels table — readable rhythm, monospace numerals */
+.report-shell table.levels-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 22px 0;
+}
 .report-shell table.levels-table th,
 .report-shell table.levels-table td {
-  padding: 5px 9px;
-  font-size: 11.5px;
+  padding: 11px 14px;
+  font-size: 13px;
+  line-height: 1.5;
 }
-.report-shell table.levels-table td { font-variant-numeric: tabular-nums; }
+.report-shell table.levels-table th {
+  font-family: var(--font-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 10.5px;
+  color: var(--muted);
+  border-bottom: 1.5px solid var(--ink);
+  text-align: left;
+  font-weight: 600;
+}
+.report-shell table.levels-table td {
+  font-variant-numeric: tabular-nums;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.report-shell table.levels-table tr:last-child td { border-bottom: none; }
+.report-shell .level-label {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+/* Value cell: Inter with tabular figures — short tickers like "$12.18"
+   read as crisp financial numerals; long prose like multi-scenario price
+   ranges wraps cleanly because nothing here is set to nowrap. The
+   monospace-fallback chain we used to use bombed out to system Menlo
+   and looked code-y, not editorial. */
+.report-shell .level-value {
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums slashed-zero;
+  line-height: 1.5;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.report-shell .level-note  {
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.5;
+}
 
 /* ---- Technical-indicator signal badges ---- */
 /* Inline pills that wrap "**INDICATOR — BULLISH/BEARISH**" runs in the
@@ -316,6 +387,91 @@
 .report-shell .ti-signal.ti-bearish { color: var(--danger);  background: rgba(160, 58, 42, 0.10); }
 .report-shell .ti-signal.ti-warning { color: var(--warn);    background: rgba(184, 134, 43, 0.10); }
 .report-shell .ti-signal.ti-neutral { color: var(--muted); }
+
+/* ---- Indicator Snapshot card (Editor's Cut Technical Read) ---- */
+.report-shell .signal-card {
+  margin: 22px 0 14px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  background: var(--paper, #faf6ef);
+  padding: 22px 26px 20px;
+}
+.report-shell .signal-card-eyebrow {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.report-shell .signal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+.report-shell .signal-tile {
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 12px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.report-shell .signal-key {
+  font-family: var(--font-display);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.report-shell .signal-value {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+.report-shell .signal-spark { min-height: 32px; }
+.report-shell .signal-spark svg { width: 100%; height: 32px; display: block; }
+.report-shell .signal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.report-shell .signal-tile .ti-signal {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  line-height: 1.4;
+  border: 1px solid currentColor;
+}
+.report-shell .signal-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 11.5px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.report-shell .signal-summary {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ink);
+  margin: 16px 0 0 0;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
 
 /* ---- Debate grid (bull/bear/aggressive/conservative/neutral) ---- */
 .report-shell .debate-grid {
@@ -732,30 +888,445 @@
 .report-shell svg [fill="#faf6ef"]  { fill: var(--bg); }
 .report-shell svg [stroke="#faf6ef"]{ stroke: var(--bg); }
 
-/* SVG text inherits reasonable defaults — force display font on chart labels */
+/* SVG text — chart labels render in Inter (loaded by site).
+   The SEF source emits inline font-family="IBM Plex Mono" / "Inter" on
+   individual <text> nodes; IBM Plex Mono isn't loaded here, so we route
+   everything to Inter for clean, neutral chart typography that matches
+   the SEF design intent without depending on an extra font load.
+   !important wins over the inline presentation attribute on <text>. */
 .report-shell svg text {
-  font-family: var(--font-display);
+  font-family: var(--font-body) !important;
+}
+.report-shell svg text[font-family*="Mono"] {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
 }
 
-/* ---- Mobile ---- */
+/* ---- Responsive ladder ----
+   Three coordinated tiers: tablet (≤900), narrow (≤720), phone (≤600), tiny (≤420).
+   Padding and gap step down on a rhythm so there's no awkward middle ground. */
+@media (max-width: 900px) {
+  .report-shell { padding: var(--s-7) var(--s-5) var(--s-7); }
+  .report-shell .meta-row { gap: var(--s-4); }
+}
 @media (max-width: 720px) {
   .report-shell {
-    padding: 20px 16px 48px;
+    padding: var(--s-5) var(--s-4) var(--s-7);
     font-size: 14.5px;
   }
   .report-shell .ticker { font-size: 30px; }
   .report-shell .header-top { flex-direction: column; align-items: flex-start; gap: 6px; }
-  .report-shell .meta-row { gap: 14px; }
-  .report-shell .debate-grid { grid-template-columns: 1fr; }
+  .report-shell .meta-row { gap: var(--s-3); }
+  .report-shell .debate-grid { grid-template-columns: 1fr; gap: var(--s-3); }
+  .report-shell .debate-card { border-left-width: 4px; padding: 16px 18px; }
   .report-shell .col-prose,
   .report-shell .col-wide,
   .report-shell .col-bleed { padding: 0; }
   .report-shell table { font-size: 11.5px; }
   .report-shell .decision-box,
   .report-shell .interim-box,
-  .report-shell .debate-card,
-  .report-shell .quant-box { padding: 14px 16px; }
+  .report-shell .quant-box { padding: var(--s-4) var(--s-4); }
   /* Charts use 11-12px text in a 1080px viewBox; at ~360px effective width
      that collapses unreadable. Lift it back into reach. */
   .report-shell svg text { font-size: 13px; }
+}
+
+@media (max-width: 600px) {
+  .report-shell { padding: var(--s-5) var(--s-3) var(--s-7); }
+
+  /* Levels table → stacked card layout on phones. The 4-col
+     (Level / Value / Basis / Note) grid wraps badly under 360 px.
+     Hoist the first cell as the row heading; remaining cells flow
+     as definition body. SEF source emits no data-attrs, so we drive
+     the layout off cell position. */
+  .report-shell table.levels-table,
+  .report-shell table.levels-table thead,
+  .report-shell table.levels-table tbody,
+  .report-shell table.levels-table tr,
+  .report-shell table.levels-table th,
+  .report-shell table.levels-table td {
+    display: block;
+  }
+  .report-shell table.levels-table thead { display: none; }
+  .report-shell table.levels-table tr {
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    margin: var(--s-3) 0;
+    padding: var(--s-3) var(--s-4);
+    background: var(--surface);
+  }
+  .report-shell table.levels-table td {
+    border: none;
+    padding: 3px 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .report-shell table.levels-table td:first-child {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .report-shell table.levels-table td:nth-child(2) {
+    font-size: 16px;
+    font-weight: 600;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-variant-numeric: tabular-nums;
+  }
+  .report-shell table.levels-table .level-label,
+  .report-shell table.levels-table .level-value,
+  .report-shell table.levels-table .level-note { display: inline; }
+
+  .report-shell .signal-grid { grid-template-columns: 1fr; }
+  .report-shell .bm-grid { grid-template-columns: 1fr 1fr; }
+  .report-shell .channel-row { grid-template-columns: 22px 1fr; }
+  .report-shell .channel-status { grid-column: 2; justify-self: start; margin-top: 4px; }
+  .report-shell .nw-row { grid-template-columns: 1fr auto; }
+  .report-shell .nw-type { grid-column: 1 / -1; }
+}
+
+@media (max-width: 420px) {
+  .report-shell { padding: var(--s-4) var(--s-3) var(--s-6); }
+  .report-shell .ticker { font-size: 26px; }
+  .report-shell .lede { padding: var(--s-3) var(--s-3); font-size: 15.5px; }
+}
+
+/* ============================================================
+   POLISH PASS — Cross-report visual congruence
+   Added 2026-05-05 to normalize typography, lede treatment, and
+   catalyst-timeline rendering across all 8 research reports so they
+   read as one editorial product, not eight different generations of
+   the renderer. OMEX is the rhythm reference; everything else snaps
+   to its proportions.
+   ============================================================ */
+
+/* ---- Catalyst timeline: hide deprecated horizontal axis layout ----
+   Older renderer (pre-2026-05) emitted a 720×180 horizontal axis SVG
+   that silently drops events past the second one — OMEX/CBT each
+   show only 2 of 9 catalysts. The HTML table below is authoritative
+   and complete; let it do the talking until those reports get
+   re-rendered with the vertical newsfeed. */
+.report-shell .chart-block svg.chart-svg[aria-label="Catalyst timeline"][viewbox="0 0 720 180"] {
+  display: none;
+}
+.report-shell .chart-block svg.chart-svg[aria-label="Catalyst timeline"][viewbox="0 0 720 180"] + .chart-caption {
+  display: none;
+}
+
+/* ---- Lede polish: editorial intro that earns its space ----
+   The lede was reading as a left-indented blockquote; the SEF design
+   intent is a magazine-style standfirst. We constrain its measure for
+   readability, lift the type, and drop the heavy left rule in favor of
+   a subtle accent underline + larger drop cap. Rhythm now matches the
+   OMEX decision-box (which IS the lede on reports without a separate
+   .lede block). */
+.report-shell .lede {
+  font-family: var(--font-serif);
+  font-size: 18.5px;
+  line-height: 1.6;
+  margin: 28px auto 36px;
+  max-width: 920px;
+  padding: 24px 28px 22px;
+  border-left: none;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  text-align: left;
+  letter-spacing: 0.005em;
+}
+.report-shell .lede p {
+  margin: 0 0 12px;
+  text-align: justify;
+  hyphens: auto;
+}
+.report-shell .lede p:last-of-type { margin-bottom: 0; }
+.report-shell .lede p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-size: 4.4em;
+  font-weight: 600;
+  float: left;
+  line-height: 0.86;
+  margin: 6px 10px -2px 0;
+  color: var(--accent);
+}
+
+/* Lede provenance footer: tighter, demoted hierarchy */
+.report-shell .lede-provenance {
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  line-height: 1.55;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+.report-shell .lede-provenance p { margin: 4px 0; }
+.report-shell .lede-provenance code {
+  font-family: var(--font-display);
+  font-size: 10px;
+  background: var(--surface);
+  padding: 1px 5px;
+  border-radius: 2px;
+  color: var(--ink);
+}
+
+/* ---- Section header normalization ----
+   Some reports render h2.section with extra margin from the SEF source.
+   Lock the rhythm to one cadence. */
+.report-shell h2.section,
+.report-shell .section > h2:first-child {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 10px;
+  margin: 40px 0 20px;
+}
+
+/* ---- Quant-box label uniformity ---- */
+.report-shell .quant-label,
+.report-shell .cc-title,
+.report-shell .nw-title {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---- Decision-box rhythm: anchor of the report ----
+   Marginally tighter than the SEF default; ensures it reads as the
+   gravitational center of the page. */
+.report-shell .decision-box {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  padding: 26px 30px;
+  margin: 32px 0;
+}
+.report-shell .decision-box h2 {
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+/* ---- Debate-grid card uniformity ---- */
+.report-shell .debate-card {
+  padding: 20px 22px;
+}
+.report-shell .debate-label {
+  font-size: 10px;
+  letter-spacing: 0.20em;
+}
+
+/* ---- Table polish: even row rhythm + numeric alignment ---- */
+.report-shell table {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+}
+.report-shell th {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+.report-shell td {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Footer polish ---- */
+.report-shell .footer,
+.report-shell .colophon,
+.report-shell .disclaimer {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+/* ---- Header: ticker + meta-row alignment ---- */
+.report-shell .header { margin-bottom: 32px; }
+.report-shell .ticker {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
+}
+.report-shell .fund-name,
+.report-shell .meta-row {
+  font-family: var(--font-display);
+  letter-spacing: 0.16em;
+}
+
+/* ---- Chart caption ---- */
+.report-shell .chart-caption {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 12.5px;
+  color: var(--muted);
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* ---- Mobile lede adjustments ---- */
+@media (max-width: 720px) {
+  .report-shell .lede {
+    padding: 18px 16px;
+    font-size: 16.5px;
+    max-width: 100%;
+  }
+  .report-shell .lede p:first-of-type::first-letter {
+    font-size: 3.6em;
+  }
+}
+
+/* ============================================================
+   Dark mode tint overrides — light-mode RGB at low alpha goes
+   nearly invisible on the dark coffee surface. Re-tune the
+   semantic backgrounds using the dark-mode token RGBs and a
+   slightly higher alpha so badges stay legible after toggle.
+   ============================================================ */
+html[data-theme="dark"] .report-shell .rating-badge.buy        { background: rgba(149, 192, 64, 0.22); }
+html[data-theme="dark"] .report-shell .rating-badge.overweight { background: rgba(149, 192, 64, 0.16); }
+html[data-theme="dark"] .report-shell .rating-badge.hold       { background: rgba(232, 179, 57, 0.16); }
+html[data-theme="dark"] .report-shell .rating-badge.underweight{ background: rgba(224, 112, 96, 0.16); }
+html[data-theme="dark"] .report-shell .rating-badge.sell       { background: rgba(224, 112, 96, 0.22); }
+
+html[data-theme="dark"] .report-shell .ti-signal.ti-bullish    { background: rgba(149, 192, 64, 0.16); }
+html[data-theme="dark"] .report-shell .ti-signal.ti-bearish    { background: rgba(224, 112, 96, 0.16); }
+html[data-theme="dark"] .report-shell .ti-signal.ti-warning    { background: rgba(232, 179, 57, 0.16); }
+
+html[data-theme="dark"] .report-shell .bm-status.pass     { background: rgba(149, 192, 64, 0.14); border-color: rgba(149, 192, 64, 0.32); }
+html[data-theme="dark"] .report-shell .bm-status.marginal { background: rgba(232, 179, 57, 0.14); border-color: rgba(232, 179, 57, 0.32); }
+html[data-theme="dark"] .report-shell .bm-status.fail     { background: rgba(224, 112, 96, 0.14); border-color: rgba(224, 112, 96, 0.32); }
+
+html[data-theme="dark"] .report-shell .channel-row.pass     .channel-status { background: rgba(149, 192, 64, 0.14); }
+html[data-theme="dark"] .report-shell .channel-row.marginal .channel-status { background: rgba(232, 179, 57, 0.14); }
+html[data-theme="dark"] .report-shell .channel-row.fail     .channel-status { background: rgba(224, 112, 96, 0.14); }
+
+/* Signal-card paper override — light-mode hardcodes #faf6ef which
+   is near-white; in dark mode we need it to track the surface. */
+html[data-theme="dark"] .report-shell .signal-card { background: var(--surface); }
+html[data-theme="dark"] .report-shell .signal-tile { background: var(--surface-2); }
+
+/* ============================================================
+   Reading layer — scroll progress + right-rail TOC.
+   Rendered by layouts/partials/report-nav.html, populated by
+   static/js/report-nav.js. Both degrade gracefully without JS:
+   the bar stays at 0%, the TOC stays hidden.
+   ============================================================ */
+
+/* Scroll progress: fills the topbar's bottom edge with accent.
+   Lives at top: 0 with z-index above topbar so it's the first
+   thing the eye catches on scroll. */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: var(--scroll-progress, 0%);
+  background: var(--accent);
+  z-index: 60;
+  pointer-events: none;
+  will-change: width;
+}
+
+/* Anchor offset so #sec-foo jumps don't tuck the heading under
+   the sticky topbar (~47px) + scroll-progress (2px). */
+.report-shell h2.section,
+.report-shell .decision-box > h2 {
+  scroll-margin-top: 72px;
+}
+
+/* TOC rail — only renders on viewports wide enough to fit it
+   alongside the 1280px shell (1280 + 200 rail + gutters ≈ 1540).
+   Below that, hidden via the [hidden] attribute on the partial. */
+.report-toc { display: none; }
+
+@media (min-width: 1500px) {
+  .report-toc:not([hidden]) {
+    display: block;
+    position: fixed;
+    top: 84px;
+    right: var(--s-5);
+    width: 200px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding: var(--s-3) 0 var(--s-3) var(--s-4);
+    border-left: 1px solid var(--line);
+    z-index: 40;
+    font-family: var(--font-display);
+    font-size: 10.5px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .report-toc-label {
+    font-family: var(--font-display);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--s-3);
+  }
+  .report-toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: tocnum;
+  }
+  .report-toc-list li {
+    counter-increment: tocnum;
+    margin: var(--s-2) 0;
+    padding-left: 26px;
+    position: relative;
+  }
+  .report-toc-list li::before {
+    content: counter(tocnum, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    opacity: 0.7;
+  }
+  .report-toc-link {
+    color: var(--muted);
+    text-decoration: none;
+    display: block;
+    line-height: 1.4;
+    padding: 2px 0 2px 8px;
+    margin-left: -10px;
+    border-left: 2px solid transparent;
+    transition: color 120ms ease, border-color 120ms ease;
+  }
+  .report-toc-link:hover { color: var(--ink); }
+  .report-toc-link.is-active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+  }
+}
+
+/* Reduced-motion respect — strip transitions that are
+   purely decorative. Layout-critical animations (none here)
+   would need explicit allowlist; everything in this file is
+   safe to disable. */
+@media (prefers-reduced-motion: reduce) {
+  .topbar a,
+  .topbar .cell,
+  .filter-row button,
+  .ledger tbody tr,
+  .report-toc-link {
+    transition: none !important;
+  }
 }

@@ -2,23 +2,24 @@
 <div class="shell">
 
   <div class="page-head">
+    {{- $projects := index hugo.Data "projects" -}}
     <h1>PROJECTS</h1>
-    {{- $projects := where .Site.RegularPages "Section" "projects" -}}
     <div class="index">COUNT {{ printf "%03d" (len $projects) }}</div>
   </div>
 
   {{ with .Content }}<div class="lede">{{ . }}</div>{{ end }}
 
-  <div class="projects-grid" style="margin-top: 24px;">
-    {{- range ($projects.ByDate.Reverse) }}
-    <div class="proj">
-      <span class="proj-name">
-        <a href="{{ .Permalink }}" style="text-decoration: none; color: var(--ink);">{{ .Title | upper }}</a>
-      </span>
-      <span class="proj-desc">
-        {{ with .Params.description }}{{ . }}{{ else }}{{ .Summary | truncate 120 | plainify }}{{ end }}
-      </span>
-    </div>
+  <div class="proj-strip" style="margin-top: 24px;">
+    {{- range $projects }}
+    <a class="proj-card" href="{{ .url }}" target="_blank" rel="noopener">
+      <span class="proj-stamp">{{ partial "proj-stamp.html" .slug }}</span>
+      <div class="proj-text">
+        <span class="proj-name">{{ .title }}</span>
+        {{ with .short }}<span class="proj-short">{{ . }}</span>{{ end }}
+        <span class="proj-desc">{{ .description }}</span>
+        <span class="proj-link">{{ replace .url "https://" "" }} →</span>
+      </div>
+    </a>
     {{- end }}
   </div>
 
