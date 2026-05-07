@@ -80,3 +80,14 @@ tests/.cache/
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,hugo,homebrew__pycache__/
 *.pyc
 autoresearch*
+
+# SEF reports must live under sef-input/ — never under data/.
+# Hugo's data loader walks /data/ recursively and chokes on raw SEF HTML
+# (which is the *input* to scripts/sync-research.py, not Hugo data).
+# Belt-and-suspenders: this gitignore prevents the path from re-creeping
+# back into the repo if a future script/operator points rsync at the
+# wrong directory.
+/data/reports/
+
+# Mockup/draft folder — local-only design experiments, not site content.
+sef-input/_mockups/

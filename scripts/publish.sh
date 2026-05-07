@@ -53,6 +53,18 @@ if [[ ! -d "${SOURCE_DIR}" ]]; then
   exit 2
 fi
 
+# Hard guard: data/reports/ MUST NOT exist — Hugo's data loader walks /data/
+# recursively, and these files aren't valid YAML/TOML/JSON, so the build
+# explodes with "unmarshal of format ''". The path is gitignored, but if a
+# stray rsync (or operator) recreates it we want a loud, immediate failure
+# rather than a confusing CI error 30 seconds later.
+if [[ -d "${REPO_ROOT}/data/reports" ]]; then
+  echo "error: data/reports/ exists — this breaks Hugo's data loader." >&2
+  echo "       SEF inputs must live under sef-input/, not data/." >&2
+  echo "       Remove with:  rm -rf data/reports/" >&2
+  exit 2
+fi
+
 echo "==> rsync ${SOURCE_DIR}/ → ${INPUT_DIR}/"
 mkdir -p "${INPUT_DIR}"
 rsync "${RSYNC_FLAGS[@]}" "${SOURCE_DIR}/" "${INPUT_DIR}/"
