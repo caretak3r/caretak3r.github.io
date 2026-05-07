@@ -9,7 +9,7 @@ ignoreLogs = ['warning-goldmark-raw-html']
 [params]
   brand = "R.GUDI"
   handle = "silent.engineer"
-  description = "10-year platform / infrastructure engineer. Engineering notes and equity research."
+  description = "10-year platform/infrastructure engineer. Supply chain security, Kubernetes, workload identity, zero-knowledge proofs, automation. Technical notes on infrastructure, software and — sometimes — equity research."
   author = "Rohit Gudi"
 
   # Socials surfaced in footer + bio block
