@@ -1,61 +1,25 @@
-/* report-nav.js — research report reading aids
- * - Assigns IDs to h2.section and h2[Portfolio Decision] so anchors work
- * - Builds a right-rail TOC that highlights the section in view
- * - Tracks scroll progress as --scroll-progress on <html>
- * No deps. Safe to no-op if .report-shell isn't on the page. */
+/* report-nav.js — viewport-bound reading aids
+ * - Active-section highlight in the right-rail TOC
+ * - Scroll-progress CSS variable on <html>
+ *
+ * Heading IDs and the TOC markup itself are emitted server-side now —
+ * see scripts/backfill-toc.py and the upstream sef-research-report
+ * generator (build_report → _inject_section_ids_and_toc). This file is
+ * intentionally only the bits that need a viewport to mean anything. */
 (function () {
   'use strict';
 
   var shell = document.querySelector('.report-shell');
   if (!shell) return;
 
-  // ---------- 1. Slug + assign IDs ----------
-  var slugTaken = Object.create(null);
-  function slugify(text) {
-    var base = 'sec-' + (text || '')
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-    if (!slugTaken[base]) {
-      slugTaken[base] = 1;
-      return base;
-    }
-    slugTaken[base] += 1;
-    return base + '-' + slugTaken[base];
-  }
-
+  // ---------- Active-section observer ----------
   var headings = Array.prototype.slice.call(
-    shell.querySelectorAll('h2.section, .decision-box > h2')
+    shell.querySelectorAll('h2[id]')
   );
-  headings.forEach(function (h) {
-    if (!h.id) h.id = slugify(h.textContent);
-  });
-
-  // ---------- 2. Build TOC ----------
-  var toc = document.querySelector('.report-toc');
-  if (toc && headings.length > 0) {
-    var list = document.createElement('ol');
-    list.className = 'report-toc-list';
-    headings.forEach(function (h) {
-      var li = document.createElement('li');
-      var a = document.createElement('a');
-      a.href = '#' + h.id;
-      a.className = 'report-toc-link';
-      a.setAttribute('data-section', h.id);
-      a.textContent = (h.textContent || '').trim();
-      li.appendChild(a);
-      list.appendChild(li);
-    });
-    toc.appendChild(list);
-    toc.hidden = false;
-  }
-
-  // ---------- 3. Active-section observer ----------
   var links = Array.prototype.slice.call(
     document.querySelectorAll('.report-toc-link')
   );
-  if (links.length > 0 && 'IntersectionObserver' in window) {
+  if (links.length > 0 && headings.length > 0 && 'IntersectionObserver' in window) {
     var byId = Object.create(null);
     links.forEach(function (l) { byId[l.getAttribute('data-section')] = l; });
 
@@ -71,7 +35,7 @@
     headings.forEach(function (h) { io.observe(h); });
   }
 
-  // ---------- 4. Scroll progress ----------
+  // ---------- Scroll progress ----------
   var raf = null;
   function update() {
     raf = null;

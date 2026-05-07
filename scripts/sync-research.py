@@ -200,9 +200,15 @@ def render_front_matter(report: Report) -> str:
         f'thesis_oneliner: "{escape_yaml(report.thesis_oneliner)}"',
         'layout: "report-html"',
         f'source_file: "{report.source_path.name}"',
-        # Bumped from source_hash → source_hash_v2 when comment-stripping
-        # landed; existing files use the old key, force re-ingest once.
-        f'source_hash_v2: "{report.source_hash}"',
+        # Hash key generations:
+        #   source_hash    — original
+        #   source_hash_v2 — comment-stripping landed
+        #   source_hash_v3 — server-side TOC + section IDs landed; bumping
+        #                    forces every report to re-ingest with the new
+        #                    `<aside class="report-toc">` and `id="sec-…"`
+        #                    attributes that backfill-toc.py just injected
+        #                    into sef-input/.
+        f'source_hash_v3: "{report.source_hash}"',
         "---",
     ]
     return "\n".join(fm_lines) + "\n\n"
@@ -228,7 +234,7 @@ def existing_hash(target: Path) -> str | None:
     front_matter = text[3:end]
     for line in front_matter.splitlines():
         line = line.strip()
-        if line.startswith("source_hash_v2:"):
+        if line.startswith("source_hash_v3:"):
             value = line.split(":", 1)[1].strip()
             return value.strip('"').strip("'")
     return None
