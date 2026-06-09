@@ -1271,3 +1271,173 @@ html[data-theme="dark"] .report-shell th {
   .split-list li { grid-template-columns: 80px 1fr; gap: 10px; }
   .dev-switcher { font-size: 9px; padding: 4px 6px; }
 }
+
+/* ============================================================
+   Financials section — Silent Engineering Fund research polish
+   editorial typography · sunset ticker chips · light diagram cards
+   ============================================================ */
+
+/* ---- Section title emphasis: numbered counter + sienna underline ---- */
+body[data-section="financials"] .article-content {
+  counter-reset: sef-section;
+}
+body[data-section="financials"] .article-content h2 {
+  font-size: 22px;
+  margin-top: 56px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  padding-top: 4px;
+  border-bottom: 2px solid #B85825;
+  letter-spacing: 0.08em;
+  color: #3D2E1B;
+  clear: both;
+}
+body[data-section="financials"] .article-content h2::before {
+  counter-increment: sef-section;
+  content: counter(sef-section, decimal-leading-zero);
+  display: block;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  color: #B85825;
+  margin-bottom: 8px;
+  font-weight: 400;
+}
+body[data-section="financials"] .article-content h3 {
+  font-size: 14px;
+  color: #6B5840;
+  margin-top: 36px;
+  margin-bottom: 14px;
+  letter-spacing: 0.1em;
+  padding-bottom: 4px;
+  border-bottom: 1px dotted #C9B690;
+}
+html[data-theme="dark"] body[data-section="financials"] .article-content h2 {
+  color: #E8DCC4;
+  border-bottom-color: #E08D4F;
+}
+html[data-theme="dark"] body[data-section="financials"] .article-content h2::before {
+  color: #E08D4F;
+}
+html[data-theme="dark"] body[data-section="financials"] .article-content h3 {
+  color: #B8A582;
+  border-bottom-color: #4A3E30;
+}
+
+/* ---- Historiated initial (drop cap) on first paragraph after each H2 ---- */
+body[data-section="financials"] .article-content h2 + p::first-letter {
+  font-family: var(--font-serif);
+  font-size: 4.6em;
+  float: left;
+  line-height: 0.82;
+  padding-right: 0.1em;
+  padding-top: 0.06em;
+  color: #B85825;
+  font-weight: 400;
+  font-style: normal;
+}
+html[data-theme="dark"] body[data-section="financials"] .article-content h2 + p::first-letter {
+  color: #E08D4F;
+}
+@media (max-width: 640px) {
+  body[data-section="financials"] .article-content h2 + p::first-letter {
+    font-size: 3.4em;
+  }
+}
+
+/* ---- Ticker chips: sunset gradient tint, bold display font ---- */
+body[data-section="financials"] .article-content code {
+  background: linear-gradient(135deg, rgba(224, 141, 79, 0.22) 0%, rgba(184, 88, 37, 0.32) 100%);
+  color: #8C3A12;
+  font-weight: 700;
+  font-family: var(--font-display);
+  border: 1px solid rgba(184, 88, 37, 0.42);
+  border-radius: 3px;
+  padding: 1px 7px;
+  font-size: 12.5px;
+}
+html[data-theme="dark"] body[data-section="financials"] .article-content code {
+  background: linear-gradient(135deg, rgba(224, 141, 79, 0.32) 0%, rgba(184, 88, 37, 0.50) 100%);
+  color: #F4D4B8;
+  border-color: rgba(224, 141, 79, 0.58);
+}
+
+/* ---- Tables: keep within paragraph column even at wide viewports ---- */
+@media (min-width: 900px) {
+  body[data-section="financials"] .article-content .table-wrap {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    transform: none;
+    position: static;
+  }
+}
+
+/* ---- Mermaid containers: force light cream surface in BOTH themes ---- */
+body[data-section="financials"] .mermaid-container {
+  background: #F2E8D0 !important;
+  border: 1px solid #C9B690 !important;
+  border-radius: 4px;
+  margin: 32px 0;
+  padding: 22px 24px;
+}
+body[data-section="financials"] .mermaid-container .mermaid {
+  background-color: transparent !important;
+}
+body[data-section="financials"] .mermaid-container .mermaid svg {
+  background-color: #F2E8D0 !important;
+}
+body[data-section="financials"] .mermaid-container .mermaid-caption {
+  color: #6B5840;
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  margin-top: 12px;
+}
+html[data-theme="dark"] body[data-section="financials"] .mermaid-container {
+  background: #F2E8D0 !important;
+  border-color: #C9B690 !important;
+}
+html[data-theme="dark"] body[data-section="financials"] .mermaid-container .mermaid svg text {
+  fill: #3D2E1B !important;
+}
+
+/* ---- SEF research disclaimer footer ---- */
+body[data-section="financials"] .sef-disclaimer {
+  margin: 72px 0 8px;
+  padding: 28px 32px;
+  background: rgba(184, 88, 37, 0.05);
+  border-top: 1px solid #C9B690;
+  border-bottom: 1px solid #C9B690;
+  border-left: 3px solid #B85825;
+  font-family: var(--font-serif);
+  font-size: 13.5px;
+  line-height: 1.72;
+  color: #6B5840;
+}
+body[data-section="financials"] .sef-disclaimer p {
+  margin: 0 0 14px;
+  font-style: italic;
+}
+body[data-section="financials"] .sef-disclaimer p:last-child {
+  margin-bottom: 0;
+  font-family: var(--font-display);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #B85825;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(201, 182, 144, 0.7);
+}
+html[data-theme="dark"] body[data-section="financials"] .sef-disclaimer {
+  background: rgba(224, 141, 79, 0.10);
+  border-top-color: #4A3E30;
+  border-bottom-color: #4A3E30;
+  border-left-color: #E08D4F;
+  color: #B8A582;
+}
+html[data-theme="dark"] body[data-section="financials"] .sef-disclaimer p:last-child {
+  color: #E08D4F;
+  border-top-color: rgba(74, 62, 48, 0.7);
+}
