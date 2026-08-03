@@ -41,6 +41,13 @@ ignoreLogs = ['warning-goldmark-raw-html']
     url    = "/financials/"
     weight = 35
 
+# ---- Security ----
+# Hugo 0.164 flipped the default to deny text/html page content
+# (security.allowContent = ['! ^text/html$']). The research reports under
+# content/research/*/index.html are authored as raw HTML, so allow it back.
+[security]
+  allowContent = ['.*']
+
 # ---- Markdown render config ----
 [markup]
   [markup.goldmark.renderer]
