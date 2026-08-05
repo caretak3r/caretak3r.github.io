@@ -11,15 +11,18 @@
 
   <div class="proj-strip" style="margin-top: 24px;">
     {{- range $projects }}
-    <a class="proj-card" href="{{ .url }}" target="_blank" rel="noopener">
+    <div class="proj-card">
       <span class="proj-stamp">{{ partial "proj-stamp.html" .slug }}</span>
       <div class="proj-text">
-        <span class="proj-name">{{ .title }}</span>
+        <span class="proj-name"><a class="proj-cover" href="{{ .url }}" target="_blank" rel="noopener">{{ .title }}</a></span>
         {{ with .short }}<span class="proj-short">{{ . }}</span>{{ end }}
         <span class="proj-desc">{{ .description }}</span>
-        <span class="proj-link">{{ replace .url "https://" "" }} →</span>
+        <span class="proj-link">
+          <span>{{ replace .url "https://" "" }} →</span>
+          {{- with .repo }}<a class="proj-repo" href="{{ . }}" target="_blank" rel="noopener">GITHUB ↗</a>{{ end }}
+        </span>
       </div>
-    </a>
+    </div>
     {{- end }}
   </div>
 

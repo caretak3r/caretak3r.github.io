@@ -6,6 +6,9 @@
 # `layouts/partials/proj-stamp.html`. The stamp design system (wax-seal
 # aesthetic, frame rules, motif conventions) is documented in the comment
 # block at the top of that partial. Read it before drawing.
+#
+# `repo` is optional — when set, the card renders a secondary GITHUB link
+# beside the primary project link.
 - slug: grand-line-exchange
   title: Grand Line Exchange
   short: One Piece TCG Tracking
@@ -25,6 +28,14 @@
   short: Continuous Visual Memory
   url: https://silent.engineer/vision
   description: Always-on visual memory — capture, index, and recall what was on screen across applications and time.
+  status: active
+
+- slug: helm-factory
+  title: Helm Factory
+  short: Helm Chart Library
+  url: https://silent.engineer/helm-factory/
+  repo: https://github.com/caretak3r/helm-factory
+  description: A common-library Helm chart that generates Kubernetes manifests from values alone — capability-gated apiVersion negotiation, a pluggable Kind registry, and no per-service template sprawl.
   status: active
 
 - slug: other-projects
