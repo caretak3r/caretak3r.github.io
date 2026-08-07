@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "caretak3r_github_io",
+  "project_id": "5f4f27c2-a273-434e-a1bd-c5fd0a02a25d"
+}
