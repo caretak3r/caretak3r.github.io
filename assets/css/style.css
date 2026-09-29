@@ -1,6 +1,46 @@
 /* Direction FINAL — C's ledger aesthetic + B's split-card home + warm tan palette */
 
-@import url('https://fonts.googleapis.com/css2?family=Departure+Mono&family=Inter:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+/* Fonts are self-hosted (static/fonts, SIL OFL). Two families only:
+   Departure Mono for labels and data, EB Garamond for reading. */
+@font-face {
+  font-family: 'Departure Mono';
+  src: url('/fonts/DepartureMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('/fonts/EBGaramond-latin.woff2') format('woff2');
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'EB Garamond';
+  src: url('/fonts/EBGaramond-Italic-latin.woff2') format('woff2');
+  font-weight: 400 600;
+  font-style: italic;
+  font-display: swap;
+}
+/* Running text uses the same Garamond files, scaled up so its x-height
+   sits level with the mono labels beside it. */
+@font-face {
+  font-family: 'EB Garamond Text';
+  src: url('/fonts/EBGaramond-latin.woff2') format('woff2');
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 112%;
+}
+@font-face {
+  font-family: 'EB Garamond Text';
+  src: url('/fonts/EBGaramond-Italic-latin.woff2') format('woff2');
+  font-weight: 400 600;
+  font-style: italic;
+  font-display: swap;
+  size-adjust: 112%;
+}
 
 /* ---- Warm tan / suntan / beige palette ---- */
 :root {
@@ -20,7 +60,7 @@
   --danger:    #A03A2A;   /* terracotta — underweight */
 
   --font-display: 'Departure Mono', 'JetBrains Mono', 'SF Mono', monospace;
-  --font-body:    'Inter', -apple-system, system-ui, sans-serif;
+  --font-body:    'EB Garamond Text', 'EB Garamond', Georgia, serif;
   --font-serif:   'EB Garamond', Georgia, serif;
 
   /* Spacing scale — establishes a contract. New rules and refactors
@@ -68,13 +108,13 @@ body {
   line-height: 1.55;
   color: var(--ink);
   background: var(--bg);
-  font-feature-settings: "kern" 1, "ss01" 1, "ss02" 1;
-  font-variant-numeric: tabular-nums slashed-zero;
+  font-kerning: normal;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-synthesis: none;
   min-height: 100vh;
-  transition: background 0.15s, color 0.15s;
 }
 
-a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; transition: color 120ms ease, background 120ms ease; }
+a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { color: var(--accent); }
 
 /* ---- Universal focus ring ----
@@ -84,7 +124,6 @@ a:hover { color: var(--accent); }
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 1px;
 }
 a:focus-visible,
 button:focus-visible,
@@ -134,7 +173,6 @@ textarea:focus-visible,
   border-right: 1px solid var(--ink);
   display: flex;
   align-items: center;
-  transition: background 120ms ease, color 120ms ease;
 }
 .topbar .brand {
   font-weight: 600;
@@ -320,9 +358,9 @@ textarea:focus-visible,
   text-transform: uppercase;
 }
 /* ---- Projects: Variant A (ledger row with RPG stamp) ----
-   Two-up grid; each card is a stamp + title + description + accent
-   link, hover lifts the border to accent and tints with --accent-bg.
-   External links to silent.engineer/* — open in new tab.
+   Two-up grid; each card is a flat 1px rectangle holding a stamp +
+   title + description + accent link. Hover lifts the border to accent
+   and tints with --accent-bg, instantly (no transition).
 
    The card is a div, not an anchor: .proj-cover on the title stretches
    over the whole card so it stays one big click target, which leaves
@@ -341,8 +379,7 @@ textarea:focus-visible,
   padding: var(--s-4) var(--s-3);
   text-decoration: none;
   color: var(--ink);
-  border: 1px solid transparent;
-  transition: border-color 160ms ease, background 160ms ease;
+  border: 1px solid var(--ink);
 }
 .proj-card .proj-cover {
   color: inherit;
@@ -364,7 +401,6 @@ textarea:focus-visible,
   align-items: center;
   justify-content: center;
   color: var(--ink);
-  transition: color 180ms ease, transform 220ms ease;
 }
 .proj-card:hover .proj-stamp { color: var(--accent); }
 .proj-card .proj-stamp-svg { width: 100%; height: 100%; display: block; }
@@ -438,6 +474,8 @@ textarea:focus-visible,
   max-width: 75ch;
 }
 .bio-block p { margin-bottom: 12px; }
+.bio-block .bio-links { color: var(--muted); font-size: 14.5px; }
+.bio-block .bio-links a { color: var(--accent); }
 .bio-block code {
   font-family: var(--font-display);
   font-size: 12px;
@@ -490,7 +528,7 @@ html[data-theme="dark"] .ledger th {
 .ledger td.title a { text-decoration: none; color: var(--ink); }
 .ledger td.action { min-width: 36px; text-align: right; font-family: var(--font-display); }
 .ledger td.action a { text-decoration: none; color: var(--ink); }
-.ledger tbody tr { cursor: pointer; transition: background 120ms ease, color 120ms ease; }
+.ledger tbody tr { cursor: pointer; }
 .ledger tbody tr:hover { background: var(--ink); color: var(--bg); }
 .ledger tbody tr:hover td { color: var(--bg); }
 .ledger tbody tr:hover a { color: var(--bg); }
@@ -646,11 +684,9 @@ html[data-theme="dark"] .report-shell th {
   color: var(--ink);
   cursor: pointer;
   text-transform: uppercase;
-  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
 }
 .filter-row button.active { background: var(--ink); color: var(--bg); }
 .filter-row button:hover { background: var(--ink); color: var(--bg); }
-.filter-row button:active { transform: translateY(1px); }
 .filter-row .sort-label {
   margin-left: auto;
   padding: 8px 0;
@@ -783,8 +819,9 @@ html[data-theme="dark"] .report-shell th {
   font-style: italic;
   font-size: 19px;
   line-height: 1.55;
-  border-left: 4px solid var(--ink);
-  padding: 6px 0 6px 22px;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding: 14px 0;
   margin: 16px 0;
 }
 
@@ -844,7 +881,7 @@ html[data-theme="dark"] .report-shell th {
 .debate-c .col-head.bear { color: var(--danger); }
 .debate-c ul { list-style: none; }
 .debate-c li { padding: 5px 0; font-size: 14.5px; }
-.debate-c li::before { content: "— "; color: var(--muted); margin-right: 4px; }
+.debate-c li::before { content: "· "; color: var(--muted); margin-right: 4px; }
 
 .killswitch-c {
   border: 1px solid var(--ink);
@@ -894,7 +931,6 @@ html[data-theme="dark"] .report-shell th {
 .rsch-disclaimer {
   background: var(--surface);
   border: 1px solid var(--accent);
-  border-left: 3px solid var(--accent);
   padding: 12px 18px;
   font-size: 13px;
   color: var(--muted);
@@ -1025,8 +1061,9 @@ html[data-theme="dark"] .report-shell th {
 }
 
 .article-content blockquote {
-  border-left: 4px solid var(--accent);
-  padding: 8px 0 8px 22px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 0;
   margin: 24px 0;
   font-family: var(--font-serif);
   font-style: italic;
@@ -1150,7 +1187,6 @@ html[data-theme="dark"] .report-shell th {
 .article-mockup-banner {
   background: var(--surface);
   border: 1px solid var(--accent);
-  border-left: 3px solid var(--accent);
   padding: 10px 14px;
   font-family: var(--font-display);
   font-size: 10.5px;
@@ -1296,7 +1332,6 @@ html[data-theme="dark"] .report-shell th {
   .report-ticker { font-size: 36px; }
   .split-grid { grid-template-columns: 1fr; }
   .split-col + .split-col { border-left: none; border-top: 1px solid var(--ink); }
-  .projects-grid { grid-template-columns: 1fr; }
   .split-list li { grid-template-columns: 80px 1fr; gap: 10px; }
   .dev-switcher { font-size: 9px; padding: 4px 6px; }
 }
@@ -1374,19 +1409,16 @@ html[data-theme="dark"] body[data-section="financials"] .article-content h2 + p:
   }
 }
 
-/* ---- Ticker chips: sunset gradient tint, bold display font ---- */
+/* ---- Ticker chips: flat accent wash, display font ---- */
 body[data-section="financials"] .article-content code {
-  background: linear-gradient(135deg, rgba(224, 141, 79, 0.22) 0%, rgba(184, 88, 37, 0.32) 100%);
+  background: var(--accent-bg);
   color: #8C3A12;
-  font-weight: 700;
   font-family: var(--font-display);
   border: 1px solid rgba(184, 88, 37, 0.42);
-  border-radius: 3px;
   padding: 1px 7px;
   font-size: 12.5px;
 }
 html[data-theme="dark"] body[data-section="financials"] .article-content code {
-  background: linear-gradient(135deg, rgba(224, 141, 79, 0.32) 0%, rgba(184, 88, 37, 0.50) 100%);
   color: #F4D4B8;
   border-color: rgba(224, 141, 79, 0.58);
 }
@@ -1402,33 +1434,21 @@ html[data-theme="dark"] body[data-section="financials"] .article-content code {
   }
 }
 
-/* ---- Mermaid containers: force light cream surface in BOTH themes ---- */
-body[data-section="financials"] .mermaid-container {
-  background: #F2E8D0 !important;
-  border: 1px solid #C9B690 !important;
-  border-radius: 4px;
+/* ---- Mermaid diagrams: printed sand plate in BOTH themes ---- */
+.mermaid-container {
+  background: #F2E8D0;
+  border: 1px solid #C9B690;
   margin: 32px 0;
   padding: 22px 24px;
 }
-body[data-section="financials"] .mermaid-container .mermaid {
-  background-color: transparent !important;
-}
-body[data-section="financials"] .mermaid-container .mermaid svg {
-  background-color: #F2E8D0 !important;
-}
-body[data-section="financials"] .mermaid-container .mermaid-caption {
+.mermaid-container .mermaid { background-color: transparent; }
+.mermaid-container .mermaid svg { background-color: #F2E8D0; }
+.mermaid-container .mermaid-caption {
   color: #6B5840;
   font-family: var(--font-display);
   font-size: 10.5px;
   letter-spacing: 0.16em;
   margin-top: 12px;
-}
-html[data-theme="dark"] body[data-section="financials"] .mermaid-container {
-  background: #F2E8D0 !important;
-  border-color: #C9B690 !important;
-}
-html[data-theme="dark"] body[data-section="financials"] .mermaid-container .mermaid svg text {
-  fill: #3D2E1B !important;
 }
 
 /* ---- SEF research disclaimer footer ---- */
@@ -1438,7 +1458,6 @@ body[data-section="financials"] .sef-disclaimer {
   background: rgba(184, 88, 37, 0.05);
   border-top: 1px solid #C9B690;
   border-bottom: 1px solid #C9B690;
-  border-left: 3px solid #B85825;
   font-family: var(--font-serif);
   font-size: 13.5px;
   line-height: 1.72;
@@ -1463,7 +1482,6 @@ html[data-theme="dark"] body[data-section="financials"] .sef-disclaimer {
   background: rgba(224, 141, 79, 0.10);
   border-top-color: #4A3E30;
   border-bottom-color: #4A3E30;
-  border-left-color: #E08D4F;
   color: #B8A582;
 }
 html[data-theme="dark"] body[data-section="financials"] .sef-disclaimer p:last-child {

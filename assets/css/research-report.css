@@ -122,8 +122,6 @@
   font-size: 17px;
   line-height: 1.7;
   margin: 22px 0 28px;
-  padding-left: 18px;
-  border-left: 3px solid var(--accent);
   color: var(--ink);
 }
 .report-shell .lede p { margin: 0 0 8px; }
@@ -181,7 +179,6 @@
 /* ---- Decision box ---- */
 .report-shell .decision-box {
   border: 1px solid var(--line);
-  border-left: 3px solid var(--accent);
   background: var(--surface);
   padding: 22px 26px;
   margin: 28px 0;
@@ -348,11 +345,8 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
-/* Value cell: Inter with tabular figures — short tickers like "$12.18"
-   read as crisp financial numerals; long prose like multi-scenario price
-   ranges wraps cleanly because nothing here is set to nowrap. The
-   monospace-fallback chain we used to use bombed out to system Menlo
-   and looked code-y, not editorial. */
+/* Value cell: body serif with lining tabular figures, so short tickers
+   like "$12.18" line up and long multi-scenario ranges still wrap. */
 .report-shell .level-value {
   color: var(--ink);
   font-family: var(--font-body);
@@ -392,8 +386,7 @@
 .report-shell .signal-card {
   margin: 22px 0 14px;
   border: 1px solid var(--line);
-  border-left: 3px solid var(--accent);
-  background: var(--paper, #faf6ef);
+  background: var(--surface);
   padding: 22px 26px 20px;
 }
 .report-shell .signal-card-eyebrow {
@@ -411,7 +404,7 @@
   gap: 12px;
 }
 .report-shell .signal-tile {
-  background: #fff;
+  background: var(--bg);
   border: 1px solid var(--line);
   padding: 12px 14px 10px;
   display: flex;
@@ -427,9 +420,9 @@
   color: var(--muted);
 }
 .report-shell .signal-value {
-  font-family: var(--font-mono, ui-monospace, monospace);
+  font-family: var(--font-display);
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
   line-height: 1.1;
@@ -498,15 +491,10 @@
   margin-bottom: 10px;
   display: block;
 }
-.report-shell .debate-card.bull,
-.report-shell .debate-card.aggressive { border-left: 3px solid var(--success); }
 .report-shell .debate-card.bull .debate-label,
 .report-shell .debate-card.aggressive .debate-label { color: var(--success); }
-.report-shell .debate-card.bear,
-.report-shell .debate-card.conservative { border-left: 3px solid var(--danger); }
 .report-shell .debate-card.bear .debate-label,
 .report-shell .debate-card.conservative .debate-label { color: var(--danger); }
-.report-shell .debate-card.neutral { border-left: 3px solid var(--muted); }
 .report-shell .debate-card.neutral .debate-label { color: var(--muted); }
 
 /* ---- Quant box / quant-label ---- */
@@ -557,7 +545,6 @@
 /* ---- Interim box ---- */
 .report-shell .interim-box {
   border: 1px solid var(--line);
-  border-left: 3px solid var(--warn);
   background: var(--surface);
   padding: 18px 22px;
   margin: 22px 0;
@@ -809,12 +796,6 @@
 .report-shell .cat-row.cat-low-medium  td.cat-impact { color: var(--warn); }
 .report-shell .cat-row.cat-low         td.cat-impact { color: var(--muted); }
 .report-shell .cat-row.cat-very        td.cat-impact { color: var(--danger); font-weight: 700; }
-.report-shell .cat-row.cat-high        td:first-child,
-.report-shell .cat-row.cat-medium-high td:first-child,
-.report-shell .cat-row.cat-very        td:first-child { border-left: 3px solid var(--danger); padding-left: 10px; }
-.report-shell .cat-row.cat-medium      td:first-child,
-.report-shell .cat-row.cat-low-medium  td:first-child { border-left: 3px solid var(--warn); padding-left: 10px; }
-.report-shell .cat-row.cat-low         td:first-child { border-left: 3px solid var(--line); padding-left: 10px; }
 .report-shell .cat-quarter-header td {
   font-family: var(--font-display);
   font-size: 10px;
@@ -887,15 +868,14 @@
 .report-shell svg [stroke="#f5ecd9"]{ stroke: var(--surface); }
 .report-shell svg [fill="#faf6ef"]  { fill: var(--bg); }
 .report-shell svg [stroke="#faf6ef"]{ stroke: var(--bg); }
+.report-shell .signal-spark svg [fill="#faf6ef"] { fill: transparent; }
 
-/* SVG text — chart labels render in Inter (loaded by site).
+/* SVG text: chart labels render in the site's mono display face.
    The SEF source emits inline font-family="IBM Plex Mono" / "Inter" on
-   individual <text> nodes; IBM Plex Mono isn't loaded here, so we route
-   everything to Inter for clean, neutral chart typography that matches
-   the SEF design intent without depending on an extra font load.
-   !important wins over the inline presentation attribute on <text>. */
+   individual <text> nodes; neither is loaded here. !important wins over
+   the inline presentation attribute on <text>. */
 .report-shell svg text {
-  font-family: var(--font-body) !important;
+  font-family: var(--font-display) !important;
 }
 .report-shell svg text[font-family*="Mono"] {
   font-variant-numeric: tabular-nums;
@@ -950,7 +930,6 @@
   .report-shell table.levels-table thead { display: none; }
   .report-shell table.levels-table tr {
     border: 1px solid var(--line);
-    border-left: 3px solid var(--accent);
     margin: var(--s-3) 0;
     padding: var(--s-3) var(--s-4);
     background: var(--surface);
@@ -1108,7 +1087,6 @@
    gravitational center of the page. */
 .report-shell .decision-box {
   border: 1px solid var(--line);
-  border-left: 3px solid var(--accent);
   background: var(--surface);
   padding: 26px 30px;
   margin: 32px 0;
@@ -1213,9 +1191,6 @@ html[data-theme="dark"] .report-shell .channel-row.pass     .channel-status { ba
 html[data-theme="dark"] .report-shell .channel-row.marginal .channel-status { background: rgba(232, 179, 57, 0.14); }
 html[data-theme="dark"] .report-shell .channel-row.fail     .channel-status { background: rgba(224, 112, 96, 0.14); }
 
-/* Signal-card paper override — light-mode hardcodes #faf6ef which
-   is near-white; in dark mode we need it to track the surface. */
-html[data-theme="dark"] .report-shell .signal-card { background: var(--surface); }
 html[data-theme="dark"] .report-shell .signal-tile { background: var(--surface-2); }
 
 /* ============================================================
@@ -1307,26 +1282,10 @@ html[data-theme="dark"] .report-shell .signal-tile { background: var(--surface-2
     line-height: 1.4;
     padding: 2px 0 2px 8px;
     margin-left: -10px;
-    border-left: 2px solid transparent;
-    transition: color 120ms ease, border-color 120ms ease;
   }
   .report-toc-link:hover { color: var(--ink); }
   .report-toc-link.is-active {
     color: var(--accent);
-    border-left-color: var(--accent);
   }
 }
 
-/* Reduced-motion respect — strip transitions that are
-   purely decorative. Layout-critical animations (none here)
-   would need explicit allowlist; everything in this file is
-   safe to disable. */
-@media (prefers-reduced-motion: reduce) {
-  .topbar a,
-  .topbar .cell,
-  .filter-row button,
-  .ledger tbody tr,
-  .report-toc-link {
-    transition: none !important;
-  }
-}
