@@ -144,6 +144,47 @@ def extract_thesis_oneliner(soup: BeautifulSoup) -> str:
     return text
 
 
+def normalize_status_glyphs(text: str) -> str:
+    """Normalize status glyphs to plain words.
+    
+    List items starting with ✓/✔/✅ -> 'Met:', ⚠️/⚠ -> 'Partial:', ❌ -> 'Unmet:'.
+    Strip any other emoji/pictographic characters.
+    """
+    # Handle inline occurrences after </strong> or at start of list items
+    # Pattern: </strong> ✓ — becomes </strong> Met: 
+    text = re.sub(r'(</strong>)\s*(✓|✔|✅)\s*—\s*', r'\1 Met: ', text)
+    text = re.sub(r'(</strong>)\s*(⚠️|⚠)\s*—\s*', r'\1 Partial: ', text)
+    text = re.sub(r'(</strong>)\s*(❌)\s*—\s*', r'\1 Unmet: ', text)
+    
+    # Handle at start of lines (list items without bold)
+    text = re.sub(r'^(\s*)(✓|✔|✅)(\s+)', r'\1Met: ', text, flags=re.MULTILINE)
+    text = re.sub(r'^(\s*)(⚠️|⚠)(\s+)', r'\1Partial: ', text, flags=re.MULTILINE)
+    text = re.sub(r'^(\s*)(❌)(\s+)', r'\1Unmet: ', text, flags=re.MULTILINE)
+    
+    # Handle inside HTML tags (for things like <span class="channel-icon">✓</span>)
+    text = text.replace('>✓<', '>Met:<')
+    text = text.replace('>✔<', '>Met:<')
+    text = text.replace('>✅<', '>Met:<')
+    text = text.replace('>⚠️<', '>Partial:<')
+    text = text.replace('>⚠<', '>Partial:<')
+    text = text.replace('>❌<', '>Unmet:<')
+    
+    # Strip remaining emoji (Unicode emoji range plus misc symbols)
+    emoji_pattern = re.compile(
+        "["
+        "\U0001F600-\U0001F64F"  # emoticons
+        "\U0001F300-\U0001F5FF"  # symbols & pictographs
+        "\U0001F680-\U0001F6FF"  # transport & map
+        "\U0001F1E0-\U0001F1FF"  # flags
+        "\U00002702-\U000027B0"  # dingbats (includes ✓✔✅❌⚠⚠️)
+        "\U000024C2-\U0001F251" 
+        "]+", flags=re.UNICODE
+    )
+    text = emoji_pattern.sub('', text)
+    
+    return text
+
+
 def extract_body_html(soup: BeautifulSoup, source: Path) -> str:
     """Serialize the inner contents of <body>, stripped of source styles.
 
@@ -168,6 +209,13 @@ def extract_body_html(soup: BeautifulSoup, source: Path) -> str:
     # they have no semantic value once the report is on the site.
     for node in body.find_all(string=lambda t: isinstance(t, Comment)):
         node.extract()
+    
+    # Normalize status glyphs in text nodes
+    for text_node in body.find_all(string=True):
+        if text_node.parent.name not in ['script', 'style']:
+            normalized = normalize_status_glyphs(str(text_node))
+            if normalized != str(text_node):
+                text_node.replace_with(normalized)
 
     return "".join(str(c) for c in body.children)
 

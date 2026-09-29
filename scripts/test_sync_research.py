@@ -186,6 +186,70 @@ class TestExtractBodyHtml:
         assert 'class="ticker"' in body
 
 
+
+class TestNormalizeStatusGlyphs:
+    def test_normalizes_checkmarks_to_met(self):
+        html = """
+        <html><body>
+        <ul>
+        <li>✓ Two dated catalysts.</li>
+        <li>✔ Customer-segment growth math.</li>
+        <li>✅ Falsifiable kill-switch.</li>
+        </ul>
+        </body></html>
+        """
+        s = BeautifulSoup(html, "lxml")
+        body = sr.extract_body_html(s, Path("x.html"))
+        assert "Met: Two dated catalysts" in body
+        assert "Met: Customer-segment growth math" in body
+        assert "Met: Falsifiable kill-switch" in body
+        assert "✓" not in body
+        assert "✔" not in body
+        assert "✅" not in body
+
+    def test_normalizes_warning_to_partial(self):
+        html = """
+        <html><body>
+        <ul>
+        <li>⚠️ TAM math has unsourced assumptions.</li>
+        <li>⚠ Consolidation reference weak.</li>
+        </ul>
+        </body></html>
+        """
+        s = BeautifulSoup(html, "lxml")
+        body = sr.extract_body_html(s, Path("x.html"))
+        assert "Partial: TAM math" in body
+        assert "Partial: Consolidation" in body
+        assert "⚠️" not in body
+        assert "⚠" not in body
+
+    def test_normalizes_x_to_unmet(self):
+        html = """
+        <html><body>
+        <ul>
+        <li>❌ Failed to meet criterion.</li>
+        </ul>
+        </body></html>
+        """
+        s = BeautifulSoup(html, "lxml")
+        body = sr.extract_body_html(s, Path("x.html"))
+        assert "Unmet: Failed to meet" in body
+        assert "❌" not in body
+
+    def test_strips_other_emoji(self):
+        html = """
+        <html><body>
+        <p>Testing 🚀 rocket and 💡 bulb emoji.</p>
+        </body></html>
+        """
+        s = BeautifulSoup(html, "lxml")
+        body = sr.extract_body_html(s, Path("x.html"))
+        assert "🚀" not in body
+        assert "💡" not in body
+        assert "Testing" in body
+        assert "rocket and" in body
+        assert "bulb emoji" in body
+
 # ---------------------------------------------------------------------------
 # End-to-end against a real fixture
 # ---------------------------------------------------------------------------
