@@ -49,9 +49,21 @@
      ── EXISTING STAMPS (semantic reference) ───────────────────────
      grand-line-exchange  → compass-star + skull-with-straw-hat (TCG / pirate)
      rtf-llm              → shield + crossed daggers + hex core   (red team / offense)
-     vision               → almond eye + iris + radial rays       (sight / always-on)
+     vision               → almond eye + iris + radial rays       (sight / archive)
      helm-factory         → ship's wheel + geared hub             (steering / generation)
      other-projects       → open codex + bookmark ribbon          (catalog / chronicle)
+     factory              → sawtooth roof + linked nodes + gear   (pipelines)
+     omp-animations       → bonsai in a shallow tray              (Agent Bonsai)
+     bdw                  → beads threaded on a rod               (beads tracker)
+     portal               → arched doorway + keyhole              (profile swap)
+     silent-engineer-illustrations → brush across framed canvas   (editorial art)
+     helm-chart-swarm     → honeycomb of hexes, one solid         (swarm tests)
+     cdk-eks              → stacked isometric blocks              (constructs)
+     tf-multicloud-k8s    → globe bridged by two clouds           (multi-cloud)
+     hyperscale-prep      → server rack of node LEDs              (fleet scale)
+     humanoid-from-cold   → jointed arm + three-finger gripper    (robotics)
+     self-assembly-lab    → DNA double helix                      (self-assembly)
+     webull-watchlist-scraper → lens over a ruled list            (watchlists)
 
      ── BEFORE COMMITTING A NEW STAMP ──────────────────────────────
      1. `hugo --gc --minify` must exit 0 with zero ERROR lines.
@@ -186,5 +198,418 @@
   </g>
   {{/* Bookmark ribbon hanging from top */}}
   <path d="M57 32 L63 31 L60 41 Z" fill="currentColor"/>
+</svg>
+{{- else if eq $slug "factory" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Sawtooth factory roof outline */}}
+  <path d="M20 42 L28 30 L36 42 L44 30 L52 42 L60 30 L68 42 L76 30 L76 65 L20 65 Z" fill="currentColor" opacity="0.14"/>
+  <path d="M20 42 L28 30 L36 42 L44 30 L52 42 L60 30 L68 42 L76 30 L76 65 L20 65 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  {{/* Factory base wall */}}
+  <line x1="20" y1="65" x2="76" y2="65" stroke="currentColor" stroke-width="1.4"/>
+  {{/* Conveyor rail with nodes */}}
+  <line x1="26" y1="52" x2="70" y2="52" stroke="currentColor" stroke-width="1.2"/>
+  {{/* Three workflow nodes linked on the rail */}}
+  <g fill="currentColor">
+    <circle cx="32" cy="52" r="3.5"/>
+    <circle cx="48" cy="52" r="3.5"/>
+    <circle cx="64" cy="52" r="3.5"/>
+  </g>
+  {{/* Hollow centers for the nodes */}}
+  <g fill="var(--bg)">
+    <circle cx="32" cy="52" r="1.4"/>
+    <circle cx="48" cy="52" r="1.4"/>
+    <circle cx="64" cy="52" r="1.4"/>
+  </g>
+  {{/* Gear mechanism at center */}}
+  <circle cx="48" cy="52" r="7" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <g stroke="currentColor" stroke-width="1.1" stroke-linecap="round">
+    <line x1="48" y1="45" x2="48" y2="43"/>
+    <line x1="48" y1="61" x2="48" y2="59"/>
+    <line x1="41" y1="52" x2="39" y2="52"/>
+    <line x1="57" y1="52" x2="55" y2="52"/>
+  </g>
+</svg>
+{{- else if eq $slug "omp-animations" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Bonsai: three foliage pads on a bent trunk, in a shallow tray */}}
+  <g fill="currentColor" opacity="0.18">
+    <ellipse cx="39" cy="36" rx="11" ry="5.5"/>
+    <ellipse cx="61" cy="42" rx="9" ry="4.5"/>
+    <ellipse cx="51" cy="27" rx="8" ry="4"/>
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width="1.4">
+    <ellipse cx="39" cy="36" rx="11" ry="5.5"/>
+    <ellipse cx="61" cy="42" rx="9" ry="4.5"/>
+    <ellipse cx="51" cy="27" rx="8" ry="4"/>
+  </g>
+  <path d="M48 64 C45 58 52 55 50 49 C48 44 43 43 40 39" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+  <path d="M50 51 C54 48 57 46 60 44" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M47 44 C48 38 50 34 51 31" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+  <line x1="29" y1="64" x2="67" y2="64" stroke="currentColor" stroke-width="1.6"/>
+  <path d="M32 64 L64 64 L60 71 L36 71 Z" fill="currentColor" opacity="0.18"/>
+  <path d="M32 64 L64 64 L60 71 L36 71 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+  <rect x="38" y="71" width="4" height="2.5" fill="currentColor"/>
+  <rect x="54" y="71" width="4" height="2.5" fill="currentColor"/>
+</svg>
+{{- else if eq $slug "bdw" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Abacus frame: three rods, beads pushed to "done" (left) or "open" (right) */}}
+  <rect x="24" y="28" width="48" height="40" fill="currentColor" opacity="0.10"/>
+  <rect x="24" y="28" width="48" height="40" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <g stroke="currentColor" stroke-width="1">
+    <line x1="24" y1="38" x2="72" y2="38"/>
+    <line x1="24" y1="48" x2="72" y2="48"/>
+    <line x1="24" y1="58" x2="72" y2="58"/>
+  </g>
+    <circle cx="30" cy="38" r="3.8" fill="currentColor"/>
+    <circle cx="28.8" cy="36.8" r="0.9" fill="var(--bg)"/>
+    <circle cx="38" cy="38" r="3.8" fill="currentColor"/>
+    <circle cx="36.8" cy="36.8" r="0.9" fill="var(--bg)"/>
+    <circle cx="46" cy="38" r="3.8" fill="currentColor"/>
+    <circle cx="44.8" cy="36.8" r="0.9" fill="var(--bg)"/>
+    <circle cx="66" cy="38" r="3.8" fill="currentColor"/>
+    <circle cx="64.8" cy="36.8" r="0.9" fill="var(--bg)"/>
+    <circle cx="30" cy="48" r="3.8" fill="currentColor"/>
+    <circle cx="28.8" cy="46.8" r="0.9" fill="var(--bg)"/>
+    <circle cx="50" cy="48" r="3.8" fill="currentColor"/>
+    <circle cx="48.8" cy="46.8" r="0.9" fill="var(--bg)"/>
+    <circle cx="58" cy="48" r="3.8" fill="currentColor"/>
+    <circle cx="56.8" cy="46.8" r="0.9" fill="var(--bg)"/>
+    <circle cx="66" cy="48" r="3.8" fill="currentColor"/>
+    <circle cx="64.8" cy="46.8" r="0.9" fill="var(--bg)"/>
+    <circle cx="30" cy="58" r="3.8" fill="currentColor"/>
+    <circle cx="28.8" cy="56.8" r="0.9" fill="var(--bg)"/>
+    <circle cx="38" cy="58" r="3.8" fill="currentColor"/>
+    <circle cx="36.8" cy="56.8" r="0.9" fill="var(--bg)"/>
+    <circle cx="58" cy="58" r="3.8" fill="currentColor"/>
+    <circle cx="56.8" cy="56.8" r="0.9" fill="var(--bg)"/>
+    <circle cx="66" cy="58" r="3.8" fill="currentColor"/>
+    <circle cx="64.8" cy="56.8" r="0.9" fill="var(--bg)"/>
+</svg>
+{{- else if eq $slug "portal" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Outer archway frame */}}
+  <path d="M28 72 L28 40 Q28 24 48 24 Q68 24 68 40 L68 72" fill="currentColor" opacity="0.12"/>
+  <path d="M28 72 L28 40 Q28 24 48 24 Q68 24 68 40 L68 72" fill="none" stroke="currentColor" stroke-width="1.6"/>
+  {{/* Inner arch (doorway opening) */}}
+  <path d="M34 72 L34 42 Q34 30 48 30 Q62 30 62 42 L62 72" fill="var(--bg)"/>
+  <path d="M34 72 L34 42 Q34 30 48 30 Q62 30 62 42 L62 72" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  {{/* Floor threshold */}}
+  <line x1="28" y1="72" x2="68" y2="72" stroke="currentColor" stroke-width="1.6"/>
+  {{/* Keyhole motif centered in the door */}}
+  <g transform="translate(48 52)">
+    {{/* Circle top of keyhole */}}
+    <circle cx="0" cy="0" r="4" fill="currentColor"/>
+    <circle cx="0" cy="0" r="2.5" fill="var(--bg)"/>
+    {{/* Keyhole shaft */}}
+    <path d="M-1.5 3 L-2.5 9 L2.5 9 L1.5 3 Z" fill="currentColor"/>
+    <path d="M-0.8 4 L-1.4 8 L1.4 8 L0.8 4 Z" fill="var(--bg)"/>
+  </g>
+  {{/* Decorative arch ticks at cardinal points */}}
+  <g stroke="currentColor" stroke-width="1" stroke-linecap="round">
+    <line x1="48" y1="24" x2="48" y2="28"/>
+    <line x1="28" y1="48" x2="32" y2="48"/>
+    <line x1="64" y1="48" x2="68" y2="48"/>
+  </g>
+</svg>
+{{- else if eq $slug "silent-engineer-illustrations" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Canvas frame — rectangular portrait orientation */}}
+  <rect x="28" y="22" width="40" height="52" fill="currentColor" opacity="0.12"/>
+  <rect x="28" y="22" width="40" height="52" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  {{/* Inner mat lines — hand-ruled flourish */}}
+  <rect x="32" y="26" width="32" height="44" fill="none" stroke="currentColor" stroke-width="0.7" stroke-dasharray="3 2"/>
+  {{/* Brush handle crossing diagonally */}}
+  <line x1="62" y1="18" x2="34" y2="78" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>
+  {{/* Brush ferrule (metal band) */}}
+  <ellipse cx="36.8" cy="73" rx="3.2" ry="1.8" fill="currentColor" transform="rotate(-60 36.8 73)"/>
+  <ellipse cx="36.8" cy="73" rx="2" ry="1" fill="var(--bg)" transform="rotate(-60 36.8 73)"/>
+  {{/* Brush bristles — tapered cluster */}}
+  <path d="M35 75 L31 82 L33 83 L36 77 Z" fill="currentColor" opacity="0.75"/>
+  <path d="M35 75 L39 82 L37 83 L36 77 Z" fill="currentColor" opacity="0.75"/>
+  <path d="M35 75 L35 83 L36 77 Z" fill="currentColor"/>
+  {{/* Handle cap detail */}}
+  <circle cx="59" cy="22" r="2" fill="currentColor"/>
+  <circle cx="59" cy="22" r="0.8" fill="var(--bg)"/>
+</svg>
+{{- else if eq $slug "helm-chart-swarm" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Honeycomb cluster — 7 hexagons: center + 6 surrounding */}}
+  {{/* Center hex — solid emphasis */}}
+  <polygon points="48,38 56,42.5 56,51.5 48,56 40,51.5 40,42.5" fill="currentColor"/>
+  <polygon points="48,38 56,42.5 56,51.5 48,56 40,51.5 40,42.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  {{/* Top hex */}}
+  <polygon points="48,22 56,26.5 56,35.5 48,40 40,35.5 40,26.5" fill="currentColor" opacity="0.14"/>
+  <polygon points="48,22 56,26.5 56,35.5 48,40 40,35.5 40,26.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+  {{/* Bottom hex */}}
+  <polygon points="48,54 56,58.5 56,67.5 48,72 40,67.5 40,58.5" fill="currentColor" opacity="0.14"/>
+  <polygon points="48,54 56,58.5 56,67.5 48,72 40,67.5 40,58.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+  {{/* Top-right hex */}}
+  <polygon points="64,30 72,34.5 72,43.5 64,48 56,43.5 56,34.5" fill="currentColor" opacity="0.14"/>
+  <polygon points="64,30 72,34.5 72,43.5 64,48 56,43.5 56,34.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+  {{/* Bottom-right hex */}}
+  <polygon points="64,46 72,50.5 72,59.5 64,64 56,59.5 56,50.5" fill="currentColor" opacity="0.14"/>
+  <polygon points="64,46 72,50.5 72,59.5 64,64 56,59.5 56,50.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+  {{/* Top-left hex */}}
+  <polygon points="32,30 40,34.5 40,43.5 32,48 24,43.5 24,34.5" fill="currentColor" opacity="0.14"/>
+  <polygon points="32,30 40,34.5 40,43.5 32,48 24,43.5 24,34.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+  {{/* Bottom-left hex */}}
+  <polygon points="32,46 40,50.5 40,59.5 32,64 24,59.5 24,50.5" fill="currentColor" opacity="0.14"/>
+  <polygon points="32,46 40,50.5 40,59.5 32,64 24,59.5 24,50.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+  {{/* Central hex inner detail */}}
+  <circle cx="48" cy="47" r="3" fill="var(--bg)"/>
+</svg>
+{{- else if eq $slug "cdk-eks" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Isometric grid — three stacked construct blocks */}}
+  {{/* Bottom block — base layer */}}
+  <path d="M48 62 L62 54 L62 42 L48 50 Z" fill="currentColor" opacity="0.18"/>
+  <path d="M48 62 L62 54 L62 42 L48 50 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M34 54 L48 62 L48 50 L34 42 Z" fill="currentColor" opacity="0.10"/>
+  <path d="M34 54 L48 62 L48 50 L34 42 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M34 42 L48 50 L62 42 L48 34 Z" fill="currentColor" opacity="0.14"/>
+  <path d="M34 42 L48 50 L62 42 L48 34 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  {{/* Middle block */}}
+  <path d="M48 50 L62 42 L62 30 L48 38 Z" fill="currentColor" opacity="0.18"/>
+  <path d="M48 50 L62 42 L62 30 L48 38 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M34 42 L48 50 L48 38 L34 30 Z" fill="currentColor" opacity="0.10"/>
+  <path d="M34 42 L48 50 L48 38 L34 30 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M34 30 L48 38 L62 30 L48 22 Z" fill="currentColor" opacity="0.14"/>
+  <path d="M34 30 L48 38 L62 30 L48 22 Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+  {{/* Top block — accent cube */}}
+  <path d="M48 38 L58 32 L58 26 L48 32 Z" fill="currentColor" opacity="0.18"/>
+  <path d="M48 38 L58 32 L58 26 L48 32 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+  <path d="M38 32 L48 38 L48 32 L38 26 Z" fill="currentColor" opacity="0.10"/>
+  <path d="M38 32 L48 38 L48 32 L38 26 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+  <path d="M38 26 L48 32 L58 26 L48 20 Z" fill="currentColor" opacity="0.14"/>
+  <path d="M38 26 L48 32 L58 26 L48 20 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+  {{/* Construction ticks — four cardinal markers */}}
+  <g stroke="currentColor" stroke-width="1.2">
+    <line x1="24" y1="48" x2="28" y2="48"/>
+    <line x1="68" y1="48" x2="72" y2="48"/>
+    <line x1="48" y1="14" x2="48" y2="18"/>
+    <line x1="48" y1="74" x2="48" y2="78"/>
+  </g>
+</svg>
+{{- else if eq $slug "tf-multicloud-k8s" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Globe under two clouds joined by a dashed bridge */}}
+  <circle cx="48" cy="56" r="15" fill="currentColor" opacity="0.14"/>
+  <circle cx="48" cy="56" r="15" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <g fill="none" stroke="currentColor" stroke-width="0.9">
+    <ellipse cx="48" cy="56" rx="6" ry="15"/>
+    <line x1="33" y1="56" x2="63" y2="56"/>
+    <line x1="35" y1="49" x2="61" y2="49"/>
+    <line x1="35" y1="63" x2="61" y2="63"/>
+  </g>
+  <path d="M20 36 a4 4 0 0 1 0.5 -8 a6 6 0 0 1 11 -2 a5 5 0 0 1 9.5 3 a3.6 3.6 0 0 1 1 7 Z" fill="currentColor" opacity="0.18"/>
+  <path d="M20 36 a4 4 0 0 1 0.5 -8 a6 6 0 0 1 11 -2 a5 5 0 0 1 9.5 3 a3.6 3.6 0 0 1 1 7 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+  <path d="M54 36 a4 4 0 0 1 0.5 -8 a6 6 0 0 1 11 -2 a5 5 0 0 1 9.5 3 a3.6 3.6 0 0 1 1 7 Z" fill="currentColor" opacity="0.18"/>
+  <path d="M54 36 a4 4 0 0 1 0.5 -8 a6 6 0 0 1 11 -2 a5 5 0 0 1 9.5 3 a3.6 3.6 0 0 1 1 7 Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+  <path d="M42 31 Q48 25 54 31" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="31" y1="37" x2="40" y2="45" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/>
+  <line x1="65" y1="37" x2="56" y2="45" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2"/>
+  <circle cx="48" cy="56" r="2" fill="currentColor"/>
+</svg>
+{{- else if eq $slug "hyperscale-prep" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Server rack frame */}}
+  <rect x="22" y="20" width="52" height="56" rx="1" fill="currentColor" opacity="0.10"/>
+  <rect x="22" y="20" width="52" height="56" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  {{/* Grid of server nodes (5 rows × 4 columns) */}}
+  <g fill="currentColor">
+    {{/* Row 1 */}}
+    <rect x="26" y="24" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="37" y="24" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="48" y="24" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="59" y="24" width="9" height="8" rx="0.5" opacity="0.18"/>
+    {{/* Row 2 */}}
+    <rect x="26" y="34" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="37" y="34" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="48" y="34" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="59" y="34" width="9" height="8" rx="0.5" opacity="0.18"/>
+    {{/* Row 3 */}}
+    <rect x="26" y="44" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="37" y="44" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="48" y="44" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="59" y="44" width="9" height="8" rx="0.5" opacity="0.18"/>
+    {{/* Row 4 */}}
+    <rect x="26" y="54" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="37" y="54" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="48" y="54" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="59" y="54" width="9" height="8" rx="0.5" opacity="0.18"/>
+    {{/* Row 5 */}}
+    <rect x="26" y="64" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="37" y="64" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="48" y="64" width="9" height="8" rx="0.5" opacity="0.18"/>
+    <rect x="59" y="64" width="9" height="8" rx="0.5" opacity="0.18"/>
+  </g>
+  {{/* Node outlines and LED indicators */}}
+  <g stroke="currentColor" fill="none" stroke-width="0.8">
+    <rect x="26" y="24" width="9" height="8" rx="0.5"/>
+    <rect x="37" y="24" width="9" height="8" rx="0.5"/>
+    <rect x="48" y="24" width="9" height="8" rx="0.5"/>
+    <rect x="59" y="24" width="9" height="8" rx="0.5"/>
+    <rect x="26" y="34" width="9" height="8" rx="0.5"/>
+    <rect x="37" y="34" width="9" height="8" rx="0.5"/>
+    <rect x="48" y="34" width="9" height="8" rx="0.5"/>
+    <rect x="59" y="34" width="9" height="8" rx="0.5"/>
+    <rect x="26" y="44" width="9" height="8" rx="0.5"/>
+    <rect x="37" y="44" width="9" height="8" rx="0.5"/>
+    <rect x="48" y="44" width="9" height="8" rx="0.5"/>
+    <rect x="59" y="44" width="9" height="8" rx="0.5"/>
+    <rect x="26" y="54" width="9" height="8" rx="0.5"/>
+    <rect x="37" y="54" width="9" height="8" rx="0.5"/>
+    <rect x="48" y="54" width="9" height="8" rx="0.5"/>
+    <rect x="59" y="54" width="9" height="8" rx="0.5"/>
+    <rect x="26" y="64" width="9" height="8" rx="0.5"/>
+    <rect x="37" y="64" width="9" height="8" rx="0.5"/>
+    <rect x="48" y="64" width="9" height="8" rx="0.5"/>
+    <rect x="59" y="64" width="9" height="8" rx="0.5"/>
+  </g>
+  {{/* Status LEDs (tiny dots) on select nodes */}}
+  <g fill="currentColor">
+    <circle cx="28" cy="26" r="0.6"/>
+    <circle cx="39" cy="26" r="0.6"/>
+    <circle cx="61" cy="36" r="0.6"/>
+    <circle cx="50" cy="46" r="0.6"/>
+    <circle cx="28" cy="56" r="0.6"/>
+    <circle cx="61" cy="66" r="0.6"/>
+  </g>
+</svg>
+{{- else if eq $slug "humanoid-from-cold" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Humanoid bust: visored head, neck, shoulders with joint studs */}}
+  <rect x="39" y="21" width="18" height="16" fill="currentColor" opacity="0.15"/>
+  <rect x="39" y="21" width="18" height="16" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <rect x="42" y="27" width="12" height="4" fill="currentColor"/>
+  <circle cx="45" cy="29" r="1" fill="var(--bg)"/>
+  <circle cx="51" cy="29" r="1" fill="var(--bg)"/>
+  <rect x="45" y="37" width="6" height="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <path d="M30 71 L30 52 Q30 43 39 43 L57 43 Q66 43 66 52 L66 71" fill="currentColor" opacity="0.12"/>
+  <path d="M30 71 L30 52 Q30 43 39 43 L57 43 Q66 43 66 52 L66 71" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="57" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <circle cx="48" cy="57" r="2.2" fill="currentColor"/>
+  <circle cx="35.5" cy="50" r="2.4" fill="currentColor"/>
+  <circle cx="60.5" cy="50" r="2.4" fill="currentColor"/>
+  <circle cx="35.5" cy="50" r="0.9" fill="var(--bg)"/>
+  <circle cx="60.5" cy="50" r="0.9" fill="var(--bg)"/>
+</svg>
+{{- else if eq $slug "self-assembly-lab" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* DNA double helix - left strand (sine wave) */}}
+  <path d="M32 22 Q38 30 32 38 Q26 46 32 54 Q38 62 32 70" 
+        fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.18"/>
+  <path d="M32 22 Q38 30 32 38 Q26 46 32 54 Q38 62 32 70" 
+        fill="none" stroke="currentColor" stroke-width="1.4"/>
+  {{/* DNA double helix - right strand (inverse sine wave) */}}
+  <path d="M64 22 Q58 30 64 38 Q70 46 64 54 Q58 62 64 70" 
+        fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.18"/>
+  <path d="M64 22 Q58 30 64 38 Q70 46 64 54 Q58 62 64 70" 
+        fill="none" stroke="currentColor" stroke-width="1.4"/>
+  {{/* Base pairs connecting the strands (horizontal rungs) */}}
+  <g stroke="currentColor" stroke-width="1.2" opacity="0.7">
+    <line x1="32" y1="22" x2="64" y2="22"/>
+    <line x1="36" y1="26" x2="60" y2="26"/>
+    <line x1="38" y1="30" x2="58" y2="30"/>
+    <line x1="36" y1="34" x2="60" y2="34"/>
+    <line x1="32" y1="38" x2="64" y2="38"/>
+    <line x1="28" y1="42" x2="68" y2="42"/>
+    <line x1="26" y1="46" x2="70" y2="46"/>
+    <line x1="28" y1="50" x2="68" y2="50"/>
+    <line x1="32" y1="54" x2="64" y2="54"/>
+    <line x1="36" y1="58" x2="60" y2="58"/>
+    <line x1="38" y1="62" x2="58" y2="62"/>
+    <line x1="36" y1="66" x2="60" y2="66"/>
+    <line x1="32" y1="70" x2="64" y2="70"/>
+  </g>
+  {{/* Phosphate backbone nodes (beads on the strands) */}}
+  <g fill="currentColor">
+    <circle cx="32" cy="22" r="2.2"/>
+    <circle cx="38" cy="30" r="2.2"/>
+    <circle cx="32" cy="38" r="2.2"/>
+    <circle cx="26" cy="46" r="2.2"/>
+    <circle cx="32" cy="54" r="2.2"/>
+    <circle cx="38" cy="62" r="2.2"/>
+    <circle cx="32" cy="70" r="2.2"/>
+    <circle cx="64" cy="22" r="2.2"/>
+    <circle cx="58" cy="30" r="2.2"/>
+    <circle cx="64" cy="38" r="2.2"/>
+    <circle cx="70" cy="46" r="2.2"/>
+    <circle cx="64" cy="54" r="2.2"/>
+    <circle cx="58" cy="62" r="2.2"/>
+    <circle cx="64" cy="70" r="2.2"/>
+  </g>
+  {{/* Background punch-through in nodes for depth */}}
+  <g fill="var(--bg)">
+    <circle cx="32" cy="22" r="0.8"/>
+    <circle cx="38" cy="30" r="0.8"/>
+    <circle cx="32" cy="38" r="0.8"/>
+    <circle cx="26" cy="46" r="0.8"/>
+    <circle cx="32" cy="54" r="0.8"/>
+    <circle cx="38" cy="62" r="0.8"/>
+    <circle cx="32" cy="70" r="0.8"/>
+    <circle cx="64" cy="22" r="0.8"/>
+    <circle cx="58" cy="30" r="0.8"/>
+    <circle cx="64" cy="38" r="0.8"/>
+    <circle cx="70" cy="46" r="0.8"/>
+    <circle cx="64" cy="54" r="0.8"/>
+    <circle cx="58" cy="62" r="0.8"/>
+    <circle cx="64" cy="70" r="0.8"/>
+  </g>
+</svg>
+{{- else if eq $slug "webull-watchlist-scraper" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Ruled list lines (watchlist entries) */}}
+  <g stroke="currentColor" stroke-width="0.9" opacity="0.65" stroke-linecap="round">
+    <line x1="20" y1="34" x2="64" y2="34"/>
+    <line x1="20" y1="42" x2="64" y2="42"/>
+    <line x1="20" y1="50" x2="64" y2="50"/>
+    <line x1="20" y1="58" x2="64" y2="58"/>
+    <line x1="20" y1="66" x2="64" y2="66"/>
+  </g>
+  {{/* Small tick marks (list bullets) */}}
+  <g fill="currentColor">
+    <circle cx="22" cy="34" r="1"/>
+    <circle cx="22" cy="42" r="1"/>
+    <circle cx="22" cy="50" r="1"/>
+    <circle cx="22" cy="58" r="1"/>
+    <circle cx="22" cy="66" r="1"/>
+  </g>
+  {{/* Magnifying lens - positioned over lower-right of list */}}
+  <g transform="translate(58, 56)">
+    {{/* Glass circle */}}
+    <circle cx="0" cy="0" r="16" fill="currentColor" opacity="0.12"/>
+    <circle cx="0" cy="0" r="16" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    {{/* Glint punch-through */}}
+    <circle cx="-4" cy="-4" r="3.5" fill="var(--bg)"/>
+    {{/* Handle extending to bottom-right */}}
+    <line x1="11" y1="11" x2="18" y2="18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="18" cy="18" r="2" fill="currentColor"/>
+  </g>
 </svg>
 {{- end -}}
