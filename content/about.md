@@ -8,7 +8,7 @@ draft: false
 
 ## Professional Summary
 
-Security-focused software engineer with 10+ years building the systems that protect high-value assets in regulated, multi-cloud environments. Depth in software supply chain integrity (Sigstore signing, SBOMs, build attestations, SLSA), workload identity and machine authentication (SPIFFE/SPIRE, mTLS), and Kubernetes security primitives (RBAC, service accounts, namespace isolation, network policy, pod security, admission control). Builds security frameworks and libraries that engineering organizations adopt by default — shifting security left so product teams ship safely without becoming security experts. Strong Python, Go, and Rust; deep Kubernetes, AWS/Azure/GCP, and Infrastructure-as-Code background. Comfortable owning ambiguous, greenfield security problems end to end and driving them across organizational boundaries.
+Security-focused software engineer with 10+ years building the systems that protect high-value assets in regulated, multi-cloud environments. Depth in software supply chain integrity (Sigstore signing, SBOMs, build attestations, SLSA), workload identity and machine authentication (SPIFFE/SPIRE, mTLS), and Kubernetes security primitives (RBAC, service accounts, namespace isolation, network policy, pod security, admission control). Builds security frameworks and libraries that engineering organizations adopt by default: shifting security left so product teams ship safely without becoming security experts. Strong Python, Go, and Rust; deep Kubernetes, AWS/Azure/GCP, and Infrastructure-as-Code background. Comfortable owning ambiguous, greenfield security problems from initial architecture through deployment and operation.
 
 [Download Resume (PDF)](/Rohit%20Gudi.pdf)
 
@@ -16,12 +16,12 @@ Security-focused software engineer with 10+ years building the systems that prot
 
 ### Capital One | Principal Software Engineer / Infrastructure | McLean, VA | 07/2022 – Present
 
-- Architected and secured the software supply chain for commercialized products — OCI artifact distribution, Sigstore-based signing, SBOM generation, and build attestations — delivering verifiable provenance as a contractual security artifact to financial-services customers.
+- Architected and secured the software supply chain for commercialized products: OCI artifact distribution, Sigstore-based signing, SBOM generation, and build attestations, delivering verifiable provenance as a contractual security artifact to financial-services customers.
 - Deployed and operated a SPIRE/SPIFFE ecosystem providing workload identity, authentication, and authorization for cloud-native applications on Kubernetes, with short-lived, automatically rotated credentials issued per attested workload.
-- Built Helm library charts adopted as the default deployment path across the organization, enforcing pod security contexts, RBAC and service-account scoping, and ingress/Gateway API standards — a reusable security framework that eliminated entire classes of misconfiguration without requiring product teams to become security experts.
+- Built Helm library charts adopted as the default deployment path across the organization, enforcing pod security contexts, RBAC and service-account scoping, and ingress/Gateway API standards. A reusable security framework that eliminated entire classes of misconfiguration without requiring product teams to become security experts.
 - Integrated policy-as-code (OPA/Gatekeeper) as a Kubernetes admission controller, automating compliance enforcement against organizational and regulatory standards at deploy time rather than in audit after the fact.
 - Developed automated tooling in Python and Go to continuously scan Kubernetes environments for vulnerabilities, misconfigurations, and policy violations, surfacing posture findings for remediation across the fleet.
-- Architected a self-service deployment pipeline (Helm + Terraform) and reusable AWS CDK scaffolding for hybrid-SaaS, air-gapped, and customer on-prem installations of the Databolt tokenization products, integrating container vulnerability scanning and hardened default configurations — reducing customer onboarding time by 30%.
+- Architected a self-service deployment pipeline (Helm + Terraform) and reusable AWS CDK scaffolding for hybrid-SaaS, air-gapped, and customer on-prem installations of the Databolt tokenization products, integrating container vulnerability scanning and hardened default configurations, reducing customer onboarding time by 30%.
 - Built and operated an internal platform for hosting and distributing open-source artifacts, defining the SDLC controls governing dependency ingestion and developer access.
 - Designed multi-account AWS network security: VPC architecture, Transit Gateways, security groups, Kubernetes network policies, Istio service mesh for east-west mTLS, and DNS.
 - Delivered a self-service Internal Developer Platform with security guardrails baked in, enabling new product streams to onboard rapidly; championed SRE practices org-wide, improving golden-signal reliability metrics (latency, error rate, throughput, saturation) by 15%.
@@ -57,7 +57,7 @@ Go, Python, Rust, Bash/Shell, JavaScript/Node.js
 EKS, GKE, AKS, Rancher, Docker, ECS/Fargate, Helm (library charts), Istio service mesh, Gateway API
 
 ### Cloud
-AWS, Azure, GCP — multi-account IAM, VPC architecture, Transit Gateways, network segmentation, encryption, DNS, load balancing
+AWS, Azure, GCP: multi-account IAM, VPC architecture, Transit Gateways, network segmentation, encryption, DNS, load balancing
 
 ### IaC & CI/CD
 Terraform, AWS CDK, CloudFormation, Ansible, Jenkins, GitHub Actions, ArgoCD, Spinnaker
@@ -67,4 +67,4 @@ Prometheus, Grafana, Datadog, Sysdig, OpenTelemetry, ELK/Elasticsearch, Splunk
 
 ## Education
 
-B.S. Information Technology — New Jersey Institute of Technology, Newark, NJ | 2016
+B.S. Information Technology, New Jersey Institute of Technology, Newark, NJ | 2016

@@ -11,29 +11,38 @@
 <script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
 
-  function getTheme() {
-    return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'neutral';
-  }
-
+  // Brand plate: fixed sand card, ink strokes, mono labels. It does not
+  // flip with the site theme (see the .mermaid-container rule in style.css).
   function init() {
     mermaid.initialize({
       startOnLoad: false,
-      theme: getTheme(),
+      theme: 'base',
       themeVariables: {
-        primaryColor: '#B85825',
+        fontFamily: '"Departure Mono", "JetBrains Mono", ui-monospace, monospace',
+        primaryColor: '#F2E8D0',
         primaryTextColor: '#3D2E1B',
         primaryBorderColor: '#3D2E1B',
-        lineColor: '#3D2E1B',
-        secondaryColor: '#F2E8D0',
+        secondaryColor: '#DCD0B8',
+        secondaryTextColor: '#3D2E1B',
+        secondaryBorderColor: '#3D2E1B',
         tertiaryColor: '#E8DCC4',
-        background: '#F2E8D0',
-        fontFamily: "'Inter', sans-serif"
+        tertiaryTextColor: '#3D2E1B',
+        tertiaryBorderColor: '#6B5840',
+        lineColor: '#3D2E1B',
+        textColor: '#3D2E1B',
+        edgeLabelBackground: '#F2E8D0',
+        clusterBkg: 'transparent',
+        clusterBorder: '#6B5840',
+        noteBkgColor: '#F2E8D0',
+        noteBorderColor: '#3D2E1B'
       },
       flowchart: { useMaxWidth: true, htmlLabels: true },
       sequence:  { useMaxWidth: true },
       gantt:     { useMaxWidth: true }
     });
-    mermaid.run({ querySelector: '.mermaid' }).then(fixSvgsAndWireZoom);
+    document.fonts.ready.then(function () {
+      return mermaid.run({ querySelector: '.mermaid' });
+    }).then(fixSvgsAndWireZoom);
   }
 
   function fixSvgsAndWireZoom() {

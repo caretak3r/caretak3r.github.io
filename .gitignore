@@ -91,3 +91,9 @@ autoresearch*
 
 # Mockup/draft folder — local-only design experiments, not site content.
 sef-input/_mockups/
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/

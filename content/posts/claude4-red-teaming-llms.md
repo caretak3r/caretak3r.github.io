@@ -29,7 +29,6 @@ This rigorous process informs the AI Safety Level (ASL) under which a model is d
 
 The AI Safety Level determination itself is a structured process:
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#BB2528', 'primaryTextColor': '#fff', 'primaryBorderColor': '#7C0000', 'lineColor': '#F8B229', 'secondaryColor': '#006100'}}}%%
 graph TD
     A[Iterative Model Snapshot Evaluations] --> B{Capability Assessment};
     B -- Frontier Red Team --> C[FRT Report on Capabilities];

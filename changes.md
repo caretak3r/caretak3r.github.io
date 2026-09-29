@@ -16,15 +16,15 @@
 
 - [ ] Including a resume (latest) 
 
-- [ ] a separate projects tab above to point to all my projects. (new ones are needed to take the spotlight) 
+- [x] a separate projects tab above to point to all my projects. (new ones are needed to take the spotlight). Done: /projects/ lists 16 public repos plus the GitHub catch-all, each with its own wax-seal stamp.
 
 - [ ] a separate financials tab above to point to all my financial undertakings 
 
-- [ ] home should have my intro + keep the engineering + research containers, keep the projects but add the most active (versus the projects tab showing all my important contributions)
+- [x] home should have my intro + keep the engineering + research containers, keep the projects but add the most active (versus the projects tab showing all my important contributions). Done: home shows the first four cards from data/projects.yaml.
 
 - [ ] The intro section above should also include the "I publish technical writeups under /engineering/ and AI-augmented equity research under /research/. The split is the message — engineering content is technical; research notes are generated using my TradingAgents framework and are not investment advice."
 
-- [ ] assets/css/custom.css is a vestigial 197-line file from an earlier theme, force-applying font-family: SFMono-Regular ... !important to
+- [x] (deleted; it was already unreferenced by baseof.html) assets/css/custom.css is a vestigial 197-line file from an earlier theme, force-applying font-family: SFMono-Regular ... !important to
   every text element including td, th, body, h1-h6. It overrides the carefully-chosen design system (--font-display: Departure Mono,
   --font-body: Inter, --font-serif: EB Garamond) site-wide. The visual feel is monospace everywhere, not the typographic mix the tokens
   describe.

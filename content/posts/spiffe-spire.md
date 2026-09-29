@@ -6,7 +6,7 @@ categories: ["architecture", "identity"]
 tags: ["spire", "spiffe", "turtles", "identity", "microservices", "secrets"]
 ---
 
-Alright, settle in, grab your favorite energy drink (or artisanal coffee, I don't judge), because we're diving into the glorious world of **SPIFFE (Secure Production Identity Framework For Everyone)** and **SPIRE (the SPIFFE Runtime Environment)**. This isn't your grandma's bedtime story, unless your grandma is a hardcore infrastructure engineer battling the hydra of service identity in a microservices world. Then, yeah, it's exactly that.
+SPIFFE gives workloads a verifiable identity. SPIRE issues and rotates the credentials. The book "Solving the Bottom Turtle" tackles a problem that's as old as distributed systems themselves: how does Service A really know it's talking to Service B and not some imposter trying to swipe your data?
 
 <p align="center">
   <img src="https://media.giphy.com/media/3o7abB06u9bNzA8lu8/giphy.gif" alt="It's turtles all the way down meme" width="400"/>

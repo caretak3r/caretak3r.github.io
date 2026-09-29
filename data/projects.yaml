@@ -1,33 +1,37 @@
 # Projects index — sourced from data file (no per-project Hugo pages).
-# Each entry renders as a Variant A ledger row on the home page and the
-# /projects/ index, linking out to silent.engineer for the live work.
+# Each entry renders as a Variant A ledger card on the /projects/ index;
+# the home page shows the first four.
 #
 # Adding a project: append a new entry below AND a matching SVG branch in
 # `layouts/partials/proj-stamp.html`. The stamp design system (wax-seal
 # aesthetic, frame rules, motif conventions) is documented in the comment
 # block at the top of that partial. Read it before drawing.
 #
-# `repo` is optional — when set, the card renders a secondary GITHUB link
-# beside the primary project link.
+# `url` is where the card goes when clicked: the live site when one exists,
+# otherwise the source repository. `repo` is optional — set it only when
+# `url` is a live site, and the card renders a secondary GITHUB link.
 - slug: grand-line-exchange
   title: Grand Line Exchange
   short: One Piece TCG Tracking
   url: https://silent.engineer/grand-line-exchange/
-  description: One Piece TCG market analytics — secondary-market pricing, deck-archetype tracking, and seasonal momentum across the Grand Line metas.
+  repo: https://github.com/caretak3r/grand-line-exchange
+  description: One Piece TCG market analytics. Sealed booster box prices, momentum, and RSI, refreshed by a scheduled scraper.
   status: active
 
 - slug: rtf-llm
   title: RTF-LLM
   short: LLM Red-Team Framework
   url: https://silent.engineer/rtf-llm/
-  description: A red-team framework for large language models — automated jailbreak chains, prompt-injection harnesses, and reproducible adversarial eval pipelines.
+  repo: https://github.com/caretak3r/rtf-llm
+  description: A framework for authorized LLM security testing. Prompt injection, jailbreak, and extraction modules, graded by an LLM judge.
   status: active
 
 - slug: vision
   title: Vision
-  short: Continuous Visual Memory
+  short: Image Archive
   url: https://silent.engineer/vision
-  description: Always-on visual memory — capture, index, and recall what was on screen across applications and time.
+  repo: https://github.com/caretak3r/vision
+  description: An archive of saved images, each indexed with a generated description, tags, and metadata.
   status: active
 
 - slug: helm-factory
@@ -35,7 +39,95 @@
   short: Helm Chart Library
   url: https://silent.engineer/helm-factory/
   repo: https://github.com/caretak3r/helm-factory
-  description: A common-library Helm chart that generates Kubernetes manifests from values alone — capability-gated apiVersion negotiation, a pluggable Kind registry, and no per-service template sprawl.
+  description: A common-library Helm chart that generates Kubernetes manifests from values alone. Capability-gated apiVersion negotiation, a pluggable Kind registry, and no per-service template sprawl.
+  status: active
+
+- slug: factory
+  title: Factory
+  short: Agent Pipelines on Workers
+  url: https://github.com/caretak3r/factory
+  description: Agent pipelines defined in YAML and run on Cloudflare Workers, with durable state, approval gates, and failure recovery.
+  status: active
+
+- slug: omp-animations
+  title: omp-animations
+  short: Agent Terminal Telemetry
+  url: https://github.com/caretak3r/omp-animations
+  description: Terminal telemetry for the oh-my-pi coding agent. Subagent trees, a file audit trail, and cache and rate-limit meters.
+  status: active
+
+- slug: bdw
+  title: bdw
+  short: Beads Dashboard
+  url: https://github.com/caretak3r/bdw
+  description: A Rust terminal dashboard for beads task tracking. It watches the project and redraws as issues change.
+  status: active
+
+- slug: portal
+  title: Portal
+  short: Claude Code Profiles
+  url: https://github.com/caretak3r/portal
+  description: A Rust tool that swaps Claude Code profiles atomically, with a TUI, quick switch, and isolated sessions.
+  status: active
+
+- slug: silent-engineer-illustrations
+  title: Silent Engineer Illustrations
+  short: Editorial Art Skill
+  url: https://github.com/caretak3r/silent-engineer-illustrations
+  description: A Codex skill that picks the few ideas in a technical article worth drawing and paints each one as a text-free scene.
+  status: active
+
+- slug: helm-chart-swarm
+  title: Helm Chart Swarm
+  short: Helm Chart Testing
+  url: https://silent.engineer/helm-chart-swarm/
+  repo: https://github.com/caretak3r/helm-chart-swarm
+  description: A test harness for Helm charts. Assertions run in layers from lint to live traffic, and findings land on a dashboard.
+  status: active
+
+- slug: cdk-eks
+  title: cdk-eks
+  short: Private EKS Construct
+  url: https://github.com/caretak3r/cdk-eks
+  description: An AWS CDK construct for a private VPC and EKS on Fargate, built for zero-trust and air-gapped accounts.
+  status: active
+
+- slug: tf-multicloud-k8s
+  title: tf-multicloud-k8s
+  short: EKS and AKS Templates
+  url: https://github.com/caretak3r/tf-multicloud-k8s
+  description: Terraform templates for EKS and AKS with RBAC, network policies, and encryption on by default.
+  status: active
+
+- slug: hyperscale-prep
+  title: Hyperscale Prep
+  short: Fleet-Scale Kubernetes Notes
+  url: https://silent.engineer/hyperscale-prep/
+  repo: https://github.com/caretak3r/hyperscale-prep
+  description: Study notes on running Kubernetes at fleet scale, from control-plane internals to fleet operations.
+  status: active
+
+- slug: humanoid-from-cold
+  title: Humanoid from Cold
+  short: Robotics Field Notes
+  url: https://silent.engineer/humanoid-from-cold/
+  repo: https://github.com/caretak3r/humanoid-from-cold
+  description: Daily notes on building a humanoid robot from zero. Motor control, sensing, estimation, balance, and locomotion.
+  status: active
+
+- slug: self-assembly-lab
+  title: Self-Assembly Lab
+  short: Programmable Matter Notes
+  url: https://silent.engineer/self-assembly-lab/
+  repo: https://github.com/caretak3r/self-assembly-lab
+  description: An introduction to self-assembly research. DNA nanotechnology, swarm robotics, and programmable matter.
+  status: active
+
+- slug: webull-watchlist-scraper
+  title: Webull Watchlist Scraper
+  short: Watchlist Export
+  url: https://github.com/caretak3r/webull-watchlist-scraper
+  description: A browser-console script that exports every Webull watchlist, plus a static viewer for the result.
   status: active
 
 - slug: other-projects

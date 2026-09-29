@@ -10,7 +10,7 @@
     <em>10-year platform/infrastructure engineer.</em> Focused on
     supply chain security, Kubernetes, workload identity,
     zero-knowledge proofs and automation. I publish technical notes
-    on infrastructure, software and — sometimes — equity research.
+    on infrastructure and software, and sometimes equity research.
   </p>
 
   <p class="lede-meta">
@@ -83,7 +83,7 @@
       </div>
     </div>
     <div class="proj-strip">
-      {{- range $projects }}
+      {{- range first 4 $projects }}
       <div class="proj-card">
         <span class="proj-stamp">{{ partial "proj-stamp.html" .slug }}</span>
         <div class="proj-text">
@@ -102,16 +102,15 @@
 
   <div class="bio-block">
     <p>
-      I publish technical writeups under <code>/engineering/</code> and equity
-      research under <code>/research/</code>. The split is the message —
-      engineering content is technical; research notes are exploratory and are
-      not investment advice.
+      Technical writeups live under <code>/engineering/</code>. Equity
+      research lives under <code>/research/</code>. The research is
+      exploratory and is not investment advice.
     </p>
-    <p style="color: var(--muted); font-size: 14.5px;">
-      {{ with site.Params.github_url }}<a href="{{ . }}" style="color: var(--accent);">github</a> · {{ end }}
-      {{ with site.Params.linkedin_url }}<a href="{{ . }}" style="color: var(--accent);">linkedin</a> · {{ end }}
-      {{ with site.Params.x_url }}<a href="{{ . }}" style="color: var(--accent);">x</a> · {{ end }}
-      <a href="{{ "/index.xml" | relURL }}" style="color: var(--accent);">rss</a>
+    <p class="bio-links">
+      {{ with site.Params.github_url }}<a href="{{ . }}">github</a> · {{ end }}
+      {{ with site.Params.linkedin_url }}<a href="{{ . }}">linkedin</a> · {{ end }}
+      {{ with site.Params.x_url }}<a href="{{ . }}">x</a> · {{ end }}
+      <a href="{{ "/index.xml" | relURL }}">rss</a>
     </p>
   </div>
 
