@@ -7,7 +7,7 @@ tags: []
 description: ""
 ---
 
-Lede paragraph here — one or two sentences that set up the why.
+Lede paragraph here: one or two sentences that set up the why.
 
 ## First section
 

@@ -24,7 +24,7 @@ A lot has happened since that big 2021 report from a short-seller called Quantum
 ## So, what's the bottom line?
 The evidence we have today tells a very different story from the 2021 report. The old "this is impossible" argument doesn't really hold up anymore.
 
-The big questions have changed. It's not about if the science works, but how they can build these batteries cheaply and in huge numbers for the car industry. There are still big challenges ahead with manufacturing, for sure, but the fact that they've solved problems once called "unsolvable" and got the thumbs-up from a major partner like VW changes the whole game.
+The big questions have changed. The science works. The challenge now is manufacturing these batteries cheaply and in huge numbers for the car industry. There are still big challenges ahead with manufacturing, for sure, but the fact that they've solved problems once called "unsolvable" and got the thumbs-up from a major partner like VW changes the whole game.
 
 ## What's New Since the Q1 2025 Update?
 So, what's new since their last big update in Q1 2025? A lot! They're really showing they're moving from just doing R&D to actually getting ready to build this stuff for real.

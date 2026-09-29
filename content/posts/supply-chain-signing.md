@@ -35,7 +35,7 @@ sequenceDiagram
     alt Attestation Valid
         PlatformTeam->>Registry: 9. Sign with Platform Key (prod-tag)
     else Attestation Invalid
-        PlatformTeam-->>Developer: 🔒 Reject: Build provenance mismatch
+        PlatformTeam-->>Developer: Reject: Build provenance mismatch
     end
 
     Customer->>Registry: 10. Pull Image (prod-tag)
@@ -49,7 +49,6 @@ Now continuing the overall setup, if you had end users you were distributing art
 > I use AWS KMS in this example, but any key_types (keyless, asym-keys, cloud-KMS, cloudHSM, etc) are supported by Cosign. 
 
 ```mermaid
-%%{init: {'theme': 'forest', 'themeVariables': { 'primaryColor': '#BB2528', 'primaryTextColor': '#fff', 'primaryBorderColor': '#7C0000', 'lineColor': '#F8B229', 'secondaryColor': '#006100'}}}%%
 sequenceDiagram
     autonumber
 

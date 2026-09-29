@@ -12,7 +12,7 @@ I know, I know. In a world where my fridge probably has more processing power th
 
 Given all the volatility this year with Trump's Traffic Tantrum, we are seeing significant concerns around business uncertainties. The old strategies of HODLING is being muted, while retail investors hold up the market. While also being busy with work, and not being able to day-trade like I used to - I started thinking about "set it and forget it" and "sell in May and go away." Two adages that are still HODLING true today. 
 
-Picture this: Old West. People apparently didn't trust banks so, they'd stuff their valuables—cash, deeds, a particularly shiny rock—into an actual coffee can and hide it under the mattress. Fast forward to 1984, a capital-M Manager named Robert Kirby (Source 1, 2) looked at this and thought, "Huh, what if we did that with stocks?" The idea? Buy shares in good companies, "put them in a coffee can," and then—this is the crucial part—*forget about them* for a decade or more.
+Picture this: Old West. People apparently didn't trust banks, so they'd stuff their valuables (cash, deeds, a particularly shiny rock) into an actual coffee can and hide it under the mattress. Fast forward to 1984, a capital-M Manager named Robert Kirby (Source 1, 2) looked at this and thought, "Huh, what if we did that with stocks?" The idea? Buy shares in good companies, "put them in a coffee can," and then (this is the crucial part) *forget about them* for a decade or more.
 
 ## The "Genius" Behind Stuffing Cash Under the Mattress (But with Stocks)
 
@@ -27,7 +27,6 @@ So, why would any self-respecting, YAML-wrangling, Kubernetes-cluster-taming eng
 It’s like deploying a really solid, well-architected monolith. You know, the kind your predecessors wrote in a language no one quite understands anymore, but it just *works*. You don't dare touch it for fear of breaking the ancient magic. Is it optimal? Debatable. Does it sometimes outperform the constantly-refactored-microservice-of-the-week? *Annoyingly, yes.*
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#BB2528', 'primaryTextColor': '#fff', 'primaryBorderColor': '#7C0000', 'lineColor': '#F8B229', 'secondaryColor': '#006100'}}}%%
 graph TD
     A[Research 'Quality' Companies] --> B[Acquire Stocks];
     B --> C[Digitally 'Seal' in Coffee Can Account];
