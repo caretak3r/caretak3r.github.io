@@ -47,6 +47,98 @@ cp -rf source dest          # NOT: cp -r source dest
 - `apt-get` - use `-y` flag
 - `brew` - use `HOMEBREW_NO_AUTO_UPDATE=1` env var
 
+## Site Design System (silent.engineer)
+
+These rules apply to every new page, post, project, layout, and style change. Follow them without being asked. They override the `silent-engineer-design` skill where the two disagree: this site uses no Inter, no em dashes, no colored left stripes, and no hover transitions.
+
+Do not change the project card layout, the fonts, or the palette without approval from Rohit.
+
+### Palette
+
+- Use the tokens in `assets/css/style.css` `:root` and `html[data-theme="dark"]`. Do not add a new color.
+- Surfaces: `--bg` #E8DCC4 (sand), `--surface` #F2E8D0, `--surface-2` #DCD0B8. Ink: `--ink` #3D2E1B, `--muted`, `--dim`, `--line`.
+- One accent: `--accent` #B85825 (burnt sienna). Use it for links, hover, focus, and small highlights.
+- `--success`, `--warn`, and `--danger` are for research ratings only.
+- Never use pure white (`#fff`), black backgrounds, gradients, neon, purple, pastel fills, or rainbow palettes.
+- Every new component must work in light and dark themes. Dark mode is warm brown, not black.
+
+### Type
+
+- The site uses two families. Both are self-hosted in `static/fonts/` under the SIL OFL (license files sit beside the fonts). The `@font-face` rules are at the top of `assets/css/style.css`.
+- Do not load fonts from Google Fonts or any other CDN. Do not use Inter, Geist, Space Grotesk, IBM Plex, or a system sans.
+- `--font-display` (Departure Mono): headings, labels, nav, buttons, metadata, numbers, code, and diagram labels. Set labels in uppercase with 0.10em to 0.22em letter-spacing.
+- `--font-body` ("EB Garamond Text", EB Garamond at `size-adjust: 112%`): running text.
+- `--font-serif` (EB Garamond): italic descriptions, captions, and ledes.
+- To add a weight or script, add the woff2 file to `static/fonts/` and an `@font-face` rule. Do not add a third family.
+
+### Shape, depth, and motion
+
+- `border-radius: 0` everywhere. The only exception is the 2px radius on rating chips.
+- Draw structure with 1px `var(--ink)` borders and `var(--line)` hairlines.
+- No `box-shadow`, `backdrop-filter`, glass effects, radial orbs, dot grids, or bento grids.
+- No colored left stripe (a thick `border-left` in a color). To emphasize a block, use a full 1px border, a `--surface` fill, or top and bottom rules.
+- No `transition`, `animation`, or `@keyframes`. Hover changes state instantly: text goes to `--accent`, or the row inverts to ink on sand.
+- Keep the `:focus-visible` accent outline on every interactive element.
+
+### Icons and glyphs
+
+- Do not add icon libraries (Lucide, Heroicons, Font Awesome, or similar), emoji, sparkle icons, or checkmark bullets.
+- Use static Unicode glyphs only: `→ ← ↗ ▶ ▼ ◐ ·`. Do not animate arrows.
+- Every project has its own wax-seal stamp in `layouts/partials/proj-stamp.html`. The comment block at the top of that file is the stamp specification. Read it before you draw a stamp.
+
+### Projects
+
+- `data/projects.yaml` is the only source. It is a flat list. The file order is the page order.
+- Fields: `slug`, `title`, `short` (mono sub-label), `url`, `repo` (optional), `description`, `status`.
+- `url` is where the card goes when clicked. Use the live site if one exists. Otherwise use the GitHub repository. Set `repo` only when `url` is a live site; the card then shows a secondary `GITHUB ↗` link.
+- Before you use a live site as `url`, confirm that it loads: `curl -s -o /dev/null -w '%{http_code}' <url>` must return 200.
+- The description is one or two factual sentences taken from the repository README. Do not claim a feature that the repository does not show. Do not add stars, badges, language dots, or invented metrics.
+- Each project renders as a `.proj-card`: a flat 1px rectangle with the stamp on the left and the name, `short`, description, and link on the right. The title link stretches over the whole card (`.proj-cover::after`), so a click anywhere opens the project in a new tab.
+- `/projects/` shows every entry. The home page shows the first four. Keep `other-projects` as the last entry.
+- To add a project:
+  1. Add the entry to `data/projects.yaml`.
+  2. Add a stamp branch to `layouts/partials/proj-stamp.html`, and add the motif to the reference list in its comment.
+  3. Check the stamp at 88px and 64px in light and dark themes.
+  4. Click the new card and confirm that it opens the correct destination.
+
+### Pages and writing
+
+- Write new pages in Markdown under `content/` with `title`, `date`, `draft`, and `description` in the front matter. Use the existing layouts. Add a new layout only when no existing layout fits.
+- Do not use em dashes. Rewrite the sentence with a period, comma, colon, or parentheses. Keep verbatim third-party quotations unchanged.
+- Do not use the "It's not X, it's Y" formula. State the point directly.
+- Do not use stock openers ("grab a coffee", "settle in") or marketing filler.
+- Do not add fake testimonials, pricing tiers, invented demos, or placeholder content. A Demo or Docs link must point to a page that exists.
+- Use words, not glyphs, for status: Met, Partial, Unmet. `normalize_status_glyphs()` in `scripts/sync-research.py` does this for ingested research reports.
+- Known gap: the generated reports in `content/research/` still contain em dashes. Fix this in the report generator, not by hand.
+
+### Diagrams
+
+- `layouts/partials/mermaid-loader.html` sets the Mermaid theme for the whole site: base theme, sand plate, ink lines, and Departure Mono labels. Do not add `%%{init}%%` blocks or custom color `classDef`s to posts.
+
+### Privacy and terms
+
+- `content/privacy.md` lists every third party that the site loads. If you add an external script, font, image host, or embed, update `content/privacy.md` in the same change.
+- `content/terms.md` holds the site-use terms and the investment disclaimer.
+
+### Verification before you report done
+
+```bash
+hugo --gc --minify -d /tmp/site-check          # must exit 0 with no ERROR lines
+(cd tests && npm run purity)
+uv run --with beautifulsoup4 --with lxml --with pytest pytest scripts/test_sync_research.py -q
+
+# Banned patterns: both commands must print nothing.
+rg -n "transition:|animation:|@keyframes|gradient\(|box-shadow|backdrop-filter|fonts\.googleapis|'Inter'|#fff\b" assets/css layouts
+rg -n '[✓✔✅❌⚠✨🚀🎉]' content layouts data
+
+# Smoke test against a running server.
+hugo server -D --port 1313 --bind 127.0.0.1 --disableFastRender
+(cd tests && BASE_URL=http://127.0.0.1:1313 npm run smoke)
+```
+
+- On 2026-09-28, four smoke checks also failed on `main`: the lede text check, the engineering filter, the mobile research overflow, and the missing favicon (404). These are known issues, not regressions. Do not add new failures.
+- Take screenshots at 1440px and 393px wide, in light and dark themes. Confirm that the page does not scroll horizontally.
+
 <!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:970c3bf2 -->
 ## Beads Issue Tracker
 

@@ -74,4 +74,6 @@ _Add a brief overview of your project architecture_
 
 ## Conventions & Patterns
 
-_Add your project-specific conventions here_
+The site design system (palette, fonts, shape, motion, icons, project cards, writing rules, and verification commands) lives in `AGENTS.md` under "Site Design System (silent.engineer)". Follow it for every new page, post, project, and style change.
+
+@AGENTS.md
