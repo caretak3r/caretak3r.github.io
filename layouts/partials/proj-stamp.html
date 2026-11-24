@@ -47,6 +47,11 @@
      - Hand-ruled lines (text / codex) — written / chronicled motifs
 
      ── EXISTING STAMPS (semantic reference) ───────────────────────
+     buckler              → riveted round buckler shield + boss    (supply-chain defense)
+     superdefense         → armored vault door + combination wheel (model-weight defense)
+     helm-hip-0025-e2e    → three stepped stage bars + arrows      (ordered sequencing)
+     attack-box           → decoy trap box + reticle crosshairs    (AI API honeypot)
+     tmux-config          → split terminal panes + live HUD bar    (tmux telemetry)
      grand-line-exchange  → compass-star + skull-with-straw-hat (TCG / pirate)
      rtf-llm              → shield + crossed daggers + hex core   (red team / offense)
      vision               → almond eye + iris + radial rays       (sight / archive)
@@ -610,6 +615,143 @@
     {{/* Handle extending to bottom-right */}}
     <line x1="11" y1="11" x2="18" y2="18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
     <circle cx="18" cy="18" r="2" fill="currentColor"/>
+  </g>
+</svg>
+{{- else if eq $slug "buckler" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Round bossed buckler shield */}}
+  <circle cx="48" cy="48" r="24" fill="currentColor" opacity="0.12"/>
+  <circle cx="48" cy="48" r="24" fill="none" stroke="currentColor" stroke-width="1.6"/>
+  <circle cx="48" cy="48" r="18" fill="none" stroke="currentColor" stroke-width="1"/>
+  {{/* Eight perimeter rivets */}}
+  <g fill="currentColor">
+    <circle cx="48" cy="27" r="1.3"/>
+    <circle cx="62.85" cy="33.15" r="1.3"/>
+    <circle cx="69" cy="48" r="1.3"/>
+    <circle cx="62.85" cy="62.85" r="1.3"/>
+    <circle cx="48" cy="69" r="1.3"/>
+    <circle cx="33.15" cy="62.85" r="1.3"/>
+    <circle cx="27" cy="48" r="1.3"/>
+    <circle cx="33.15" cy="33.15" r="1.3"/>
+  </g>
+  {{/* Central shield boss */}}
+  <circle cx="48" cy="48" r="8" fill="var(--bg)"/>
+  <circle cx="48" cy="48" r="8" fill="currentColor" opacity="0.18"/>
+  <circle cx="48" cy="48" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="3" fill="currentColor"/>
+  <circle cx="46.8" cy="46.8" r="1" fill="var(--bg)"/>
+</svg>
+{{- else if eq $slug "superdefense" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Armored vault chamber */}}
+  <rect x="25" y="25" width="46" height="46" fill="currentColor" opacity="0.12"/>
+  <rect x="25" y="25" width="46" height="46" fill="none" stroke="currentColor" stroke-width="1.6"/>
+  <rect x="30" y="30" width="36" height="36" fill="none" stroke="currentColor" stroke-width="0.9"/>
+  {{/* Locking bars on left and right edges */}}
+  <g fill="currentColor">
+    <rect x="23" y="36" width="4" height="7"/>
+    <rect x="23" y="53" width="4" height="7"/>
+    <rect x="69" y="36" width="4" height="7"/>
+    <rect x="69" y="53" width="4" height="7"/>
+  </g>
+  {{/* Centered combination wheel */}}
+  <circle cx="48" cy="48" r="11" fill="var(--bg)"/>
+  <circle cx="48" cy="48" r="11" fill="currentColor" opacity="0.15"/>
+  <circle cx="48" cy="48" r="11" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <line x1="48" y1="34" x2="48" y2="62"/>
+    <line x1="34" y1="48" x2="62" y2="48"/>
+  </g>
+  <circle cx="48" cy="48" r="3.2" fill="currentColor"/>
+  <circle cx="48" cy="48" r="1.1" fill="var(--bg)"/>
+</svg>
+{{- else if eq $slug "helm-hip-0025-e2e" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Three stepped resource-sequence bars */}}
+  <rect x="24" y="24" width="34" height="10" fill="currentColor" opacity="0.14"/>
+  <rect x="24" y="24" width="34" height="10" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <circle cx="30" cy="29" r="2.2" fill="currentColor"/>
+  <circle cx="30" cy="29" r="0.8" fill="var(--bg)"/>
+  <line x1="35" y1="29" x2="53" y2="29" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+
+  <rect x="31" y="43" width="34" height="10" fill="currentColor" opacity="0.14"/>
+  <rect x="31" y="43" width="34" height="10" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <circle cx="37" cy="48" r="2.2" fill="currentColor"/>
+  <circle cx="37" cy="48" r="0.8" fill="var(--bg)"/>
+  <line x1="42" y1="48" x2="60" y2="48" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+
+  <rect x="38" y="62" width="34" height="10" fill="currentColor" opacity="0.14"/>
+  <rect x="38" y="62" width="34" height="10" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <circle cx="44" cy="67" r="2.2" fill="currentColor"/>
+  <circle cx="44" cy="67" r="0.8" fill="var(--bg)"/>
+  <line x1="49" y1="67" x2="67" y2="67" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+
+  {{/* Sequence step arrows */}}
+  <path d="M41 34 V38.5 H48 V40.5" fill="none" stroke="currentColor" stroke-width="1.3"/>
+  <polygon points="48,43 45.5,39.5 50.5,39.5" fill="currentColor"/>
+  <path d="M48 53 V57.5 H55 V59.5" fill="none" stroke="currentColor" stroke-width="1.3"/>
+  <polygon points="55,62 52.5,58.5 57.5,58.5" fill="currentColor"/>
+</svg>
+{{- else if eq $slug "attack-box" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Four cardinal reticle crosshairs */}}
+  <g stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+    <line x1="48" y1="14" x2="48" y2="26"/>
+    <line x1="48" y1="70" x2="48" y2="82"/>
+    <line x1="14" y1="48" x2="26" y2="48"/>
+    <line x1="70" y1="48" x2="82" y2="48"/>
+  </g>
+  {{/* Decoy trap box */}}
+  <rect x="31" y="31" width="34" height="34" fill="currentColor" opacity="0.12"/>
+  <rect x="31" y="31" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  {{/* Corner bracket accents */}}
+  <g stroke="currentColor" stroke-width="1.8" fill="none">
+    <path d="M27 36 V27 H36"/>
+    <path d="M60 27 H69 V36"/>
+    <path d="M27 60 V69 H36"/>
+    <path d="M60 69 H69 V60"/>
+  </g>
+  {{/* Central bait lure core */}}
+  <circle cx="48" cy="48" r="9" fill="var(--bg)"/>
+  <circle cx="48" cy="48" r="9" fill="none" stroke="currentColor" stroke-width="1.1" stroke-dasharray="2 2"/>
+  <circle cx="48" cy="48" r="3.8" fill="currentColor"/>
+  <circle cx="46.8" cy="46.8" r="1.2" fill="var(--bg)"/>
+</svg>
+{{- else if eq $slug "tmux-config" -}}
+<svg class="proj-stamp-svg" viewBox="0 0 96 96" aria-hidden="true">
+  <circle cx="48" cy="48" r="44" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="48" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="0.6" stroke-dasharray="2 3"/>
+  {{/* Terminal frame */}}
+  <rect x="22" y="25" width="52" height="46" fill="currentColor" opacity="0.10"/>
+  <rect x="22" y="25" width="52" height="46" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  {{/* Split pane dividers */}}
+  <line x1="47" y1="25" x2="47" y2="61" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="47" y1="43" x2="74" y2="43" stroke="currentColor" stroke-width="1.2"/>
+  {{/* Prompt chevron + cursor in left pane */}}
+  <path d="M28 34 L33 37.5 L28 41" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="36" y1="41" x2="41" y2="41" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+  {{/* Ruled lines in right panes */}}
+  <g stroke="currentColor" stroke-width="1" opacity="0.55" stroke-linecap="round">
+    <line x1="52" y1="32" x2="68" y2="32"/>
+    <line x1="52" y1="37" x2="64" y2="37"/>
+    <line x1="52" y1="50" x2="68" y2="50"/>
+    <line x1="52" y1="55" x2="62" y2="55"/>
+  </g>
+  {{/* Bottom HUD bar + telemetry segments */}}
+  <rect x="22" y="61" width="52" height="10" fill="currentColor" opacity="0.18"/>
+  <rect x="22" y="61" width="52" height="10" fill="none" stroke="currentColor" stroke-width="1.2"/>
+  <g fill="currentColor">
+    <rect x="25" y="64" width="12" height="4"/>
+    <rect x="40" y="64" width="16" height="4"/>
+    <rect x="59" y="64" width="12" height="4"/>
   </g>
 </svg>
 {{- end -}}
