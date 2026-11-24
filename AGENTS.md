@@ -33,7 +33,7 @@ cd tests && npm install && npx playwright install chromium   # once, for smoke t
 | `content/about.md`, `privacy.md`, `terms.md` | Top-level pages rendered by `layouts/_default/single.html`. |
 | `data/projects.yaml` | The projects index. One entry per card. |
 | `layouts/_default/baseof.html` | Page shell: font preloads, stylesheets, theme bootstrap, topbar, footer, Mermaid loader. |
-| `layouts/index.html` | Home: intro, engineering and research split grid, first four project cards. |
+| `layouts/index.html` | Home: intro, condensed six-card projects strip, engineering and research split grid. |
 | `layouts/{engineering,posts,projects,research}/` | Section list and single templates. `research/single.html` wraps generated report HTML. |
 | `layouts/partials/proj-stamp.html` | Wax-seal SVG stamp per project, plus the stamp specification. |
 | `layouts/partials/topbar.html` | Top navigation. Hard-coded; see "Gotchas". |
@@ -98,6 +98,7 @@ cd tests && npm install && npx playwright install chromium   # once, for smoke t
 - Do not commit or push unless Rohit asks for it in the current session.
 - Track work in `bd` (see "Task Tracking").
 - Before you report work as done, run the checks in "Verification before you report done" and list the commands you ran.
+- Always leave the local Hugo dev server running (`hugo server -D --bind 127.0.0.1 --port 1313`) after site changes so Rohit can inspect them locally at `http://127.0.0.1:1313/`.
 - Show file paths to Rohit as full absolute paths.
 
 ## Site Design System (silent.engineer)
@@ -147,7 +148,7 @@ Do not change the project card layout, the fonts, or the palette without approva
 - Before you use a live site as `url`, confirm that it loads: `curl -s -o /dev/null -w '%{http_code}' <url>` must return 200.
 - The description is one or two factual sentences taken from the repository README. Do not claim a feature that the repository does not show. Do not add stars, badges, language dots, or invented metrics.
 - Each project renders as a `.proj-card`: a flat 1px rectangle with the stamp on the left and the name, `short`, description, and link on the right. The title link stretches over the whole card (`.proj-cover::after`), so a click anywhere opens the project in a new tab.
-- `/projects/` shows every entry. The home page shows the first four. Keep `other-projects` as the last entry.
+- `/projects/` shows every entry. The home page shows a condensed view of the first six. Keep `other-projects` as the last entry.
 - To add a project:
   1. Add the entry to `data/projects.yaml`.
   2. Add a stamp branch to `layouts/partials/proj-stamp.html`, and add the motif to the reference list in its comment.
