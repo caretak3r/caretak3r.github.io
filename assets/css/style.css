@@ -340,8 +340,8 @@ textarea:focus-visible,
 /* ---- HOME: Projects strip ---- */
 .projects-strip {
   border: 1px solid var(--ink);
-  padding: 24px 28px;
-  margin-bottom: 32px;
+  padding: 18px 22px;
+  margin-bottom: 40px;
 }
 .projects-strip-head {
   display: flex;
@@ -349,7 +349,7 @@ textarea:focus-visible,
   align-items: baseline;
   border-bottom: 1px solid var(--ink);
   padding-bottom: 8px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 .projects-strip-head .label {
   font-family: var(--font-display);
@@ -460,6 +460,50 @@ textarea:focus-visible,
   .proj-strip { grid-template-columns: 1fr; }
   .proj-card { grid-template-columns: 64px 1fr; gap: var(--s-3); }
   .proj-card .proj-stamp { width: 64px; height: 64px; }
+}
+
+/* Condensed 3-up home projects box (leaves /projects/ full cards unchanged) */
+.projects-strip .proj-strip {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-3);
+}
+.projects-strip .proj-card {
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: var(--s-3);
+  padding: 10px 12px;
+}
+.projects-strip .proj-stamp {
+  width: 52px;
+  height: 52px;
+}
+.projects-strip .proj-text {
+  gap: 2px;
+}
+.projects-strip .proj-name {
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+}
+.projects-strip .proj-desc {
+  font-size: 13px;
+  line-height: 1.35;
+}
+.projects-strip .proj-link {
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  gap: var(--s-2);
+  margin-top: 2px;
+}
+.projects-strip .proj-link > span {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 960px) {
+  .projects-strip .proj-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .projects-strip { padding: 16px; }
+  .projects-strip .proj-strip { grid-template-columns: 1fr; gap: var(--s-2); }
+  .projects-strip .proj-card { grid-template-columns: 44px minmax(0, 1fr); padding: 10px; }
+  .projects-strip .proj-stamp { width: 44px; height: 44px; }
 }
 
 /* ---- Bio block on home ---- */
