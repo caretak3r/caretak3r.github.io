@@ -1,6 +1,6 @@
 # Projects index — sourced from data file (no per-project Hugo pages).
 # Each entry renders as a Variant A ledger card on the /projects/ index;
-# the home page shows the first four.
+# the home page shows a condensed grid of the first six.
 #
 # Adding a project: append a new entry below AND a matching SVG branch in
 # `layouts/partials/proj-stamp.html`. The stamp design system (wax-seal
@@ -10,6 +10,43 @@
 # `url` is where the card goes when clicked: the live site when one exists,
 # otherwise the source repository. `repo` is optional — set it only when
 # `url` is a live site, and the card renders a secondary GITHUB link.
+- slug: buckler
+  title: Buckler
+  short: macOS Supply-Chain Scanner
+  url: https://silent.engineer/buckler/
+  repo: https://github.com/caretak3r/homebrew-buckler
+  description: A macOS menu bar app that inventories installed packages and host artifacts against supply-chain threat intelligence. Categorizes findings by severity and supports quarantine, update, or agent dispatch.
+  status: active
+
+- slug: superdefense
+  title: Superdefence II
+  short: Model-Weight Security Textbook
+  url: https://silent.engineer/superdefense/
+  description: A research corpus and textbook on securing frontier model weights against nation-state actors. Maps the evolving attack surface and builds a defensive bill of materials.
+  status: active
+
+- slug: helm-hip-0025-e2e
+  title: Helm HIP-0025 E2E
+  short: HIP-0025 Test Harness
+  url: https://silent.engineer/helm-hip-0025-e2e/
+  repo: https://github.com/caretak3r/helm-hip-0025-e2e
+  description: Black-box test harness and testgrid dashboard for the HIP-0025 Helm resource sequencing pull requests. Installs charts with real Helm binaries on kind and grades cluster audit logs.
+  status: active
+
+- slug: attack-box
+  title: AttackBox
+  short: AI API Honeypot
+  url: https://github.com/caretak3r/attack-box
+  description: A defensive honeypot for AI APIs that simulates OpenAI, vLLM, and Ollama endpoints to collect telemetry on LLM and agentic attacks, along with published watch debriefs.
+  status: active
+
+- slug: tmux-config
+  title: tmux-config
+  short: Themed tmux HUD
+  url: https://github.com/caretak3r/tmux-config
+  description: A tmux setup built on oh-my-tmux with six switchable themes, a responsive live telemetry bar for CPU, GPU, memory, network, and disk, and a pixel-art Adventure Time stage.
+  status: active
+
 - slug: grand-line-exchange
   title: Grand Line Exchange
   short: One Piece TCG Tracking
